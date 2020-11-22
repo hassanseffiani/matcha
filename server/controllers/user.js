@@ -26,7 +26,7 @@ const Test = require('../models/test');
 // User login
 
 exports.getLogin = (req, res, next) => {
-    Test.testModel().catch(err => console.log(err));
+    Test.testModel().then(res.send('test')).catch(err => console.log(err));
     // res.send('test');
 }
 
