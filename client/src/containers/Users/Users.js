@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 // import Axios from 'axios';
-import Aux from '../../hoc/Aux';
 import {BrowserRouter as Route}from 'react-router-dom';
 
 // import imgMatcha from '../../assets/images/img1.png';
@@ -8,8 +7,8 @@ import {BrowserRouter as Route}from 'react-router-dom';
 class Users extends Component {
     render(){
         return(
-            <Aux>
-                {console.log(this.props.match.path)}
+            <div>
+                <p>Test</p>         
                 <Route exact path="/" render={props => (
                     <React.Fragment>
                         <h1>Home Page</h1>
@@ -21,7 +20,7 @@ class Users extends Component {
                 {/* <Route path="/Login">
                     <Login/>
                 </Route> */}
-            </Aux>
+            </div>
         )
     };
 }
