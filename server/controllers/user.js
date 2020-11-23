@@ -1,34 +1,41 @@
-// const session = require('express-session');
-// const User = require('../models/userData');
+const session = require('express-session');
+const User = require('../models/userData');
 const Test = require('../models/test');
 
 // User signUp
 
-// exports.signUp = (req, res, next) => {
-//     User.UserNameModel(req.body.userName)
-//     .then(([user]) => {
-//         if (!user.length){
-//             if (req.body.password === req.body.cnfrmPassword){
-//                 const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, req.body.password);
-//                 user.save()
-//                 .then(() => {
-//                     res.send("You're in now !");
-//                 })
-//                 .catch(err => console.log(err));
-//             }
-//             else    
-//                 res.send("Confirm Your Password!");
-//         }else
-//             res.send('Username already exist !');
-//     })
-// };
+exports.signUp = (req, res, next) => {
+    var flag = 0;
+    User.UserNameModel(req.body.userName)
+    .then(([user]) => {
+        user.map(el => {
+            if (el.email == req.body.email)
+                flag = 1;
+        });
+        if (!user.length){
+            if (req.body.password === req.body.cnfrmPassword){
+                const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, req.body.password);
+                user.save().then(() => {
+                    res.send("You're in now !");
+                }).catch(err => console.log(err));
+            }
+            else    
+                res.send("Confirm Your Password!");
+        }else{
+            if (flag)
+                res.send('email already exist !');
+            else
+                res.send('Username already exist !');
+        }
+    })
+};
 
 // User login
 
-exports.getLogin = (req, res, next) => {
-    Test.testModel().then(res.send('test')).catch(err => console.log(err));
-    // res.send('test');
-}
+// exports.getLogin = (req, res, next) => {
+//     Test.testModel().then(res.send('test')).catch(err => console.log(err));
+//     // res.send('test');
+// }
 
 // exports.postLogin = (req, res, next) => {
 //     User.loginModel(req.body.userName, req.body.password).then(([login]) => {

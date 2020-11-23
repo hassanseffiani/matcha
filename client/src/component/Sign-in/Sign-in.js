@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import imgMatcha from '../../assets/images/img.png';
+// import imgMatcha from '../../assets/images/img.png';
 
 class Signup extends Component{
     state = {
@@ -38,7 +38,7 @@ class Signup extends Component{
     render(){
         return(
             <form method="POST" className="form-signin" onSubmit={this.signup}>
-                <img src={imgMatcha} alt="avatar" width="30%"/>
+                {/* <img src={imgMatcha} alt="avatar" width="30%"/> */}
                     <h1 className="h3 mb-3 font-weight-normal">Create a new user</h1>
                     {/* <div className="form-group">
                         <button type="button" className="btn btn-lg btn-info mx-2">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Users from "./containers/Users/Users";
 // import Login from './component/Login/Login';
-// import Signup from "./component/Sign-in/Sign-in";
+import Signup from "./component/Sign-in/Sign-in";
 import Header from "./component/layout/Header";
 import {BrowserRouter as Router, Route}from 'react-router-dom';
 
@@ -21,8 +21,8 @@ class App extends Component {
                     </React.Fragment>
                 )} /> */}
                 <Route path="/Users" component={Users}/>
-                {/* <Route path="/Sign-up" component={Signup} />
-                <Route path="/Login" component={Login} /> */}
+                <Route path="/Sign-up" component={Signup} />
+                {/* <Route path="/Login" component={Login} /> */}
               </div>
             </div>
           </div>

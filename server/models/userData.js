@@ -32,6 +32,11 @@ module.exports = class User {
     static UserNameModel(user) {
         return db.execute('SELECT * FROM users WHERE users.userName = ? limit 1', [user]);
     };
+    
+    // static UserEmailModel(email) {
+    //     return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
+    // };
+
     static delete(id){
         return db.execute('DELETE FROM products WHERE products.id = ?', [id]);
     }
