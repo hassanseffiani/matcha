@@ -1,7 +1,5 @@
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user");
-const mysql = require('mysql2');
-
 const cors = require("cors");
 // const productsController = require('./controllers/error');
 // Set session
@@ -17,25 +15,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Test session
-// app.use(session({
-// 	secret: 's',
-// 	resave: false,
-// 	saveUninitialized: false,
-// 	cookie: {
-// 		maxAge: 60 * 1000 *30
-// 	}
-// }));
+app.use(session({
+    secret: 's',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 1000 *30
+    }
+}))
 
 //Home [Page]
 // please make sure you add a seddion in your login page
 // intersiption here in home page.....
-
-app.get("/", (req, res) => {
-    // data= req.session;
-    // console.log(data);
-    // console.log("re");
-    // res.send("test");
-})
 
 //////////////////////////////////////////////////////
 

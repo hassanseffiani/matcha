@@ -14,11 +14,11 @@ class Login extends Component {
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
-    // componentDidMount = () => {
-    //     Axios.get("http://localhost:3001/users/login").then(response => {
-    //         console.log(response);
-    //     }); 
-    // }
+    componentDidMount = () => {
+        Axios.get("http://localhost:3001/users/login").then(response => {
+            // console.log(response);
+        }); 
+    }
     login = (e) => {
         e.preventDefault();
         Axios.post("http://localhost:3001/users/login",{
@@ -31,8 +31,8 @@ class Login extends Component {
             else
                 this.setState({errMsg: ''})
             //redirection to home page after sending a session user
-            // if (this.state.errMsg === "You're In Now!!")
-                // this.setState({redirect: "/"});
+            if (this.state.errMsg === "You're In Now!!")
+                this.setState({redirect: "/"})
         })
         
     }
