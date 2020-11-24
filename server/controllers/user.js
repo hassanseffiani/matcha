@@ -33,17 +33,13 @@ exports.signUp = (req, res, next) => {
 
 // User login
 
-// exports.getLogin = (req, res, next) => {
-//     Test.testModel().then(res.send('test')).catch(err => console.log(err));
-//     // res.send('test');
-// }
-
 exports.postLogin = (req, res, next) => {
     User.UserNameModel(req.body.userName).then(
         ([user]) => {
             if (user.length){
                 User.loginModel(req.body.userName, req.body.password).then(([login]) => {
                     if (login.length){
+                        req.session.user = req.body.userName;
                         res.send("You\'re In Now!!");
                     }else
                         res.send("Username or Password is incorrect");

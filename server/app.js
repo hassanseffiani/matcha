@@ -26,22 +26,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 // 	}
 // }));
 
-//test for connection with our container s in docker
+//Home [Page]
+// please make sure you add a seddion in your login page
+// intersiption here in home page.....
 
-// const conn = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   database: 'Matcha',
-//   password: 'root'
-// });
+app.get("/", (req, res) => {
+    // data= req.session;
+    // console.log(data);
+    // console.log("re");
+    // res.send("test");
+})
 
-// conn.connect(() => {
-//   console.log("Container is connected succesfully");
-// })
+//////////////////////////////////////////////////////
 
-// conn.end(() => {
-//   console.log("Eror");
-// })
 app.use(userRoutes);
 
 app.listen(3001);

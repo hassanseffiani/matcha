@@ -21,7 +21,9 @@ class App extends Component {
                     </React.Fragment>
                 )} />
                 <Route path="/Users" component={Users}/>
+                {/* missing sending  email confirmation ++ confirm verify */}
                 <Route path="/Sign-up" component={Signup} />
+                {/* missing session outil */}
                 <Route path="/Login" component={Login} />
               </div>
             </div>

@@ -30,9 +30,9 @@ class Login extends Component {
                 this.setState({errMsg: response.data})
             else
                 this.setState({errMsg: ''})
-            if (this.state.errMsg === "You're In Now!!")
-                this.setState({redirect: "/"});
-            
+            //redirection to home page after sending a session user
+            // if (this.state.errMsg === "You're In Now!!")
+                // this.setState({redirect: "/"});
         })
         
     }
@@ -60,13 +60,14 @@ class Login extends Component {
                     </label>
                 </div> */}
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                {/* Error handler */}
                 <p className="text-danger">{this.state.errMsg}</p>
                 <p className="mt-5 mb-3 text-muted">&copy; 2020</p>
-                {
+                {/* {
                     // console.log(this.state.data)
                     this.state.data.map((val, iKey) => {
                         return <h1 key={iKey}>UserName: {val.userName} | Password: {val.password}</h1>;})
-                }
+                } */}
             </form>
             // {moviesLitstsName.map((val, iKey) => {
                 // return <h1 key={iKey}>Movies Name: {val.moviesTitle} | Review: {val.moviesReview}</h1>;
