@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import Axios from 'axios';
 
 class Login extends Component {
@@ -6,17 +7,18 @@ class Login extends Component {
         errMsg: '',
         userName: '',
         password: '',
+        redirect: null,
         data: []
     };
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
-    componentDidMount = () => {
-        Axios.get("http://localhost:3001/users/login").then(response => {
-            console.log(response);
-        });
-    }
+    // componentDidMount = () => {
+    //     Axios.get("http://localhost:3001/users/login").then(response => {
+    //         console.log(response);
+    //     }); 
+    // }
     login = (e) => {
         e.preventDefault();
         Axios.post("http://localhost:3001/users/login",{
@@ -24,40 +26,39 @@ class Login extends Component {
             password: this.state.password
         }).then((response) => {
             // console.log(response);
-            this.setState({
-                userName: response.data.user,
-                errMsg: 'You\'re login now'
-            });
-            // <Redirect
-            //     to={{
-            //         pathname: "/home",
-            //         state: { 
-            //             userName:  response.data.user
-            //         }
-            //     }}
-            // />
+            if (response)
+                this.setState({errMsg: response.data})
+            else
+                this.setState({errMsg: ''})
+            if (this.state.errMsg === "You're In Now!!")
+                this.setState({redirect: "/"});
+            
         })
         
     }
     render() {
+        if (this.state.redirect){
+            return <Redirect to={this.state.redirect} />
+        }
         return (
             <form method="POST" className="form-signin" onSubmit={this.login}>
-                <h1 className="h3 mb-3 font-weight-normal">Login</h1>
+                {/* <h1 className="h3 mb-3 font-weight-normal">Login</h1> */}
                 <p>{this.state.userName}</p>
                 <div className="form-group">
                     <label htmlFor="inputUserName" className="sr-only">Username</label>
                     <input type="text" name="userName" onChange={this.onChange.bind(this)} value={this.state.userName} id="inputUserName" className="form-control" placeholder="Username" required autoFocus />
                 </div>
                 
+                <p>{this.state.password}</p>
                 <div className="form-group">
                     <label htmlFor="inputPassword" className="sr-only">Password</label>
                     <input type="password" name="password" onChange={this.onChange.bind(this)} value={this.state.password} id="inputPassword" className="form-control" placeholder="Password" required />
                 </div>
-                <div className="checkbox mb-3">
+                {/* <div className="checkbox mb-3">
                     <label>
                     <input type="checkbox" value="remember-me" /> Remember me
                     </label>
-                </div>
+                </div> */}
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
                 <p className="text-danger">{this.state.errMsg}</p>
                 <p className="mt-5 mb-3 text-muted">&copy; 2020</p>

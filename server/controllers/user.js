@@ -1,6 +1,7 @@
 const session = require('express-session');
 const User = require('../models/userData');
 const Test = require('../models/test');
+const { loginModel } = require('../models/userData');
 
 // User signUp
 
@@ -37,19 +38,32 @@ exports.signUp = (req, res, next) => {
 //     // res.send('test');
 // }
 
-// exports.postLogin = (req, res, next) => {
-//     User.loginModel(req.body.userName, req.body.password).then(([login]) => {
-//         // console.log(login);
-//         if (login.length){
-//             req.session.user = req.body.userName;
-//             req.session.opp = 1;
-//             data = {
-//                 opp: req.session.opp,
-//                 user: req.session.user
-//             }
-//             res.send(data);
-//         }
-//         else
-//             res.send("Username or Password is incorrect");
-//     }).catch(err => console.log(err));
-// }
+exports.postLogin = (req, res, next) => {
+    User.UserNameModel(req.body.userName).then(
+        ([user]) => {
+            if (user.length){
+                User.loginModel(req.body.userName, req.body.password).then(([login]) => {
+                    if (login.length){
+                        res.send("You\'re In Now!!");
+                    }else
+                        res.send("Username or Password is incorrect");
+                }).catch(err => console.log(err));
+            }else
+                res.send("Username incorrect");
+        }
+    ).catch(err => console.log(err));
+    // User.loginModel(req.body.userName, req.body.password).then(([login]) => {
+        // console.log(req.body.userName);
+        // if (login.length){
+        //     req.session.user = req.body.userName;
+        //     req.session.opp = 1;
+        //     data = {
+        //         opp: req.session.opp,
+        //         user: req.session.user
+        //     }
+        //     res.send(data);
+        // }
+        // else
+        //     res.send("Username or Password is incorrect");
+    // }).catch(err => console.log(err));
+}
