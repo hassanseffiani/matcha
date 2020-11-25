@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user");
+const homeRoutes = require("./routes/base");
 const cors = require("cors");
 // const productsController = require('./controllers/error');
 // Set session
@@ -18,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 's',
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         maxAge: 60 * 1000 *30
     }
@@ -31,5 +32,6 @@ app.use(session({
 //////////////////////////////////////////////////////
 
 app.use(userRoutes);
+app.use(homeRoutes);
 
 app.listen(3001);

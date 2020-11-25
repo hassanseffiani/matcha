@@ -25,6 +25,7 @@ module.exports = class User {
     };
     
     
+    
     static loginModel(user, pass) {
         return db.execute('SELECT * FROM users WHERE users.userName = ? AND users.password = ?', [user, pass]);
     };
