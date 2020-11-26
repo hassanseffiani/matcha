@@ -1,18 +1,18 @@
 const userController = require('../controllers/user');
-const homeController = require('../controllers/home');
 
 const express = require('express');
 const route = express.Router();
 
-
-
-// Get home [page]
-route.get('/', homeController.index);
-
-//post signUp index
+//  post signUp
 route.post('/users/signup', userController.signUp);
+
+//  get login
 route.get('/users/login', userController.getLogin);
 
+//  post login
 route.post('/users/login', userController.postLogin);
+
+//  post forget password
+route.post('/users/forget', userController.forgetPassword);
 
 module.exports = route;

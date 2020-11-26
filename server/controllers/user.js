@@ -15,6 +15,10 @@ exports.signUp = (req, res, next) => {
             if (req.body.password === req.body.cnfrmPassword){
                 const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password));
                 user.save().then(() => {
+                    let data = {
+                        'email' : req.body.email
+                    };
+                    Helpers.sendmail(data);
                     res.send("You're in now !");
                 }).catch(err => console.log(err));
             }
@@ -41,8 +45,6 @@ exports.postLogin = (req, res, next) => {
             if (user.length){
                 user.map(el => {
                     if (Helpers.cmpBcypt(req.body.password, el.password)){
-                        if (req.session.user)
-                            req.session.destroy;
                         req.session.user = el.userName;
                         res.send("You're In Now!!");
                     }else
@@ -52,4 +54,10 @@ exports.postLogin = (req, res, next) => {
                 res.send("Username incorrect");
         }
     ).catch(err => console.log(err));
+}
+
+// forget password
+
+exports.forgetPassword = (req, res, next) => {
+    
 }
