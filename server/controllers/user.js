@@ -59,5 +59,7 @@ exports.postLogin = (req, res, next) => {
 // forget password
 
 exports.forgetPassword = (req, res, next) => {
+    // part to forget password
+    // get the oldies password update with method update in the model
     
 }

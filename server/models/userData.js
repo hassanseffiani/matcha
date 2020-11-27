@@ -10,11 +10,6 @@ module.exports = class User {
         this.password = password;
     }
     
-    edit() {
-        return db.execute('UPDATE products SET title = ?, price = ?, description = ?, imageUrl = ? WHERE products.id = ?',
-        [this.title, this.price, this.description, this.imageUrl, this.id]);
-    };
-
     save() {
         return db.execute('INSERT INTO users(email, userName, firstName, lastName, password) VALUES(?, ?, ?, ?, ?)'
         , [this.email, this.userName, this.firstName, this.lastName, this.password]);
@@ -34,9 +29,11 @@ module.exports = class User {
         return db.execute('SELECT * FROM users WHERE users.userName = ? limit 1', [user]);
     };
     
-    // static UserEmailModel(email) {
-    //     return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
-    // };
+    static UserForgetPassword(vkey) {
+        // need to pass vkey to compare with in db.
+        
+        // return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
+    };
 
     static delete(id){
         return db.execute('DELETE FROM products WHERE products.id = ?', [id]);
