@@ -61,5 +61,4 @@ exports.keyCrypto = (text) => {
     const algorithm = 'sha256';
     const hash = crypto.createHmac(algorithm, secret).update(text).digest('hex');
     return hash;
-    // console.log(getHash('javascript'));
 }

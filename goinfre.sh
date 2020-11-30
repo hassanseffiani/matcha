@@ -14,6 +14,8 @@
 #eval $(docker-machine env "$MACHINE")
 #mv .docker goinfre
 #ln -s goinfre/.docker .docker
-docker run --name mysql -v ~/server/mysqlSharedVolume:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=tiger -p 3306:3306 -d mysql
-docker exec -it mysql bash
-docker run --name myadmin -d --link mysql:db -e PMA_ARBITRARY=1 -p 8080:80 phpmyadmin
+#docker run --name mysql -v ~/server/mysqlSharedVolume:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=tiger -p 3306:3306 -d mysql
+#docker exec -it mysql bash
+#docker run --name myadmin -d --link mysql:db -e PMA_ARBITRARY=1 -p 8080:80 phpmyadmin
+docker start mysql
+docker start myadmin

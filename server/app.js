@@ -18,21 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // parse application/json
 app.use(bodyParser.json());
 
-//Test session
-app.use(session({
-    secret: 's',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 60 * 1000 *30
-    }
-}))
-
-//Home [Page]
-// please make sure you add a seddion in your login page
-// intersiption here in home page.....
-
-//////////////////////////////////////////////////////
+// To add Jwt configuration
 
 app.use(userRoutes);
 app.use(homeRoutes);

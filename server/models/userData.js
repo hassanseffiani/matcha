@@ -24,6 +24,10 @@ module.exports = class User {
         return db.execute('SELECT * FROM users WHERE users.userName = ? AND users.password = ?', [user, pass]);
     };
 
+    static userIdModel(id) {
+        return db.execute('SELECT * FROM users WHERE id = ? limit 1', [id]);
+    };
+
     static UserNameModel(user) {
         return db.execute('SELECT * FROM users WHERE users.userName = ? limit 1', [user]);
     };
@@ -41,6 +45,10 @@ module.exports = class User {
     static validateUser(vkey){
         return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [vkey]);
     }
+
+    // static fillProfilById(id){
+    //     return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [id]);
+    // }
 
     static delete(id){
         return db.execute('DELETE FROM products WHERE products.id = ?', [id]);

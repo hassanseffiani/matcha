@@ -20,4 +20,8 @@ route.post('/users/forget/:vkey', userController.forgetPassword);
 
 route.get('/users/confirm/:vkey', userController.confirmUser);
 
+// post fill profil
+
+route.post('/users/profil/:id', userController.fillProfil);
+
 module.exports = route;

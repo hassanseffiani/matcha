@@ -5,6 +5,9 @@ exports.index = (req, res, next) => {
     res.send(req.session.user);
 }
 
+
+// edit to work with jwt
+
 exports.logout = (req ,res, next) => {
     //destroy session user
     if (req.session.user){
