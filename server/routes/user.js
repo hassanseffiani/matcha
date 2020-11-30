@@ -14,6 +14,10 @@ route.get('/users/login', userController.getLogin);
 route.post('/users/login', userController.postLogin);
 
 //  post forget password
-route.post('/users/forget', userController.forgetPassword);
+route.post('/users/forget/:vkey', userController.forgetPassword);
+
+// get confirm account
+
+route.get('/users/confirm/:vkey', userController.confirmUser);
 
 module.exports = route;

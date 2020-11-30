@@ -26,13 +26,13 @@ exports.sendmail = (data) => {
             pass: 'Hseffiani1998'//replace with your password
         }
     });
-
+    
     var mailOptions = {
         from: 'hassanseffiani@gmail.com', // sender address
         to: data['email'], // list of receivers
         subject: "Hello ✔", // Subject line
         text: "Active your account", // plain text body
-        html: "<b>TEST Active</b>", // html body
+        html: "<a href='http://localhost:3001/users/confirm/"+data['vkey']+"'>Confirm your email: </a>"
     };
 
     transporter.sendMail(mailOptions);
@@ -50,4 +50,16 @@ exports.sendmail = (data) => {
     //     }
     // });
 
+}
+
+// Create a key for validation
+
+
+exports.keyCrypto = (text) => {
+    const crypto = require('crypto');
+    const secret = 'thisissecret';
+    const algorithm = 'sha256';
+    const hash = crypto.createHmac(algorithm, secret).update(text).digest('hex');
+    return hash;
+    // console.log(getHash('javascript'));
 }
