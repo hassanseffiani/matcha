@@ -1,10 +1,11 @@
 const userController = require('../controllers/user');
+const validator = require('../controllers/validator');
 
 const express = require('express');
 const route = express.Router();
 
 //  post signUp
-route.post('/users/signup', userController.signUp);
+route.post('/users/signup', validator.validationInput, userController.signUp);
 
 //  get login
 route.get('/users/login', userController.getLogin);

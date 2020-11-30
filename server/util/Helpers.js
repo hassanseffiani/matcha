@@ -49,4 +49,5 @@ exports.sendmail = (data) => {
     //         res.send('Sent Successfully')//if mail is sent successfully send Sent successfully as response
     //     }
     // });
+
 }

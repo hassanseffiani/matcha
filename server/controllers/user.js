@@ -1,5 +1,6 @@
 const User = require('../models/userData');
 const Helpers = require('../util/Helpers');
+// const validator = require('../controllers/validator');
 
 // User signUp
 
@@ -33,6 +34,10 @@ exports.signUp = (req, res, next) => {
     })
 };
 
+validationInput = (req, res, next) => {
+    console.log(res.body.userName);
+}
+
 // User login
 
 exports.getLogin = (req, res, next) => {
@@ -61,5 +66,13 @@ exports.postLogin = (req, res, next) => {
 exports.forgetPassword = (req, res, next) => {
     // part to forget password
     // get the oldies password update with method update in the model
+    // cotroller validator take care of error 
+    // newPassword         cnfrmPassword
+    // console.log("old password" + req.body.newPassword + " new password" + req.body.cnfrmPassword);
     
+    if (req.body.newPassword === req.body.cnfrmPassword)
+        // console.log("Update");
+        User.UserForgetPassword(req.body.newPassword).then(res.send("Update Complet"));
+    else
+        res.send("Error");
 }

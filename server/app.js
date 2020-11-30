@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user");
+const errRoutes = require("./routes/error");
 const homeRoutes = require("./routes/base");
 const cors = require("cors");
 // const productsController = require('./controllers/error');
@@ -35,5 +36,7 @@ app.use(session({
 
 app.use(userRoutes);
 app.use(homeRoutes);
+app.use(errRoutes)
+
 
 app.listen(3001);

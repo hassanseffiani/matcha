@@ -19,8 +19,6 @@ module.exports = class User {
         return db.execute('SELECT * FROM users');
     };
     
-    
-    
     static loginModel(user, pass) {
         return db.execute('SELECT * FROM users WHERE users.userName = ? AND users.password = ?', [user, pass]);
     };
@@ -29,9 +27,9 @@ module.exports = class User {
         return db.execute('SELECT * FROM users WHERE users.userName = ? limit 1', [user]);
     };
     
-    static UserForgetPassword(vkey) {
-        // need to pass vkey to compare with in db.
-        
+    static UserForgetPassword(password) {
+        // need to pass vkey to compare with in db. after updating table vkey
+        return db.execute('UPDATE users SET password = ?', [password]);
         // return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
     };
 
