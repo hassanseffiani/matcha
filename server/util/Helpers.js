@@ -38,7 +38,7 @@ exports.sendmail = (data) => {
     transporter.sendMail(mailOptions);
 
     /// if you want to see result of send....
-
+    
     // , function(error, info){
     //     if (error) {
     //         console.log(error);

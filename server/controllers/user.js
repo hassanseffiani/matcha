@@ -2,6 +2,7 @@ const User = require('../models/userData');
 const Profil = require('../models/profilData');
 const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
+const jwt = require('jsonwebtoken');
 
 // User signUp
 
@@ -41,18 +42,22 @@ exports.signUp = (req, res, next) => {
 
 // User login
 
-exports.getLogin = (req, res, next) => {
-    res.send(req.session.user);
-}
-
 exports.postLogin = (req, res, next) => {
     User.UserNameModel(req.body.userName).then(
         ([user]) => {
             if (user.length){
                 user.map(el => {
                     if (Helpers.cmpBcypt(req.body.password, el.password)){
-                        req.session.user = el.userName;
-                        res.send("You're In Now!!");
+                        const user = {
+                            username: el.userName,
+                            email: el.email
+                        }
+                        jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, token) => {
+                            res.json({
+                                token
+                            })
+                        });
+                        // res.send("You're In Now!!");
                     }else
                         res.send("Username or Password is incorrect");
                 });

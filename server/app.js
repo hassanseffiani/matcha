@@ -18,8 +18,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 // parse application/json
 app.use(bodyParser.json());
 
-// To add Jwt configuration
-
 app.use(userRoutes);
 app.use(homeRoutes);
 app.use(errRoutes)

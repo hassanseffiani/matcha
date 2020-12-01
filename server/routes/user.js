@@ -7,9 +7,6 @@ const route = express.Router();
 //  post signUp
 route.post('/users/signup', validator.validationInput, userController.signUp);
 
-//  get login
-route.get('/users/login', userController.getLogin);
-
 //  post login
 route.post('/users/login', userController.postLogin);
 

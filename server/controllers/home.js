@@ -1,10 +1,19 @@
 // Home controller
+const jwt = require('jsonwebtoken');
 
 exports.index = (req, res, next) => {
     // show session stored
-    res.send(req.session.user);
+    jwt.verify(req.token, 'secretkey', (err, authData) => {
+        if (err)
+            res.sendStatus(403);
+        else{
+            res.json({
+                message: "Home Page",
+                authData
+            })
+        }
+    })
 }
-
 
 // edit to work with jwt
 
