@@ -8,7 +8,7 @@ const route = express.Router();
 route.post('/users/signup', validator.validationInput, userController.signUp);
 
 //  post login
-route.post('/users/login', userController.postLogin);
+route.post('/users/login', validator.helperToRefresh,userController.postLogin);
 
 //  post forget password
 route.post('/users/forget/:vkey', userController.forgetPassword);

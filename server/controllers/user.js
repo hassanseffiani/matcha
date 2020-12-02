@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 
 exports.signUp = (req, res, next) => {
     // user login duplicate to --fix
-    
     var flag = 0;
     User.UserNameModel(req.body.userName)
     .then(([user]) => {
@@ -43,21 +42,34 @@ exports.signUp = (req, res, next) => {
 // User login
 
 exports.postLogin = (req, res, next) => {
+    // console.log(req.body);
     User.UserNameModel(req.body.userName).then(
         ([user]) => {
             if (user.length){
                 user.map(el => {
                     if (Helpers.cmpBcypt(req.body.password, el.password)){
-                        const user = {
-                            username: el.userName,
-                            email: el.email
+                        var username = req.body.userName;
+                        var Token = req.body.refreshToken;
+                        var RefTokens = req.body.refreshTokens;
+                        if((Token in RefTokens) && (RefTokens[Token] == username)){
+                            // console.log("test");
+                            const user = {
+                                username: el.userName,
+                                email: el.email
+                            };
+                            var token = jwt.sign({user}, 'secretkey', {expiresIn: '10m'});
+                            res.json({token});
                         }
-                        jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, token) => {
-                            res.json({
-                                token
-                            })
-                        });
-                        // res.send("You're In Now!!");
+                        // console.log(req.body.refreshToken);
+                        
+                        // jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, token) => {
+                        //     var refreshToken = randToken.uid(256);
+                        //     refreshTokens[refreshToken] = user.username;
+                        //     res.json({
+                        //         token
+                        //         // refreshToken
+                        //     })
+                        // });
                     }else
                         res.send("Username or Password is incorrect");
                 });

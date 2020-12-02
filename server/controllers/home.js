@@ -2,7 +2,6 @@
 const jwt = require('jsonwebtoken');
 
 exports.index = (req, res, next) => {
-    // show session stored
     jwt.verify(req.token, 'secretkey', (err, authData) => {
         if (err)
             res.sendStatus(403);
@@ -18,11 +17,17 @@ exports.index = (req, res, next) => {
 // edit to work with jwt
 
 exports.logout = (req ,res, next) => {
+    // plz add section logout;
+    // good understanding jwt
+
+    
+    // send to tis port error;
+    //204
     //destroy session user
-    if (req.session.user){
-        req.session.destroy(() => {
-            res.send('Session deleted')
-        })
-    }else
-        res.send('Nothing to delete')
+    // if (req.session.user){
+    //     req.session.destroy(() => {
+    //         res.send('Session deleted')
+    //     })
+    // }else
+    //     res.send('Nothing to delete')
 }

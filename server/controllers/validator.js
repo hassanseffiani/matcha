@@ -1,4 +1,4 @@
-
+const randToken = require('rand-token');
 
 exports.validationInput = (req, res, next) => {
     var regExpEmail = /([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\@([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\.(com|net)/;
@@ -34,4 +34,22 @@ exports.verifyToken = (req, res, next) => {
         res.sendStatus(403);
     }
 
+}
+
+exports.helperToRefresh = (req, res, next) => {
+    var refreshTokens = {};
+    const user = {
+        username: req.body.userName
+    }
+    // jwt.sign({user}, 'secretkey', {expiresIn: '5m'});
+    var refreshToken = randToken.uid(256);
+    req.body.refreshToken = refreshToken;
+    refreshTokens[refreshToken] = user.username;
+    req.body.refreshTokens = refreshTokens;
+    // res.json({
+    //     token,
+    //     refreshToken
+    // })
+    // console.log(refreshTokens[refreshToken]);
+    next();
 }
