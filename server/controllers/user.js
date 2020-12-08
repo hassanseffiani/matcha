@@ -4,6 +4,14 @@ const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
 
+
+// // creation of a new tokon -> jwt helper
+
+const maxAge = 3 * 24 * 60 * 60;
+const createtoken = (id) => {
+    return jwt.sign({id}, 'secret', {expiresIn: maxAge});
+};
+
 // User signUp
 
 exports.signUp = (req, res, next) => {
@@ -20,12 +28,30 @@ exports.signUp = (req, res, next) => {
                 var vkey = Helpers.keyCrypto(req.body.userName);
                 const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey);
                 user.save().then(() => {
-                    let data = {
-                        'email' : req.body.email,
-                        'vkey' : vkey
-                    };
-                    Helpers.sendmail(data);
-                    res.send("You're in now !");
+                    // console log id of user ....
+                    // create function to get id of user await helper
+                    User.UserEmailModel(req.body.email).then(([idUser]) => {
+                        idUser.map(el => {
+                            // create jwt permission
+                            try {
+                                const token = createtoken(el.id);
+                                res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+                                // res.status(201).json({user: el.id});
+                                // Sending email before sending a response
+                                let data = {
+                                    'email' : req.body.email,
+                                    'vkey' : vkey
+                                };
+                                Helpers.sendmail(data);
+                                res.status(201).json(user);
+                            } catch (err) {
+                                console.log(err);
+                                res.status(400).send("error, user not created");
+                            }
+
+                        });
+                    })
+                    
                 }).catch(err => console.log(err));
             }
             else    
@@ -42,34 +68,18 @@ exports.signUp = (req, res, next) => {
 // User login
 
 exports.postLogin = (req, res, next) => {
-    // console.log(req.body);
     User.UserNameModel(req.body.userName).then(
         ([user]) => {
             if (user.length){
                 user.map(el => {
                     if (Helpers.cmpBcypt(req.body.password, el.password)){
-                        var username = req.body.userName;
-                        var Token = req.body.refreshToken;
-                        var RefTokens = req.body.refreshTokens;
-                        if((Token in RefTokens) && (RefTokens[Token] == username)){
-                            // console.log("test");
-                            const user = {
-                                username: el.userName,
-                                email: el.email
-                            };
-                            var token = jwt.sign({user}, 'secretkey', {expiresIn: '10m'});
-                            res.json({token});
+                        try {
+                            const token = createtoken(el.id);
+                            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+                            res.status(201).json({user: el.id});
+                        } catch (err) {
+                            res.status(400).json({});
                         }
-                        // console.log(req.body.refreshToken);
-                        
-                        // jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, token) => {
-                        //     var refreshToken = randToken.uid(256);
-                        //     refreshTokens[refreshToken] = user.username;
-                        //     res.json({
-                        //         token
-                        //         // refreshToken
-                        //     })
-                        // });
                     }else
                         res.send("Username or Password is incorrect");
                 });

@@ -24,12 +24,16 @@ module.exports = class User {
         return db.execute('SELECT * FROM users WHERE users.userName = ? AND users.password = ?', [user, pass]);
     };
 
-    static userIdModel(id) {
+    static UserIdModel(id) {
         return db.execute('SELECT * FROM users WHERE id = ? limit 1', [id]);
     };
 
     static UserNameModel(user) {
         return db.execute('SELECT * FROM users WHERE users.userName = ? limit 1', [user]);
+    };
+
+    static UserEmailModel(email) {
+        return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
     };
     
     static UserForgetPassword(password, vkey) {

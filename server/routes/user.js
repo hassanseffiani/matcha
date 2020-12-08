@@ -4,8 +4,18 @@ const validator = require('../controllers/validator');
 const express = require('express');
 const route = express.Router();
 
+
+
+
+// get signUp
+route.get('/users/signup'); // .....
+
 //  post signUp
 route.post('/users/signup', validator.validationInput, userController.signUp);
+
+// get login
+route.get('/users/login'); // .....
+
 
 //  post login
 route.post('/users/login', validator.helperToRefresh,userController.postLogin);
