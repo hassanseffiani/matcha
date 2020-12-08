@@ -29,6 +29,10 @@ route.get('/users/confirm/:vkey', userController.confirmUser);
 
 // post fill profil
 
-route.post('/users/profil/:id', userController.fillProfil);
+// route.post('/users/profil/:id', userController.fillProfil);
+
+// post logout button
+
+route.post('/logout', userController.logout);
 
 module.exports = route;

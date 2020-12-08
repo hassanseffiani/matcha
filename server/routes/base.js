@@ -11,8 +11,5 @@ route.get('*', authVrfy.checkUser);
 // Get home [page]
 route.get('/', authVrfy.requireAuth, homeController.index);
 
-// post logout button
-
-route.post('/logout', homeController.logout);
 
 module.exports = route;

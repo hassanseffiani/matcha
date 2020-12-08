@@ -1,6 +1,6 @@
 const User = require('../models/userData');
-const Profil = require('../models/profilData');
-const Tag = require('../models/tagData');
+// const Profil = require('../models/profilData');
+// const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
 
@@ -119,31 +119,38 @@ exports.confirmUser = (req, res, next) => {
 
 // Fill profil with help of id just for test
 
-exports.fillProfil = (req, res, next) => {
-    // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
-    User.userIdModel(req.params.id).then(([user]) => {
-        if (user.length){
-            Profil.profilIdModel(req.params.id).then(([fill]) => {
-                if (!fill.length){
-                    console.log(req.body.tag);
-                    // adding some tag of users
-                    // Tag.tagIdModel(req.params.id).then(([tag]) => {
-                        // if (!tag.length){
-                            // console.log(tag);
-                        // }
-                    // })
+// exports.fillProfil = (req, res, next) => {
+//     // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
+//     User.userIdModel(req.params.id).then(([user]) => {
+//         if (user.length){
+//             Profil.profilIdModel(req.params.id).then(([fill]) => {
+//                 if (!fill.length){
+//                     console.log(req.body.tag);
+//                     // adding some tag of users
+//                     // Tag.tagIdModel(req.params.id).then(([tag]) => {
+//                         // if (!tag.length){
+//                             // console.log(tag);
+//                         // }
+//                     // })
 
-                    // add new  insformation to profil
-                    const profil = new Profil(null , req.params.id, req.body.gender, req.body.bio);
-                    profil.save().then(() => {
-                        res.send("Profil Complet");
-                    });
-                }
-                else
-                    res.send("Profil already exists.");
-            });
-        }else
-            res.send("Users doesn't exists.");
-    });
-    // res.send("Enter a valid id");
+//                     // add new  insformation to profil
+//                     const profil = new Profil(null , req.params.id, req.body.gender, req.body.bio);
+//                     profil.save().then(() => {
+//                         res.send("Profil Complet");
+//                     });
+//                 }
+//                 else
+//                     res.send("Profil already exists.");
+//             });
+//         }else
+//             res.send("Users doesn't exists.");
+//     });
+//     // res.send("Enter a valid id");
+// }
+
+// edit to work with jwt
+
+exports.logout = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1});
+    res.redirect('/');
 }
