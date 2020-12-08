@@ -29,9 +29,9 @@ exports.sendmail = (data) => {
     
     var mailOptions = {
         from: 'hassanseffiani@gmail.com', // sender address
-        to: data['email'], // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Active your account", // plain text body
+        to: data['email'],
+        subject: "Hello ✔",
+        text: "Active your account",
         html: "<a href='http://localhost:3001/users/confirm/"+data['vkey']+"'>Confirm your email: </a>"
     };
 
