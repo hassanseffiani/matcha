@@ -3,6 +3,7 @@ const User = require('../models/userData');
 // const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
+const { compare } = require('bcrypt');
 
 
 // // creation of a new tokon -> jwt helper
@@ -14,55 +15,67 @@ const createtoken = (id) => {
 
 // User signUp
 
-exports.signUp = (req, res, next) => {
+exports.signUp = async (req, res, next) => {
+    var dataErr = {}, tmp = []; 
     // user login duplicate to --fix
-    var flag = 0;
-    User.UserNameModel(req.body.userName)
-    .then(([user]) => {
-        user.map(el => {
-            if (el.email == req.body.email)
-                flag = 1;
-        });
-        if (!user.length){
-            if (req.body.password === req.body.cnfrmPassword){
-                var vkey = Helpers.keyCrypto(req.body.userName);
-                const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey);
-                user.save().then(() => {
-                    // console log id of user ....
-                    // create function to get id of user await helper
-                    User.UserEmailModel(req.body.email).then(([idUser]) => {
-                        idUser.map(el => {
-                            // create jwt permission
-                            try {
-                                const token = createtoken(el.id);
-                                res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                                // res.status(201).json({user: el.id});
-                                // Sending email before sending a response
-                                let data = {
-                                    'email' : req.body.email,
-                                    'vkey' : vkey
-                                };
-                                Helpers.sendmail(data);
-                                res.status(201).json(user);
-                            } catch (err) {
-                                console.log(err);
-                                res.status(400).send("error, user not created");
-                            }
 
-                        });
-                    })
-                    
-                }).catch(err => console.log(err));
-            }
-            else    
-                res.send("Confirm Your Password!");
-        }else{
-            if (flag)
-                res.send('email already exist !');
-            else
-                res.send('Username already exist !');
-        }
-    })
+    await User.UserNameModel(req.body.userName).then(([user]) => { user.map(el => {(el.userName === req.body.userName) ? dataErr.userNameErr = "Username already exist !" : NULL })});
+    await User.UserEmailModel(req.body.email).then(([user]) => { user.map(el => {(el.email === req.body.email) ? dataErr.emailErr = "email already exist !" : NULL })});
+    (req.body.password !== req.body.cnfrmPassword) ? dataErr.passErr = "Confirm Your Password!" : '';
+    tmp.push(dataErr);
+
+    
+
+    // User.UserNameModel(req.body.userName)
+    // .then(([user]) => {
+    //     user.map(el => {
+    //         if (el.email !== req.body.email){
+    //             if (!user.length){
+    //                 if (req.body.password === req.body.cnfrmPassword){
+    //                     var vkey = Helpers.keyCrypto(req.body.userName);
+    //                     const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey);
+    //                     user.save().then(() => {
+    //                         // console log id of user ....
+    //                         // create function to get id of user await helper
+    //                         User.UserEmailModel(req.body.email).then(([idUser]) => {
+    //                             idUser.map(el => {
+    //                                 // create jwt permission
+    //                                 // try {
+    //                                     const token = createtoken(el.id);
+    //                                     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    //                                     // res.status(201).json({user: el.id});
+    //                                     // Sending email before sending a response
+    //                                     let data = {
+    //                                         'email' : req.body.email,
+    //                                         'vkey' : vkey
+    //                                     };
+    //                                     Helpers.sendmail(data);
+    //                                     res.status(201).json(user);
+    //                                 // } 
+    //                                 // catch (err) {
+    //                                     // console.log(err);
+    //                                     // res.status(400).send("error, user not created");
+
+    //                                 // }
+        
+    //                             });
+    //                         })
+                            
+    //                     })
+    //                     // .catch(err => console.log(err));
+    //                 }
+    //                 else
+    //                     dataErr.push("Confirm Your Password!");
+    //                     // res.send("Confirm Your Password!");
+    //             }
+    //         }else
+    //             dataErr.push("email already exist !");
+    //             // res.send('email already exist !');    
+    //     });
+    //     //         res.send('Username already exist !');
+    //     // }
+    // })
+    res.json(Object.assign({}, dataErr));
 };
 
 // User login
