@@ -1,2 +1,2 @@
-brew install node
-npm install bcrypt body-parser concurrently cors express express-session mysql2 nodemailer nodemon crypto jsonwebtoken rand-token cookie-parser --save
+#brew install node
+npm install bcrypt body-parser concurrently cors express mysql2 nodemailer nodemon crypto jsonwebtoken rand-token cookie-parser --save

@@ -5,8 +5,6 @@ const homeRoutes = require("./routes/base");
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 // const productsController = require('./controllers/error');
-// Set session
-const session = require('express-session');
 const express = require('express');
 const app = express();
 app.use(express.json());
