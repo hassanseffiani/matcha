@@ -17,8 +17,12 @@ route.post('/users/signup', validator.validationInput, userController.signUp);
 route.get('/users/login'); // .....
 
 
+
 //  post login
-route.post('/users/login' ,userController.postLogin);
+route.post('/users/login' , validator.validationInput, userController.postLogin);
+
+//  post Send Forget Password
+route.post('/users/sendForget', validator.validationInput, userController.sendForget);
 
 //  post forget password
 route.post('/users/forget/:vkey', userController.forgetPassword);

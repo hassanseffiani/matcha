@@ -2,9 +2,9 @@ exports.validationInput = (req, res, next) => {
     var dataErr = {};
     var regExpEmail = /([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\@([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\.(com|net)/;
     var regExpPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
-    (regExpEmail.test(req.body.email)) ? "" : dataErr.emailErr = "Enter a valid email";
-    (regExpPassword.test(req.body.password)) ? "" : dataErr.passErr = "Enter a valid password";
-    (regExpPassword.test(req.body.cnfrmPassword)) ? "" : dataErr.cnfErr = "Confirm Your password";
+    (req.body.email) ? ((regExpEmail.test(req.body.email)) ? "" : dataErr.validEmailErr = "Enter a valid email") : "";
+    (req.body.password) ? ((regExpPassword.test(req.body.password)) ? "" : dataErr.validPassErr = "Enter a valid password") : "";
+    (req.body.cnfrmPassword) ? ((regExpPassword.test(req.body.cnfrmPassword)) ? "" : dataErr.validCnfErr = "Confirm Your password") : "";
 
     if (regExpEmail.test(req.body.email) && regExpPassword.test(req.body.password) && regExpPassword.test(req.body.cnfrmPassword))
         next();
@@ -12,7 +12,7 @@ exports.validationInput = (req, res, next) => {
         res.locals = dataErr;
         next();
     }
-    //after passing error to res.locals ... next middleware
+    //after passing error to res.locals ... merge the object in the next middleware
 }
 
 

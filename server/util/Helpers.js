@@ -32,7 +32,7 @@ exports.sendmail = (data) => {
         to: data['email'],
         subject: "Hello ✔",
         text: "Active your account",
-        html: "<a href='http://localhost:3001/users/confirm/"+data['vkey']+"'>Confirm your email: </a>"
+        html: data['url']
     };
 
     transporter.sendMail(mailOptions);

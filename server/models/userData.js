@@ -42,12 +42,22 @@ module.exports = class User {
         // return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [email]);
     };
 
+    static vkeyGetUser(vkey){
+        return db.execute('SELECT * FROM users WHERE vkey = ?', [vkey]);
+    }
+
     static vkeyValidate(vkey){
         return db.execute('SELECT vkey FROM users WHERE vkey = ?', [vkey]);
     }
 
+
+
     static validateUser(vkey){
         return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [vkey]);
+    }
+
+    static UpdateOldVkey(vkey, email){
+        return db.execute('UPDATE users SET vkey = ? WHERE email = ?', [vkey, email]);
     }
 
     // static fillProfilById(id){
