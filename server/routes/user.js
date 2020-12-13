@@ -18,7 +18,7 @@ route.get('/users/login'); // .....
 
 
 //  post login
-route.post('/users/login', validator.helperToRefresh,userController.postLogin);
+route.post('/users/login' ,userController.postLogin);
 
 //  post forget password
 route.post('/users/forget/:vkey', userController.forgetPassword);

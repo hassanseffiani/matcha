@@ -3,19 +3,13 @@ const User = require('../models/userData');
 // const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
-const { compare } = require('bcrypt');
-
-
-// // creation of a new tokon -> jwt helper
-
-const maxAge = 3 * 24 * 60 * 60;
-const createtoken = (id) => {
-    return jwt.sign({id}, 'secret', {expiresIn: maxAge});
-};
 
 // User signUp
 
 exports.signUp = async (req, res, next) => {
+    // we need to verify res.locals error with if !checkErr ...
+    // create function that check for undefined value ...
+    console.log(res.locals);
     var dataErr = {}, tmp = []; 
 
     await User.UserNameModel(req.body.userName).then(([user]) => { user.map(el => {(el.userName === req.body.userName) ? dataErr.userNameErr = "Username already exist !" : '' })});
@@ -35,9 +29,18 @@ exports.signUp = async (req, res, next) => {
                 Helpers.sendmail(data);
                 res.status(201).json(user);
         }).catch(err => console.log(err));
-    }else
-        res.json(dataErr);
+    }else{
+        dataErr = {...res.locals};
 
+        res.json(dataErr);
+    }
+};
+
+// creation of a new tokon -> jwt helper
+
+const maxAge = 3 * 24 * 60 * 60;
+const createtoken = (id) => {
+    return jwt.sign({id}, 'secret', {expiresIn: maxAge});
 };
 
 // User login

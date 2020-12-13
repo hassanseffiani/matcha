@@ -1,15 +1,18 @@
-const randToken = require('rand-token');
-
 exports.validationInput = (req, res, next) => {
+    var dataErr = {};
     var regExpEmail = /([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\@([A-Z]|[a-z]|[^<>()\[\]\\\/.,;:\s@"]){4,}\.(com|net)/;
     var regExpPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
-    // console.log(regExpEmail.test(req.body.email));
-    if (regExpEmail.test(req.body.email) && regExpPassword.test(req.body.password))
-        next();
-    else
-        next("Input invalid");
+    (regExpEmail.test(req.body.email)) ? "" : dataErr.emailErr = "Enter a valid email";
+    (regExpPassword.test(req.body.password)) ? "" : dataErr.passErr = "Enter a valid password";
+    (regExpPassword.test(req.body.cnfrmPassword)) ? "" : dataErr.cnfErr = "Confirm Your password";
 
-    // regExpEmail.test(req.body.email)
+    if (regExpEmail.test(req.body.email) && regExpPassword.test(req.body.password) && regExpPassword.test(req.body.cnfrmPassword))
+        next();
+    else{
+        res.locals = dataErr;
+        next();
+    }
+    //after passing error to res.locals ... next middleware
 }
 
 
@@ -35,22 +38,3 @@ exports.verifyToken = (req, res, next) => {
     }
 
 }
-
-exports.helperToRefresh = (req, res, next) => {
-    var refreshTokens = {};
-    const user = {
-        username: req.body.userName
-    }
-    // jwt.sign({user}, 'secretkey', {expiresIn: '5m'});
-    var refreshToken = randToken.uid(256);
-    req.body.refreshToken = refreshToken;
-    refreshTokens[refreshToken] = user.username;
-    req.body.refreshTokens = refreshTokens;
-    // res.json({
-    //     token,
-    //     refreshToken
-    // })
-    // console.log(refreshTokens[refreshToken]);
-    next();
-}
-
