@@ -155,7 +155,10 @@ exports.confirmUser = (req, res, next) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = (req, res, next) => {
-    console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
+    if (req.params.id)
+        console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
+    else
+        console.log("you can:t");
     
     User.UserIdModel(req.params.id).then(([user]) => {
         console.log(user);
