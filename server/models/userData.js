@@ -62,8 +62,15 @@ module.exports = class User {
         return db.execute('UPDATE users SET vkey = ? WHERE email = ?', [vkey, email]);
     }
 
+    // filling profil
+
+    static fillProfilUpdate(gender, bio, id){
+        return db.execute('UPDATE users SET  gender = ?,bio = ? where id = ?', [gender, bio, id])
+    }
+
+
     // static fillProfilById(id){
-    //     return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [id]);
+        // return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [id]);
     // }
 
     static delete(id){

@@ -155,17 +155,23 @@ exports.confirmUser = (req, res, next) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = (req, res, next) => {
-    if (req.params.id)
-        console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
-    else
-        console.log("you can:t");
+    var id = req.params.id, gender = req.body.gender, bio = req.body.bio;
+    // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
     
-    User.UserIdModel(req.params.id).then(([user]) => {
-        console.log(user);
+    User.UserIdModel(id).then(([user]) => {
+        // console.log(user);
         // with help of id user , insert into table users a new field gender and bio...
         // inser name tag into table tag
         // after insert id table user and id table tab into (n,n) table tag_user
         // next step
+        if (user.length){
+            user.map(el => {
+                User.fillProfilUpdate(gender, bio, id).then(([UpRes]) => {
+                    console.log(UpRes);
+                }).catch(err => console.log(err));
+                console.log(el.id);
+            })
+        }
     //     if (user.length){
     //         Profil.profilIdModel(req.params.id).then(([fill]) => {
     //             if (!fill.length){
