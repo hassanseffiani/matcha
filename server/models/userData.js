@@ -65,7 +65,7 @@ module.exports = class User {
     // filling profil
 
     static fillProfilUpdate(gender, bio, id){
-        return db.execute('UPDATE users SET  gender = ?,bio = ? where id = ?', [gender, bio, id])
+        return db.execute('UPDATE users SET  gender = ?,bio = ? WHERE id = ?', [gender, bio, id])
     }
 
 

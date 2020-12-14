@@ -1,17 +1,29 @@
 const User = require('../models/userData');
+const Tag = require('../models/tagData');
 // const Profil = require('../models/profilData');
-// const Tag = require('../models/tagData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
 
 
 // **********************************************************
 // User signUp
-// add more column to table users
-// insert rows table with null value
 // next time ....
-// anass lachaftii had l part draba o  khali lia msg
-// an bdaa fchwiyat l front end....
+
+// add more information to profile:
+// gendre, orientation sexuelle, bio, liste d'interets{#bio ...}
+// images 5 max profil photos
+
+// user can edit his information...
+
+// user can change his password connected or not;
+
+// user can see peaple who consulte his profil or like..
+
+// user need to have a score of popularite.
+
+// user doit etre geolocalise, if the user don't want to be geo,find a way to
+// do it `_`.
+
 // **********************************************************
 
 exports.signUp = async (req, res, next) => {
@@ -155,23 +167,38 @@ exports.confirmUser = (req, res, next) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = (req, res, next) => {
+    var dataErr = {};
     var id = req.params.id, gender = req.body.gender, bio = req.body.bio;
     // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
     
-    User.UserIdModel(id).then(([user]) => {
+    User.UserIdModel(req.params.id).then(([user]) => {
         // console.log(user);
         // with help of id user , insert into table users a new field gender and bio...
         // inser name tag into table tag
         // after insert id table user and id table tab into (n,n) table tag_user
         // next step
-        if (user.length){
-            user.map(el => {
-                User.fillProfilUpdate(gender, bio, id).then(([UpRes]) => {
-                    console.log(UpRes);
-                }).catch(err => console.log(err));
-                console.log(el.id);
-            })
-        }
+        User.fillProfilUpdate(gender, bio, id).then(([UpRes]) => {
+            if (UpRes.changedRows === 1)
+                res.json({msg: "Insert done perfectly"});
+            else
+                dataErr.msg = "Nothing changed";
+            
+        })
+    });
+    if (req.body.tag.charAt(0) === '#'){
+        Tag.tagExists(req.body.tag).then(([tagRes]) => {
+            console.log(tagRes);
+            if (!tagRes.length){
+                const tag = new Tag(null, req.body.tag);
+                tag.save().then(([tagRes]) => {
+                    console.log(tagRes);
+                });
+            }else
+                dataErr.msgTag = "Already exists";
+            console.log(dataErr);
+        });
+    }
+    res.json(dataErr);
     //     if (user.length){
     //         Profil.profilIdModel(req.params.id).then(([fill]) => {
     //             if (!fill.length){
@@ -194,7 +221,6 @@ exports.fillProfil = (req, res, next) => {
     //         });
     //     }else
     //         res.send("Users doesn't exists.");
-    });
     // res.send("Enter a valid id");
 }
 
