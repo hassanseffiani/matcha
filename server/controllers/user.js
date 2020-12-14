@@ -31,7 +31,7 @@ exports.signUp = async (req, res, next) => {
     if (!checkErr.includes(1)){
         var vkey = Helpers.keyCrypto(req.body.userName);
         var url = "<a href='http://localhost:3001/users/confirm/"+vkey+"'>Confirm your email</a>";
-        const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey);
+        const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey, null, null);
         user.save().then(() => {
                 // Sending email before sending a response
                 let data = { 'email' : req.body.email, 'url' : url };
@@ -150,6 +150,45 @@ exports.confirmUser = (req, res, next) => {
     }
     ).catch(err => console.log(err));
 }
+
+
+// Fill profil with help of id just for test
+
+exports.fillProfil = (req, res, next) => {
+    console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
+    
+    User.UserIdModel(req.params.id).then(([user]) => {
+        console.log(user);
+        // with help of id user , insert into table users a new field gender and bio...
+        // inser name tag into table tag
+        // after insert id table user and id table tab into (n,n) table tag_user
+        // next step
+    //     if (user.length){
+    //         Profil.profilIdModel(req.params.id).then(([fill]) => {
+    //             if (!fill.length){
+    //                 console.log(req.body.tag);
+    //                 // adding some tag of users
+    //                 // Tag.tagIdModel(req.params.id).then(([tag]) => {
+    //                     // if (!tag.length){
+    //                         // console.log(tag);
+    //                     // }
+    //                 // })
+
+    //                 // add new  insformation to profil
+    //                 const profil = new Profil(null , req.params.id, req.body.gender, req.body.bio);
+    //                 profil.save().then(() => {
+    //                     res.send("Profil Complet");
+    //                 });
+    //             }
+    //             else
+    //                 res.send("Profil already exists.");
+    //         });
+    //     }else
+    //         res.send("Users doesn't exists.");
+    });
+    // res.send("Enter a valid id");
+}
+
 
 // edit to work with jwt
 

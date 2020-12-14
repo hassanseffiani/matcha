@@ -1,7 +1,7 @@
 const db = require('../util/database');
 
 module.exports = class User {
-    constructor(id, email, userName, firstName, lastName, password, vkey) {
+    constructor(id, email, userName, firstName, lastName, password, vkey, gender, bio) {
         this.id = id;
         this.email = email;
         this.userName = userName;
@@ -9,11 +9,13 @@ module.exports = class User {
         this.lastName = lastName;
         this.password = password;
         this.vkey = vkey;
+        this.gender = gender;
+        this.bio = bio;
     }
     
     save() {
-        return db.execute('INSERT INTO users(email, userName, firstName, lastName, password, vkey) VALUES(?, ?, ?, ?, ?, ?)'
-        , [this.email, this.userName, this.firstName, this.lastName, this.password, this.vkey]);
+        return db.execute('INSERT INTO users(email, userName, firstName, lastName, password, vkey, gender, bio) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
+        , [this.email, this.userName, this.firstName, this.lastName, this.password, this.vkey, this.gender, this.bio]);
     };
     
     static fetchAll(cb) {
