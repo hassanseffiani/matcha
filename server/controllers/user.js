@@ -166,62 +166,39 @@ exports.confirmUser = (req, res, next) => {
 
 // Fill profil with help of id just for test
 
-exports.fillProfil = (req, res, next) => {
+exports.fillProfil = async (req, res, next) => {
+    // need some wotk after adding react ...
     var dataErr = {};
+    let idTag;
     var id = req.params.id, gender = req.body.gender, bio = req.body.bio;
     // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
-    
     User.UserIdModel(req.params.id).then(([user]) => {
-        // console.log(user);
-        // with help of id user , insert into table users a new field gender and bio...
-        // inser name tag into table tag
-        // after insert id table user and id table tab into (n,n) table tag_user
-        // next step
         User.fillProfilUpdate(gender, bio, id).then(([UpRes]) => {
             if (UpRes.changedRows === 1)
                 res.json({msg: "Insert done perfectly"});
             else
                 dataErr.msg = "Nothing changed";
-            
         })
     });
+    await Tag.tagExists(req.body.tag).then(([tagRes]) => { tagRes.map(el => { idTag = el.id; });})
     if (req.body.tag.charAt(0) === '#'){
         Tag.tagExists(req.body.tag).then(([tagRes]) => {
-            console.log(tagRes);
             if (!tagRes.length){
                 const tag = new Tag(null, req.body.tag);
-                tag.save().then(([tagRes]) => {
-                    console.log(tagRes);
+                tag.save().then(() => {
+                    Tag.getLastOne().then(([last]) => { last.map(el => {
+                        // console.log(el.id);
+                        Tag.cmpIdTag(el.id).then(([exTag]) => { (!exTag.length) ? Tag.insertInTagUser(id, el.id) : ''; });     
+                    })});
                 });
-            }else
+            }else{
                 dataErr.msgTag = "Already exists";
-            console.log(dataErr);
+            }
+            // console.log("test");
         });
     }
+    
     res.json(dataErr);
-    //     if (user.length){
-    //         Profil.profilIdModel(req.params.id).then(([fill]) => {
-    //             if (!fill.length){
-    //                 console.log(req.body.tag);
-    //                 // adding some tag of users
-    //                 // Tag.tagIdModel(req.params.id).then(([tag]) => {
-    //                     // if (!tag.length){
-    //                         // console.log(tag);
-    //                     // }
-    //                 // })
-
-    //                 // add new  insformation to profil
-    //                 const profil = new Profil(null , req.params.id, req.body.gender, req.body.bio);
-    //                 profil.save().then(() => {
-    //                     res.send("Profil Complet");
-    //                 });
-    //             }
-    //             else
-    //                 res.send("Profil already exists.");
-    //         });
-    //     }else
-    //         res.send("Users doesn't exists.");
-    // res.send("Enter a valid id");
 }
 
 
