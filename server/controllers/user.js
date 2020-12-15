@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 // next time ....
 
 // add more information to profile:
-// gendre, orientation sexuelle, bio, liste d'interets{#bio ...}
+// orientation sexuelle
 // images 5 max profil photos
 
 // user can edit his information...
@@ -22,6 +22,7 @@ const jwt = require('jsonwebtoken');
 // user need to have a score of popularite.
 
 // user doit etre geolocalise, if the user don't want to be geo,find a way to
+
 // do it `_`.
 
 // **********************************************************

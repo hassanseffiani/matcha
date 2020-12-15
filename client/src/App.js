@@ -7,6 +7,11 @@ import Signup from "./component/Sign-in/Sign-in";
 import Header from "./component/layout/Header";
 import {BrowserRouter as Router, Route}from 'react-router-dom';
 
+// need to work on all component
+// .....
+
+
+
 class App extends Component {
   state = {
     userName: '',
