@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 
 // add more information to profile:
 // orientation sexuelle
+// Need more work
 // images 5 max profil photos
 
 // user can edit his information...
@@ -168,24 +169,29 @@ exports.confirmUser = (req, res, next) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = async (req, res, next) => {
+    // To work with image ********************************
+    // console.log(req.file);
+    // res.set('Content-Type', 'image/png');
+    // res.send('<img src=${req.file.path} width="500"></img>');
+    // **************************************************
     // need some wotk after adding react ...
     var dataErr = {};
     let idTag;
-    var id = req.params.id, gender = req.body.gender, bio = req.body.bio;
+    var id = req.params.id, gender = req.body.gender, bio = req.body.bio, tagName = req.body.tag;
     // console.log("   id :  " + req.params.id + "   gender :  " +  req.body.gender + "   bio :  " +  req.body.bio);
     User.UserIdModel(req.params.id).then(([user]) => {
         User.fillProfilUpdate(gender, bio, id).then(([UpRes]) => {
             if (UpRes.changedRows === 1)
-                res.json({msg: "Insert done perfectly"});
+                dataErr.msg = "Insert done perfectly";
             else
                 dataErr.msg = "Nothing changed";
         })
     });
-    await Tag.tagExists(req.body.tag).then(([tagRes]) => { tagRes.map(el => { idTag = el.id; });})
-    if (req.body.tag.charAt(0) === '#'){
-        Tag.tagExists(req.body.tag).then(([tagRes]) => {
+    await Tag.tagExists(tagName).then(([tagRes]) => { tagRes.map(el => { idTag = el.id; });})
+    if (tagName.charAt(0) === '#'){
+        Tag.tagExists(tagName).then(([tagRes]) => {
             if (!tagRes.length){
-                const tag = new Tag(null, req.body.tag);
+                const tag = new Tag(null, tagName);
                 tag.save().then(() => {
                     Tag.getLastOne().then(([last]) => { last.map(el => {
                         // console.log(el.id);
@@ -193,14 +199,41 @@ exports.fillProfil = async (req, res, next) => {
                     })});
                 });
             }else{
+                Tag.tagIdModel(id, tagName).then(([userTag]) => {
+                    if (!userTag.length)
+                        Tag.getLastOne().then(([last]) => { last.map(el => { Tag.insertInTagUser(id, el.id) }); });     
+                });
                 dataErr.msgTag = "Already exists";
             }
-            // console.log("test");
         });
     }
     
     res.json(dataErr);
 }
+
+// edit password
+
+exports.editPassword = (req, res) => {
+    var dataErr = {};
+    console.log(res.locals.user[0]);
+    (!res.locals.user[0]) ? console.log("t") : console.log("t1");
+
+    // if (!res.locals.user[0].length)
+        // dataErr.msg = "Not connected";
+    // else
+        // dataErr.msg = "connected";
+    res.locals.user[0].map(el => {
+        if (!el.length)
+            dataErr.msg = "Not connected";
+        else{
+
+            console.log(el);
+            console.log(req.body.oldP, req.body.newP, req.body.conP)
+        }
+    });
+    res.json(dataErr);
+}
+
 
 
 // edit to work with jwt

@@ -1,9 +1,16 @@
 const userController = require('../controllers/user');
 const validator = require('../controllers/validator');
+const authVrfy = require('../controllers/autMiddleware');
 
 const express = require('express');
 const route = express.Router();
 
+// Images ***************************************************
+// add package multer to upload image
+// const multer  = require('multer')
+// multer destination folder
+// const upload = multer({ dest: '../public/uploads/' })
+//**********************************************************
 
 // get signUp
 route.get('/users/signup'); // .....
@@ -23,13 +30,17 @@ route.post('/users/sendForget', validator.validationInput, userController.sendFo
 //  post forget password
 route.post('/users/forget/:vkey', userController.forgetPassword);
 
+//  edit password logged
+route.post('/users/editpassword/', authVrfy.requireAuth, userController.editPassword);
+
 // get confirm account
 
 route.get('/users/confirm/:vkey', userController.confirmUser);
 
 // post fill profil
 
-route.post('/users/profil/:id', userController.fillProfil);
+// route.post('/users/profil/:id' ,userController.fillProfil);
+//, upload.single('img') helper images
 
 // post logout button
 
