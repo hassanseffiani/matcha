@@ -15,8 +15,10 @@ exports.index = (req, res, next) => {
 // edit password
 
 exports.editPassword = (req, res) => {
+    var dataErr = {};
+    dataErr.input = {...res.locals.input};
     res.locals.user[0].map(async(el) => {
-        var dataErr = {}, id = el.id, oldP = req.body.password, newP = req.body.newPassword, cnfP = req.body.cnfrmPassword;
+        var id = el.id, oldP = req.body.password, newP = req.body.newPassword, cnfP = req.body.cnfrmPassword;
         var psText;
         try {
             await User.UserIdModel(id).then( ([user]) => {user.map(el => psText = el.password)});
@@ -35,7 +37,15 @@ exports.editPassword = (req, res) => {
             console.log(error);
         }
     });
+}
 
-    // still one case res.locals.input that content all error handled by the controller validator
-    // console.log(res.locals.input);
+// edit profil
+
+exports.editProfil = (req, res) => {
+    //to work with ......
+    var dataErr = {};
+    console.log("test params : " + req.body.userName + " " + req.body.email + " " + req.body.firstName + " " + req.body.lastName + " " + req.body.bio);
+
+    dataErr.input = {...res.locals.input};
+    res.json(dataErr);
 }
