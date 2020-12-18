@@ -29,8 +29,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(authRoutes);
-app.use(userRoutes);
 app.use(homeRoutes);
+app.use(userRoutes);
 app.use(errRoutes)
 
 

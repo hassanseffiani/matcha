@@ -36,24 +36,9 @@ exports.sendmail = (data) => {
     };
 
     transporter.sendMail(mailOptions);
-
-    /// if you want to see result of send....
-    
-    // , function(error, info){
-    //     if (error) {
-    //         console.log(error);
-    //         res.send('error') // if error occurs send error as response to client
-    //     }
-    //     else {
-    //         console.log('Email sent: ' + info.response);
-    //         res.send('Sent Successfully')//if mail is sent successfully send Sent successfully as response
-    //     }
-    // });
-
 }
 
 // Create a key for validation
-
 
 exports.keyCrypto = (text) => {
     const crypto = require('crypto');

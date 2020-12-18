@@ -1,6 +1,5 @@
 const User = require('../models/userData');
 const Tag = require('../models/tagData');
-// const Profil = require('../models/profilData');
 const Helpers = require('../util/Helpers');
 const jwt = require('jsonwebtoken');
 
@@ -39,7 +38,7 @@ exports.signUp = async (req, res, next) => {
         return (el['userNameErr'] === undefined && el['emailErr'] === undefined && el['passErr'] === undefined) ? 0 : 1;
     });
     // object that content all data nessessary
-    toSend = {...dataErr, ...res.locals};
+    toSend = {...dataErr, ...res.locals.input};
     console.log(toSend);
     
     if (!checkErr.includes(1)){
@@ -98,12 +97,12 @@ exports.sendForget = async (req, res, next) => {
     tmp.push(dataErr);
     const checkErr = tmp.map(el => { return (el['emailErr'] === undefined) ? 0 : 1; });
     // merge error from res.locals from validator controller
-    var tmp1 = []; tmp1.push(res.locals);
+    var tmp1 = []; tmp1.push(res.locals.input);
     const checkErr1 = tmp1.map(el => { 
         return (el['validEmailErr'] === undefined) ? 0 : 1; });
     // Show the big problem then we will deleete the first error if this is one,
     if (checkErr1.includes(1))
-        dataErr = {...res.locals};
+        dataErr = {...res.locals.input};
     // Send a new verification to the user
     if (!checkErr.includes(1)){
         // need more work ....
@@ -210,31 +209,6 @@ exports.fillProfil = async (req, res, next) => {
     
     res.json(dataErr);
 }
-
-// edit password
-
-exports.editPassword = (req, res) => {
-    var dataErr = {};
-    console.log(res.locals.user[0]);
-    (!res.locals.user[0]) ? console.log("t") : console.log("t1");
-
-    // if (!res.locals.user[0].length)
-        // dataErr.msg = "Not connected";
-    // else
-        // dataErr.msg = "connected";
-    res.locals.user[0].map(el => {
-        if (!el.length)
-            dataErr.msg = "Not connected";
-        else{
-
-            console.log(el);
-            console.log(req.body.oldP, req.body.newP, req.body.conP)
-        }
-    });
-    res.json(dataErr);
-}
-
-
 
 // edit to work with jwt
 
