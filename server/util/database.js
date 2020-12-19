@@ -1,11 +1,11 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-    host: 'localhost', // ip of docker machine
+    host: '192.168.99.124', // ip of docker machine
     // port: '3306',
     user: 'root',
     database: 'Matcha',
-    password: ''
+    password: 'tiger'
 });
 
 module.exports = pool.promise();
