@@ -16,21 +16,5 @@
 # curl https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso -o boot2docker.iso
 # mv boot2docker.iso goinfre/.docker/machine/cache/
 # docker-machine create --driver virtualbox default
-
 # mv .docker goinfre
 # ln -s goinfre/.docker .docker
-# docker run --name mysql -v ~/server/mysqlSharedVolume:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=tiger -p 3306:3306 -d mysql
-# docker exec -it mysql bash
-# docker run --name myadmin -d --link mysql:db -e PMA_ARBITRARY=1 -p 8080:80 phpmyadmin
-# ocker start mysql
-# ocker start myadmin
-# eval $(docker-machine env default)
-# docker-machine start
-
-
-
-
-
-
-
-

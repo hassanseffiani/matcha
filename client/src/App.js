@@ -33,7 +33,7 @@ class App extends Component {
                 <Header />
                 <Route exact path="/" render={props => (
                   <React.Fragment>
-                      <h1>Home Page</h1>
+                      <h1>Home Pag</h1>
                   </React.Fragment>
                 )} />
                 <Route path="/Users" component={Users}/>

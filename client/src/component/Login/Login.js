@@ -14,25 +14,25 @@ class Login extends Component {
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
-    componentDidMount = () => {
-        Axios.get("http://localhost:3001/users/login").then(response => {
-            // console.log(response);
-        }); 
-    }
+    // componentDidMount = () => {
+    //     Axios.get("http://localhost:3001/users/login").then(response => {
+    //         // console.log(response);
+    //     }); 
+    // }
     login = (e) => {
         e.preventDefault();
         Axios.post("http://localhost:3001/users/login",{
             userName: this.state.userName,
             password: this.state.password
         }).then((response) => {
-            // console.log(response);
-            if (response)
-                this.setState({errMsg: response.data})
-            else
-                this.setState({errMsg: ''})
-            //redirection to home page after sending a session user
-            if (this.state.errMsg === "You're In Now!!")
-                this.setState({redirect: "/"})
+            console.log(response.data);
+            // if (response)
+            this.setState({errMsg: response.data})
+            // else
+            //     this.setState({errMsg: ''})
+            // //redirection to home page after sending a session user
+            // if (this.state.errMsg === "You're In Now!!")
+            //     this.setState({redirect: "/"})
         })
         
     }
@@ -43,13 +43,13 @@ class Login extends Component {
         return (
             <form method="POST" className="form-signin" onSubmit={this.login}>
                 {/* <h1 className="h3 mb-3 font-weight-normal">Login</h1> */}
-                <p>{this.state.userName}</p>
+                {/* <p>{this.state.userName}</p> */}
                 <div className="form-group">
                     <label htmlFor="inputUserName" className="sr-only">Username</label>
                     <input type="text" name="userName" onChange={this.onChange.bind(this)} value={this.state.userName} id="inputUserName" className="form-control" placeholder="Username" required autoFocus />
                 </div>
                 
-                <p>{this.state.password}</p>
+                {/* <p>{this.state.password}</p> */}
                 <div className="form-group">
                     <label htmlFor="inputPassword" className="sr-only">Password</label>
                     <input type="password" name="password" onChange={this.onChange.bind(this)} value={this.state.password} id="inputPassword" className="form-control" placeholder="Password" required />
