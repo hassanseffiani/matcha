@@ -33,13 +33,12 @@ exports.signUp = async (req, res, next) => {
     await User.UserNameModel(req.body.userName).then(([user]) => { user.map(el => {(el.userName === req.body.userName) ? dataErr.userNameErr = "Username already exist !" : '' })});
     await User.UserEmailModel(req.body.email).then(([user]) => { user.map(el => {(el.email === req.body.email) ? dataErr.emailErr = "email already exist !" : '' })});
     (req.body.password !== req.body.cnfrmPassword) ? dataErr.passErr = "Confirm Your Password!" : '';
-    tmp.push(dataErr);
-    const checkErr = tmp.map(el => {
-        return (el['userNameErr'] === undefined && el['emailErr'] === undefined && el['passErr'] === undefined) ? 0 : 1;
-    });
-    // object that content all data nessessary
     toSend = {...dataErr, ...res.locals.input};
-    console.log(toSend);
+    tmp.push(toSend);
+    const checkErr = tmp.map(el => {
+        console.log(el);
+        return (el['userNameErr'] === undefined && el['emailErr'] === undefined && el['passErr'] === undefined && el['validEmailErr'] === undefined && el['validUserNameErr'] === undefined && el['validFirstNameErr'] === undefined && el['validLastNameErr'] === undefined && el['validPassErr'] === undefined && el['validCnfpErr'] === undefined) ? 0 : 1;
+    });
     
     if (!checkErr.includes(1)){
         var vkey = Helpers.keyCrypto(req.body.userName);
@@ -52,7 +51,7 @@ exports.signUp = async (req, res, next) => {
                 res.status(201).json(user);
         }).catch(err => console.log(err));
     }else{
-        // send error object to react
+    //     // send error object to react
         res.json(toSend);
     }
 };
