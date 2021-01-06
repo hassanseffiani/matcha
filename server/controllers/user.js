@@ -66,7 +66,11 @@ const createtoken = (id) => {
 // User login
 
 exports.postLogin = async (req, res, next) => {
-    User.UserNameModel(req.body.userName).then(
+    var dataErr = {}, toSend = {}
+    // await User.UserNameModel(req.body.userName).then(([user]) => { user.map(el => {(el.userName === req.body.userName) ? dataErr.validUserNameErr = "Username already exist !" : '' })});
+
+
+    await User.UserNameModel(req.body.userName).then(
         ([user]) => {
             if (user.length){
                 user.map(el => {
@@ -79,12 +83,16 @@ exports.postLogin = async (req, res, next) => {
                             res.status(400).json({});
                         }
                     }else
-                        res.send("Username or Password is incorrect");
+                        dataErr.errorGlobal = "Username or Password is incorrect"
                 });
             }else
-                res.send("Username incorrect");
+                dataErr.errorGlobal = "Username or Password is incorrect"
         }
     ).catch(err => console.log(err));
+    if (Object.keys(dataErr).length !== 0){
+        toSend = { ...dataErr, ...res.locals.input};
+        res.json(toSend)
+    }
 }
 
 // snedForget password

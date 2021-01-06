@@ -41,7 +41,7 @@ const useStyles = theme => ({
 
 class Login extends Component {
     state = {
-        errMsg: '',
+        errMsg: {},
         userName: '',
         password: '',
         redirect: null,
@@ -58,21 +58,26 @@ class Login extends Component {
     //     }); 
     // }
 
-    login = (e) => {
+    login = async (e) => {
         e.preventDefault()
-        Axios.post("http://localhost:3001/users/login",{
+        await Axios.post("http://localhost:3001/users/login",{
             userName: this.state.userName,
             password: this.state.password
         }).then((response) => {
-            console.log(response.data);
             // if (response)
+            console.log(response.data)
             this.setState({errMsg: response.data})
+            
             // else
             //     this.setState({errMsg: ''})
             // //redirection to home page after sending a session user
             // if (this.state.errMsg === "You're In Now!!")
             //     this.setState({redirect: "/"})
         })
+        // console.log(this.test(this.state.errMsg, "user"))
+        Object.keys(this.state.errMsg).forEach((key) => {
+          key === "user" ? this.setState({redirect: "/"}) : ""
+        });
     }
     render() {
         if (this.state.redirect){
@@ -91,17 +96,22 @@ class Login extends Component {
                 <Typography component="h1" variant="h5">
                   Sign in
                 </Typography>
+                <Typography variant="subtitle2" gutterBottom color="secondary">
+                  {this.state.errMsg.errorGlobal}
+                </Typography>
                 <form method="POST" className={classes.form} onSubmit={this.login}>
                       {/* <p>{this.state.password}</p> */} 
                   <TextField
                     variant="outlined" margin="normal" required fullWidth id="inputUserName"
                     label="User Name" name="userName" autoComplete="userName" autoFocus
                     onChange={this.onChange.bind(this)} value={this.state.userName}
+                    helperText={this.state.errMsg.validUserNameErr} error={this.state.errMsg.validUserNameErr !== undefined}
                   />
                   <TextField
                     variant="outlined" margin="normal" required fullWidth name="password"
                     label="Password" type="password" id="inputPassword" autoComplete="current-password"
                     onChange={this.onChange.bind(this)} value={this.state.password}
+                    helperText={this.state.errMsg.validPassErr} error={this.state.errMsg.validPassErr !== undefined}
                   />
                   <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
@@ -118,14 +128,18 @@ class Login extends Component {
                   </Button>
                   <Grid container>
                     <Grid item xs>
-                      <Link to="\Sign-up" variant="body2">
-                        Forgot password?
-                      </Link>
+                      <Typography variant="body2">>
+                          <Link to="#">
+                            Forgot password?
+                          </Link>
+                      </Typography>
                     </Grid>
                     <Grid item>
-                      <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                      </Link>
+                      <Typography variant="body2">>
+                        <Link to="/Sign-up">
+                          "Don't have an account? Sign Up"
+                        </Link>
+                      </Typography>
                     </Grid>
                   </Grid>
                 </form>

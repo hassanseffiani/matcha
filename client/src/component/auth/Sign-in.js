@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { Chip, FormControlLabel , Checkbox, Button, Grid, TextField, Typography, Avatar, Container, CssBaseline } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { LockOutlined } from '@material-ui/icons'
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import ImgIcons from '../helpers/icon'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import TwitterIcon from '@material-ui/icons/Twitter'
@@ -43,11 +43,17 @@ class Signup extends Component{
         password: '',
         cnfrmPassword: '',
         errMsg: {},
-        valid: false
+        redirect: null,
+        valid: false,
+        pass: 0
     };
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
+        if (this.state.pass === 1)
+            Object.keys(this.state.errMsg).length !== 0 ? this.setState({valid: true}) : console.log("nothting")
+        if (this.state.valid)
+            this.setState({redirect: "/login"})
     }
 
     handelGoogle = () => {
@@ -67,11 +73,14 @@ class Signup extends Component{
         }
         ).then((response) => {
             // response.data.map(el => {
-                // this.setState({errUserName: el})
+            // this.setState({errUserName: el})
             // })
             // const { userNameErr, emailErr, passErr, validEmailErr, validUserNameErr, validFirstNameErr, validLastNameErr, validPassErr, validCnfpErr } = response.data
             this.setState({errMsg: response.data})
+            if (this.state.pass === 0)
+                this.setState({pass: 1})
         })
+        // Object.keys(this.state.errMsg).length !== 0 ? this.setState({valid: false}) : console.log("nothting")
     }
     render(){
         //modify icons auth2....
@@ -81,6 +90,10 @@ class Signup extends Component{
         const concat3 = (this.state.errMsg.passErr === undefined && this.state.errMsg.validCnfpErr === undefined ? '' : `${this.state.errMsg.passErr} ${this.state.errMsg.validCnfpErr}`.replace('undefined',''))
         // Object.keys(this.state.errMsg).length === 0 ? <Redirect push to="/login" /> : console.log("test1")
         // to work with registration see anass part to merget 
+        console.log("after render : ", this.state.valid);
+        if (this.state.redirect){
+            return <Redirect to={this.state.redirect} />
+        }
         return(
             <Container className={classes.copy} component="main" maxWidth="xs">
                  <CssBaseline />
