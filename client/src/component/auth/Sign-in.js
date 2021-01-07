@@ -44,16 +44,15 @@ class Signup extends Component{
         cnfrmPassword: '',
         errMsg: {},
         redirect: null,
-        valid: false,
         pass: 0
     };
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
-        if (this.state.pass === 1)
-            Object.keys(this.state.errMsg).length !== 0 ? this.setState({valid: true}) : console.log("nothting")
-        if (this.state.valid)
-            this.setState({redirect: "/login"})
+        // if (this.state.pass === 1)
+        //     Object.keys(this.state.errMsg).length !== 0 ? this.setState({valid: true}) : console.log("nothting")
+        // if (this.state.valid)
+        //     this.setState({redirect: "/login"})
     }
 
     handelGoogle = () => {
@@ -62,7 +61,7 @@ class Signup extends Component{
 
     signup = (e) => {
         e.preventDefault();
-        Axios.post("http://localhost:3001/users/signup",
+        Axios.post("users/signup",
         {
             email: this.state.email,
             userName: this.state.userName,
@@ -77,23 +76,26 @@ class Signup extends Component{
             // })
             // const { userNameErr, emailErr, passErr, validEmailErr, validUserNameErr, validFirstNameErr, validLastNameErr, validPassErr, validCnfpErr } = response.data
             this.setState({errMsg: response.data})
-            if (this.state.pass === 0)
-                this.setState({pass: 1})
+            // if (this.state.pass === 0)
+            //     this.setState({pass: 1})
         })
         // Object.keys(this.state.errMsg).length !== 0 ? this.setState({valid: false}) : console.log("nothting")
     }
+
+    componentDidMount(){
+        if (localStorage.getItem('token') !== null)
+          this.setState({redirect: "/"})
+    }
+
     render(){
-        //modify icons auth2....
         const { classes } = this.props
         const concat1 = (this.state.errMsg.emailErr === undefined && this.state.errMsg.validEmailErr === undefined ? '' : `${this.state.errMsg.emailErr} ${this.state.errMsg.validEmailErr}`.replace('undefined',''))
         const concat2 = (this.state.errMsg.userNameErr === undefined && this.state.errMsg.validUserNameErr === undefined ? '' : `${this.state.errMsg.userNameErr} ${this.state.errMsg.validUserNameErr}`.replace('undefined',''))
         const concat3 = (this.state.errMsg.passErr === undefined && this.state.errMsg.validCnfpErr === undefined ? '' : `${this.state.errMsg.passErr} ${this.state.errMsg.validCnfpErr}`.replace('undefined',''))
         // Object.keys(this.state.errMsg).length === 0 ? <Redirect push to="/login" /> : console.log("test1")
         // to work with registration see anass part to merget 
-        console.log("after render : ", this.state.valid);
-        if (this.state.redirect){
+        if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
-        }
         return(
             <Container className={classes.copy} component="main" maxWidth="xs">
                  <CssBaseline />

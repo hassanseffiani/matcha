@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 
 
 // **********************************************************
-// User signUp
-// next time ....
 
 // add more information to profile:
 // orientation sexuelle
@@ -36,13 +34,12 @@ exports.signUp = async (req, res, next) => {
     toSend = {...dataErr, ...res.locals.input};
     tmp.push(toSend);
     const checkErr = tmp.map(el => {
-        console.log(el);
         return (el['userNameErr'] === undefined && el['emailErr'] === undefined && el['passErr'] === undefined && el['validEmailErr'] === undefined && el['validUserNameErr'] === undefined && el['validFirstNameErr'] === undefined && el['validLastNameErr'] === undefined && el['validPassErr'] === undefined && el['validCnfpErr'] === undefined) ? 0 : 1;
     });
     
     if (!checkErr.includes(1)){
         var vkey = Helpers.keyCrypto(req.body.userName);
-        var url = "<a href='http://localhost:3001/users/confirm/"+vkey+"'>Confirm your email</a>";
+        var url = "<a href='http://localhost:3000/confirm/"+vkey+"'>Confirm your email</a>";
         const user = new User(null ,req.body.email, req.body.userName, req.body.firstName, req.body.lastName, Helpers.keyBcypt(req.body.password), vkey, null, null);
         user.save().then(() => {
                 // Sending email before sending a response
@@ -78,7 +75,7 @@ exports.postLogin = async (req, res, next) => {
                         try {
                             const token = createtoken(el.id);
                             res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                            res.status(201).json({user: el.id});
+                            res.status(201).json({status: "success", user: el.id, token});
                         } catch (err) {
                             res.status(400).json({});
                         }
@@ -155,7 +152,9 @@ exports.forgetPassword = async (req, res, next) => {
 exports.confirmUser = (req, res, next) => {
     var dataErr = {};
     //confirm work not perfectly nedd some work
+    console.log("test")
     User.validateUser(req.params.vkey).then(([vKey]) => {
+
         if (vKey.changedRows === 1){
             dataErr.msg = "You can login now !";
             dataErr.url = "/users/login";
@@ -219,7 +218,20 @@ exports.fillProfil = async (req, res, next) => {
 
 // edit to work with jwt
 
+
+//need some change work with cookies
+
 exports.logout = (req, res) => {
-    res.cookie('jwt', '', { maxAge: 1});
-    res.redirect('/');
+    // res.cookie('jwt', '', { maxAge: 1});
+    // res.clearCookie("jwt");
+    delete req.header
+    res.json({status : 'Success' })
+    // res.send('');
 }
+
+// localStorage.clear()
+
+// exports.checkLogin = (req, res) => {
+//     res.send(req.cookies)
+//     // console.log(req.cookies)
+// }

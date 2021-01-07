@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios'
 import { Link } from 'react-router-dom';
 import { Button, IconButton, Switch, AppBar, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -36,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(-1),
   }
 }));
+
+const handelLogout = () => {
+  localStorage.clear()
+  Axios.post('logout')
+}
+
 const Header = (props) => {
   const classes = useStyles(props)
   return (
@@ -59,7 +66,7 @@ const Header = (props) => {
             <Link to="/Sign-up" style={{ textDecoration: 'none' }}> Sign-up </Link>
           </Button>
           <Button className={classes.btnColor}>
-            <Link to="/logout" style={{ textDecoration: 'none' }}> logout </Link>
+            <Link to="/Login" style={{ textDecoration: 'none' }} onClick={() => handelLogout()}> logout </Link>
           </Button>
           <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
           {props.darkMode ? <Brightness4 /> : <Brightness7 />}

@@ -8,9 +8,10 @@ const Helpers = require('../util/Helpers');
 exports.index = (req, res, next) => {
     res.locals.user[0].map(el => {
         // console.log(el);
-
+        res.json(res.locals.user[0])
     });
-    res.send("Home route");    
+    if (Object.keys(res.locals.user[0]).length === 0)
+        res.send("Home route");    
 }
 
 // edit password

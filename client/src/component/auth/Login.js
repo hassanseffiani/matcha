@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Redirect } from "react-router-dom"
 import Axios from 'axios'
 import { Paper, FormControlLabel , Checkbox, Button, Grid, TextField, Typography, Avatar, CssBaseline } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { LockOutlined } from '@material-ui/icons'
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 // import imgMatcha from '../../assets/images/img.png';
 
@@ -52,37 +51,28 @@ class Login extends Component {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    // componentDidMount = () => {
-    //     Axios.get("http://localhost:3001/users/login").then(response => {
-    //         // console.log(response);
-    //     }); 
-    // }
-
     login = async (e) => {
         e.preventDefault()
-        await Axios.post("http://localhost:3001/users/login",{
+        await Axios.post("users/login",{
             userName: this.state.userName,
             password: this.state.password
         }).then((response) => {
-            // if (response)
-            console.log(response.data)
             this.setState({errMsg: response.data})
-            
-            // else
-            //     this.setState({errMsg: ''})
-            // //redirection to home page after sending a session user
-            // if (this.state.errMsg === "You're In Now!!")
-            //     this.setState({redirect: "/"})
+            localStorage.setItem('token', response.data.token);
+            if (response.data.user)
+              this.setState({redirect: "/"})
         })
-        // console.log(this.test(this.state.errMsg, "user"))
-        Object.keys(this.state.errMsg).forEach((key) => {
-          key === "user" ? this.setState({redirect: "/"}) : ""
-        });
     }
+
+    componentDidMount(){
+      if (localStorage.getItem('token') !== null)
+        this.setState({redirect: "/"})
+    }
+
     render() {
-        if (this.state.redirect){
+        if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
-        }
+          // return <Redirect to={this.state.redirect} />
         const { classes } = this.props
         return (
           <Grid container component="main" className={classes.root}>
@@ -128,15 +118,15 @@ class Login extends Component {
                   </Button>
                   <Grid container>
                     <Grid item xs>
-                      <Typography variant="body2">>
+                      <Typography variant="body2">
                           <Link to="#">
                             Forgot password?
                           </Link>
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography variant="body2">>
-                        <Link to="/Sign-up">
+                      <Typography variant="body2">
+                        <Link to="/SignIn">
                           "Don't have an account? Sign Up"
                         </Link>
                       </Typography>

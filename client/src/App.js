@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-// import Axios from 'axios';
 import './App.css';
 import Init from './start/init'
 
+
+
+// check if aleready loggin
+
+
 class App extends Component {
   // state = {
-  //   userName: '',
-  //   errMsg: '',
+  //   loggenin: ''
   // }
-  // componentDidMount = () => {
-  //   Axios.get("http://localhost:3001/").then(response => {
-  //     // console.log(response);
-  //     this.setState({userName : response.data});
-  //   }); 
-  // }
+  // login = () => this.setState({loggenin: true})
+  // logout = () => this.setState({loggenin: false})
+
   render() {
     return (
       <React.Fragment>

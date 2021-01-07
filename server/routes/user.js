@@ -1,6 +1,6 @@
 const userController = require('../controllers/user');
 const validator = require('../controllers/validator');
-const authVrfy = require('../controllers/autMiddleware');
+const authVrfy = require('../middleware/autMiddleware')
 
 const express = require('express');
 const route = express.Router();
@@ -42,5 +42,10 @@ route.get('/users/confirm/:vkey', userController.confirmUser);
 // post logout button
 
 route.post('/logout', userController.logout);
+
+// check if loggin
+
+// route.get('/user/checkLogin', userController.checkLogin);
+
 
 module.exports = route;
