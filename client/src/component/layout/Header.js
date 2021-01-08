@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button, IconButton, Switch, AppBar, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Menu, Brightness4, Brightness7} from '@material-ui/icons'
+const instance = Axios.create({ withCredentials : true})
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 const handelLogout = () => {
-  localStorage.clear()
-  Axios.post('logout')
+  instance.post('http://localhost:3001/logout')
 }
 
 const Header = (props) => {

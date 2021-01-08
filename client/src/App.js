@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import Init from './start/init'
+import { Copyright } from '@material-ui/icons';
 
 
-
-// check if aleready loggin
 
 
 class App extends Component {
-  // state = {
-  //   loggenin: ''
-  // }
-  // login = () => this.setState({loggenin: true})
-  // logout = () => this.setState({loggenin: false})
 
   render() {
     return (

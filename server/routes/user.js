@@ -45,7 +45,7 @@ route.post('/logout', userController.logout);
 
 // check if loggin
 
-// route.get('/user/checkLogin', userController.checkLogin);
+route.get('/users/checkLogin', userController.checkLogin);
 
 
 module.exports = route;

@@ -83,8 +83,17 @@ class Signup extends Component{
     }
 
     componentDidMount(){
-        if (localStorage.getItem('token') !== null)
-          this.setState({redirect: "/"})
+      this.checkLogin()
+    }
+    
+    checkLogin = () => {
+        Axios.get('http://localhost:3001/users/checkLogin', {withCredentials : true})
+        .then((response) => {
+            if(response.data.jwt)
+                this.setState({redirect: "/"})
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     render(){

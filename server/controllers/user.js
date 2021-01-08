@@ -88,7 +88,7 @@ exports.postLogin = async (req, res, next) => {
     ).catch(err => console.log(err));
     if (Object.keys(dataErr).length !== 0){
         toSend = { ...dataErr, ...res.locals.input};
-        res.json(toSend)
+        res.json({status: "fail", toSend})
     }
 }
 
@@ -154,20 +154,22 @@ exports.confirmUser = (req, res, next) => {
     //confirm work not perfectly nedd some work
     console.log("test")
     User.validateUser(req.params.vkey).then(([vKey]) => {
-
         if (vKey.changedRows === 1){
-            dataErr.msg = "You can login now !";
-            dataErr.url = "/users/login";
+            dataErr.status = "succes"
+            // dataErr.msg = "You can login now !";
+            dataErr.url = "/users/login"
         }else if (vKey.affectedRows === 1){
-            dataErr.msg = "Already verify";
-            dataErr.url = "/users/login";
+            dataErr.status = "fail"
+            // dataErr.msg = "Already verify";
+            dataErr.url = "/users/login"
         }else{
-            dataErr.msg = "You have been enable to verify your account";
-            dataErr.url = "/users/sendNewEmail";
+            dataErr.status = "fail"
+            // dataErr.msg = "You have been enable to verify your account";
+            dataErr.url = "/users/sendNewEmail"
         }
-        res.json(dataErr);
+        res.json(dataErr)
     }
-    ).catch(err => console.log(err));
+    ).catch(err => console.log(err))
 }
 
 
@@ -223,15 +225,14 @@ exports.fillProfil = async (req, res, next) => {
 
 exports.logout = (req, res) => {
     // res.cookie('jwt', '', { maxAge: 1});
-    // res.clearCookie("jwt");
-    delete req.header
+    res.clearCookie("jwt");
+    // delete req.header
     res.json({status : 'Success' })
     // res.send('');
 }
 
 // localStorage.clear()
 
-// exports.checkLogin = (req, res) => {
-//     res.send(req.cookies)
-//     // console.log(req.cookies)
-// }
+exports.checkLogin = (req, res) => {
+    res.send(req.cookies)
+}

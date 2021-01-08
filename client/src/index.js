@@ -10,7 +10,7 @@ import history from './history/history'
 
 
 Axios.defaults.baseURL = "http://localhost:3001/"
-Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+// Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>

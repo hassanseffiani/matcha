@@ -1,5 +1,6 @@
-import React, { useState }from 'react'
+import React, { useState, useEffect }from 'react'
 import Home from '../component/Home';
+// import Axios from 'axios'
 import Login from '../component/auth/Login';
 import Signup from "../component/auth/Sign-in";
 import Valid from "../component/auth/Valid";
@@ -24,6 +25,28 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 //
 
 const Init = () => {
+    //   const [loggedin, setLoggedin] = useState(false)
+    
+    //   const login = () => {setLoggedin(true)}
+    
+      //componen
+        useEffect(() => {
+            // const checkLogin = () => {
+            //     Axios.get('http://localhost:3001/user/checkLogin', {withCredentials : true})
+            //     .then((response) => {
+            //     if(response.data.jwt)
+            //         setLoggedin(true)
+            //         this.setState({loggedin : true});
+            //     else
+            //         setLoggedin(false)
+            //         // this.setState({loggedin : false});  
+                
+            //     }).catch((error) => {
+            //         console.log(error);
+            //     })
+            // }
+        })
+
     // const [isAuthed, isLoggenin] = useState(false)
 
     // useEffect(() => {
