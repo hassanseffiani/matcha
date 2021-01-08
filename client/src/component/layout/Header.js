@@ -39,43 +39,97 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(-1),
   }
 }));
-
-
 const handelLogout = () => {
   instance.post('http://localhost:3001/logout')
 }
 
-const Header = (props) => {
+const HeaderLoggedin = (props) => {
   const classes = useStyles(props)
+  
   return (
-    // Add margin to 0 in index.html
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar className={classes.marginTopOver}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Matcha
-          </Typography>
-          <Button className={classes.btnColor}>
-            <Link to="/Login" style={{ textDecoration: 'none' }}> Sign IN </Link>
-          </Button>
-          <Button className={classes.btnColor}>
-            <Link to="/" style={{ textDecoration: 'none' }}> Home </Link>
-          </Button>
-          <Button className={classes.btnColor}>
-            <Link to="/Sign-up" style={{ textDecoration: 'none' }}> Sign-up </Link>
-          </Button>
-          <Button className={classes.btnColor}>
-            <Link to="/Login" style={{ textDecoration: 'none' }} onClick={() => handelLogout()}> logout </Link>
-          </Button>
-          <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
-          {props.darkMode ? <Brightness4 /> : <Brightness7 />}
-        </Toolbar>
-      </AppBar>
-    </div>
-  )
+      <div className={classes.root}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar className={classes.marginTopOver}>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <Menu />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Matcha
+            </Typography>
+            <Button className={classes.btnColor}>
+              <Link to="/" style={{ textDecoration: 'none' }}> Home </Link>
+            </Button>
+            <Button className={classes.btnColor}>
+              <Link to="/Login" style={{ textDecoration: 'none' }} onClick={() => handelLogout()}> logout </Link>
+            </Button>
+            <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
+            {props.darkMode ? <Brightness4 /> : <Brightness7 />}
+          </Toolbar>
+        </AppBar>
+      </div>
+    )
 }
 
-export default Header;
+const HeaderLoggout = (props) => {
+  const classes = useStyles(props)
+  
+  return (
+      <div className={classes.root}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar className={classes.marginTopOver}>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <Menu />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Matcha
+            </Typography>
+            <Button className={classes.btnColor}>
+              <Link to="/Login" style={{ textDecoration: 'none' }}> Sign IN </Link>
+            </Button>
+            <Button className={classes.btnColor}>
+              <Link to="/Sign-up" style={{ textDecoration: 'none' }}> Sign-up </Link>
+            </Button>
+            <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
+            {props.darkMode ? <Brightness4 /> : <Brightness7 />}
+          </Toolbar>
+        </AppBar>
+      </div>
+    )
+}
+
+// const Header = (props) => {
+//   const classes = useStyles(props)
+  
+//   return (
+//     // Add margin to 0 in index.html
+    
+//     <div className={classes.root}>
+//       <AppBar position="static" className={classes.appBar}>
+//         <Toolbar className={classes.marginTopOver}>
+//           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+//             <Menu />
+//           </IconButton>
+//           <Typography variant="h6" className={classes.title}>
+//             Matcha
+//           </Typography>
+//           <Button className={classes.btnColor}>
+//             <Link to="/" style={{ textDecoration: 'none' }}> Home </Link>
+//           </Button>
+//           <Button className={classes.btnColor}>
+//             <Link to="/Login" style={{ textDecoration: 'none' }}> Sign IN </Link>
+//           </Button>
+//           <Button className={classes.btnColor}>
+//             <Link to="/Sign-up" style={{ textDecoration: 'none' }}> Sign-up </Link>
+//           </Button>
+//           <Button className={classes.btnColor}>
+//             <Link to="/Login" style={{ textDecoration: 'none' }} onClick={() => handelLogout()}> logout </Link>
+//           </Button>
+//           <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
+//           {props.darkMode ? <Brightness4 /> : <Brightness7 />}
+//         </Toolbar>
+//       </AppBar>
+//     </div>
+//   )
+// }
+
+export {HeaderLoggedin, HeaderLoggout}

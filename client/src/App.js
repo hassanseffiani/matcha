@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Init from './start/init'
-import { Copyright } from '@material-ui/icons';
-
-
-
 
 class App extends Component {
 

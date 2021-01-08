@@ -1,11 +1,11 @@
 import React, { useState, useEffect }from 'react'
 import Home from '../component/Home';
-// import Axios from 'axios'
+import Axios from 'axios'
 import Login from '../component/auth/Login';
 import Signup from "../component/auth/Sign-in";
 import Valid from "../component/auth/Valid";
-import Header from "../component/layout/Header";
-// import Footer from "../component/layout/Footer";
+import {HeaderLoggedin, HeaderLoggout} from "../component/layout/Header";
+import Footer from "../component/layout/Footer";
 import { Route }from 'react-router-dom';
 import { Grid } from "@material-ui/core"
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -25,27 +25,24 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 //
 
 const Init = () => {
-    //   const [loggedin, setLoggedin] = useState(false)
-    
-    //   const login = () => {setLoggedin(true)}
+      const [loggedin, setLoggedin] = useState(false)
+      const login = () => {setLoggedin(true)}
     
       //componen
         useEffect(() => {
-            // const checkLogin = () => {
-            //     Axios.get('http://localhost:3001/user/checkLogin', {withCredentials : true})
-            //     .then((response) => {
-            //     if(response.data.jwt)
-            //         setLoggedin(true)
-            //         this.setState({loggedin : true});
-            //     else
-            //         setLoggedin(false)
-            //         // this.setState({loggedin : false});  
-                
-            //     }).catch((error) => {
-            //         console.log(error);
-            //     })
-            // }
+            checkLogin()
         })
+        const checkLogin = () => {
+            Axios.get('http://localhost:3001/users/checkLogin', {withCredentials : true})
+            .then((response) => {
+                if(response.data.jwt)
+                    setLoggedin(true)
+                else
+                    setLoggedin(false)
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
 
     // const [isAuthed, isLoggenin] = useState(false)
 
@@ -71,12 +68,14 @@ const Init = () => {
           type: darkMode ? 'dark' : 'light'
         },
       });
-      return (  
+    console.log(loggedin)
+      return (
         <ThemeProvider theme={darkTheme}>
             <Grid container direction="column">
                 <Grid item>
                     {/* Add another props for header logging */}
-                    <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+                    {loggedin && <HeaderLoggedin darkMode={darkMode} setDarkMode={setDarkMode}/> }
+                    {!loggedin && <HeaderLoggout darkMode={darkMode} setDarkMode={setDarkMode}/> }
                 </Grid>
                 <Grid item container>
                     {/* remove xs={0} for error google ghrome */}
@@ -89,11 +88,11 @@ const Init = () => {
                     <Grid item sm={2} />
                 </Grid>
                 <Grid item container>
-                    <Route path="/Login" component={Login} />
+                    <Route path="/Login" component={() => <Login login={login} />} />
                 </Grid>
                 {/* <Route component={E404} /> */}
                 <Grid item xs={12}>
-                    {/* <Footer /> */}
+                    <Footer />
                 </Grid>
             </Grid>
         </ThemeProvider>
