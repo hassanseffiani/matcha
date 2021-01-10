@@ -60,6 +60,7 @@ class Login extends Component {
     password: "",
     redirect: null,
     data: [],
+    disabled: false,
   };
 
   onChange = (e) => {
@@ -77,8 +78,9 @@ class Login extends Component {
         // console.log(response)
         if (response.data.status === "fail")
           this.setState({ errMsg: response.data.toSend });
-        else if (response.data.status === "success")
+        else if (response.data.status === "success") {
           this.setState({ redirect: "/" });
+        }
       });
   };
 
@@ -119,7 +121,6 @@ class Login extends Component {
               {this.state.errMsg.errorGlobal}
             </Typography>
             <form method="POST" className={classes.form} onSubmit={this.login}>
-              {/* <p>{this.state.password}</p> */}
               <TextField
                 variant="outlined"
                 margin="normal"
