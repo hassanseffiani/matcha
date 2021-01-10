@@ -1,8 +1,5 @@
 import React from "react";
-import Axios from "axios";
-import { Link } from "react-router-dom";
 import {
-  Button,
   IconButton,
   Switch,
   AppBar,
@@ -11,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu, Brightness4, Brightness7 } from "@material-ui/icons";
-const instance = Axios.create({ withCredentials: true });
+import { Item1, Item2 } from "./res/menuItemcollapse"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,10 +46,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(-1),
   },
 }));
-const handelLogout = (logout) => {
-  instance.post("http://localhost:3001/logout");
-  logout();
-};
 
 const HeaderLoggedin = (props) => {
   const classes = useStyles(props);
@@ -67,30 +60,19 @@ const HeaderLoggedin = (props) => {
             aria-label="menu"
           >
             <Menu />
+            <Switch
+              checked={props.darkMode}
+              onChange={() => props.setDarkMode(!props.darkMode)}
+            />
+            {props.darkMode ? <Brightness4 /> : <Brightness7 />}
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Matcha
           </Typography>
-          <Button className={classes.btnColor}>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              {" "}
-              Home{" "}
-            </Link>
-          </Button>
-          <Button
-            className={classes.btnColor}
-            onClick={() => handelLogout(props.logout)}
-          >
-            <Link to="/Login" style={{ textDecoration: "none" }}>
-              {" "}
-              logout{" "}
-            </Link>
-          </Button>
-          <Switch
-            checked={props.darkMode}
-            onChange={() => props.setDarkMode(!props.darkMode)}
-          />
-          {props.darkMode ? <Brightness4 /> : <Brightness7 />}
+
+          {/* import all staff here  */}
+          <Item1 btnColor={classes.btnColor} logout={props.logout}/>
+
         </Toolbar>
       </AppBar>
     </div>
@@ -111,66 +93,23 @@ const HeaderLoggout = (props) => {
             aria-label="menu"
           >
             <Menu />
+          <Switch
+            checked={props.darkMode}
+            onChange={() => props.setDarkMode(!props.darkMode)}
+            />
+          {props.darkMode ? <Brightness4 /> : <Brightness7 />}
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Matcha
           </Typography>
-          <Button className={classes.btnColor}>
-            <Link to="/Login" style={{ textDecoration: "none" }}>
-              {" "}
-              Sign IN{" "}
-            </Link>
-          </Button>
-          <Button className={classes.btnColor}>
-            <Link to="/Sign-up" style={{ textDecoration: "none" }}>
-              {" "}
-              Sign-up{" "}
-            </Link>
-          </Button>
-          <Switch
-            checked={props.darkMode}
-            onChange={() => props.setDarkMode(!props.darkMode)}
-          />
-          {props.darkMode ? <Brightness4 /> : <Brightness7 />}
+
+            {/* import all staff here  */}
+          <Item2 btnColor={classes.btnColor} />
+
         </Toolbar>
       </AppBar>
     </div>
   );
 };
-
-// const Header = (props) => {
-//   const classes = useStyles(props)
-
-//   return (
-//     // Add margin to 0 in index.html
-
-//     <div className={classes.root}>
-//       <AppBar position="static" className={classes.appBar}>
-//         <Toolbar className={classes.marginTopOver}>
-//           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-//             <Menu />
-//           </IconButton>
-//           <Typography variant="h6" className={classes.title}>
-//             Matcha
-//           </Typography>
-//           <Button className={classes.btnColor}>
-//             <Link to="/" style={{ textDecoration: 'none' }}> Home </Link>
-//           </Button>
-//           <Button className={classes.btnColor}>
-//             <Link to="/Login" style={{ textDecoration: 'none' }}> Sign IN </Link>
-//           </Button>
-//           <Button className={classes.btnColor}>
-//             <Link to="/Sign-up" style={{ textDecoration: 'none' }}> Sign-up </Link>
-//           </Button>
-//           <Button className={classes.btnColor}>
-//             <Link to="/Login" style={{ textDecoration: 'none' }} onClick={() => handelLogout()}> logout </Link>
-//           </Button>
-//           <Switch checked={props.darkMode} onChange={() => props.setDarkMode(!props.darkMode)}/>
-//           {props.darkMode ? <Brightness4 /> : <Brightness7 />}
-//         </Toolbar>
-//       </AppBar>
-//     </div>
-//   )
-// }
 
 export { HeaderLoggedin, HeaderLoggout };

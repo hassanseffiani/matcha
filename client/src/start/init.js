@@ -56,21 +56,14 @@ const Init = (props) => {
           )}
         </Grid>
         <Grid item container>
-          {/* remove xs={0} for error google ghrome */}
-          <Grid item sm={2} />
-          <Grid item xs={12} sm={8}>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/confirm/:cnfId" component={Valid} />
-              <Route path="/Sign-up" component={Signup} />
-              <Route path="/Login" component={() => <Login login={login} />} />
-              <Route path="*" component={() => <Error isAuth={loggedin} />} />
-            </Switch>
-          </Grid>
-          <Grid item sm={2} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/confirm/:cnfId" component={Valid} />
+            <Route path="/Sign-up" component={Signup} />
+            <Route path="/Login" component={() => <Login login={login} />} />
+            <Route path="*" component={() => <Error isAuth={loggedin} />} />
+          </Switch>
         </Grid>
-        {/* <Grid item container>
-        </Grid> */}
         <Grid item xs={12}>
           <Footer />
         </Grid>

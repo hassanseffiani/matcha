@@ -20,6 +20,7 @@ import ImgIcons from '../helpers/icon'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import history from '../../history/history'
+import Size from '../helpers/size'
 
 const useStyles = (theme) => ({
   copy: {
@@ -122,195 +123,202 @@ class Signup extends Component {
           )
     const { classes } = this.props
     return (
-      <Container className={classes.copy} component='main' maxWidth='xs'>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Sign up
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Links
-                style={{ textDecoration: 'none' }}
-                target='_blank'
-                href='http://google.com'
-              >
-                <Chip
-                  icon={<ImgIcons />}
-                  label='Google'
-                  color='primary'
-                  variant='outlined'
-                  clickable
-                />
-              </Links>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Links
-                style={{ textDecoration: 'none' }}
-                target='_blank'
-                href='http://fb.com'
-              >
-                <Chip
-                  icon={<FacebookIcon />}
-                  label='Facebook'
-                  color='primary'
-                  variant='outlined'
-                  clickable
-                />
-              </Links>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Links
-                style={{ textDecoration: 'none' }}
-                target='_blank'
-                href='http://twitter.com'
-              >
-                <Chip
-                  icon={<TwitterIcon />}
-                  label='Twitter'
-                  color='primary'
-                  variant='outlined'
-                  clickable
-                />
-              </Links>
-            </Grid>
-          </Grid>
-          <form className={classes.form} method='POST' onSubmit={this.signup}>
+      <Size>
+          
+        <Container className={classes.copy} component='main' maxWidth='xs'>
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlined />
+            </Avatar>
+            <Typography component='h1' variant='h5'>
+              Sign up
+            </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete='uname'
-                  name='userName'
-                  variant='outlined'
-                  required
-                  fullWidth
-                  id='inputUserName'
-                  label='User Name'
-                  autoFocus
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.userName}
-                  helperText={concat2}
-                  error={
-                    this.state.errMsg.userNameErr !== undefined ||
-                    this.state.errMsg.validUserNameErr !== undefined
-                  }
-                />
+              <Grid item xs={12} sm={4}>
+                <Links
+                  style={{ textDecoration: 'none' }}
+                  target='_blank'
+                  href='http://google.com'
+                >
+                  <Chip
+                    icon={<ImgIcons />}
+                    label='Google'
+                    color='primary'
+                    variant='outlined'
+                    clickable
+                  />
+                </Links>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete='fname'
-                  name='firstName'
-                  variant='outlined'
-                  required
-                  fullWidth
-                  id='inputFirstName'
-                  label='First Name'
-                  autoFocus
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.firstName}
-                  helperText={this.state.errMsg.validFirstNameErr}
-                  error={this.state.errMsg.validFirstNameErr !== undefined}
-                />
+              <Grid item xs={12} sm={4}>
+                <Links
+                  style={{ textDecoration: 'none' }}
+                  target='_blank'
+                  href='http://fb.com'
+                >
+                  <Chip
+                    icon={<FacebookIcon />}
+                    label='Facebook'
+                    color='primary'
+                    variant='outlined'
+                    clickable
+                  />
+                </Links>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant='outlined'
-                  required
-                  fullWidth
-                  id='inputLastName'
-                  label='Last Name'
-                  name='lastName'
-                  autoComplete='lname'
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.lastName}
-                  helperText={this.state.errMsg.validLastNameErr}
-                  error={this.state.errMsg.validLastNameErr !== undefined}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant='outlined'
-                  required
-                  fullWidth
-                  id='email'
-                  label='Email Address'
-                  name='email'
-                  autoComplete='email'
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.email}
-                  helperText={concat1}
-                  error={
-                    this.state.errMsg.emailErr !== undefined ||
-                    this.state.errMsg.validEmailErr !== undefined
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant='outlined'
-                  required
-                  fullWidth
-                  name='password'
-                  label='Password'
-                  type='password'
-                  id='inputPassword'
-                  autoComplete='current-password'
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.password}
-                  helperText={this.state.errMsg.validPassErr}
-                  error={this.state.errMsg.validPassErr !== undefined}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant='outlined'
-                  required
-                  fullWidth
-                  name='cnfrmPassword'
-                  type='password'
-                  id='inputCnfrmPassword'
-                  autoComplete='current-password'
-                  label='Confirm Password'
-                  onChange={this.onChange.bind(this)}
-                  value={this.state.cnfrmPassword}
-                  helperText={concat3}
-                  error={
-                    this.state.errMsg.passErr !== undefined ||
-                    this.state.errMsg.validCnfpErr !== undefined
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value='allowExtraEmails' color='primary' />
-                  }
-                  label='I want to receive notification and updates via email.'
-                />
+              <Grid item xs={12} sm={4}>
+                <Links
+                  style={{ textDecoration: 'none' }}
+                  target='_blank'
+                  href='http://twitter.com'
+                >
+                  <Chip
+                    icon={<TwitterIcon />}
+                    label='Twitter'
+                    color='primary'
+                    variant='outlined'
+                    clickable
+                  />
+                </Links>
               </Grid>
             </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-            <Grid container justify='flex-end'>
-              <Grid item>
-                <Typography variant='body2'>
-                  <Link to='/Login'>Already have an account? Sign in</Link>
-                </Typography>
+            <form className={classes.form} method='POST' onSubmit={this.signup}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete='uname'
+                    name='userName'
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='inputUserName'
+                    label='User Name'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.userName}
+                    helperText={concat2}
+                    error={
+                      this.state.errMsg.userNameErr !== undefined ||
+                      this.state.errMsg.validUserNameErr !== undefined
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete='fname'
+                    name='firstName'
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='inputFirstName'
+                    label='First Name'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.firstName}
+                    helperText={this.state.errMsg.validFirstNameErr}
+                    error={this.state.errMsg.validFirstNameErr !== undefined}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='inputLastName'
+                    label='Last Name'
+                    name='lastName'
+                    autoComplete='lname'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.lastName}
+                    helperText={this.state.errMsg.validLastNameErr}
+                    error={this.state.errMsg.validLastNameErr !== undefined}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.email}
+                    helperText={concat1}
+                    error={
+                      this.state.errMsg.emailErr !== undefined ||
+                      this.state.errMsg.validEmailErr !== undefined
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant='outlined'
+                    required
+                    fullWidth
+                    name='password'
+                    label='Password'
+                    type='password'
+                    id='inputPassword'
+                    autoComplete='current-password'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.password}
+                    helperText={this.state.errMsg.validPassErr}
+                    error={this.state.errMsg.validPassErr !== undefined}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant='outlined'
+                    required
+                    fullWidth
+                    name='cnfrmPassword'
+                    type='password'
+                    id='inputCnfrmPassword'
+                    autoComplete='current-password'
+                    label='Confirm Password'
+                    autoFocus
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.cnfrmPassword}
+                    helperText={concat3}
+                    error={
+                      this.state.errMsg.passErr !== undefined ||
+                      this.state.errMsg.validCnfpErr !== undefined
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value='allowExtraEmails' color='primary' />
+                    }
+                    label='I want to receive notification and updates via email.'
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-      </Container>
+              <Button
+                type='submit'
+                fullWidth
+                variant='contained'
+                color='primary'
+                className={classes.submit}
+              >
+                Sign Up
+              </Button>
+              <Grid container justify='flex-end'>
+                <Grid item>
+                  <Typography variant='body2'>
+                    <Link to='/Login'>Already have an account? Sign in</Link>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        </Container>
+      </Size>
     )
   }
 }
