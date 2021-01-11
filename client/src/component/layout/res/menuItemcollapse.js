@@ -69,44 +69,6 @@ const Item1 = (props) => {
     );
 }
 
-// const MenuItemCollapse1 = (props) => (
-//     // classes = useStyles(props)
-//         <div className={props.root}>
-            // <MenuCollapse>
-            //     <MenuItem>
-            //         <Button className={props.btnColor}>
-            //             <Link to="/" style={{ textDecoration: "none" }}>
-            //                 {" "}
-            //             Home{" "}
-            //             </Link>
-            //         </Button>
-            //     </MenuItem>
-            //     <MenuItem>
-            //         <Button className={props.btnColor} onClick={() => handelLogout(props.logout)}>
-            //             <Link to="/Login" style={{ textDecoration: "none" }}>
-            //                 {" "}
-            //                 logout{" "}
-            //             </Link>
-            //         </Button>
-            //     </MenuItem>
-            // </MenuCollapse>
-            // <div className={props.buttonBar} id="appbar-collapse">
-            //     <Button className={props.btnColor}>
-            //         <Link to="/" style={{ textDecoration: "none" }}>
-            //             {" "}
-            //             Home{" "}
-            //         </Link>
-            //     </Button>
-            //     <Button className={props.btnColor} onClick={() => handelLogout(props.logout)}>
-            //         <Link to="/Login" style={{ textDecoration: "none" }}>
-            //             {" "}
-            //             logout{" "}
-            //         </Link>
-            //     </Button>
-            // </div>
-//         </div>
-// );
-
 const Item2 = (props) => {
     const classes = useStyles(props)
     return (

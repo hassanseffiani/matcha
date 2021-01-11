@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Home from "../component/Home";
 import Axios from "axios";
-import Login from "../component/auth/Login";
-import Signup from "../component/auth/Sign-in";
-import Valid from "../component/auth/Valid";
-import { HeaderLoggedin, HeaderLoggout } from "../component/layout/Header";
-import Footer from "../component/layout/Footer";
 import { Route, Switch } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { HeaderLoggedin, HeaderLoggout } from "../component/layout/Header";
+import Home from "../component/Home";
+import Login from "../component/auth/Login";
+import Signup from "../component/auth/Sign-in";
+import Valid from "../component/auth/Valid";
+import SendForget from '../component/forget/sendForget'
+import Forget from '../component/forget/forget'
+import Footer from "../component/layout/Footer";
 import Error from "../component/helpers/404";
 
 const Init = (props) => {
@@ -42,7 +44,7 @@ const Init = (props) => {
   });
   return (
     <ThemeProvider theme={darkTheme}>
-      <Grid container direction="column">
+      <Grid container direction='column'>
         <Grid item>
           {loggedin && (
             <HeaderLoggedin
@@ -57,11 +59,13 @@ const Init = (props) => {
         </Grid>
         <Grid item container>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/confirm/:cnfId" component={Valid} />
-            <Route path="/Sign-up" component={Signup} />
-            <Route path="/Login" component={() => <Login login={login} />} />
-            <Route path="*" component={() => <Error isAuth={loggedin} />} />
+            <Route exact path='/' component={Home} />
+            <Route path='/confirm/:cnfId' component={Valid} />
+            <Route path='/Sign-up' component={Signup} />
+            <Route path='/Login' component={() => <Login login={login} />} />
+            <Route path='/sendForget' component={SendForget} />
+            <Route path='/forget/:frgId' component={Forget} />
+            <Route path='*' component={() => <Error isAuth={loggedin} />} />
           </Switch>
         </Grid>
         <Grid item xs={12}>
@@ -69,7 +73,7 @@ const Init = (props) => {
         </Grid>
       </Grid>
     </ThemeProvider>
-  );
+  )
 };
 
 export default Init;

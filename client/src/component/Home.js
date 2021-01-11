@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Button, TextField, Avatar, Grid, Typography } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { AccountCircle } from "@material-ui/icons";
+import history from "../history/history";
 const instance = Axios.create({ withCredentials: true });
 
 
@@ -31,34 +31,42 @@ const useStyles = (theme) => ({
 
 class Home extends Component {
   state = {
-    data : {},
     userName: '',
+    data : {userName: '', email: '',firstName: '',lastName: ''},
+    // data : {userName: '', email: '',firstName: '',lastName: ''},
     redirect: null,
     isAuth: false,
   };
 
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  handelInput = (e) => {
+    console.log(this.state.data)
+    this.setState({ data: {...this.state.data, [e.target.name]: e.target.value} });
   };
+
+  home = (e) => {
+    e.preventDefault();
+    // here we will update info and redirect to another component for filling mre info
+    console.log("test")
+  }
 
   // still an error of login page redirection
 
   componentDidMount = () => {
-    instance.get("http://localhost:3001/base").then((response) => {
-      if (response.data === "login") this.setState({ redirect: "/Login" });
-      else {
-        this.setState({ data: response.data[0] });
-        // response.data[0].map(el => {
-          // return ;
-        // })
-      }
-    });
-    // if (this.state.userName !== "")
-      // this.setState({ userName: this.state.data.userName})
+    instance.get("http://localhost:3001/base").then((res) => {
+      if (res.data === "login") this.setState({ redirect: "/Login" });
+      else 
+        this.setState({ data: res.data[0] })
+    }).catch((error) => {
+        console.log(error);
+    })
   };
 
+  componentDidUpdate() {
+    if (this.state.redirect)
+      history.push("/");
+  }
+
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
     const { classes } = this.props;
     return (
       <Grid container component="main" className={classes.root}>
@@ -71,7 +79,7 @@ class Home extends Component {
             <Typography component="h1" variant="h5">
               Profil
             </Typography>
-            <form method="POST" className={classes.form} onSubmit={this.login}>
+            <form method="POST" className={classes.form} onSubmit={this.home}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -84,8 +92,8 @@ class Home extends Component {
                     name="userName"
                     autoComplete="userName"
                     autoFocus
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.data.userName}
+                    onChange={this.handelInput}
+                    value={this.state.data.userName || ''}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -98,7 +106,7 @@ class Home extends Component {
                     name='email'
                     autoComplete='email'
                     autoFocus
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.handelInput}
                     value={this.state.data.email}
                   />
                 </Grid>
@@ -112,7 +120,7 @@ class Home extends Component {
                     id='inputFirstName'
                     label='First Name'
                     autoFocus
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.handelInput}
                     value={this.state.data.firstName}
                   />
                 </Grid>
@@ -126,7 +134,7 @@ class Home extends Component {
                     name='lastName'
                     autoComplete='lname'
                     autoFocus
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.handelInput}
                     value={this.state.data.lastName}
                   />
                 </Grid>

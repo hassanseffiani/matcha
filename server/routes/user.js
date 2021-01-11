@@ -28,7 +28,7 @@ route.post('/users/login' , validator.validationInput, userController.postLogin)
 route.post('/users/sendForget', validator.validationInput, userController.sendForget);
 
 //  post forget password
-route.post('/users/forget/:vkey', userController.forgetPassword);
+route.post('/users/forget/:vkey', validator.validationInput, userController.forgetPassword);
 
 // get confirm account
 

@@ -9,6 +9,11 @@ const route = express.Router();
 
 route.get('/base', authVrfy.requireAuth, homeController.index);
 
+
+//continue with this part
+
+route.post('/base/edit', authVrfy.requireAuth, homeController.edit);
+
 //  edit password logged POST
 
 route.post('/base/editpassword/', authVrfy.requireAuth, validator.validationInput, homeController.editPassword);

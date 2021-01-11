@@ -107,30 +107,42 @@ class Login extends Component {
     const { classes } = this.props;
     return (
       <Grid item container>
-        <Grid container component="main" className={classes.root}>
+        <Grid container component='main' className={classes.root}>
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
+          >
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlined />
               </Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography component='h1' variant='h5'>
                 Sign in
               </Typography>
-              <Typography variant="subtitle2" gutterBottom color="secondary">
+              <Typography variant='subtitle2' gutterBottom color='secondary'>
                 {this.state.errMsg.errorGlobal}
               </Typography>
-              <form method="POST" className={classes.form} onSubmit={this.login}>
+              <form
+                method='POST'
+                className={classes.form}
+                onSubmit={this.login}
+              >
                 <TextField
-                  variant="outlined"
-                  margin="normal"
+                  variant='outlined'
+                  margin='normal'
                   required
                   fullWidth
-                  id="inputUserName"
-                  label="User Name"
-                  name="userName"
-                  autoComplete="userName"
+                  id='inputUserName'
+                  label='User Name'
+                  name='userName'
+                  autoComplete='userName'
                   autoFocus
                   onChange={this.onChange.bind(this)}
                   value={this.state.userName}
@@ -138,52 +150,53 @@ class Login extends Component {
                   error={this.state.errMsg.validUserNameErr !== undefined}
                 />
                 <TextField
-                  variant="outlined"
-                  margin="normal"
+                  variant='outlined'
+                  margin='normal'
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="inputPassword"
-                  autoComplete="current-password"
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='inputPassword'
+                  autoComplete='current-password'
                   onChange={this.onChange.bind(this)}
                   value={this.state.password}
                   helperText={this.state.errMsg.validPassErr}
                   error={this.state.errMsg.validPassErr !== undefined}
                 />
                 <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+                  control={<Checkbox value='remember' color='primary' />}
+                  label='Remember me'
                 />
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  color="primary"
+                  variant='contained'
+                  color='primary'
                   className={classes.submit}
                 >
                   Login
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Typography variant="body2">
-                      <Link to="#">Forgot password?</Link>
+                    <Typography variant='body2'>
+                      <Link to='/sendForget'>Forgot password?</Link>
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body2">
-                      <Link to="/Sign-up">"Don't have an account? Sign Up"</Link>
+                    <Typography variant='body2'>
+                      <Link to='/Sign-up'>
+                        "Don't have an account? Sign Up"
+                      </Link>
                     </Typography>
                   </Grid>
                 </Grid>
               </form>
             </div>
-            {/* <p className="text-danger">{this.state.errMsg}</p> */}
           </Grid>
         </Grid>
       </Grid>
-    );
+    )
   }
 }
 

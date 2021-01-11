@@ -154,11 +154,11 @@ exports.sendForget = async (req, res, next) => {
   var dataErr = {},
     tmp = [];
   await User.UserEmailModel(req.body.email).then(([user]) => {
-    if (!user.length) dataErr.emailErr = "email doesn't exist !";
+    if (!user.length) dataErr.validEmailErr = "email doesn't exist !"
   });
   tmp.push(dataErr);
   const checkErr = tmp.map((el) => {
-    return el["emailErr"] === undefined ? 0 : 1;
+    return el['validEmailErr'] === undefined ? 0 : 1
   });
   // merge error from res.locals from validator controller
   var tmp1 = [];
@@ -174,13 +174,13 @@ exports.sendForget = async (req, res, next) => {
     // ....................
     var vkey = Helpers.keyCrypto(req.body.email);
     var url =
-      "<a href='http://localhost:3001/users/forget/" +
+      "<a href='http://localhost:3000/forget/" +
       vkey +
       "'>Change your password</a>";
     User.UpdateOldVkey(vkey, req.body.email);
     let data = { email: req.body.email, url: url };
     Helpers.sendmail(data);
-    res.json({ test: "tset" });
+    res.json({ status: 'success' })
   } else res.json(dataErr);
   // console.log(dataErr);
 };
@@ -193,7 +193,9 @@ exports.forgetPassword = async (req, res, next) => {
   await User.vkeyGetUser(req.params.vkey).then(([user]) => {
     user.map((el) => (psText = el.password));
   });
-
+  dataErr.msg = res.locals.input.validCnfpErr
+  dataErr.msg = res.locals.input.validNewpErr
+  dataErr.status= "fail" 
   // cotroller validator take care of error
   User.vkeyValidate(req.params.vkey)
     .then(([user]) => {
@@ -206,9 +208,9 @@ exports.forgetPassword = async (req, res, next) => {
             User.UserForgetPassword(
               Helpers.keyBcypt(req.body.newPassword),
               vkey
-            ).then((dataErr.msg = "Password Changed."));
-          } else dataErr.msg = "Password already exists";
-        } else dataErr.msg = "Confirm Your password";
+            ).then(dataErr.status= "success");
+          } else dataErr.msg = "Password already exists.";
+        } else dataErr.msg = "Confirm Your password.";
       } else dataErr.msg = "Something wrong, please check your email.";
       res.json(dataErr);
     })

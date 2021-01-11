@@ -124,7 +124,6 @@ class Signup extends Component {
     const { classes } = this.props
     return (
       <Size>
-          
         <Container className={classes.copy} component='main' maxWidth='xs'>
           <CssBaseline />
           <div className={classes.paper}>

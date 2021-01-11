@@ -10,9 +10,14 @@ exports.index = (req, res, next) => {
         // console.log(el);
         res.json(res.locals.user[0])
     });
-    if (Object.keys(res.locals.user[0]).length === 0)
-        res.send("Home route");    
 }
+
+// edit information if user want that
+
+exports.edit = (req, res, next) => {
+
+}
+
 
 // edit password
 
