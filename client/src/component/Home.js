@@ -6,16 +6,6 @@ import { AccountCircle } from "@material-ui/icons";
 import history from "../history/history";
 const instance = Axios.create({ withCredentials: true });
 
-
-/// profil part :
-
-/// Warning: A component is changing an uncontrolled input to be controlled
-
-/// initial value with empt string to handel onChange event
-
-/// email firstName lastName
-
-
 const useStyles = (theme) => ({
   root: {
     height: "100vh",
@@ -31,41 +21,59 @@ const useStyles = (theme) => ({
 
 class Home extends Component {
   state = {
-    userName: '',
-    data : {userName: '', email: '',firstName: '',lastName: ''},
-    // data : {userName: '', email: '',firstName: '',lastName: ''},
+    id: 0,
+    data: { userName: "", email: "", firstName: "", lastName: "" },
     redirect: null,
+    fillProfil: null,
     isAuth: false,
+    errMsg: {},
   };
 
   handelInput = (e) => {
-    console.log(this.state.data)
-    this.setState({ data: {...this.state.data, [e.target.name]: e.target.value} });
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
   };
 
-  home = (e) => {
+  home = (e, id) => {
     e.preventDefault();
     // here we will update info and redirect to another component for filling mre info
-    console.log("test")
-  }
-
+    instance
+      .post(`http://localhost:3001/base/edit/${id}`, {
+        userName: this.state.data.userName,
+        email: this.state.data.email,
+        firstName: this.state.data.firstName,
+        lastName: this.state.data.lastName,
+      })
+      .then((res) => {
+        if (res.data.input) this.setState({ errMsg: res.data.input });
+        if (res.data === "login") this.setState({ redirect: "/Login" });
+        else if (res.data.status) this.setState({ fillProfil: `/fillProfil/${id}` });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   // still an error of login page redirection
 
-  componentDidMount = () => {
-    instance.get("http://localhost:3001/base").then((res) => {
-      if (res.data === "login") this.setState({ redirect: "/Login" });
-      else 
-        this.setState({ data: res.data[0] })
-    }).catch((error) => {
+  componentDidMount() {
+    instance
+      .get("http://localhost:3001/base")
+      .then((res) => {
+        if (res.data === "login") this.setState({ redirect: "/Login" });
+        else this.setState({ data: res.data[0], id: res.data[0].id });
+      })
+      .catch((error) => {
         console.log(error);
-    })
-  };
-
-  componentDidUpdate() {
-    if (this.state.redirect)
-      history.push("/");
+      });
   }
 
+  componentDidUpdate() {
+    if (this.state.redirect) history.push("/Login");
+    if (this.state.fillProfil) history.push(this.state.fillProfil);
+  }
+
+  // validEmailErr validFirstNameErr validLastNameErr validUserNameErr
   render() {
     const { classes } = this.props;
     return (
@@ -79,7 +87,11 @@ class Home extends Component {
             <Typography component="h1" variant="h5">
               Profil
             </Typography>
-            <form method="POST" className={classes.form} onSubmit={this.home}>
+            <form
+              method="POST"
+              className={classes.form}
+              onSubmit={(event) => this.home(event, this.state.id)}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -93,49 +105,57 @@ class Home extends Component {
                     autoComplete="userName"
                     autoFocus
                     onChange={this.handelInput}
-                    value={this.state.data.userName || ''}
+                    value={this.state.data.userName}
+                    helperText={this.state.errMsg.validUserNameErr}
+                    error={this.state.errMsg.validUserNameErr !== undefined}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    id='email'
-                    label='Email Address'
-                    name='email'
-                    autoComplete='email'
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
                     autoFocus
                     onChange={this.handelInput}
                     value={this.state.data.email}
+                    helperText={this.state.errMsg.validEmailErr}
+                    error={this.state.errMsg.validEmailErr !== undefined}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete='fname'
-                    name='firstName'
-                    variant='outlined'
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
                     required
                     fullWidth
-                    id='inputFirstName'
-                    label='First Name'
+                    id="inputFirstName"
+                    label="First Name"
                     autoFocus
                     onChange={this.handelInput}
                     value={this.state.data.firstName}
+                    helperText={this.state.errMsg.validFirstNameErr}
+                    error={this.state.errMsg.validFirstNameErr !== undefined}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    id='inputLastName'
-                    label='Last Name'
-                    name='lastName'
-                    autoComplete='lname'
+                    id="inputLastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="lname"
                     autoFocus
                     onChange={this.handelInput}
                     value={this.state.data.lastName}
+                    helperText={this.state.errMsg.validLastNameErr}
+                    error={this.state.errMsg.validLastNameErr !== undefined}
                   />
                 </Grid>
               </Grid>

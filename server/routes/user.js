@@ -18,9 +18,6 @@ route.get('/users/signup'); // .....
 //  post signUp
 route.post('/users/signup', validator.validationInput, userController.signUp);
 
-// get login
-route.get('/users/login'); // .....
-
 //  post login
 route.post('/users/login' , validator.validationInput, userController.postLogin);
 
@@ -34,9 +31,6 @@ route.post('/users/forget/:vkey', validator.validationInput, userController.forg
 
 route.get('/users/confirm/:vkey', userController.confirmUser);
 
-// post fill profil
-
-// route.post('/users/profil/:id' ,userController.fillProfil);
 //, upload.single('img') helper images
 
 // post logout button

@@ -66,8 +66,12 @@ module.exports = class User {
 
     // filling profil
 
-    static fillProfilUpdate(gender, bio, id){
-        return db.execute('UPDATE users SET  gender = ?,bio = ? WHERE id = ?', [gender, bio, id])
+    static fillProfilUpdate(data){
+        return db.execute("UPDATE users SET  gender = ?,bio = ? WHERE id = ?", [
+          data.gender,
+          data.bio,
+          data.id,
+        ]);
     }
 
 
@@ -77,5 +81,12 @@ module.exports = class User {
 
     static delete(id){
         return db.execute('DELETE FROM products WHERE products.id = ?', [id]);
+    }
+
+    static UpdateFirstInfo(data){
+        return db.execute(
+          "UPDATE users SET email = ?, userName = ?, firstName= ?, lastName= ? WHERE id = ?",
+          [data.email, data.userName, data.firstName, data.lastName, data.id]
+        );
     }
 }
