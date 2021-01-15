@@ -124,73 +124,73 @@ class Signup extends Component {
     const { classes } = this.props
     return (
       <Size>
-        <Container className={classes.copy} component='main' maxWidth='xs'>
+        <Container className={classes.copy} component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlined />
             </Avatar>
-            <Typography component='h1' variant='h5'>
+            <Typography component="h1" variant="h5">
               Sign up
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <Links
-                  style={{ textDecoration: 'none' }}
-                  target='_blank'
-                  href='http://google.com'
+                  style={{ textDecoration: "none" }}
+                  target="_blank"
+                  href="http://localhost:3001/auth/google"
                 >
                   <Chip
                     icon={<ImgIcons />}
-                    label='Google'
-                    color='primary'
-                    variant='outlined'
+                    label="Google"
+                    color="primary"
+                    variant="outlined"
                     clickable
                   />
                 </Links>
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Links
-                  style={{ textDecoration: 'none' }}
-                  target='_blank'
-                  href='http://fb.com'
+                  style={{ textDecoration: "none" }}
+                  target="_blank"
+                  href="http://localhost:3001/auth/facebook"
                 >
                   <Chip
                     icon={<FacebookIcon />}
-                    label='Facebook'
-                    color='primary'
-                    variant='outlined'
+                    label="Facebook"
+                    color="primary"
+                    variant="outlined"
                     clickable
                   />
                 </Links>
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Links
-                  style={{ textDecoration: 'none' }}
-                  target='_blank'
-                  href='http://twitter.com'
+                  style={{ textDecoration: "none" }}
+                  target="_blank"
+                  href="http://localhost:3001/auth/42"
                 >
                   <Chip
                     icon={<TwitterIcon />}
-                    label='Twitter'
-                    color='primary'
-                    variant='outlined'
+                    label="42"
+                    color="primary"
+                    variant="outlined"
                     clickable
                   />
                 </Links>
               </Grid>
             </Grid>
-            <form className={classes.form} method='POST' onSubmit={this.signup}>
+            <form className={classes.form} method="POST" onSubmit={this.signup}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete='uname'
-                    name='userName'
-                    variant='outlined'
+                    autoComplete="uname"
+                    name="userName"
+                    variant="outlined"
                     required
                     fullWidth
-                    id='inputUserName'
-                    label='User Name'
+                    id="inputUserName"
+                    label="User Name"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.userName}
@@ -203,13 +203,13 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete='fname'
-                    name='firstName'
-                    variant='outlined'
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
                     required
                     fullWidth
-                    id='inputFirstName'
-                    label='First Name'
+                    id="inputFirstName"
+                    label="First Name"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.firstName}
@@ -219,13 +219,13 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    id='inputLastName'
-                    label='Last Name'
-                    name='lastName'
-                    autoComplete='lname'
+                    id="inputLastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="lname"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.lastName}
@@ -235,13 +235,13 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    id='email'
-                    label='Email Address'
-                    name='email'
-                    autoComplete='email'
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.email}
@@ -254,14 +254,14 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    name='password'
-                    label='Password'
-                    type='password'
-                    id='inputPassword'
-                    autoComplete='current-password'
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="inputPassword"
+                    autoComplete="current-password"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.password}
@@ -271,14 +271,14 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    variant='outlined'
+                    variant="outlined"
                     required
                     fullWidth
-                    name='cnfrmPassword'
-                    type='password'
-                    id='inputCnfrmPassword'
-                    autoComplete='current-password'
-                    label='Confirm Password'
+                    name="cnfrmPassword"
+                    type="password"
+                    id="inputCnfrmPassword"
+                    autoComplete="current-password"
+                    label="Confirm Password"
                     autoFocus
                     onChange={this.onChange.bind(this)}
                     value={this.state.cnfrmPassword}
@@ -292,25 +292,25 @@ class Signup extends Component {
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={
-                      <Checkbox value='allowExtraEmails' color='primary' />
+                      <Checkbox value="allowExtraEmails" color="primary" />
                     }
-                    label='I want to receive notification and updates via email.'
+                    label="I want to receive notification and updates via email."
                   />
                 </Grid>
               </Grid>
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.submit}
               >
                 Sign Up
               </Button>
-              <Grid container justify='flex-end'>
+              <Grid container justify="flex-end">
                 <Grid item>
-                  <Typography variant='body2'>
-                    <Link to='/Login'>Already have an account? Sign in</Link>
+                  <Typography variant="body2">
+                    <Link to="/Login">Already have an account? Sign in</Link>
                   </Typography>
                 </Grid>
               </Grid>
@@ -318,7 +318,7 @@ class Signup extends Component {
           </div>
         </Container>
       </Size>
-    )
+    );
   }
 }
 

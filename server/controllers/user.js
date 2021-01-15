@@ -1,7 +1,7 @@
 const User = require("../models/userData");
-const Tag = require("../models/tagData");
 const Helpers = require("../util/Helpers");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 exports.signUp = async (req, res, next) => {
   var dataErr = {},
@@ -228,4 +228,49 @@ exports.logout = (req, res) => {
 
 exports.checkLogin = (req, res) => {
   res.send(req.cookies);
+};
+
+//oauth
+
+// google
+exports.google = (req, res, next) => {
+  console.log('GOOGLE')
+  passport.authenticate('google', {  prompt: 'select_account', session : false, scope : ['profile', 'email']})
+  (req, res, next)
+};
+
+exports.googleCallback = (req, res, next) => {
+  token = createtoken(req.session.passport.user.sub);
+  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+  res.redirect('http://localhost:3000/Login');
+  (req, res, next)
+};
+
+// facebook
+exports.facebook = (req, res, next) => {
+  console.log('FACEBOOK')
+  passport.authenticate('facebook', { authType: 'reauthenticate', session : false, scope: ['email']})
+  (req, res, next)
+};
+
+exports.facebookCallback = (req, res, next) => {
+  token = createtoken(req.session.passport.user.id);   
+  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+  res.redirect('http://localhost:3000/Login');
+  (req, res, next)
+};
+
+// 42
+
+exports.intra = (req, res, next) => {
+  console.log('42')
+  passport.authenticate('42')
+  (req, res, next)
+};
+
+exports.intraCallback = (req, res, next) => {
+  token = createtoken(req.session.passport.user.id);   
+  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+  res.redirect('http://localhost:3000/Login');
+  (req, res, next)
 };

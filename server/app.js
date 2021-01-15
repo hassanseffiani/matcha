@@ -4,7 +4,8 @@ const errRoutes = require("./routes/error");
 const homeRoutes = require("./routes/base");
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
-
+const passport = require("passport");
+const pss = require("./util/passport.js");
 
 const cors = require("cors");
 // const productsController = require('./controllers/error');
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // parse application/json
 app.use(bodyParser.json());
 
+app.use(passport.initialize());
 app.use(authRoutes);
 app.use(homeRoutes);
 app.use(userRoutes);

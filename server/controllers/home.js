@@ -166,9 +166,8 @@ exports.fillProfil = async (req, res, next) => {
 exports.tags = async (req, res) => {
   var data = {}
   await Tag.getAllTag().then(([res]) => {
-    // data[i] = res
-    data = res.map((el) => {
-        return {"name":el.name}
+    data = res.map((el, iKey) => {
+        return {"key": iKey,"name":el.name}
       })
   })
   res.json(data)
