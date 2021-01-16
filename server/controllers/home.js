@@ -106,61 +106,65 @@ exports.fillProfil = async (req, res, next) => {
   // res.send('<img src=${req.file.path} width="500"></img>');
   // **************************************************
   // need some validator in the validator file.
+
+  
+
   var dataErr = {},
     data = {};
   data = { ...req.body };
   data.id = req.params.id;
-  let idTag;
-  try {
-    await User.UserIdModel(data.id).then(([user]) => {
-      if (user.length) {
-        User.fillProfilUpdate(data).then(([UpRes]) => {
-          if (UpRes.affectedRows) dataErr.status = true;
-          else dataErr.msg = "Nothing changed";
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  try {
-    await Tag.tagExists(data.tag).then(([tagRes]) => {
-      tagRes.map((el) => {
-        idTag = el.id;
-      });
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  if (data.tag.charAt(0) === "#") {
-    Tag.tagExists(data.tag).then(([tagRes]) => {
-      if (!tagRes.length) {
-        const tag = new Tag(null, data.tag);
-        tag.save().then(() => {
-          Tag.getLastOne().then(([last]) => {
-            last.map((el) => {
-              Tag.cmpIdTag(el.id).then(([exTag]) => {
-                !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
-              });
-            });
-          });
-        });
-      } else {
-        Tag.tagIdModel(data.id, data.tag).then(([userTag]) => {
-          if (!userTag.length)
-            Tag.getLastOne().then(([last]) => {
-              last.map((el) => {
-                Tag.cmpIdTag(el.id).then(([exTag]) => {
-                  !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
-                })
-              });
-            });
-        });
-        dataErr.msgTag = "Already exists";
-      }
-    });
-  }
-  res.json(dataErr);
+  console.log(data)
+  // let idTag;
+  // try {
+  //   await User.UserIdModel(data.id).then(([user]) => {
+  //     if (user.length) {
+  //       User.fillProfilUpdate(data).then(([UpRes]) => {
+  //         if (UpRes.affectedRows) dataErr.status = true;
+  //         else dataErr.msg = "Nothing changed";
+  //       });
+  //     }
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // try {
+  //   await Tag.tagExists(data.tag).then(([tagRes]) => {
+  //     tagRes.map((el) => {
+  //       idTag = el.id;
+  //     });
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // if (data.tag.charAt(0) === "#") {
+  //   Tag.tagExists(data.tag).then(([tagRes]) => {
+  //     if (!tagRes.length) {
+  //       const tag = new Tag(null, data.tag);
+  //       tag.save().then(() => {
+  //         Tag.getLastOne().then(([last]) => {
+  //           last.map((el) => {
+  //             Tag.cmpIdTag(el.id).then(([exTag]) => {
+  //               !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
+  //             });
+  //           });
+  //         });
+  //       });
+  //     } else {
+  //       Tag.tagIdModel(data.id, data.tag).then(([userTag]) => {
+  //         if (!userTag.length)
+  //           Tag.getLastOne().then(([last]) => {
+  //             last.map((el) => {
+  //               Tag.cmpIdTag(el.id).then(([exTag]) => {
+  //                 !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
+  //               })
+  //             });
+  //           });
+  //       });
+  //       dataErr.msgTag = "Already exists";
+  //     }
+  //   });
+  // }
+  // res.json(dataErr);
 };
 
 exports.tags = async (req, res) => {

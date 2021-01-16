@@ -16,4 +16,5 @@ docker start mysql
 
 
 # docker run --name myadmin -d --link mysql:db -e PMA_ARBITRARY=1 -p 8080:80 phpmyadmin/phpmyadmin
-docker start myadmin
+docker run --name myadmin -d --link mysql:db -p 8080:80 phpmyadmin/phpmyadmin
+ docker start myadmin

@@ -53,13 +53,14 @@ const useStyles = makeStyles((theme) => ({
 const FillProfil = (props) => {
   const [value, setValue] = React.useState("male");
   const [biography, setBio] = React.useState("﴾͡๏̯͡๏﴿");
-  const [tag, setTag] = React.useState("#");
+  const [tag, setTag] = React.useState("");
   // const [allTag, setAllTag] = React.useState([])
   const [errTag, setErrTag] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(true);
   // const [hide, setHide] = React.useState(false);
   const [chipData, setChipData] = React.useState([]);
-
+  const [dsbl, setDsbl] = React.useState(true);
   const classes = useStyles(props);
 
   // const [errMsg, setErr] = React.useState({});
@@ -71,13 +72,31 @@ const FillProfil = (props) => {
       // setAllTag(res.data)
     });
   }, []);
-  const fill = (e, id) => {
+  const fill = async (e, id) => {
     e.preventDefault();
-
+    await Axios.post("base/tag").then((res) => {
+      // c = chipData.filter(
+      //   (aObject) =>
+      //     res.data.findIndex(
+      //       (bObject) => aObject.valueOf() === bObject.valueOf()
+      //     ) === -1
+      // );
+      for (var i = chipData.length - 1; i >= 0; i--) {
+        for (var j = 0; j < res.data.length; j++) {
+          if (chipData[i] && chipData[i].name === res.data[j].name)
+            chipData.splice(i, 1);
+        }
+      }
+      // c = chipData.filter(function (val) {
+      //   return res.data.indexOf(val) === -1;
+      // });
+      // c = chipData.filter((x, key) => !res.data.includes(key));
+    });
+    console.log(chipData);
     Axios.post(`base/profil/${id}`, {
-      gender: value,
-      bio: biography,
-      // tag: tag,
+      // gender: value,
+      // bio: biography,
+      tag: chipData,
     }).then((res) => {
       console.log(res);
       // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
@@ -87,18 +106,21 @@ const FillProfil = (props) => {
   };
   // console.log("errmgs: " + errMsg);
   const handelTag = (e) => {
-    if (tag.match(/^#([A-Za-z0-9_]){3,25}$/) === null){
+    setTag(e.target.value);
+    if (tag.match(/^#([A-Za-z0-9_]){3,25}$/) === null) {
       setErrTag("Enter a valid tag");
-      setTag(e.target.value);
+      setDsbl(true);
+    } else {
+      setErrTag("");
+      setDsbl(false);
     }
-    else setErrTag("");
   };
 
   const addToOption = (tag) => {
-    const id = chipData.map((el) => {
-      return el.key + 1;
-    });
-    chipData.push({ key: id, name: tag });
+    if (errTag === "") {
+      const id = chipData.slice(-1)[0].key + 1;
+      chipData.push({ key: id, name: tag });
+    }
   };
 
   const handleDelete = (chipToDelete) => () => {
@@ -148,22 +170,27 @@ const FillProfil = (props) => {
                     color="secondary"
                     onClick={() => {
                       setOpen(false);
+                      setOpen1(true);
                       addToOption(tag);
                     }}
+                    disabled={dsbl}
                   >
                     Add
                   </Button>
                 </Collapse>
-                <Button
-                  disabled={open}
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  New Tag
-                </Button>
+                <Collapse in={open1}>
+                  <Button
+                    disabled={open}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setOpen(true);
+                      setOpen1(false);
+                    }}
+                  >
+                    New Tag
+                  </Button>
+                </Collapse>
                 <Paper component="ul" className={classes.root}>
                   {chipData.map((data) => {
                     return (
