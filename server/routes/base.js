@@ -49,7 +49,7 @@ route.post(
 
 
 route.post(
-  "/base/tag/",
+  "/base/tag/:id",
   homeController.tags
 )
 module.exports = route;

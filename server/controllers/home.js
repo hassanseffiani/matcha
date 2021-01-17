@@ -107,72 +107,58 @@ exports.fillProfil = async (req, res, next) => {
   // **************************************************
   // need some validator in the validator file.
 
-  
-
   var dataErr = {},
     data = {};
   data = { ...req.body };
   data.id = req.params.id;
-  console.log(data)
-  // let idTag;
-  // try {
-  //   await User.UserIdModel(data.id).then(([user]) => {
-  //     if (user.length) {
-  //       User.fillProfilUpdate(data).then(([UpRes]) => {
-  //         if (UpRes.affectedRows) dataErr.status = true;
-  //         else dataErr.msg = "Nothing changed";
-  //       });
-  //     }
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
-  // try {
-  //   await Tag.tagExists(data.tag).then(([tagRes]) => {
-  //     tagRes.map((el) => {
-  //       idTag = el.id;
-  //     });
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
-  // if (data.tag.charAt(0) === "#") {
-  //   Tag.tagExists(data.tag).then(([tagRes]) => {
-  //     if (!tagRes.length) {
-  //       const tag = new Tag(null, data.tag);
-  //       tag.save().then(() => {
-  //         Tag.getLastOne().then(([last]) => {
-  //           last.map((el) => {
-  //             Tag.cmpIdTag(el.id).then(([exTag]) => {
-  //               !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
-  //             });
-  //           });
-  //         });
-  //       });
-  //     } else {
-  //       Tag.tagIdModel(data.id, data.tag).then(([userTag]) => {
-  //         if (!userTag.length)
-  //           Tag.getLastOne().then(([last]) => {
-  //             last.map((el) => {
-  //               Tag.cmpIdTag(el.id).then(([exTag]) => {
-  //                 !exTag.length ? Tag.insertInTagUser(data.id, el.id) : "";
-  //               })
-  //             });
-  //           });
-  //       });
-  //       dataErr.msgTag = "Already exists";
-  //     }
-  //   });
-  // }
-  // res.json(dataErr);
+
+  try {
+    await User.UserIdModel(data.id).then(([user]) => {
+      if (user.length) {
+        User.fillProfilUpdate(data).then(([UpRes]) => {
+          if (UpRes.affectedRows) dataErr.status = true;
+          else dataErr.msg = "Nothing changed";
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  data.tag.map((el) => {
+    Tag.tagExists(el.name).then(([tagRes]) => {
+      if (!tagRes.length) {
+        const tag = new Tag(null, el.name);
+        tag.save().then(() => {
+          Tag.tagExists(el.name).then((res) => {
+            res[0].map((id) => {
+              Tag.insertInTagUser(data.id, id.id);
+            });
+          });
+        });
+      } else {
+        Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
+          if (!userTag.length){
+            Tag.tagExists(el.name).then((res) => {
+              res[0].map((id) => {
+                Tag.insertInTagUser(data.id, id.id);
+              });
+            });
+          }
+        });
+        dataErr.msgTag = "Already exists";
+      }
+    });
+  });
+  res.json(dataErr);
 };
 
 exports.tags = async (req, res) => {
-  var data = {}
-  await Tag.getAllTag().then(([res]) => {
+  var data = {};
+  await Tag.getAllTag(req.params.id).then(([res]) => {
     data = res.map((el, iKey) => {
-        return {"key": iKey,"name":el.name}
-      })
-  })
-  res.json(data)
-}
+      return { key: iKey, name: el.name };
+    });
+  });
+  res.json(data);
+};
