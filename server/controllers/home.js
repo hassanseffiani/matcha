@@ -106,51 +106,53 @@ exports.fillProfil = async (req, res, next) => {
   // res.send('<img src=${req.file.path} width="500"></img>');
   // **************************************************
   // need some validator in the validator file.
+  ///////////////////////////////////// Images : //////////////////////////////////////////////////
+  
 
-  var dataErr = {},
-    data = {};
-  data = { ...req.body };
-  data.id = req.params.id;
 
-  try {
-    await User.UserIdModel(data.id).then(([user]) => {
-      if (user.length) {
-        User.fillProfilUpdate(data).then(([UpRes]) => {
-          if (UpRes.affectedRows) dataErr.status = true;
-          else dataErr.msg = "Nothing changed";
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
-  data.tag.map((el) => {
-    Tag.tagExists(el.name).then(([tagRes]) => {
-      if (!tagRes.length) {
-        const tag = new Tag(null, el.name);
-        tag.save().then(() => {
-          Tag.tagExists(el.name).then((res) => {
-            res[0].map((id) => {
-              Tag.insertInTagUser(data.id, id.id);
-            });
-          });
-        });
-      } else {
-        Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
-          if (!userTag.length){
-            Tag.tagExists(el.name).then((res) => {
-              res[0].map((id) => {
-                Tag.insertInTagUser(data.id, id.id);
-              });
-            });
-          }
-        });
-        dataErr.msgTag = "Already exists";
-      }
-    });
-  });
-  res.json(dataErr);
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  // var dataErr = {},
+  //   data = {};
+  // data = { ...req.body };
+  // data.id = req.params.id;
+  // try {
+  //   await User.UserIdModel(data.id).then(([user]) => {
+  //     if (user.length) {
+  //       User.fillProfilUpdate(data).then(([UpRes]) => {
+  //         if (UpRes.affectedRows) dataErr.status = true;
+  //         else dataErr.msg = "Nothing changed";
+  //       });
+  //     }
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // data.tag.map((el) => {
+  //   Tag.tagExists(el.name).then(([tagRes]) => {
+  //     if (!tagRes.length) {
+  //       const tag = new Tag(null, el.name);
+  //       tag.save().then(() => {
+  //         Tag.tagExists(el.name).then((res) => {
+  //           res[0].map((id) => {
+  //             Tag.insertInTagUser(data.id, id.id);
+  //           });
+  //         });
+  //       });
+  //     } else {
+  //       Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
+  //         if (!userTag.length){
+  //           Tag.tagExists(el.name).then((res) => {
+  //             res[0].map((id) => {
+  //               Tag.insertInTagUser(data.id, id.id);
+  //             });
+  //           });
+  //         }
+  //       });
+  //       dataErr.msgTag = "Already exists";
+  //     }
+  //   });
+  // });
+  // res.json(dataErr);
 };
 
 exports.tags = async (req, res) => {

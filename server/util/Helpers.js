@@ -47,4 +47,3 @@ exports.keyCrypto = (text) => {
     const hash = crypto.createHmac(algorithm, secret).update(text).digest('hex');
     return hash;
 }
-

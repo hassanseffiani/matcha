@@ -1,6 +1,7 @@
 const homeController = require("../controllers/home");
 const validator = require("../controllers/validator");
 const authVrfy = require("../middleware/autMiddleware");
+const Helpers = require('../util/Helpers')
 
 const express = require("express");
 const route = express.Router();
@@ -41,7 +42,7 @@ route.post(
 route.post(
   "/base/profil/:id",
   // authVrfy.requireAuth,
-  validator.validationInput,
+  // validator.validationInput,
   homeController.fillProfil
 );
 
