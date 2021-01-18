@@ -11,7 +11,7 @@ import Valid from "../component/auth/Valid";
 import SendForget from "../component/forget/sendForget";
 import Forget from "../component/forget/forget";
 import FillProfil from "../component/profil/fillProfil";
-import Footer from "../component/layout/Footer";
+// import Footer from "../component/layout/Footer";
 import Error from "../component/helpers/404";
 
 const Init = (props) => {
@@ -71,7 +71,7 @@ const Init = (props) => {
           </Switch>
         </Grid>
         <Grid item xs={12}>
-          <Footer />
+          {/* <Footer /> */}
         </Grid>
       </Grid>
     </ThemeProvider>

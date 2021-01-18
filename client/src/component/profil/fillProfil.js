@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Axios from "axios";
 import {
+  Fab,
   Chip,
   Paper,
   Collapse,
@@ -15,6 +16,7 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 // import { Autocomplete }from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import Size from "../helpers/size";
@@ -59,6 +61,8 @@ const FillProfil = (props) => {
   const [open1, setOpen1] = React.useState(true);
   const [chipData, setChipData] = React.useState([]);
   const [dsbl, setDsbl] = React.useState(true);
+  const [images, setImages] = React.useState([]);
+  const [previewSource, setpreviewSource] = React.useState();
   const classes = useStyles(props);
 
   useEffect(() => {
@@ -69,26 +73,43 @@ const FillProfil = (props) => {
 
   const fill = async (e, id) => {
     e.preventDefault();
-    await Axios.post(`base/tag/${id}`).then((res) => {
-      for (var i = chipData.length - 1; i >= 0; i--) {
-        for (var j = 0; j < res.data.length; j++) {
-          if (chipData[i] && chipData[i].name === res.data[j].name)
-            chipData.splice(i, 1);
-        }
-      }
-    });
-    console.log(chipData);
-    Axios.post(`base/profil/${id}`, {
-      gender: value,
-      bio: biography,
-      tag: chipData,
-    }).then((res) => {
-      console.log(res.data);
+    const formData = new FormData();
+    for (const key of Object.keys(images)) {
+      formData.append("myImage", images[key]);
+    }
+    console.log(images);
+    console.log(formData);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    Axios.post(`base/profil/${id}`, formData, config)
+      .then((response) => {
+        console.log("The file is successfully uploaded");
+      })
+      .catch((error) => {});
 
-      // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
-      // if (res.data.dataErr.status) setErr(data);
-      //   else if (res.data.status === "success") setValid(!valid);
-    });
+    // await Axios.post(`base/tag/${id}`).then((res) => {
+    //   for (var i = chipData.length - 1; i >= 0; i--) {
+    //     for (var j = 0; j < res.data.length; j++) {
+    //       if (chipData[i] && chipData[i].name === res.data[j].name)
+    //         chipData.splice(i, 1);
+    //     }
+    //   }
+    // });
+
+    // Axios.post(`base/profil/${id}`, {
+    //   gender: value,
+    //   bio: biography,
+    //   tag: chipData,
+    // }).then((res) => {
+    //   console.log(res.data);
+
+    //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
+    //   // if (res.data.dataErr.status) setErr(data);
+    //   //   else if (res.data.status === "success") setValid(!valid);
+    // });
   };
 
   const handelTag = (e) => {
@@ -118,6 +139,22 @@ const FillProfil = (props) => {
     );
   };
 
+  const setImage = (e) => {
+    const filesToAdd = e.target.files;
+    setImages([...images, ...filesToAdd]);
+    previewFile(e.target.files[0]);
+    // setImages(e.target.files[0]);
+    // setImages(e.target.files);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setpreviewSource(reader.result);
+    };
+  };
+
   return (
     <Size>
       <Container className={classes.copy} component="main" maxWidth="xs">
@@ -133,6 +170,34 @@ const FillProfil = (props) => {
               <Typography variant="subtitle2" gutterBottom color="secondary">
                 {/* {errMsg} */}
               </Typography>
+              <Grid item xs={12}>
+                <label htmlFor="upload-photo">
+                  <input
+                    style={{ display: "none" }}
+                    multiple
+                    id="upload-photo"
+                    name="myImage"
+                    type="file"
+                    onChange={(e) => setImage(e)}
+                  />
+                  <Fab
+                    color="secondary"
+                    size="small"
+                    component="span"
+                    aria-label="add"
+                    variant="extended"
+                  >
+                    <Add /> Upload photo
+                  </Fab>
+                </label>
+                {previewSource && (
+                  <img
+                    src={previewSource}
+                    alt="chosen"
+                    style={{ height: "300px" }}
+                  />
+                )}
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Biography"

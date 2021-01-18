@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
 const passport = require("passport");
 const pss = require("./util/passport.js");
-const multer = require('multer')
 
 const cors = require("cors");
 // const productsController = require('./controllers/error');
@@ -30,36 +29,36 @@ const path = require('path');
 // static folder to thing like image ...
 app.use(express.static(path.join(__dirname, 'public')));
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public')
-  },
-  filename: (req, file, cb) => {
-    console.log(file)
-    cb(null, Date.now() + path.extname(file.originalname))
-  },
-})
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
-    cb(null, true)
-  } else {
-    cb(null, false)
-  }
-}
-upload = multer({ storage: storage, fileFilter: fileFilter })
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'public')
+//   },
+//   filename: (req, file, cb) => {
+//     console.log(file)
+//     cb(null, Date.now() + path.extname(file.originalname))
+//   },
+// })
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
+//     cb(null, true)
+//   } else {
+//     cb(null, false)
+//   }
+// }
+// global.upload = multer({ storage: storage, fileFilter: fileFilter });
 
 //Upload route
 //test this method we will convert this to our method
 // multiple images upload.array('images', 100)
-app.post('/upload', upload.single('images'), (req, res, next) => {
-    try {
-        return res.status(201).json({
-            message: 'File uploded successfully'
-        });
-    } catch (error) {
-        console.error(error);
-    }
-});
+// app.post('/upload', [upload.single('images')], (req, res, next) => {
+//     try {
+//         return res.status(201).json({
+//             message: 'File uploded successfully'
+//         });
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
 
 //**********************************************************
 

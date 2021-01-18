@@ -107,9 +107,14 @@ exports.fillProfil = async (req, res, next) => {
   // **************************************************
   // need some validator in the validator file.
   ///////////////////////////////////// Images : //////////////////////////////////////////////////
-  
-
-
+  console.log(req.files);
+  // try {
+  //   return res.status(201).json({
+  //     message: "File uploded successfully",
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // var dataErr = {},
   //   data = {};

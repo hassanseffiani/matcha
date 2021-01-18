@@ -1,7 +1,7 @@
 const homeController = require("../controllers/home");
 const validator = require("../controllers/validator");
 const authVrfy = require("../middleware/autMiddleware");
-const Helpers = require('../util/Helpers')
+const Helpers = require("../util/Helpers");
 
 const express = require("express");
 const route = express.Router();
@@ -38,9 +38,14 @@ route.post(
 );
 
 // post fill profil
+// for uploading multiple images
+// multiple images upload.array('images', 100)
+// single images
+// upload.single("myImage")
 
 route.post(
   "/base/profil/:id",
+  [Helpers.upload.array("myImage", 100)],
   // authVrfy.requireAuth,
   // validator.validationInput,
   homeController.fillProfil
@@ -48,9 +53,5 @@ route.post(
 
 // get all tags
 
-
-route.post(
-  "/base/tag/:id",
-  homeController.tags
-)
+route.post("/base/tag/:id", homeController.tags);
 module.exports = route;
