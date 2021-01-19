@@ -62,7 +62,8 @@ const FillProfil = (props) => {
   const [chipData, setChipData] = React.useState([]);
   const [dsbl, setDsbl] = React.useState(true);
   const [images, setImages] = React.useState([]);
-  const [previewSource, setpreviewSource] = React.useState();
+  // const [previewSource, setpreviewSource] = React.useState();
+  const [photos, setPhotos] = React.useState([]);
   const classes = useStyles(props);
 
   useEffect(() => {
@@ -85,8 +86,15 @@ const FillProfil = (props) => {
       },
     };
     Axios.post(`base/profil/${id}`, formData, config)
-      .then((response) => {
-        console.log("The file is successfully uploaded");
+      .then((res) => {
+        // after geting data from node js req.files ... we will bind res.dara wtih photo hooks...
+        // photos: [res.data, ...this.state.photos]
+        // to display all image with nedd help of function map
+        
+        // console.log(res.data)
+        setPhotos([...photos, ...res.data])
+        console.log("all photos content :")
+        console.log(photos)
       })
       .catch((error) => {});
 
@@ -142,91 +150,102 @@ const FillProfil = (props) => {
   const setImage = (e) => {
     const filesToAdd = e.target.files;
     setImages([...images, ...filesToAdd]);
-    previewFile(e.target.files[0]);
+    // previewFile(e.target.files[0]);
     // setImages(e.target.files[0]);
     // setImages(e.target.files);
   };
 
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setpreviewSource(reader.result);
-    };
-  };
+  // const previewFile = (file) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setpreviewSource(reader.result);
+  //   };
+  // };
 
   return (
     <Size>
-      <Container className={classes.copy} component="main" maxWidth="xs">
-        <Typography className={classes.typo} component="h1" variant="h5">
+      <Container className={classes.copy} component='main' maxWidth='xs'>
+        <Typography className={classes.typo} component='h1' variant='h5'>
           Fill profil
         </Typography>
         <div className={classes.paper}>
           <form
-            method="POST"
+            method='POST'
             onSubmit={(event) => fill(event, props.match.params.id)}
           >
             <Grid container spacing={2}>
-              <Typography variant="subtitle2" gutterBottom color="secondary">
+              <Typography variant='subtitle2' gutterBottom color='secondary'>
                 {/* {errMsg} */}
               </Typography>
               <Grid item xs={12}>
-                <label htmlFor="upload-photo">
+                <label htmlFor='upload-photo'>
                   <input
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     multiple
-                    id="upload-photo"
-                    name="myImage"
-                    type="file"
+                    id='upload-photo'
+                    name='myImage'
+                    type='file'
                     onChange={(e) => setImage(e)}
                   />
                   <Fab
-                    color="secondary"
-                    size="small"
-                    component="span"
-                    aria-label="add"
-                    variant="extended"
+                    color='secondary'
+                    size='small'
+                    component='span'
+                    aria-label='add'
+                    variant='extended'
                   >
                     <Add /> Upload photo
                   </Fab>
                 </label>
-                {previewSource && (
+                {photos.map((photo, iKey) => {
+                  console.log(photo.filename)
+                  return (
+                    <img
+                      key={iKey}
+                      src={`http://localhost:3001/${photo.filename}`}
+                      alt='previewTst'
+                    />
+                  )
+                })}
+                {/* preview with help of reader can be usfull after */}
+                {/* {previewSource && (
                   <img
                     src={previewSource}
                     alt="chosen"
                     style={{ height: "300px" }}
                   />
-                )}
+                )} */}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Biography"
+                  label='Biography'
                   multiline
                   rows={3}
-                  variant="outlined"
+                  variant='outlined'
                   value={biography}
                   onChange={(e) => setBio(e.target.value)}
-                  error={biography === ""}
+                  error={biography === ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Collapse in={open}>
                   <TextField
-                    label="Add New Tag"
+                    label='Add New Tag'
                     multiline
-                    variant="outlined"
+                    variant='outlined'
                     value={tag}
                     onChange={(e) => handelTag(e)}
                     helperText={errTag}
-                    error={errTag !== ""}
+                    error={errTag !== ''}
                   />
                   <Button
-                    variant="outlined"
-                    color="secondary"
+                    variant='outlined'
+                    color='secondary'
                     onClick={() => {
-                      setOpen(false);
-                      setOpen1(true);
-                      addToOption(tag);
+                      setOpen(false)
+                      setOpen1(true)
+                      addToOption(tag)
                     }}
                     disabled={dsbl}
                   >
@@ -236,17 +255,17 @@ const FillProfil = (props) => {
                 <Collapse in={open1}>
                   <Button
                     disabled={open}
-                    variant="outlined"
-                    color="secondary"
+                    variant='outlined'
+                    color='secondary'
                     onClick={() => {
-                      setOpen(true);
-                      setOpen1(false);
+                      setOpen(true)
+                      setOpen1(false)
                     }}
                   >
                     New Tag
                   </Button>
                 </Collapse>
-                <Paper component="ul" className={classes.root}>
+                <Paper component='ul' className={classes.root}>
                   {chipData.map((data) => {
                     return (
                       <li key={data.key}>
@@ -256,43 +275,43 @@ const FillProfil = (props) => {
                           className={classes.chip}
                         />
                       </li>
-                    );
+                    )
                   })}
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Gender</FormLabel>
+                <FormControl component='fieldset'>
+                  <FormLabel component='legend'>Gender</FormLabel>
                   <RadioGroup
                     row
-                    aria-label="gender"
-                    name="gender1"
+                    aria-label='gender'
+                    name='gender1'
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                   >
                     <FormControlLabel
-                      value="women"
+                      value='women'
                       control={<Radio />}
-                      label="Women"
+                      label='Women'
                     />
                     <FormControlLabel
-                      value="male"
+                      value='male'
                       control={<Radio />}
-                      label="Male"
+                      label='Male'
                     />
                     <FormControlLabel
-                      value="both"
+                      value='both'
                       control={<Radio />}
-                      label="Both"
+                      label='Both'
                     />
                   </RadioGroup>
                 </FormControl>
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="outlined"
+              variant='outlined'
               className={classes.submit}
             >
               Fill Profil
@@ -301,7 +320,7 @@ const FillProfil = (props) => {
         </div>
       </Container>
     </Size>
-  );
+  )
 };
 
 export default FillProfil;

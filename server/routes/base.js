@@ -51,7 +51,11 @@ route.post(
   homeController.fillProfil
 );
 
-// get all tags
+// get all tags [POST]
 
 route.post("/base/tag/:id", homeController.tags);
+
+// get all images
+
+route.get("/upload/:filename", homeController.getImges)
 module.exports = route;
