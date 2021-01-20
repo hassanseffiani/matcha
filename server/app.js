@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Images ***************************************************
 // need help of package path
 // static folder to thing like image ...
-app.use(express.static(path.join(__dirname, 'public')));
+// if you want to sjow all file with get method
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 // parse application/json

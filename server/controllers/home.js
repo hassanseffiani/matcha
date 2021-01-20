@@ -1,9 +1,9 @@
 const User = require("../models/userData");
-const Tag = require("../models/tagData");
+const Tag = require('../models/tagData')
+const Img = require('../models/imgData')
 const Helpers = require("../util/Helpers");
 const fs = require("fs");
 const path = require("path");
-const base64Img = require("base64-img-promise");
 // res.locals work like $_SESSION['name']....
 
 // Home controller
@@ -102,22 +102,13 @@ exports.editProfil = (req, res) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = async (req, res, next) => {
-  // To work with image ********************************
-  // console.log(req.file);
-  // res.set('Content-Type', 'image/png');
-  // res.send('<img src=${req.file.path} width="500"></img>');
   // **************************************************
   // need some validator in the validator file.
   ///////////////////////////////////// Images : //////////////////////////////////////////////////
-  // work with ss
-  const reqFiles = [];
-  const url = req.protocol + "://" + req.get("host");
-  for (var i = 0; i < req.files.length; i++) {
-    reqFiles.push(url + "/public/upload/" + req.files[i].filename);
-  }
-  console.log(reqFiles);
-  //save in db
+  ////////////////////////////////////////////////////////////////////////////
 
+  //save in db
+  // base 64 doesn't work in mac
   // var images = [];
   // await req.files.map((el) => {
   //   // const { originalname, path } = el
@@ -126,7 +117,6 @@ exports.fillProfil = async (req, res, next) => {
   // });
   // // console.log(images);
   // res.json(images);
-  ////////////////////////////////////////////////////////////////////////////
   // res.json(req.files)
 
   // try {
@@ -137,48 +127,68 @@ exports.fillProfil = async (req, res, next) => {
   //   console.error(error);
   // }
   /////////////////////////////////////////////////////////////////////////////////////////////////
-  // var dataErr = {},
-  //   data = {};
-  // data = { ...req.body };
-  // data.id = req.params.id;
-  // try {
-  //   await User.UserIdModel(data.id).then(([user]) => {
-  //     if (user.length) {
-  //       User.fillProfilUpdate(data).then(([UpRes]) => {
-  //         if (UpRes.affectedRows) dataErr.status = true;
-  //         else dataErr.msg = "Nothing changed";
-  //       });
-  //     }
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
-  // data.tag.map((el) => {
-  //   Tag.tagExists(el.name).then(([tagRes]) => {
-  //     if (!tagRes.length) {
-  //       const tag = new Tag(null, el.name);
-  //       tag.save().then(() => {
-  //         Tag.tagExists(el.name).then((res) => {
-  //           res[0].map((id) => {
-  //             Tag.insertInTagUser(data.id, id.id);
-  //           });
-  //         });
-  //       });
-  //     } else {
-  //       Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
-  //         if (!userTag.length){
-  //           Tag.tagExists(el.name).then((res) => {
-  //             res[0].map((id) => {
-  //               Tag.insertInTagUser(data.id, id.id);
-  //             });
-  //           });
-  //         }
-  //       });
-  //       dataErr.msgTag = "Already exists";
-  //     }
-  //   });
-  // });
-  // res.json(dataErr);
+  var dataErr = {},
+    data = {},
+    toSend = {};
+  toSend.input = { ...res.locals.input }
+  data = { ...req.body }
+  data.id = req.params.id
+
+  // if (Object.keys(req.files).length !== 0) {
+  //   req.files.map((el, iKey) => {
+  //     // with help of iKey we make a profil image
+  //     // save all path iamges in db in table imagesProfil (1, n)
+  //     const img = new Img(
+  //       null,
+  //       data.id,
+  //       'public/upload/' + el.filename,
+  //       iKey > 0 ? 0 : 1
+  //     )
+  //     img.save()
+  //   })
+  //   dataErr.msgImg = 'Insert done correctly'
+  // } else dataErr.msgImg = 'No Images uploaded'
+  if (Object.keys(toSend.input).length !== 0) res.json(toSend)
+  else{
+    try {
+      await User.UserIdModel(data.id).then(([user]) => {
+        if (user.length) {
+          User.fillProfilUpdate(data).then(([UpRes]) => {
+            if (UpRes.affectedRows) dataErr.status = true
+            else dataErr.msg = 'Nothing changed'
+          })
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    data.tag.map((el) => {
+      Tag.tagExists(el.name).then(([tagRes]) => {
+        if (!tagRes.length) {
+          const tag = new Tag(null, el.name)
+          tag.save().then(() => {
+            Tag.tagExists(el.name).then((res) => {
+              res[0].map((id) => {
+                Tag.insertInTagUser(data.id, id.id)
+              })
+            })
+          })
+        } else {
+          Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
+            if (!userTag.length) {
+              Tag.tagExists(el.name).then((res) => {
+                res[0].map((id) => {
+                  Tag.insertInTagUser(data.id, id.id)
+                })
+              })
+            }
+          })
+          // dataErr.msgTag = 'Already exists'
+        }
+      })
+    })
+    res.json(dataErr)
+  }
 };
 
 exports.tags = async (req, res) => {

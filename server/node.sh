@@ -1,2 +1,2 @@
-npm i bcrypt body-parser concurrently cors express mysql2 nodemailer nodemon crypto jsonwebtoken rand-token cookie-parser multer passport passport-42 passport-facebook passport-google-oauth multer image-to-base64 uuid/v4 --save
+npm i bcrypt body-parser concurrently cors express mysql2 nodemailer nodemon crypto jsonwebtoken rand-token cookie-parser multer passport passport-42 passport-facebook passport-google-oauth multer image-to-base64 nanoid --save
 # npm i bcrypt@3.0.6 --save

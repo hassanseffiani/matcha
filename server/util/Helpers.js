@@ -2,13 +2,15 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const path = require("path");
 const multer = require("multer");
+const { nanoid } = require('nanoid')
+
   // helper to  bcrypt password
 
-  (exports.keyBcypt = (password) => {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
-    return hash;
-  });
+exports.keyBcypt = (password) => {
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(password, salt);
+  return hash;
+};
 
 // helper to compare password already exsist
 
@@ -52,24 +54,33 @@ exports.keyCrypto = (text) => {
 // upload images
 
 const storage = multer.diskStorage({
-  destination: "public/upload",
+  destination: 'public/upload',
   filename: (req, file, cb) => {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
+      nanoid() +
+        file.fieldname +
+        '-' +
+        Date.now() +
+        path.extname(file.originalname)
+    )
   },
-});
+})
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true);
+  if (
+    file.mimetype == 'image/jpeg' ||
+    file.mimetype == 'image/png' ||
+    file.mimetype == 'image/jpg' ||
+    file.mimetype == 'image/gif'
+  ) {
+    cb(null, true)
   } else {
-    cb(null, false);
+    cb(null, false)
   }
 }
 exports.upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: { fileSize: 5000000 },
-});
+})

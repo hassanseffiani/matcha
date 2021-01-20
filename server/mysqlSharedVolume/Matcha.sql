@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS tag_user(`id` int(11) NOT NULL AUTO_INCREMENT, `users
 INSERT INTO `tag` (`name`)
 VALUES ('#chess'),('#sport'),('#wine'),('#party');
 
+CREATE TABLE IF NOT EXISTS imgProfil(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `image` VARCHAR(255) NOT NULL, `is_profil` int(11)  NOT NULL DEFAULT 0 ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE);
+
 -- INSERT INTO `test` (`id`, `test`) VALUES (NULL, 'w');
 
 -- UPDATE users SET  gender = "Male",bio = "TEST of bio" where id = 1

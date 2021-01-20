@@ -54,8 +54,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FillProfil = (props) => {
+  const initialValue = [{ validTag: undefined, validBio: '' }]
   const [value, setValue] = React.useState("male");
-  const [biography, setBio] = React.useState("...");
+  const [biography, setBio] = React.useState("");
   const [tag, setTag] = React.useState("");
   const [errTag, setErrTag] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -64,9 +65,10 @@ const FillProfil = (props) => {
   const [dsbl, setDsbl] = React.useState(true);
   const [images, setImages] = React.useState([]);
   // const [previewSource, setpreviewSource] = React.useState();
-  const [photos, setPhotos] = React.useState([]);
+  // const [photos, setPhotos] = React.useState([]);
   const [selectedFiles, setSelectedFiles] = React.useState([]);
-  const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = React.useState(0)
+  const [errMsg, setErrMsg] = React.useState(initialValue)
   const classes = useStyles(props);
 
   React.useEffect(() => {
@@ -93,25 +95,33 @@ const FillProfil = (props) => {
       },
     };
 
-    await Axios.post(`base/profil/${id}`, formData, config)
+    
+
+    await Axios.post(`base/tag/${id}`).then((res) => {
+      for (var i = chipData.length - 1; i >= 0; i--) {
+        for (var j = 0; j < res.data.length; j++) {
+          if (chipData[i] && chipData[i].name === res.data[j].name)
+            chipData.splice(i, 1);
+        }
+      }
+    });
+    
+    await Axios.post(`base/profil/${id}`,{
+      gender: value,
+      bio: biography,
+      tag: chipData,
+    }, formData, config)
       .then((res) => {
         // photos: [res.data, ...this.state.photos]
         // to display all image with nedd help of function map
         // const { path } = res.data
-        res.data.map((el, ikey) =>
-          setPhotos([...photos, { id: ikey, path: el.path }])
-        );
+        // console.log(res.data.input)
+        setErrMsg(res.data.input)
+        // res.data.map((el, ikey) =>
+        //   setPhotos([...photos, { id: ikey, path: el.path }])
+        // )
       })
-      .catch((error) => {});
-
-    // await Axios.post(`base/tag/${id}`).then((res) => {
-    //   for (var i = chipData.length - 1; i >= 0; i--) {
-    //     for (var j = 0; j < res.data.length; j++) {
-    //       if (chipData[i] && chipData[i].name === res.data[j].name)
-    //         chipData.splice(i, 1);
-    //     }
-    //   }
-    // });
+      .catch((error) => {})
 
     // Axios.post(`base/profil/${id}`, {
     //   gender: value,
@@ -171,75 +181,76 @@ const FillProfil = (props) => {
   };
   return (
     <Size>
-      <Container className={classes.copy} component="main" maxWidth="xs">
-        <Typography className={classes.typo} component="h1" variant="h5">
+      <Container className={classes.copy} component='main' maxWidth='xs'>
+        <Typography className={classes.typo} component='h1' variant='h5'>
           Fill profil
         </Typography>
         <div className={classes.paper}>
           <form
-            method="POST"
+            method='POST'
             onSubmit={(event) => fill(event, props.match.params.id)}
           >
             <Grid container spacing={2}>
-              <Typography variant="subtitle2" gutterBottom color="secondary">
-                {/* {errMsg} */}
+              <Typography variant='subtitle2' gutterBottom color='secondary'>
+                {/* {console.log(errMsg)} */}
               </Typography>
               <Grid item xs={12}>
-                <label htmlFor="upload-photo">
+                <label htmlFor='upload-photo'>
                   <input
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     multiple
-                    id="upload-photo"
-                    name="myImage"
-                    type="file"
+                    id='upload-photo'
+                    name='myImage'
+                    type='file'
                     onChange={(e) => setImage(e)}
                   />
                   <Fab
-                    color="secondary"
-                    size="small"
-                    component="span"
-                    aria-label="add"
-                    variant="extended"
+                    color='secondary'
+                    size='small'
+                    component='span'
+                    aria-label='add'
+                    variant='extended'
                   >
                     <Add /> Upload photo
                   </Fab>
                 </label>
-                {progress > 0 && progress < 100 &&
-                  <CircularProgress color="secondary" value={progress} />
-                }
+                {progress > 0 && progress < 100 && (
+                  <CircularProgress color='secondary' value={progress} />
+                )}
                 <Grid item xs={12}>
                   {selectedFiles && renderImage(selectedFiles)}
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Biography"
+                  label='Biography'
                   multiline
                   rows={3}
-                  variant="outlined"
+                  variant='outlined'
                   value={biography}
                   onChange={(e) => setBio(e.target.value)}
-                  error={biography === ""}
+                  helperText={errMsg.validBio}
+                  error={errMsg.validBio !== ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Collapse in={open}>
                   <TextField
-                    label="Add New Tag"
+                    label='Add New Tag'
                     multiline
-                    variant="outlined"
+                    variant='outlined'
                     value={tag}
                     onChange={(e) => handelTag(e)}
                     helperText={errTag}
-                    error={errTag !== ""}
+                    error={errTag !== ''}
                   />
                   <Button
-                    variant="outlined"
-                    color="secondary"
+                    variant='outlined'
+                    color='secondary'
                     onClick={() => {
-                      setOpen(false);
-                      setOpen1(true);
-                      addToOption(tag);
+                      setOpen(false)
+                      setOpen1(true)
+                      addToOption(tag)
                     }}
                     disabled={dsbl}
                   >
@@ -249,63 +260,67 @@ const FillProfil = (props) => {
                 <Collapse in={open1}>
                   <Button
                     disabled={open}
-                    variant="outlined"
-                    color="secondary"
+                    variant='outlined'
+                    color='secondary'
                     onClick={() => {
-                      setOpen(true);
-                      setOpen1(false);
+                      setOpen(true)
+                      setOpen1(false)
                     }}
                   >
                     New Tag
                   </Button>
                 </Collapse>
-                <Paper component="ul" className={classes.root}>
-                  {chipData.map((data) => {
-                    return (
-                      <li key={data.key}>
-                        <Chip
-                          label={data.name}
-                          onDelete={handleDelete(data)}
-                          className={classes.chip}
-                        />
-                      </li>
-                    );
-                  })}
+                <Paper component='ul' className={classes.root}>
+                  {chipData &&
+                    chipData.map((data) => {
+                      return (
+                        <li key={data.key}>
+                          <Chip
+                            label={data.name}
+                            onDelete={handleDelete(data)}
+                            className={classes.chip}
+                          />
+                        </li>
+                      )
+                    })}
+                  <Typography color='secondary'>
+                    {chipData && errMsg.validTag}
+                  </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Gender</FormLabel>
+                <FormControl component='fieldset'>
+                  <FormLabel component='legend'>Gender</FormLabel>
                   <RadioGroup
                     row
-                    aria-label="gender"
-                    name="gender1"
+                    aria-label='gender'
+                    name='gender1'
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                   >
                     <FormControlLabel
-                      value="women"
+                      value='women'
                       control={<Radio />}
-                      label="Women"
+                      label='Women'
                     />
                     <FormControlLabel
-                      value="male"
+                      value='male'
                       control={<Radio />}
-                      label="Male"
+                      label='Male'
                     />
                     <FormControlLabel
-                      value="both"
+                      value='both'
                       control={<Radio />}
-                      label="Both"
+                      label='Both'
                     />
                   </RadioGroup>
                 </FormControl>
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="outlined"
+              variant='outlined'
               className={classes.submit}
             >
               Fill Profil
@@ -314,7 +329,7 @@ const FillProfil = (props) => {
         </div>
       </Container>
     </Size>
-  );
+  )
 };
 
 export default FillProfil;
