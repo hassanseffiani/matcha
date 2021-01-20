@@ -2,14 +2,13 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const path = require("path");
 const multer = require("multer");
+  // helper to  bcrypt password
 
-// helper to  bcrypt password
-
-exports.keyBcypt = (password) => {
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  return hash;
-};
+  (exports.keyBcypt = (password) => {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    return hash;
+  });
 
 // helper to compare password already exsist
 
@@ -61,15 +60,16 @@ const storage = multer.diskStorage({
     );
   },
 });
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
-//     cb(null, true)
-//   } else {
-//     cb(null, false)
-//   }
-// }
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+}
 exports.upload = multer({
   storage: storage,
-  // fileFilter: fileFilter,
-  limits: { fileSize: 1000000 },
+  fileFilter: fileFilter,
+  limits: { fileSize: 5000000 },
 });

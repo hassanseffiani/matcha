@@ -45,7 +45,7 @@ route.post(
 
 route.post(
   "/base/profil/:id",
-  [Helpers.upload.array("myImage", 100)],
+  [Helpers.upload.array("myImage", 5)],
   // authVrfy.requireAuth,
   // validator.validationInput,
   homeController.fillProfil
