@@ -1,8 +1,6 @@
 import React from "react";
 import Axios from "axios";
 import {
-  CircularProgress,
-  Fab,
   Chip,
   Paper,
   Collapse,
@@ -17,11 +15,10 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
 // import { Autocomplete }from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import Size from "../helpers/size";
-// import history from "../../history/history";
+import history from "../../history/history";
 
 const useStyles = makeStyles((theme) => ({
   copy: {
@@ -54,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FillProfil = (props) => {
-  const initialValue = [{ validTag: undefined, validBio: '' }]
+  const initialValue = [{ validTag: undefined, validBio: undefined }]
   const [value, setValue] = React.useState("male");
   const [biography, setBio] = React.useState("");
   const [tag, setTag] = React.useState("");
@@ -63,11 +60,8 @@ const FillProfil = (props) => {
   const [open1, setOpen1] = React.useState(true);
   const [chipData, setChipData] = React.useState([]);
   const [dsbl, setDsbl] = React.useState(true);
-  const [images, setImages] = React.useState([]);
   // const [previewSource, setpreviewSource] = React.useState();
   // const [photos, setPhotos] = React.useState([]);
-  const [selectedFiles, setSelectedFiles] = React.useState([]);
-  const [progress, setProgress] = React.useState(0)
   const [errMsg, setErrMsg] = React.useState(initialValue)
   const classes = useStyles(props);
 
@@ -79,23 +73,6 @@ const FillProfil = (props) => {
 
   const fill = async (e, id) => {
     e.preventDefault();
-    const formData = new FormData();
-    for (const key of Object.keys(images)) {
-      formData.append("myImage", images[key]);
-    }
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-      onUploadProgress: (progressEvent) => {
-        console.log(
-          Math.round((progressEvent.loaded / progressEvent.total) * 100) + "%"
-        );
-        setProgress(Math.round((progressEvent.loaded / progressEvent.total) * 100));
-      },
-    };
-
-    
 
     await Axios.post(`base/tag/${id}`).then((res) => {
       for (var i = chipData.length - 1; i >= 0; i--) {
@@ -110,30 +87,21 @@ const FillProfil = (props) => {
       gender: value,
       bio: biography,
       tag: chipData,
-    }, formData, config)
+    })
       .then((res) => {
-        // photos: [res.data, ...this.state.photos]
-        // to display all image with nedd help of function map
-        // const { path } = res.data
-        // console.log(res.data.input)
-        setErrMsg(res.data.input)
+        if (res.data.input)
+          setErrMsg(res.data.input)
+        else
+          history.push(`/addImg/${id}`)
+    //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
+    //   // if (res.data.dataErr.status) setErr(data);
+    //   //   else if (res.data.status === "success") setValid(!valid);
+
         // res.data.map((el, ikey) =>
         //   setPhotos([...photos, { id: ikey, path: el.path }])
         // )
       })
       .catch((error) => {})
-
-    // Axios.post(`base/profil/${id}`, {
-    //   gender: value,
-    //   bio: biography,
-    //   tag: chipData,
-    // }).then((res) => {
-    //   console.log(res.data);
-
-    //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
-    //   // if (res.data.dataErr.status) setErr(data);
-    //   //   else if (res.data.status === "success") setValid(!valid);
-    // });
   };
 
   const handelTag = (e) => {
@@ -163,22 +131,6 @@ const FillProfil = (props) => {
     );
   };
 
-  const setImage = (e) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      const filesToAdd = e.target.files;
-      setImages([...images, ...filesToAdd]);
-      setSelectedFiles((prevImages) => prevImages.concat(filesArray));
-    }
-  };
-
-  const renderImage = (source) => {
-    return source.map((photo) => {
-      return <img src={photo} alt="" key={photo} />;
-    });
-  };
   return (
     <Size>
       <Container className={classes.copy} component='main' maxWidth='xs'>
@@ -191,36 +143,6 @@ const FillProfil = (props) => {
             onSubmit={(event) => fill(event, props.match.params.id)}
           >
             <Grid container spacing={2}>
-              <Typography variant='subtitle2' gutterBottom color='secondary'>
-                {/* {console.log(errMsg)} */}
-              </Typography>
-              <Grid item xs={12}>
-                <label htmlFor='upload-photo'>
-                  <input
-                    style={{ display: 'none' }}
-                    multiple
-                    id='upload-photo'
-                    name='myImage'
-                    type='file'
-                    onChange={(e) => setImage(e)}
-                  />
-                  <Fab
-                    color='secondary'
-                    size='small'
-                    component='span'
-                    aria-label='add'
-                    variant='extended'
-                  >
-                    <Add /> Upload photo
-                  </Fab>
-                </label>
-                {progress > 0 && progress < 100 && (
-                  <CircularProgress color='secondary' value={progress} />
-                )}
-                <Grid item xs={12}>
-                  {selectedFiles && renderImage(selectedFiles)}
-                </Grid>
-              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label='Biography'
@@ -230,7 +152,7 @@ const FillProfil = (props) => {
                   value={biography}
                   onChange={(e) => setBio(e.target.value)}
                   helperText={errMsg.validBio}
-                  error={errMsg.validBio !== ''}
+                  error={errMsg.validBio !== undefined}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

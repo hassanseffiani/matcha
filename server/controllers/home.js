@@ -102,52 +102,13 @@ exports.editProfil = (req, res) => {
 // Fill profil with help of id just for test
 
 exports.fillProfil = async (req, res, next) => {
-  // **************************************************
-  // need some validator in the validator file.
-  ///////////////////////////////////// Images : //////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////
-
-  //save in db
-  // base 64 doesn't work in mac
-  // var images = [];
-  // await req.files.map((el) => {
-  //   // const { originalname, path } = el
-  //   const path = base64Img.base64Sync(el.path)
-  //   images.push({ name: el.originalname, path: path });
-  // });
-  // // console.log(images);
-  // res.json(images);
-  // res.json(req.files)
-
-  // try {
-  //   return res.status(201).json({
-  //     message: "File uploded successfully",
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  /////////////////////////////////////////////////////////////////////////////////////////////////
   var dataErr = {},
     data = {},
     toSend = {};
   toSend.input = { ...res.locals.input }
   data = { ...req.body }
   data.id = req.params.id
-
-  // if (Object.keys(req.files).length !== 0) {
-  //   req.files.map((el, iKey) => {
-  //     // with help of iKey we make a profil image
-  //     // save all path iamges in db in table imagesProfil (1, n)
-  //     const img = new Img(
-  //       null,
-  //       data.id,
-  //       'public/upload/' + el.filename,
-  //       iKey > 0 ? 0 : 1
-  //     )
-  //     img.save()
-  //   })
-  //   dataErr.msgImg = 'Insert done correctly'
-  // } else dataErr.msgImg = 'No Images uploaded'
+  
   if (Object.keys(toSend.input).length !== 0) res.json(toSend)
   else{
     try {
@@ -183,13 +144,60 @@ exports.fillProfil = async (req, res, next) => {
               })
             }
           })
-          // dataErr.msgTag = 'Already exists'
+          dataErr.msgTag = 'Already exists'
         }
       })
     })
     res.json(dataErr)
   }
 };
+
+exports.fillImg = async (req, res, next) => {
+  // **************************************************
+  // need some validator in the validator file.
+  ///////////////////////////////////// Images : //////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
+
+  //save in db
+  // base 64 doesn't work in mac
+  // var images = [];
+  // await req.files.map((el) => {
+  //   // const { originalname, path } = el
+  //   const path = base64Img.base64Sync(el.path)
+  //   images.push({ name: el.originalname, path: path });
+  // });
+  // // console.log(images);
+  // res.json(images);
+  // res.json(req.files)
+
+  // try {
+  //   return res.status(201).json({
+  //     message: "File uploded successfully",
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  var dataErr = {},
+    data = {},
+  data = { ...req.body }
+  data.id = req.params.id
+    dataErr.status = false
+  if (Object.keys(req.files).length !== 0) {
+    req.files.map((el, iKey) => {
+      const img = new Img(
+        null,
+        data.id,
+        'public/upload/' + el.filename,
+        iKey > 0 ? 0 : 1
+      )
+      img.save()
+    })
+    dataErr.msgImg = 'upload done correctly'
+    dataErr.status = true
+  } else dataErr.msgImg = 'No Images uploaded'
+  res.json(dataErr)
+}
 
 exports.tags = async (req, res) => {
   var data = {};

@@ -47,8 +47,7 @@ exports.validationInput = (req, res, next) => {
     dataErr.validUserNameErr = "Enter a valid username";
   if (req.body.password === '') dataErr.validPassErr = 'Enter a valid password'
   if (req.body.bio === '') dataErr.validBio = 'Enter a valid bio'
-  if (Object.keys(req.body.tag).length === 0)
-    dataErr.validTag = "Enter a valid tag";
+  if (Object.keys(req.body.tag).length === 0) dataErr.validTag = "Enter a valid tag"
 
   if (
     regExpName.test(req.body.firstName) &&

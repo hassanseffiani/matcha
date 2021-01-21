@@ -45,11 +45,17 @@ route.post(
 
 route.post(
   "/base/profil/:id",
-  [Helpers.upload.array("myImage", 5)],
-  // authVrfy.requireAuth,
   validator.validationInput,
   homeController.fillProfil
 );
+
+// add img
+
+route.post(
+  '/base/img/:id',
+  [Helpers.upload.array('myImage', 5)],
+  homeController.fillImg
+)
 
 // get all tags [POST]
 
