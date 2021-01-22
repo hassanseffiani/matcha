@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 exports.signUp = async (req, res, next) => {
+  console.log("test")
   var dataErr = {},
     tmp = [],
     toSend = {};
@@ -56,8 +57,9 @@ exports.signUp = async (req, res, next) => {
       Helpers.keyBcypt(req.body.password),
       vkey,
       null,
+      null,
       null
-    );
+    )
     user
       .save()
       .then(() => {

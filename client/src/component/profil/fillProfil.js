@@ -52,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FillProfil = (props) => {
   const initialValue = [{ validTag: undefined, validBio: undefined }]
-  const [value, setValue] = React.useState("male");
+  const [value, setValue] = React.useState('male')
+  const [type, setType] = React.useState('women')
   const [biography, setBio] = React.useState("");
   const [tag, setTag] = React.useState("");
   const [errTag, setErrTag] = React.useState("");
@@ -83,19 +84,18 @@ const FillProfil = (props) => {
       }
     });
     
-    await Axios.post(`base/profil/${id}`,{
+    await Axios.post(`base/profil/${id}`, {
       gender: value,
+      type: type,
       bio: biography,
       tag: chipData,
     })
       .then((res) => {
-        if (res.data.input)
-          setErrMsg(res.data.input)
-        else
-          history.push(`/addImg/${id}`)
-    //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
-    //   // if (res.data.dataErr.status) setErr(data);
-    //   //   else if (res.data.status === "success") setValid(!valid);
+        if (res.data.input) setErrMsg(res.data.input)
+        else history.push('/')
+        //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
+        //   // if (res.data.dataErr.status) setErr(data);
+        //   //   else if (res.data.status === "success") setValid(!valid);
 
         // res.data.map((el, ikey) =>
         //   setPhotos([...photos, { id: ikey, path: el.path }])
@@ -219,6 +219,34 @@ const FillProfil = (props) => {
                     name='gender1'
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value='women'
+                      control={<Radio />}
+                      label='Women'
+                    />
+                    <FormControlLabel
+                      value='male'
+                      control={<Radio />}
+                      label='Male'
+                    />
+                    <FormControlLabel
+                      value='both'
+                      control={<Radio />}
+                      label='Both'
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl component='fieldset'>
+                  <FormLabel component='legend'>Sexual preferences</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label='type'
+                    name='type1'
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
                   >
                     <FormControlLabel
                       value='women'

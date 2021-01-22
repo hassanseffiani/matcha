@@ -13,6 +13,4 @@ module.exports = class Img {
         [this.users_id, this.image, this.is_profil ]
       )
   }
-
-  
 }
