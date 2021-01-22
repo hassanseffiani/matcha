@@ -15,10 +15,8 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core";
-// import { Autocomplete }from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import Size from "../helpers/size";
-import history from "../../history/history";
 
 const useStyles = makeStyles((theme) => ({
   copy: {
@@ -51,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FillProfil = (props) => {
-  const initialValue = [{ validTag: undefined, validBio: undefined }]
+  const initialValue = [{ validBio: undefined }]
   const [value, setValue] = React.useState('male')
   const [type, setType] = React.useState('women')
   const [biography, setBio] = React.useState("");
@@ -61,8 +59,6 @@ const FillProfil = (props) => {
   const [open1, setOpen1] = React.useState(true);
   const [chipData, setChipData] = React.useState([]);
   const [dsbl, setDsbl] = React.useState(true);
-  // const [previewSource, setpreviewSource] = React.useState();
-  // const [photos, setPhotos] = React.useState([]);
   const [errMsg, setErrMsg] = React.useState(initialValue)
   const classes = useStyles(props);
 
@@ -72,9 +68,8 @@ const FillProfil = (props) => {
     // });
   }, []);
 
-  const fill = async (e, id) => {
+  const fill = async (e, id, props) => {
     e.preventDefault();
-
     await Axios.post(`base/tag/${id}`).then((res) => {
       for (var i = chipData.length - 1; i >= 0; i--) {
         for (var j = 0; j < res.data.length; j++) {
@@ -91,15 +86,11 @@ const FillProfil = (props) => {
       tag: chipData,
     })
       .then((res) => {
-        if (res.data.input) setErrMsg(res.data.input)
-        else history.push('/')
-        //   // let data = { ...res.data.dataErr.msg, ...res.data.dataErr.msgTag };
-        //   // if (res.data.dataErr.status) setErr(data);
-        //   //   else if (res.data.status === "success") setValid(!valid);
-
-        // res.data.map((el, ikey) =>
-        //   setPhotos([...photos, { id: ikey, path: el.path }])
-        // )
+        if (res.data.input)
+          setErrMsg(res.data.input)
+        else
+          setErrMsg({ validBio: undefined, validTag: undefined })
+        if (res.data.status) props.onlisten(true)
       })
       .catch((error) => {})
   };
@@ -132,154 +123,154 @@ const FillProfil = (props) => {
   };
 
   return (
-    <Size>
-      <Container className={classes.copy} component='main' maxWidth='xs'>
-        <Typography className={classes.typo} component='h1' variant='h5'>
-          Fill profil
-        </Typography>
-        <div className={classes.paper}>
-          <form
-            method='POST'
-            onSubmit={(event) => fill(event, props.match.params.id)}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label='Biography'
-                  multiline
-                  rows={3}
-                  variant='outlined'
-                  value={biography}
-                  onChange={(e) => setBio(e.target.value)}
-                  helperText={errMsg.validBio}
-                  error={errMsg.validBio !== undefined}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Collapse in={open}>
-                  <TextField
-                    label='Add New Tag'
-                    multiline
-                    variant='outlined'
-                    value={tag}
-                    onChange={(e) => handelTag(e)}
-                    helperText={errTag}
-                    error={errTag !== ''}
-                  />
-                  <Button
-                    variant='outlined'
-                    color='secondary'
-                    onClick={() => {
-                      setOpen(false)
-                      setOpen1(true)
-                      addToOption(tag)
-                    }}
-                    disabled={dsbl}
-                  >
-                    Add
-                  </Button>
-                </Collapse>
-                <Collapse in={open1}>
-                  <Button
-                    disabled={open}
-                    variant='outlined'
-                    color='secondary'
-                    onClick={() => {
-                      setOpen(true)
-                      setOpen1(false)
-                    }}
-                  >
-                    New Tag
-                  </Button>
-                </Collapse>
-                <Paper component='ul' className={classes.root}>
-                  {chipData &&
-                    chipData.map((data) => {
-                      return (
-                        <li key={data.key}>
-                          <Chip
-                            label={data.name}
-                            onDelete={handleDelete(data)}
-                            className={classes.chip}
-                          />
-                        </li>
-                      )
-                    })}
-                  <Typography color='secondary'>
-                    {chipData && errMsg.validTag}
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl component='fieldset'>
-                  <FormLabel component='legend'>Gender</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-label='gender'
-                    name='gender1'
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                  >
-                    <FormControlLabel
-                      value='women'
-                      control={<Radio />}
-                      label='Women'
-                    />
-                    <FormControlLabel
-                      value='male'
-                      control={<Radio />}
-                      label='Male'
-                    />
-                    <FormControlLabel
-                      value='both'
-                      control={<Radio />}
-                      label='Both'
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl component='fieldset'>
-                  <FormLabel component='legend'>Sexual preferences</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-label='type'
-                    name='type1'
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <FormControlLabel
-                      value='women'
-                      control={<Radio />}
-                      label='Women'
-                    />
-                    <FormControlLabel
-                      value='male'
-                      control={<Radio />}
-                      label='Male'
-                    />
-                    <FormControlLabel
-                      value='both'
-                      control={<Radio />}
-                      label='Both'
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='outlined'
-              className={classes.submit}
+      <Size>
+        <Container className={classes.copy} component='main' maxWidth='xs'>
+          <Typography className={classes.typo} component='h1' variant='h5'>
+            Fill profil
+          </Typography>
+          <div className={classes.paper}>
+            <form
+              method='POST'
+              onSubmit={(event) => fill(event, props.id, props)}
             >
-              Fill Profil
-            </Button>
-          </form>
-        </div>
-      </Container>
-    </Size>
-  )
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label='Biography'
+                    multiline
+                    rows={3}
+                    variant='outlined'
+                    value={biography}
+                    onChange={(e) => setBio(e.target.value)}
+                    helperText={errMsg.validBio}
+                    error={errMsg.validBio !== undefined}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Collapse in={open}>
+                    <TextField
+                      label='Add New Tag'
+                      multiline
+                      variant='outlined'
+                      value={tag}
+                      onChange={(e) => handelTag(e)}
+                      helperText={errTag}
+                      error={errTag !== ''}
+                    />
+                    <Button
+                      variant='outlined'
+                      color='secondary'
+                      onClick={() => {
+                        setOpen(false)
+                        setOpen1(true)
+                        addToOption(tag)
+                      }}
+                      disabled={dsbl}
+                    >
+                      Add
+                    </Button>
+                  </Collapse>
+                  <Collapse in={open1}>
+                    <Button
+                      disabled={open}
+                      variant='outlined'
+                      color='secondary'
+                      onClick={() => {
+                        setOpen(true)
+                        setOpen1(false)
+                      }}
+                    >
+                      New Tag
+                    </Button>
+                  </Collapse>
+                  <Paper component='ul' className={classes.root}>
+                    {chipData &&
+                      chipData.map((data) => {
+                        return (
+                          <li key={data.key}>
+                            <Chip
+                              label={data.name}
+                              onDelete={handleDelete(data)}
+                              className={classes.chip}
+                            />
+                          </li>
+                        )
+                      })}
+                    <Typography color='secondary'>
+                      {chipData && errMsg.validTag}
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl component='fieldset'>
+                    <FormLabel component='legend'>Gender</FormLabel>
+                    <RadioGroup
+                      row
+                      aria-label='gender'
+                      name='gender1'
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                    >
+                      <FormControlLabel
+                        value='women'
+                        control={<Radio />}
+                        label='Women'
+                      />
+                      <FormControlLabel
+                        value='male'
+                        control={<Radio />}
+                        label='Male'
+                      />
+                      <FormControlLabel
+                        value='both'
+                        control={<Radio />}
+                        label='Both'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl component='fieldset'>
+                    <FormLabel component='legend'>Sexual preferences</FormLabel>
+                    <RadioGroup
+                      row
+                      aria-label='type'
+                      name='type1'
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                    >
+                      <FormControlLabel
+                        value='women'
+                        control={<Radio />}
+                        label='Women'
+                      />
+                      <FormControlLabel
+                        value='male'
+                        control={<Radio />}
+                        label='Male'
+                      />
+                      <FormControlLabel
+                        value='both'
+                        control={<Radio />}
+                        label='Both'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Button
+                type='submit'
+                fullWidth
+                variant='outlined'
+                className={classes.submit}
+              >
+                Fill Profil
+              </Button>
+            </form>
+          </div>
+        </Container>
+      </Size>
+    )
 };
 
 export default FillProfil;

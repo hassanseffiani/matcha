@@ -28,22 +28,27 @@ const StepperComponent = (props) => {
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
   const [callImg, setCallImg] = React.useState(false)
+  const [fillProfil, setFillProfil] = React.useState(false)
   const steps = getSteps()
   console.log(callImg)
   function getStepContent(step, props) {
     switch (step) {
       case 0:
-        return <props.img onlisten={setCallImg} id={props.id}/>
+        return <props.img onlisten={setCallImg} cImg={callImg} id={props.id} />
       case 1:
-        return <props.fill />
+        return <props.fill onlisten={setFillProfil} vProfil={fillProfil}  id={props.id}/>
       default:
         return 'Unknown step'
     }
   }
   
   const handleNext = () => {
+    if (callImg || (activeStep === steps.length - 1 && fillProfil)){
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      setCallImg(false)
+      setFillProfil(false)
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    }
   }
 
   const handleReset = () => {
@@ -75,7 +80,7 @@ const StepperComponent = (props) => {
           </div>
         ) : (
           <div>
-              {getStepContent(activeStep, props)}
+            {getStepContent(activeStep, props)}
             <div>
               <Button
                 variant='contained'

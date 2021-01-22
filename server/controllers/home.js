@@ -148,7 +148,7 @@ exports.fillProfil = async (req, res, next) => {
         }
       })
     })
-    res.json(dataErr)
+    res.json({dataErr, status: true})
   }
 };
 

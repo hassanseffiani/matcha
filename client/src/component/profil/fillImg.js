@@ -45,7 +45,6 @@ const FillProfil = (props) => {
   
   const addImg = async (e, id, props) => {
     e.preventDefault()
-    console.log(props.onlisten)
     const formData = new FormData()
     for (const key of Object.keys(images)) {
       formData.append('myImage', images[key])
@@ -65,10 +64,8 @@ const FillProfil = (props) => {
       .then((res) => {
           setStatus(res.data.status)
           setMsg(res.data.msgImg)
-        // if (res.data.status === true)
-          // props.onlisten()
-          // history.push(`/fillProfil/${id}`)
-
+        if (res.data.status === true)
+          props.onlisten(!props.cImg)
       })
       .catch((error) => {})
 
