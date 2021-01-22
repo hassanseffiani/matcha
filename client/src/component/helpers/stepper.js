@@ -21,65 +21,29 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function getSteps() {
-  return ['Add some Images to your profil', '', '']
+  return ['Add some Images to your profil', 'Complet a profil form']
 }
-
-function getStepContent(step, props) {
-  switch (step) {
-    case 0:
-      return <props.img />
-    case 1:
-      return <props.fill />
-    case 2:
-      return 'This is the bit I really care about!'
-    default:
-      return 'Unknown step'
-  }
-}
-
 
 const StepperComponent = (props) => {
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
-  const [skipped, setSkipped] = React.useState(new Set())
+  const [callImg, setCallImg] = React.useState(false)
   const steps = getSteps()
-
-  const isStepOptional = (step) => {
-    return step === 1
+  console.log(callImg)
+  function getStepContent(step, props) {
+    switch (step) {
+      case 0:
+        return <props.img onlisten={setCallImg} id={props.id}/>
+      case 1:
+        return <props.fill />
+      default:
+        return 'Unknown step'
+    }
   }
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step)
-  }
-
+  
   const handleNext = () => {
-    let newSkipped = skipped
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values())
-      newSkipped.delete(activeStep)
-    }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    setSkipped(newSkipped)
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.")
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values())
-      newSkipped.add(activeStep)
-      return newSkipped
-    })
   }
 
   const handleReset = () => {
@@ -92,14 +56,6 @@ const StepperComponent = (props) => {
         {steps.map((label, index) => {
           const stepProps = {}
           const labelProps = {}
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = (
-          //     <Typography variant='caption'>Optional</Typography>
-          //   )
-          // }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false
-          }
           return (
             <Step key={index} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -119,28 +75,8 @@ const StepperComponent = (props) => {
           </div>
         ) : (
           <div>
-            {/* <Typography className={classes.instructions}> */}
               {getStepContent(activeStep, props)}
-            {/* </Typography> */}
             <div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )}
-
               <Button
                 variant='contained'
                 color='primary'

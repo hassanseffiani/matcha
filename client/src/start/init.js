@@ -12,7 +12,7 @@ import SendForget from "../component/forget/sendForget";
 import Forget from "../component/forget/forget";
 // import FillProfil from '../component/profil/fillProfil'
 // import AddImg from '../component/profil/fillImg'
-import Steps from '../component/helpers/stepper'
+// import Steps from '../component/helpers/stepper'
 
 // import Footer from "../component/layout/Footer";
 import Error from "../component/helpers/404";

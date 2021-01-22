@@ -14,6 +14,6 @@
 # docker-machine rm -f default
 # curl https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso -o boot2docker.iso
 # mv boot2docker.iso goinfre/.docker/machine/cache/
-# ocker-machine create --driver virtualbox default
+# docker-machine create --driver virtualbox default
 # mv .docker goinfre
 # ln -s goinfre/.docker .docker

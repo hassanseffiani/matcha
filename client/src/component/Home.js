@@ -94,7 +94,7 @@ class Home extends Component {
             <Typography component='h1' variant='h5'>
               Profil
             </Typography>
-            <Steps img={AddImg} fill={FillProfil} />
+            <Steps img={AddImg} fill={FillProfil} id={this.state.id} />
             {/* <form
               method="POST"
               className={classes.form}

@@ -14,7 +14,7 @@ import {Alert} from '@material-ui/lab'
 import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import Size from '../helpers/size'
-import history from "../../history/history";
+// import history from "../../history/history";
 
 const useStyles = makeStyles((theme) => ({
   copy: {
@@ -42,9 +42,10 @@ const FillProfil = (props) => {
   const [status, setStatus] = React.useState()
   const [progress, setProgress] = React.useState(0)
   const classes = useStyles(props)
-
-  const addImg = async (e, id) => {
+  
+  const addImg = async (e, id, props) => {
     e.preventDefault()
+    console.log(props.onlisten)
     const formData = new FormData()
     for (const key of Object.keys(images)) {
       formData.append('myImage', images[key])
@@ -64,8 +65,10 @@ const FillProfil = (props) => {
       .then((res) => {
           setStatus(res.data.status)
           setMsg(res.data.msgImg)
-        if (res.data.status === true)
-          history.push(`/fillProfil/${id}`)
+        // if (res.data.status === true)
+          // props.onlisten()
+          // history.push(`/fillProfil/${id}`)
+
       })
       .catch((error) => {})
 
@@ -100,7 +103,7 @@ const FillProfil = (props) => {
         <div className={classes.paper}>
           <form
             method='POST'
-            onSubmit={(event) => addImg(event, props.match.params.id)}
+            onSubmit={(event) => addImg(event, props.id, props)}
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
