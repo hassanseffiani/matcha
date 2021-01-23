@@ -31,8 +31,7 @@ route.post(
 //  edit profil logged POST
 
 route.post(
-  "/base/editprofil",
-  authVrfy.requireAuth,
+  "/base/editprofil/:id",
   validator.validationInput,
   homeController.editProfil
 );

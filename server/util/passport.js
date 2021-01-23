@@ -30,19 +30,7 @@ async function(accessToken, refreshToken, profile, done) {
     await User.oauthFindUser(profile.sub).then((response) => {
         if(response[0].length === 0)
         {
-            User.oauthRegister(
-              profile.sub,
-              profile.email,
-              profile.name,
-              profile.given_name,
-              profile.family_name,
-              '*',
-              accessToken,
-              1,
-              null,
-              null,
-              null
-            )
+            User.oauthRegister(profile.sub, profile.email, profile.name, profile.given_name, profile.family_name, '*', accessToken, 1, null, null)
             console.log('User created Successfully !');
             
         } else {

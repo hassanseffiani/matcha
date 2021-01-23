@@ -30,7 +30,6 @@ const StepperComponent = (props) => {
   const [callImg, setCallImg] = React.useState(false)
   const [fillProfil, setFillProfil] = React.useState(false)
   const steps = getSteps()
-  console.log(callImg)
   function getStepContent(step, props) {
     switch (step) {
       case 0:

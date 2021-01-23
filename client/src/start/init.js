@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Route, Switch } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+// import { Grid } from "@material-ui/core";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { HeaderLoggedin, HeaderLoggout } from "../component/layout/Header";
-import Home from "../component/Home";
+// import Home from "../component/Home";
 import Login from "../component/auth/Login";
 import Signup from "../component/auth/Sign-in";
 import Valid from "../component/auth/Valid";
-import SendForget from "../component/forget/sendForget";
-import Forget from "../component/forget/forget";
-// import FillProfil from '../component/profil/fillProfil'
-// import AddImg from '../component/profil/fillImg'
-// import Steps from '../component/helpers/stepper'
-
+// import SendForget from "../component/forget/sendForget";
+// import Forget from "../component/forget/forget";
+// import FillProfil from "../component/profil/fillProfil";
 // import Footer from "../component/layout/Footer";
-import Error from "../component/helpers/404";
+// import Error from "../component/helpers/404";
+import ResponsiveDrawer from "../component/layout/res/ResponsiveDrawer";
+
 
 const Init = (props) => {
+
   const [loggedin, setLoggedin] = useState(false);
+  
   const login = () => {
     setLoggedin(!loggedin);
   };
@@ -39,46 +39,35 @@ const Init = (props) => {
       });
   });
 
-  const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false);
 
   const darkTheme = createMuiTheme({
-    palette: {
-      type: darkMode ? "dark" : "light",
-    },
+    // palette: {
+    //   type: darkMode ? "dark" : "light",
+    // },
   });
   return (
     <ThemeProvider theme={darkTheme}>
-      <Grid container direction='column'>
-        <Grid item>
-          {loggedin && (
-            <HeaderLoggedin
-              darkMode={darkMode}
-              setDarkMode={setDarkMode}
-              logout={logout}
-            />
-          )}
-          {!loggedin && (
-            <HeaderLoggout darkMode={darkMode} setDarkMode={setDarkMode} />
-          )}
-        </Grid>
-        <Grid item container>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/confirm/:cnfId' component={Valid} />
-            <Route path='/Sign-up' component={Signup} />
-            <Route path='/Login' component={() => <Login login={login} />} />
-            <Route path='/sendForget' component={SendForget} />
-            <Route path='/forget/:frgId' component={Forget} />
-            {/* <Route path='/fillProfil/:id' component={FillProfil} /> */}
-            {/* <Route path='/addImg/:id' component={AddImg} /> */}
-            {/* <Route path='/steps' component={Steps} /> */}
-            <Route path='*' component={() => <Error isAuth={loggedin} />} />
+      {loggedin === true && <ResponsiveDrawer logout={logout} />}
+      {loggedin === false && (
+        <Switch>
+          <Route exact path='/Sign-up' component={Signup} />
+          <Route path='/Login' component={() => <Login login={login} />} />
+          <Route path='/confirm/:cnfId' component={Valid} />
+          <Route path='/*' component={() => <Login login={login} />} />
+        </Switch>
+      )}
+      {/* <Switch>
+            <Route exact path="/" component={() => <Login login={login} />} />
+            <Route path="/confirm/:cnfId" component={Valid} />
+            <Route path="/Sign-up" component={Signup} />
+            <Route path="/Login" component={() => <Login login={login} />} />
+            <Route path="/sendForget" component={SendForget} />
+            <Route path="/forget/:frgId" component={Forget} />
+            <Route path="/fillProfil/:id" component={FillProfil} />
+            <Route path="*" component={() => <Error isAuth={loggedin} />} />
           </Switch>
-        </Grid>
-        <Grid item xs={12}>
-          {/* <Footer /> */}
-        </Grid>
-      </Grid>
+          <Footer /> */}
     </ThemeProvider>
   )
 };

@@ -4,9 +4,9 @@ const errRoutes = require("./routes/error");
 const homeRoutes = require("./routes/base");
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
-const passport = require("passport");
-const path = require('path');
-const pss = require("./util/passport.js");
+const pss = require('./util/passport.js');
+const passport = require('passport');
+
 
 const cors = require("cors");
 // const productsController = require('./controllers/error');
@@ -26,14 +26,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Images ***************************************************
 // need help of package path
+// const path = require('path');
 // static folder to thing like image ...
-// if you want to sjow all file with get method
 // app.use(express.static(path.join(__dirname, 'public')));
-
+//**********************************************************
 
 // parse application/json
 app.use(bodyParser.json());
-
 app.use(passport.initialize());
 app.use(authRoutes);
 app.use(homeRoutes);

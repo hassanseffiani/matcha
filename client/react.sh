@@ -1,1 +1,1 @@
-npm i react-router-dom axios @material-ui/core @material-ui/icons @material-ui/lab material-ui-chip-input --save
+npm i react-router-dom axios @material-ui/core @material-ui/icons @material-ui/lab --save
