@@ -212,10 +212,11 @@ exports.getImges = (req, res) => {
 };
 
 
-exports.checkIs = (res, req) => {
-  console.log(req.params)
-  res.json(req.params.id)
-  // User.CheckIfE(req.params.id).then(res => {
-  //   console.log(res)
-  // })
+exports.checkIs = (req, res) => {
+  User.CheckIfE(req.params.id).then(([is]) => {
+    if (is.length) {
+      res.json({ status: true })
+    }else
+      res.json({ status: false })
+  })
 }

@@ -12,3 +12,5 @@ INSERT INTO `tag` (`name`)
 VALUES ('#chess'),('#sport'),('#wine'),('#party');
 
 CREATE TABLE IF NOT EXISTS imgProfil(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `image` VARCHAR(255) NOT NULL, `is_profil` int(11)  NOT NULL DEFAULT 0 ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS location(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `city` VARCHAR(255) NOT NULL, `lat` int(11)  NOT NULL , `long` int(11)  NOT NULL ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE); 

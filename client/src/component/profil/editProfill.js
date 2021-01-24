@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
+import history from '../../history/history'
 const instance = Axios.create({ withCredentials: true })
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +27,7 @@ const EditProfil = (props) => {
   const [errMsg, setErrMsg] = React.useState("")
   const [status, setStatus] = React.useState()
   const [f, setF] = React.useState(false)
+  const [check, setCheck] = React.useState(false)
 
   const edit = (e, id) => {
     e.preventDefault()
@@ -63,18 +65,21 @@ const EditProfil = (props) => {
   };
 
   React.useEffect(() => {
-    Axios.post(`/base/check/${props.match.params.id}`).then((res) => {
-      console.log(res)
+    Axios.post(`/base/check/${props.match.params.id}`).then(async (res) => {
+      if (res.data.status) await setCheck(true)
     })
-    instance
-      .get('http://localhost:3001/base')
-      .then((res) => {
-        setData(res.data[0])
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [props.match.params.id])
+    if (check) history.push('/')
+    else{
+      instance
+        .get('http://localhost:3001/base')
+        .then((res) => {
+          setData(res.data[0])
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [props.match.params.id, check])
 
   return (
     <form

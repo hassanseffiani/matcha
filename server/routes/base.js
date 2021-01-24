@@ -66,5 +66,5 @@ route.get("/upload/:filename", homeController.getImges)
 
 // check if profil is complet
 
-route.post("/base/check/:id", homeController.checkIs)
+route.post('/base/check/:id', homeController.checkIs)
 module.exports = route;

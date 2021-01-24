@@ -22,13 +22,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 // import { MenuItem } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { FaHome, FaInfoCircle } from "react-icons/fa";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { FaHome, FaInfoCircle, FaRegComments } from 'react-icons/fa'
+import { RiLogoutCircleLine } from 'react-icons/ri'
 import { MdAccountCircle } from "react-icons/md";
+
 
 import { About } from "./About"
 import Home from '../../profil/Home'
 import EditProfil from '../../profil/editProfill'
+import Match from '../../Match/match'
 import Axios from "axios";
 
 const instance = Axios.create({ withCredentials: true });
@@ -104,6 +106,7 @@ const ResponsiveDrawer =  (props) => {
       setMobileOpen(!mobileOpen);
     };
     const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
+    {text: "match", icon : < FaRegComments/>, onClick : () => history.push("/match")},
     {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
     {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
     ];
@@ -202,6 +205,7 @@ const ResponsiveDrawer =  (props) => {
           <Switch>
             {/* fillImg -> fiilProfil */}
             <Route exact path='/edit/:id' component={EditProfil} />
+            <Route exact path='/match' component={Match} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' component={Home} />
           </Switch>
