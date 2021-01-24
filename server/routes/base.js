@@ -63,4 +63,8 @@ route.post("/base/tag/:id", homeController.tags);
 // get all images
 
 route.get("/upload/:filename", homeController.getImges)
+
+// check if profil is complet
+
+route.post("/base/check/:id", homeController.checkIs)
 module.exports = route;

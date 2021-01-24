@@ -27,7 +27,6 @@ const EditProfil = (props) => {
   const [status, setStatus] = React.useState()
   const [f, setF] = React.useState(false)
 
-
   const edit = (e, id) => {
     e.preventDefault()
     console.log(e)
@@ -64,7 +63,10 @@ const EditProfil = (props) => {
   };
 
   React.useEffect(() => {
-      instance
+    Axios.post(`/base/check/${props.match.params.id}`).then((res) => {
+      console.log(res)
+    })
+    instance
       .get('http://localhost:3001/base')
       .then((res) => {
         setData(res.data[0])
@@ -72,7 +74,7 @@ const EditProfil = (props) => {
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [props.match.params.id])
 
   return (
     <form

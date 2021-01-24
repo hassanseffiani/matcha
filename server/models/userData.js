@@ -105,4 +105,10 @@ module.exports = class User {
           [data.userName, data.email, data.firstName, data.lastName, data.bio, data.id]
         )
     }
+
+    static CheckIfE(id){
+        return db.execute(
+          'SELECT * from users WHERE gender IS NULL AND type IS NULL AND bio IS NULL AND id = ?',[id]
+        )
+    }
 }

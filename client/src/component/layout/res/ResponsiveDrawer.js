@@ -74,23 +74,37 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ResponsiveDrawer =  (props) => {
-  
-  const handelLogout = () => {
-    console.log(props);
-    instance.post("http://localhost:3001/logout");
-    props.logout();
-  }; 
-    const { history } = props;
-    const { window } = props;
-    const classes = useStyles();
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-  
+
+    const { history } = props
+    const { window } = props
+    const classes = useStyles()
+    const theme = useTheme()
+    const [mobileOpen, setMobileOpen] = React.useState(false)
+    const [id, setId] = React.useState('')
+
+    React.useEffect(() => {
+      instance
+        .get('http://localhost:3001/base')
+        .then((res) => {
+          // console.log(res.data[0])
+          setId(res.data[0].id)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }, [])
+
+    const handelLogout = () => {
+      console.log(props);
+      instance.post("http://localhost:3001/logout");
+      props.logout();
+    }; 
+
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
     const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
-    {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push("/edit")}, 
+    {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
     {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
     ];
     const itemsListTwo = [{text: "Logout", icon : < RiLogoutCircleLine />, onClick : () => {handelLogout();}}];
@@ -187,7 +201,7 @@ const ResponsiveDrawer =  (props) => {
           <div className={classes.toolbar} />
           <Switch>
             {/* fillImg -> fiilProfil */}
-            <Route exact path='/edit' component={EditProfil} />
+            <Route exact path='/edit/:id' component={EditProfil} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' component={Home} />
           </Switch>

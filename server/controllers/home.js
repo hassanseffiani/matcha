@@ -210,3 +210,12 @@ exports.getImges = (req, res) => {
     // console.log(file)
   });
 };
+
+
+exports.checkIs = (res, req) => {
+  console.log(req.params)
+  res.json(req.params.id)
+  // User.CheckIfE(req.params.id).then(res => {
+  //   console.log(res)
+  // })
+}
