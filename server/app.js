@@ -6,15 +6,13 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/auth");
 const pss = require('./util/passport.js');
 const passport = require('passport');
-
-
 const cors = require("cors");
-// const productsController = require('./controllers/error');
 const express = require('express');
+
 const app = express();
 app.use(express.json());
 var corsOptions = {
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3000',
     credentials: true
 }
 app.use(cors(corsOptions));

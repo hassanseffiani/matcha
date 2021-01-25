@@ -1,6 +1,6 @@
 # docker-machine start
 # eval $(docker-machine env default)
-#docker run --name mysql -v ~/server/mysqlSharedVolume:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=tiger -p 3306:3306 -d mysql
+docker run --name mysql -v ~/server/mysqlSharedVolume:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=tiger -p 3306:3306 -d mysql
 docker start mysql
 ### docker exec -it mysql bash
 
