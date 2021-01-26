@@ -87,12 +87,12 @@ exports.upload = multer({
 })
 
 
-exports.geoLocal = (lat, long) => {
-  const  options = {
+exports.geoLocal = async (lat, long) => {
+  var data = {};
+  const options = {
     provider: 'openstreetmap',
   }
   const geoCoder = nodeGeocoder(options)
-  geoCoder.reverse({ lat: lat, lon: long }).then((res) => {
-    console.log(res)
-  })
+  await geoCoder.reverse({ lat: lat, lon: long }).then((res) => data = res)
+  return data;
 }

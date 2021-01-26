@@ -1,6 +1,7 @@
 const User = require("../models/userData");
 const Tag = require('../models/tagData')
 const Img = require('../models/imgData')
+const Geo = require('../models/geoData')
 const Helpers = require("../util/Helpers");
 const fs = require("fs");
 const path = require("path");
@@ -221,7 +222,20 @@ exports.checkIs = (req, res) => {
   })
 }
 
-exports.geo = (req, res) => {
-  const { lat, long } = req.body;
-  Helpers.geoLocal(lat, long);
+exports.geo = async (req, res) => {
+  var data = {},
+    data = { ...req.body }
+  data.id = req.params.id
+  // const { lat, long } = req.body;
+  let word, lat, long
+  // res.json(Helpers.geoLocal(lat, long));
+  await Helpers.geoLocal(data.lat, data.long).then(city => {
+    city.map(el => {
+      word = el.city.split(' ')
+      // insert into info geo user into db 
+      const geo = new Geo(null, data.id, word[0], data.lat, data.long)
+      geo.save();
+    })
+  })
+  res.json(word[0])
 }
