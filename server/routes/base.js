@@ -67,4 +67,8 @@ route.get("/upload/:filename", homeController.getImges)
 // check if profil is complet
 
 route.post('/base/check/:id', homeController.checkIs)
+
+// localistatiuon
+
+route.post('/base/localisation/:id', homeController.geo)
 module.exports = route;

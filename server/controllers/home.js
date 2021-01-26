@@ -220,3 +220,8 @@ exports.checkIs = (req, res) => {
       res.json({ status: false })
   })
 }
+
+exports.geo = (req, res) => {
+  const { lat, long } = req.body;
+  Helpers.geoLocal(lat, long);
+}

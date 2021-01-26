@@ -88,7 +88,6 @@ const ResponsiveDrawer =  (props) => {
       instance
         .get('http://localhost:3001/base')
         .then((res) => {
-          // console.log(res.data[0])
           setId(res.data[0].id)
         })
         .catch((error) => {
@@ -106,7 +105,7 @@ const ResponsiveDrawer =  (props) => {
       setMobileOpen(!mobileOpen);
     };
     const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
-    {text: "match", icon : < FaRegComments/>, onClick : () => history.push("/match")},
+    {text: "match", icon : < FaRegComments/>, onClick : () => history.push(`/match/${id}`)},
     {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
     {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
     ];
@@ -205,7 +204,7 @@ const ResponsiveDrawer =  (props) => {
           <Switch>
             {/* fillImg -> fiilProfil */}
             <Route exact path='/edit/:id' component={EditProfil} />
-            <Route exact path='/match' component={Match} />
+            <Route exact path='/match/:id' component={Match} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' component={Home} />
           </Switch>

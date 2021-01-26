@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const path = require("path");
 const multer = require("multer");
 const { nanoid } = require('nanoid')
+const nodeGeocoder = require('node-geocoder')
 
   // helper to  bcrypt password
 
@@ -84,3 +85,14 @@ exports.upload = multer({
   fileFilter: fileFilter,
   limits: { fileSize: 5000000 },
 })
+
+
+exports.geoLocal = (lat, long) => {
+  const  options = {
+    provider: 'openstreetmap',
+  }
+  const geoCoder = nodeGeocoder(options)
+  geoCoder.reverse({ lat: lat, lon: long }).then((res) => {
+    console.log(res)
+  })
+}

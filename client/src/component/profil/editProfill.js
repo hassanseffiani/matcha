@@ -31,7 +31,6 @@ const EditProfil = (props) => {
 
   const edit = (e, id) => {
     e.preventDefault()
-    console.log(e)
     Axios.post(`base/editprofil/${id}`, {
       userName: data.userName,
       email: data.email,
