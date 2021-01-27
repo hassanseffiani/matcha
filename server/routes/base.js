@@ -71,4 +71,8 @@ route.post('/base/check/:id', homeController.checkIs)
 // localistatiuon
 
 route.post('/base/localisation/:id', homeController.geo)
+
+// localistatiuon
+
+route.post('/base/geo/:id', homeController.geoOneUser)
 module.exports = route;

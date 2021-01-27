@@ -1,0 +1,13 @@
+const Browsing = require('../controllers/browsing')
+// const validator = require('../controllers/validator')
+// const Helpers = require('../util/Helpers')
+
+const express = require('express')
+const route = express.Router()
+
+
+// get all users with ◦ Same geographic area as the user. ◦ With a maximum of common tags.◦ With a maximum “fame rating
+
+route.post('/browsing', Browsing.index)
+
+module.exports = route

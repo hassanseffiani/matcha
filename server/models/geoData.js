@@ -14,4 +14,8 @@ module.exports = class Geo {
       [this.users_id, this.city, this.lat, this.long]
     )
   }
+
+  static getLatLong(id) {
+    return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
+  }
 }

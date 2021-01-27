@@ -239,3 +239,13 @@ exports.geo = async (req, res) => {
   })
   res.json(word[0])
 }
+
+exports.geoOneUser = (req, res) => {
+  // get location about with users id
+  const {id}= req.params
+  Geo.getLatLong(id).then(([loc]) => {
+    loc.map(el => {
+      res.json({lat: el.lat, long: el.long})
+    })
+  })
+}
