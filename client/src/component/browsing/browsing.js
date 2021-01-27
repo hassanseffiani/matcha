@@ -2,34 +2,30 @@ import React from 'react'
 import Axios from 'axios'
 
 const Browsing = (props) => {
-    const [cord, setCord] = React.useState([])
+  const [cord, setCord] = React.useState([])
 
-    React.useEffect(() => {
-      getLocalisation()
-    //   Axios.post('/browsing')
-      ////////////////////////////////////////////////////////////////
-      // pass into node js back end to work with table location
+  const getLocalisation = async () => {
+    await Axios.post(`/browsing/geo/${props.match.params.id}`).then((res) => {
+      // console.log(Object.values(res.data))
+      // console.log(res.data)
+      setCord(res.data)
+    })
+  }
 
-      // const calculate = require('calculate-coordinates')
-      // const geolib = require('geolib')
-
-      // let centerCoordinates = [32.8822, -6.8979]
-      // let extremeCoordinates = [32.84893, -6.92947]
-
-      // let result = geolib.getDistance(centerCoordinates, extremeCoordinates)
-
-      // console.log(geolib.convertDistance(result, 'km').toFixed(2))
-      ////////////////////////////////////////////////////////////////
-    }, [])
-
-    const getLocalisation = () => {
-        Axios.post(`/base/geo/${props.match.params.id}`).then(res => {
-            setCord(res.data)
+  React.useEffect(() => {
+    getLocalisation()
+      const interval = setInterval(() => {
+        Axios.post('/browsing', {
+          cord: cord,
         })
-    }
+      }, 100)
+      return () => clearInterval(interval)
+  }, [])
+
   return (
     <div>
-        test
+      test
+      {/* {console.log(cord)} */}
     </div>
   )
 }

@@ -4,6 +4,7 @@ const path = require("path");
 const multer = require("multer");
 const { nanoid } = require('nanoid')
 const nodeGeocoder = require('node-geocoder')
+const geolib = require('geolib')
 
   // helper to  bcrypt password
 
@@ -95,4 +96,11 @@ exports.geoLocal = async (lat, long) => {
   const geoCoder = nodeGeocoder(options)
   await geoCoder.reverse({ lat: lat, lon: long }).then((res) => data = res)
   return data;
+}
+
+
+
+exports.cmpGeo = (cord1, cord2) => {
+  let result = geolib.getDistance(cord1, cord2)
+  return geolib.convertDistance(result, 'km').toFixed(2)
 }

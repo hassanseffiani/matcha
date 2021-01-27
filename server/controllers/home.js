@@ -1,7 +1,6 @@
 const User = require("../models/userData");
 const Tag = require('../models/tagData')
 const Img = require('../models/imgData')
-const Geo = require('../models/geoData')
 const Helpers = require("../util/Helpers");
 const fs = require("fs");
 const path = require("path");
@@ -238,14 +237,4 @@ exports.geo = async (req, res) => {
     })
   })
   res.json(word[0])
-}
-
-exports.geoOneUser = (req, res) => {
-  // get location about with users id
-  const {id}= req.params
-  Geo.getLatLong(id).then(([loc]) => {
-    loc.map(el => {
-      res.json({lat: el.lat, long: el.long})
-    })
-  })
 }

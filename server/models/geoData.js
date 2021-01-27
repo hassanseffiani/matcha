@@ -18,4 +18,8 @@ module.exports = class Geo {
   static getLatLong(id) {
     return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
   }
+
+  static getAll(){
+    return db.execute('SELECT * FROM location')
+  }
 }
