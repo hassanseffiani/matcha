@@ -111,4 +111,8 @@ module.exports = class User {
           'SELECT * from users WHERE gender IS NULL AND type IS NULL AND bio IS NULL AND id = ?',[id]
         )
     }
+
+    static getDataMatch(id){
+        return db.execute('SELECT * FROM users WHERE id = ?', [id]);       
+    }
 }

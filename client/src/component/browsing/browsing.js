@@ -4,28 +4,24 @@ import Axios from 'axios'
 const Browsing = (props) => {
   const [cord, setCord] = React.useState([])
 
-  const getLocalisation = async () => {
+
+  const getLocalisation = React.useCallback(async () => {
     await Axios.post(`/browsing/geo/${props.match.params.id}`).then((res) => {
-      // console.log(Object.values(res.data))
-      // console.log(res.data)
       setCord(res.data)
     })
-  }
+  }, [props.match.params.id])
 
   React.useEffect(() => {
-    getLocalisation()
-      const interval = setInterval(() => {
-        Axios.post('/browsing', {
-          cord: cord,
-        })
-      }, 100)
-      return () => clearInterval(interval)
-  }, [])
+    if (cord.length) {
+      Axios.post('/browsing', {
+        cord: cord,
+      })
+    } else getLocalisation()
+  }, [cord, getLocalisation])
 
   return (
     <div>
       test
-      {/* {console.log(cord)} */}
     </div>
   )
 }

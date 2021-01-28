@@ -1,5 +1,4 @@
 const User = require('../models/userData')
-const Tag = require('../models/tagData')
 const Helpers = require('../util/Helpers')
 const Geo = require('../models/geoData')
 
@@ -15,17 +14,28 @@ exports.geoOneUser = (req, res) => {
   })
 }
 
-exports.index = async (req, res, next) => {
+exports.index = (req, res, next) => {
   const {cord} = req.body
-  var data = []
+  var data = [], data1 = {}
 
     // get all from table location to compare with location of the current user
-    await Geo.getAll().then(([res]) => {
+    Geo.getAll().then(async ([res]) => {
       res.map(el => {
         data.push({id: el.users_id, cmp: Math.min(Helpers.cmpGeo(cord, [el.lat, el.long]))})
       })
+      data.sort((a, b) => a.cmp - b.cmp);
     })
-    data.sort((a, b) => a.cmp - b.cmp);
-    // after this sort get user by id from the first elemt to the last until we add search method
     console.log(data)
+    // after this sort get user by id from the first elemt to the last until we add search method
+    /// name, age, tag, image, bio
+    // await data.map(el => {
+    //   User.getDataMatch(el.id).then(([res]) => {
+    //     res.map(el => {
+    //       // console.log(el)
+    //       data1 = {...data1, ...el}
+    //     })
+    //     // await data1.push(...res)
+    //   })
+    // })
+    // console.log(data1)
 }
