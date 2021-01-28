@@ -13,10 +13,12 @@ const Browsing = (props) => {
 
   React.useEffect(() => {
     if (cord.length) {
+      console.log(cord)
       Axios.post('/browsing', {
         cord: cord,
       })
-    } else getLocalisation()
+    }else
+      getLocalisation()
   }, [cord, getLocalisation])
 
   return (

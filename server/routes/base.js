@@ -68,7 +68,7 @@ route.get("/upload/:filename", homeController.getImges)
 
 route.post('/base/check/:id', homeController.checkIs)
 
-// localistatiuon
+// localistation
 
 route.post('/base/localisation/:id', homeController.geo)
 

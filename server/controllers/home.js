@@ -1,6 +1,7 @@
 const User = require("../models/userData");
 const Tag = require('../models/tagData')
 const Img = require('../models/imgData')
+const Geo = require('../models/geoData')
 const Helpers = require("../util/Helpers");
 const fs = require("fs");
 const path = require("path");

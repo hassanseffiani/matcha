@@ -13,4 +13,15 @@ VALUES ('#chess'),('#sport'),('#wine'),('#party');
 
 CREATE TABLE IF NOT EXISTS imgProfil(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `image` VARCHAR(255) NOT NULL, `is_profil` int(11)  NOT NULL DEFAULT 0 ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE);
 
-CREATE TABLE IF NOT EXISTS location(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `city` VARCHAR(255) NOT NULL, `lat` FLOAT(7,4) NOT NULL , `long` FLOAT(7,4)  NOT NULL ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE);
+CREATE TABLE IF NOT EXISTS location(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `users_id` int(11) NOT NULL, `city` VARCHAR(255) NOT NULL, `lat` FLOAT(10, 6) NOT NULL , `long` FLOAT(10, 6 )  NOT NULL ,FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE);
+
+-- calculate distance with help of sql in km
+
+-- select ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (32.85908 , -6.91352)) / 1000 AS km
+-- to work with
+
+
+-- SELECT u.userName, u.bio, ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id
+
+
+
