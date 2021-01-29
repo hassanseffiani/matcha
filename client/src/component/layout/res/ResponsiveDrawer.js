@@ -209,7 +209,6 @@ const ResponsiveDrawer =  (props) => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            {/* fillImg -> fiilProfil */}
             <Route exact path='/edit/:id' component={EditProfil} />
             <Route exact path='/match/:id' component={Match} />
             <Route exact path='/browsing/:id' component={Browsing} />
@@ -230,4 +229,3 @@ const ResponsiveDrawer =  (props) => {
   };
 
 export default withRouter(ResponsiveDrawer);
-// export default withStyles(useStyles)({ MenuItemCollapse1, MenuItemCollapse2})

@@ -11,6 +11,6 @@ route.post('/browsing/geo/:id', Browsing.geoOneUser)
 
 // get all users with ◦ Same geographic area as the user. ◦ With a maximum of common tags.◦ With a maximum “fame rating
 
-route.post('/browsing', Browsing.index)
+route.post('/browsing/:id', Browsing.index)
 
 module.exports = route

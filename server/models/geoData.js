@@ -19,7 +19,10 @@ module.exports = class Geo {
     return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
   }
 
-  static getAll(){
-    return db.execute('SELECT * FROM location')
+  static getAll(cord){
+    return db.execute(
+      'SELECT u.userName, u.firstName, u.lastName, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
+      [cord[0], cord[1], cord[0], cord[1]]
+    )
   }
 }
