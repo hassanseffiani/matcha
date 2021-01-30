@@ -1,6 +1,6 @@
-const User = require('../models/userData')
 const Helpers = require('../util/Helpers')
 const Geo = require('../models/geoData')
+const Like = require('../models/likeData')
 
 exports.geoOneUser = (req, res) => {
   // get location about with users id
@@ -15,33 +15,33 @@ exports.geoOneUser = (req, res) => {
 exports.index = async (req, res, next) => {
   const { cord } = req.body
   const { id } = req.params
-  /// iiner table users with location set where in search step < 1 km
-
   var data = []
-
-  // get all from table location to compare with location of the current user
-  await Geo.getAll(cord).then(([res]) => {
+  /// iiner table users with location set where in search step < 1 km
+  await Geo.getAll(cord, id).then(([res]) => {
     res.map((el) => {
       data.push(el)
     })
-
     //     data.sort((a, b) => a.cmp - b.cmp);
   })
 
-  //.toFixed(2); to cast number float 2 numbers
   res.json(data)
-  // after this sort get user by id from the first elemt to the last until we add search method
-  /// name, age, tag, image, bio
-  // await data.map(el => {
-  // data1.test = "test";
-  // User.getDataMatch(el.id).then(([res]) => {
-  //   console.log(el.id)
-  //   res.map(el => {
-  // console.log(el)
-  //       data1 = {...data1, ...el}
-  // })
-  //     // await data1.push(...res)
-  // })
-  // })
-  // console.log(data1)
+}
+
+exports.likes = async (req, res, next) => {
+  var data = {}, dataErr = {}
+  data = { ...req.body }
+  data.idLiker = req.params.id
+
+  await Like.checkIfLiked(data).then(([like]) => {
+    like.map((el) => {
+      !el.lenght ? (dataErr.likeErr = "Already liked") : "";
+    });
+  });
+
+  if (Object.keys(dataErr).length === 0) {
+    const like = new Like(null, data.idLiker, data.idLiked)
+    like.save()
+    res.json({status: true})
+  }else
+    res.json(dataErr)
 }

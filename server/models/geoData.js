@@ -19,10 +19,11 @@ module.exports = class Geo {
     return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
   }
 
-  static getAll(cord){
+  static getAll(cord ,id){
     return db.execute(
-      'SELECT u.userName, u.firstName, u.lastName, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
-      [cord[0], cord[1], cord[0], cord[1]]
+      'SELECT u.id, u.userName, u.firstName, u.lastName, u.age, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id WHERE u.id <> ? AND NOT EXISTS (SELECT * from likes as lk WHERE u.id = lk.liked) ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
+      [cord[0], cord[1], id, cord[0], cord[1]]
     )
   }
+
 }

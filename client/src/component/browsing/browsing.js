@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import {
   Card,
   CardHeader,
-  CardMedia,
+  // CardMedia,
   CardContent,
   CardActions,
   Collapse,
@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import {
   Favorite,
-  Share,
+  // Share,
   ExpandMore,
   MoreVert,
 } from '@material-ui/icons'
@@ -68,74 +68,82 @@ const Browsing = (props) => {
 
   React.useEffect(() => {
     if (cord.length) {
-      Axios.post(`/browsing/:id`, {
+      Axios.post(`/browsing/${props.match.params.id}`, {
         cord: cord,
       }).then(res => {
-        // console.log(res.data)
         setList(res.data)
       })
     } else getLocalisation()
   }, [cord, getLocalisation, props.match.params.id])
 
+  const handelLike = (event, idLiker, idLiked) => {
+    event.preventDefault()
+    Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
+      console.log(res.data)
+      if (res.data.status) {
+        console.log(0)
+      setList(list.filter(item => item !== idLiked))
+      }
+    })
+  }
+
   return (
     <Container className={classes.copy} component='main' maxWidth='xs'>
       {
         list && list.map((el, key) => {
-          console.log(el)
-      return (
-        <Card key={key} className={classes.root}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label='recipe' className={classes.avatar}>
-                profil
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label='settings'>
-                <MoreVert />
-              </IconButton>
-            }
-            title={el.userName}
-            subheader={el.firstName + el.lastName}
-          />
-          <CardMedia
-            className={classes.media}
-            image='/static/images/cards/paella.jpg'
-            title='Paella dish'
-          />
+          return (
+            <Card key={key} className={classes.root}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label='recipe' className={classes.avatar}>
+                    profil
+                  </Avatar>
+                }
+                action={
+                  <IconButton aria-label='settings'>
+                    <MoreVert />
+                  </IconButton>
+                }
+                title={el.userName}
+                subheader={el.firstName + ' ' + el.lastName}
+              />
+              {/* <CardMedia
+                className={classes.media}
+                image='/static/images/cards/paella.jpg'
+                title='Paella dish'
+              /> */}
 
-          <CardContent>
-            <Typography variant='body2' color='textSecondary' component='p'>
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label='add to favorites'>
-              <Favorite />
-            </IconButton>
-            <IconButton aria-label='share'>
-              <Share />
-            </IconButton>
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label='show more'
-            >
-              <ExpandMore />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout='auto' unmountOnExit>
-            <CardContent>
-              <Typography paragraph>More :</Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-      )})
+              <CardContent>
+                <Typography variant='body2' color='textSecondary' component='p'>
+                  {el.bio}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton aria-label='add to favorites' onClick={event => handelLike(event, props.match.params.id, el.id)}>
+                  <Favorite />
+                </IconButton>
+                {/* <IconButton aria-label='share'>
+                  <Share />
+                </IconButton> */}
+                <IconButton
+                  className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label='show more'
+                >
+                  <ExpandMore />
+                </IconButton>
+              </CardActions>
+              <Collapse in={expanded} timeout='auto' unmountOnExit>
+                <CardContent>
+                  <Typography paragraph>More :</Typography>
+                  {'Age: ' + el.age + ' distance: ' + el.km.toFixed(2) + 'km'}
+                </CardContent>
+              </Collapse>
+            </Card>
+          )}).splice(0, 3)
       }
     </Container>
   )
