@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS location(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCRE
 
 CREATE TABLE IF NOT EXISTS likes(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `liker` int(11) NOT NULL, `liked` int(11) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
--- if two users exist in colum liker move ito table match
+-- if two users exist in colum liker move ito table matchs
 
 -- calculate distance with help of sql in km
 
