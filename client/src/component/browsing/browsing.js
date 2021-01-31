@@ -79,10 +79,10 @@ const Browsing = (props) => {
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
     Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       if (res.data.status) {
-        console.log(0)
-      setList(list.filter(item => item !== idLiked))
+        const newList = list.filter((item) => item.id !== idLiked)
+        setList(newList)
       }
     })
   }

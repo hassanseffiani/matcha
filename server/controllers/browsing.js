@@ -37,10 +37,20 @@ exports.likes = async (req, res, next) => {
       !el.lenght ? (dataErr.likeErr = "Already liked") : "";
     });
   });
+  // if the user is alr
+  await Like.checkIfUserisLiked(data.idLiked).then(([isLike]) => {
+    console.log(isLike)
+    if (Object.keys(isLike).length !== 0){
+      // add this user to table match
+      Like.addToTableMatch(data);
+    }
+  })
 
   if (Object.keys(dataErr).length === 0) {
+    console.log(0)
     const like = new Like(null, data.idLiker, data.idLiked)
     like.save()
+    // check if two users match
     res.json({status: true})
   }else
     res.json(dataErr)
