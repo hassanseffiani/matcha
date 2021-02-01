@@ -20,8 +20,9 @@ module.exports = class Like {
     ])
   }
 
-  static checkIfUserisLiked(id) {
-    return db.execute('SElECT * from likes WHERE liker = ?', [id])
+  static checkIfUserisLiked(data) {
+    return db.execute('SElECT * from likes WHERE liker = ? AND liked = ?', [data.idLiked,
+      data.idLiker])
   }
 
   static addToTableMatch(data) {

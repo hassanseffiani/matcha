@@ -21,8 +21,8 @@ module.exports = class Geo {
 
   static getAll(cord ,id){
     return db.execute(
-      'SELECT u.id, u.userName, u.firstName, u.lastName, u.age, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id WHERE u.id <> ? ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
-      [cord[0], cord[1], id, cord[0], cord[1]]
+      'SELECT u.id, u.userName, u.firstName, u.lastName, u.age, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id WHERE u.id <> ? AND NOT EXISTS (SELECT * from likes lk WHERE ? = lk.liker AND u.id = lk.liked) ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
+      [cord[0], cord[1], id, id, cord[0], cord[1]]
     )
   }
 }

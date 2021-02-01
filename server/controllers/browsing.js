@@ -38,7 +38,7 @@ exports.likes = async (req, res, next) => {
     });
   });
   // if the user is alr
-  await Like.checkIfUserisLiked(data.idLiked).then(([isLike]) => {
+  await Like.checkIfUserisLiked(data).then(([isLike]) => {
     console.log(isLike)
     if (Object.keys(isLike).length !== 0){
       // add this user to table match
@@ -47,7 +47,6 @@ exports.likes = async (req, res, next) => {
   })
 
   if (Object.keys(dataErr).length === 0) {
-    console.log(0)
     const like = new Like(null, data.idLiker, data.idLiked)
     like.save()
     // check if two users match

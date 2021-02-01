@@ -30,4 +30,3 @@ CREATE TABLE IF NOT EXISTS matchs(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREME
 -- SELECT u.userName, u.bio, ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id
 
 
-
