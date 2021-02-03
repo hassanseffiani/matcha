@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS Matcha;
 
 use Matcha;
 
-CREATE TABLE IF NOT EXISTS users(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,`oauth_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL, `email` VARCHAR(255) NOT NULL, `userName` VARCHAR(255) NOT NULL, `firstName` VARCHAR(255) NOT NULL, `lastName` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `vkey` VARCHAR(255) NOT NULL, `verify` int(11) NOT NULL DEFAULT 0, `age` int(11), `gender` ENUM('Male', 'Women', 'Both'), `type` ENUM('Male', 'Women', 'Both'), `bio` VARCHAR(255));
+CREATE TABLE IF NOT EXISTS users(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,`oauth_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL, `email` VARCHAR(255) NOT NULL, `userName` VARCHAR(255) NOT NULL, `firstName` VARCHAR(255) NOT NULL, `lastName` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `vkey` VARCHAR(255) NOT NULL, `verify` int(11) NOT NULL DEFAULT 0, `age` int(11), `gender` ENUM('Male', 'Women', 'Both'), `type` ENUM('Male', 'Women', 'Both'), `bio` VARCHAR(255), `fameRating` int(11) DEFAULT 1);
 
 CREATE TABLE IF NOT EXISTS tag(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `name` VARCHAR(255) NOT NULL);
 
@@ -28,5 +28,15 @@ CREATE TABLE IF NOT EXISTS matchs(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREME
 
 
 -- SELECT u.userName, u.bio, ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id
+
+-- add fame rating to database
+
+-- UPDATE users
+-- SET `fame rating` = `fame rating` + 100
+-- WHERE id = 2
+
+-- fill profil 100 -- like 20 -- match 150 -- chat 80
+
+
 
 

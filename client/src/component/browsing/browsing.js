@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Browsing = (props) => {
   const [cord, setCord] = React.useState([])
+  const [gender, setGender] = React.useState('')
   const classes = useStyles()
   const [expanded, setExpanded] = React.useState(false)
   const [list, setList] = React.useState([])
@@ -62,7 +63,8 @@ const Browsing = (props) => {
 
   const getLocalisation = React.useCallback(async () => {
     await Axios.post(`/browsing/geo/${props.match.params.id}`).then((res) => {
-      setCord(res.data)
+      setGender(res.data.type)
+      setCord(res.data.geo)
     })
   }, [props.match.params.id])
 
@@ -70,11 +72,12 @@ const Browsing = (props) => {
     if (cord.length) {
       Axios.post(`/browsing/${props.match.params.id}`, {
         cord: cord,
+        gender: gender
       }).then(res => {
         setList(res.data)
       })
     } else getLocalisation()
-  }, [cord, getLocalisation, props.match.params.id])
+  }, [cord, gender, getLocalisation, props.match.params.id])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
@@ -139,11 +142,11 @@ const Browsing = (props) => {
               <Collapse in={expanded} timeout='auto' unmountOnExit>
                 <CardContent>
                   <Typography paragraph>More :</Typography>
-                  {'Age: ' + el.age + ' distance: ' + el.km.toFixed(2) + 'km'}
+                  {'Age: ' + el.age + ' distance: ' + el.km.toFixed(2) + 'km  gender :' + el.gender + " CITY : " + el.city}
                 </CardContent>
               </Collapse>
             </Card>
-          )}).splice(0, 3)
+          )}).splice(0, 7)
       }
     </Container>
   )

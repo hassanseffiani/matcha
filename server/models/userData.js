@@ -78,7 +78,7 @@ module.exports = class User {
 
     static fillProfilUpdate(data){
         return db.execute(
-          'UPDATE users SET age = ?, gender = ?, type = ?, bio = ? WHERE id = ?',
+          'UPDATE users SET age = ?, gender = ?, type = ?, bio = ?, fameRating = fameRating + 100 WHERE id = ?',
           [data.age, data.gender, data.type, data.bio, data.id]
         )
     }

@@ -16,13 +16,18 @@ module.exports = class Geo {
   }
 
   static getLatLong(id) {
-    return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
+    return db.execute('SELECT l.lat, l.long, u.type FROM location l INNER JOIN users u on u.id = l.users_id WHERE l.users_id = ?', [id])
   }
 
-  static getAll(cord ,id){
+  static getAll(cord, gender ,id){
+    let setGender;
+    if (gender === 'Both')
+      setGender = `u.gender = 'Male' OR u.gender = "Women"`
+    else
+      setGender = `u.gender = "${gender}"`
     return db.execute(
-      'SELECT u.id, u.userName, u.firstName, u.lastName, u.age, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id WHERE u.id <> ? AND NOT EXISTS (SELECT * from likes lk WHERE ? = lk.liker AND u.id = lk.liked) ORDER By ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC',
-      [cord[0], cord[1], id, id, cord[0], cord[1]]
+      `SELECT l.city, u.gender, u.id, u.userName, u.firstName, u.lastName, u.age, u.bio, ST_Distance_Sphere(point(?, ?), point (l.lat , l.long)) / 1000 AS km , (SELECT COUNT(*) from tag_user t1 INNER JOIN tag_user t2 ON t1.tag_id = t2.tag_id WHERE t1.users_id = ? AND t2.users_id = u.id) as tag from users as u INNER JOIN location as l on u.id = l.users_id WHERE u.id <> ? AND ${setGender} AND NOT EXISTS (SELECT * from likes lk WHERE ? = lk.liker AND u.id = lk.liked) ORDER By u.age ,ST_Distance_Sphere(point(?,?), point (l.lat , l.long)) / 1000 ASC, u.fameRating DESC, tag DESC`,
+      [cord[0], cord[1], id, id, id, cord[0], cord[1]]
     )
   }
 }

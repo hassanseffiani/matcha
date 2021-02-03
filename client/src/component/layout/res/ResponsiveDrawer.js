@@ -31,14 +31,18 @@ import { About } from "./About"
 import Browsing from '../../browsing/browsing'
 import Home from '../../profil/Home'
 import EditProfil from '../../profil/editProfill'
+// import FillProfil from '../../profil/fillProfil'
 import Match from '../../Match/match'
 import Axios from "axios";
 
 const instance = Axios.create({ withCredentials: true });
 
-/////////////////////////// fame rating /////////////////////////
-/// add a frame rating  + 1 ... sign up | complet profil | match
-/// -1 | unmatch | block
+/////////////////////////// to Complet /////////////////////////
+//  unmatch -50 | block -100
+//  auto get geolocalisation ....
+//  add table dislake create some algo for that
+//  Work with notification
+//  
 /////////////////////////////////////////////////////////////////
 
 
@@ -112,6 +116,7 @@ const ResponsiveDrawer =  (props) => {
     };
     const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
     {text: "match", icon : < FaRegComments/>, onClick : () => history.push(`/match/${id}`)},
+    // {text: "fill", icon : < FaRegComments/>, onClick : () => history.push(`/fillProfil/${id}`)},
     {text: "browsing", icon : < FaHotjar/>, onClick : () => history.push(`/browsing/${id}`)},
     {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
     {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
@@ -211,6 +216,7 @@ const ResponsiveDrawer =  (props) => {
           <Switch>
             <Route exact path='/edit/:id' component={EditProfil} />
             <Route exact path='/match/:id' component={Match} />
+            {/* <Route exact path='/fillProfil/:id' component={FillProfil} /> */}
             <Route exact path='/browsing/:id' component={Browsing} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' component={Home} />

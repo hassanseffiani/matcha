@@ -72,6 +72,7 @@ const FillProfil = (props) => {
   }, []);
 
   const fill = async (e, id, props) => {
+    console.log(id)
     e.preventDefault();
     await Axios.post(`base/tag/${id}`).then((res) => {
       for (var i = chipData.length - 1; i >= 0; i--) {
@@ -146,7 +147,8 @@ const FillProfil = (props) => {
         <div className={classes.paper}>
           <form
             method='POST'
-            onSubmit={(event) => fill(event, props.id, props)}
+            onSubmit={(event) => fill(event, props.match.params.id, props)}
+            //props id with stepper
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -217,7 +219,8 @@ const FillProfil = (props) => {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <FormControl className={classes.formControl} 
+                <FormControl
+                  className={classes.formControl}
                   error={errMsg.validAge !== undefined}
                 >
                   <InputLabel id='demo-simple-select-required-label'>
@@ -234,7 +237,11 @@ const FillProfil = (props) => {
                       <em>None</em>
                     </MenuItem>
                     {age.map((el, key) => {
-                      return <MenuItem key={key} value={el}>{el}</MenuItem>
+                      return (
+                        <MenuItem key={key} value={el}>
+                          {el}
+                        </MenuItem>
+                      )
                     })}
                   </Select>
                   <FormHelperText>{errMsg.validAge}</FormHelperText>

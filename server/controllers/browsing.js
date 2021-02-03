@@ -7,17 +7,17 @@ exports.geoOneUser = (req, res) => {
   const { id } = req.params
   Geo.getLatLong(id).then(([loc]) => {
     loc.map((el) => {
-      res.json([el.lat, el.long])
+      res.json({ geo: [el.lat, el.long], type: el.type })
     })
   })
 }
 
 exports.index = async (req, res, next) => {
-  const { cord } = req.body
+  const { cord , gender } = req.body
   const { id } = req.params
   var data = []
   /// iiner table users with location set where in search step < 1 km
-  await Geo.getAll(cord, id).then(([res]) => {
+  await Geo.getAll(cord, gender, id).then(([res]) => {
     res.map((el) => {
       data.push(el)
     })
@@ -39,7 +39,6 @@ exports.likes = async (req, res, next) => {
   });
   // if the user is alr
   await Like.checkIfUserisLiked(data).then(([isLike]) => {
-    console.log(isLike)
     if (Object.keys(isLike).length !== 0){
       // add this user to table match
       Like.addToTableMatch(data);

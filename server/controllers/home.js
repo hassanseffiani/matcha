@@ -94,8 +94,7 @@ exports.fillProfil = async (req, res, next) => {
     toSend = {};
   toSend.input = { ...res.locals.input }
   data = { ...req.body }
-  data.id = req.params.id
-  
+  data.id = req.params.id  
   if (Object.keys(toSend.input).length !== 0) res.json(toSend)
   else{
     try {
