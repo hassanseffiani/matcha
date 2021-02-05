@@ -3,14 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.100
--- Generation Time: Feb 04, 2021 at 09:21 AM
+-- Generation Time: Feb 05, 2021 at 04:46 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
--- git clone https://github.com/sayyedhammadali/react-with-leaflet.git leaflet1
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Database: `Matcha`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`%` PROCEDURE `delete_like` ()  BEGIN
+        DELETE FROM blocked WHERE HOUR(TIMEDIFF(created_at, now())) >= 10 AND dlt = 1;
+    END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blocked`
+--
+
+CREATE TABLE `blocked` (
+  `id` int NOT NULL,
+  `blocker` int NOT NULL,
+  `blocked` int NOT NULL,
+  `dlt` int NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `blocked`
+--
+
+INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
+(1, 3, 2, 0, '2021-02-05 05:21:31');
 
 -- --------------------------------------------------------
 
@@ -220,6 +250,12 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 --
 
 --
+-- Indexes for table `blocked`
+--
+ALTER TABLE `blocked`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
@@ -268,6 +304,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `blocked`
+--
+ALTER TABLE `blocked`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
@@ -333,6 +375,14 @@ ALTER TABLE `location`
 ALTER TABLE `tag_user`
   ADD CONSTRAINT `tag_user_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `tag_user_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`%` EVENT `myevent` ON SCHEDULE EVERY 1 SECOND STARTS '2021-02-05 16:21:51' ON COMPLETION NOT PRESERVE ENABLE DO CALL delete_like()$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

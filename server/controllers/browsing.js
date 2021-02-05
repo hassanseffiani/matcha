@@ -53,3 +53,13 @@ exports.likes = async (req, res, next) => {
   }else
     res.json(dataErr)
 }
+
+exports.deLikes = (req, res, next) => {
+   var data = {}, dataErr = {}
+  data = { ...req.body }
+  data.idLiker = req.params.id
+
+  Like.addToTableBlocked(data)
+
+  res.json({status: true})
+}

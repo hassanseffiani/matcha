@@ -19,17 +19,7 @@ CREATE TABLE IF NOT EXISTS likes(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMEN
 
 CREATE TABLE IF NOT EXISTS matchs(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `liker` int(11) NOT NULL, `liked` int(11) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
--- if two users exist in colum liker move ito table matchs
-
--- calculate distance with help of sql in km
-
--- select ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (32.85908 , -6.91352)) / 1000 AS km
--- to work with
-
-
--- SELECT u.userName, u.bio, ST_Distance_Sphere(point(32.882198333740234,-6.8979001045227051), point (l.lat , l.long)) / 1000 AS km from users as u INNER JOIN location as l on u.id = l.users_id
-
--- add fame rating to database
+CREATE TABLE IF NOT EXISTS blocked(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `blocker` int(11) NOT NULL, `blocked` int(11) NOT NULL,`dlt` int(11) NOT NULL DEFAULT 0, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
 -- UPDATE users
 -- SET `fame rating` = `fame rating` + 100
@@ -38,9 +28,39 @@ CREATE TABLE IF NOT EXISTS matchs(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREME
 -- fill profil 100 -- like 20 -- match 150 -- chat 80
 
 
+
+
+
 -- to complet
--- SELECT *, now() as date from dislike WHERE 
--- date diff and implimeting triiger
+-- SELECT *, now() as date, HOUR(TIMEDIFF(created_at, now())) as `diff` from dislike WHERE HOUR(TIMEDIFF(created_at, now())) >= 5
+
+-- working with triggers
+-- DELIMITER $$
+
+--     Create Trigger before_delete_dislike
+--     AFTER UPDATE ON dislike FOR EACH ROW  
+--     BEGIN  
+--            IF HOUR(TIMEDIFF(created_at, now())) >= 5 THEN
+--         BEGIN
+--             DELETE FROM dislike WHERE HOUR(TIMEDIFF(created_at, now())) >= 5;
+--         END;
+--     END IF;
+--    END;
+-- $$
+-- DELIMITER ;
 
 
+-- create procedure to delete a row from table dislike
 
+DELIMITER //
+create procedure delete_like()
+    BEGIN
+        DELETE FROM blocked WHERE HOUR(TIMEDIFF(created_at, now())) >= 5 AND dlt = 1;
+    END //
+
+-- launch this peocedure at every seecond
+
+CREATE EVENT myevent
+    ON SCHEDULE EVERY 1 SECOND
+    DO
+      CALL delete_like();

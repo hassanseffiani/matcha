@@ -31,4 +31,12 @@ module.exports = class Like {
       data.idLiked,
     ])
   }
+
+  static addToTableBlocked(data) {
+    return db.execute('INSERT INTO blocked(`blocker`, `blocked`, `dlt`) VALUES(?, ?, ?)', [
+      data.idLiker,
+      data.idLiked,
+      1
+    ])
+  }
 }

@@ -15,4 +15,9 @@ route.post('/browsing/:id', Browsing.index)
 
 route.post('/browsing/likes/:id', Browsing.likes)
 
+// deslike
+
+route.post('/browsing/deslike/:id', Browsing.deLikes)
+
+
 module.exports = route

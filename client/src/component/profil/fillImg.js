@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const FillProfil = (props) => {
+  console.log(props.id)
   const [images, setImages] = React.useState([])
   const [selectedFiles, setSelectedFiles] = React.useState([])
   const [msg, setMsg] = React.useState('')

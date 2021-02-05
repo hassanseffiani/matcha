@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import {
   Favorite,
-  // Share,
+  NotInterested,
   ExpandMore,
   MoreVert,
 } from '@material-ui/icons'
@@ -90,6 +90,17 @@ const Browsing = (props) => {
     })
   }
 
+  const handelDeslike = (event, idLiker, idLiked) => {
+    event.preventDefault()
+    Axios.post(`/browsing/deslike/${idLiker}`, {idLiked: idLiked}).then(res => {
+    //   // console.log(res.data)
+      if (res.data.status) {
+        const newList = list.filter((item) => item.id !== idLiked)
+        setList(newList)
+      }
+    })
+  }
+
   return (
     <Container className={classes.copy} component='main' maxWidth='xs'>
       {
@@ -125,9 +136,9 @@ const Browsing = (props) => {
                 <IconButton aria-label='add to favorites' onClick={event => handelLike(event, props.match.params.id, el.id)}>
                   <Favorite />
                 </IconButton>
-                {/* <IconButton aria-label='share'>
-                  <Share />
-                </IconButton> */}
+                <IconButton aria-label='NotInterested' onClick={event => handelDeslike(event, props.match.params.id, el.id)}>
+                  <NotInterested />
+                </IconButton>
                 <IconButton
                   className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded,
