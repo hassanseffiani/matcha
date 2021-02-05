@@ -38,5 +38,9 @@ CREATE TABLE IF NOT EXISTS matchs(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREME
 -- fill profil 100 -- like 20 -- match 150 -- chat 80
 
 
+-- to complet
+-- SELECT *, now() as date from dislike WHERE 
+-- date diff and implimeting triiger
+
 
 
