@@ -2,9 +2,9 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.100
--- Generation Time: Feb 06, 2021 at 04:43 PM
--- Server version: 8.0.23
+-- Host: db
+-- Generation Time: Feb 06, 2021 at 11:15 PM
+-- Server version: 8.0.22
 -- PHP Version: 7.4.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -64,16 +64,6 @@ CREATE TABLE `imgProfil` (
   `image` varchar(255) NOT NULL,
   `is_profil` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `imgProfil`
---
-
-INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `is_profil`) VALUES
-(1, 1, 'public/upload/AE7aYi727WguQulwMVXEjmyImage-1612621239045.png', 0),
-(2, 1, 'public/upload/HwL5JRexNzNGiO0TeNwqomyImage-1612621239045.png', 0),
-(3, 1, 'public/upload/C9gRzLBPFZlVn2zCMuGwNmyImage-1612621239043.png', 1),
-(4, 1, 'public/upload/Ju45K4_G5hEqr8NHRwqh8myImage-1612625508410.png', 1);
 
 -- --------------------------------------------------------
 
@@ -238,12 +228,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastName`, `password`, `vkey`, `verify`, `age`, `gender`, `type`, `bio`, `fameRating`) VALUES
-(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$LEb3P9Oh7hIiV/peSVcq0ukVzXKYJghlm56yErcQfErnC3mIKo2Di', '8ed36dad89cc210327dc5f1bf7b125af8257cb2d17fdeed0a5a35363c18d91ed', 1, 18, 'Male', 'Women', 'hsf', 23),
+(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$LEb3P9Oh7hIiV/peSVcq0ukVzXKYJghlm56yErcQfErnC3mIKo2Di', '8ed36dad89cc210327dc5f1bf7b125af8257cb2d17fdeed0a5a35363c18d91ed', 1, 18, 'Male', 'Women', 'hsf', 500),
 (2, NULL, 'hassanseffiani1@gmail.com', 'hsf1', 'hsf', 'killer', '$2b$10$uosJXbLE6wakMcuf0eQj4OHPjcnP927gyWAcgkubtc.3jsO8JUQN2', '38f5a1f3990219e246ba81c0b44e38d0011225e74fea1c7ff7aba97f9e5e6eee', 1, 19, 'Women', 'Male', 'hsf2', 55),
 (3, NULL, 'hassanseffiani2@gmail.com', 'hsf2', 'hsf', 'killer', '$2b$10$D5oIGX0rnur68i0rPnAOe.3VuqUQmLJW/dHTYClcpEK/82vAe9fDW', '6728794d2be2ee19a7cc92edd3667ba692666bf6320d8533a479d8de1070e7b1', 1, 20, 'Male', 'Women', 'hsf3', 158),
 (4, NULL, 'hassanseffiani3@gmail.com', 'hsf3', 'hsf', 'killer', '$2b$10$fbKE8bU3k.u6gvwiG9/8JegMumYukM1wHIZN6MxZAMew6P58YZpKK', 'dc2c19b64d0a577c53e31241e2c7a9ba252c33b43accf00ba1b59d2956914601', 1, 21, 'Women', 'Male', 'hsf4', 85),
 (5, NULL, 'hassanseffiani5@gmail.com', 'hsf5', 'hsf', 'killer', '$2b$10$piZs9lmFc0C.VKdA3R7bquXHE684gVZapws95JFi2OcwfPKs798Ry', 'e9456c8ddf6d785b5e6c3edf0ba5acf3da8c6b9d364b148335e49456e97db76e', 1, 22, 'Male', 'Women', 'hsf5', 87),
-(6, NULL, 'hassanseffiani6@gmail.com', 'hsf6', 'hsf', 'killer', '$2b$10$1SPkAcfUuL9DdJ6VKL1jruskJ1IaJ3gnbtFGrWudG.VwAd5tZXo1S', '6bb02f4cd101c8f1b335a09a2b5348c333b8f829615daf995b848ab78cf23071', 1, 23, 'Women', 'Male', 'hsf6', 22),
+(6, NULL, 'hassanseffiani6@gmail.com', 'hsf6', 'hsf', 'killer', '$2b$10$1SPkAcfUuL9DdJ6VKL1jruskJ1IaJ3gnbtFGrWudG.VwAd5tZXo1S', '6bb02f4cd101c8f1b335a09a2b5348c333b8f829615daf995b848ab78cf23071', 1, 23, 'Women', 'Male', 'hsf6', 800),
 (7, NULL, 'hassanseffiani7@gmail.com', 'hsf7', 'hsf', 'killer', '$2b$10$cODooAVZu8T0QoaWOlFgPuumwmznkUY0etEE3KdPvaREuk97OH4vi', '2c63da54c98c898388830940fb940d00572a26ca46e690f1b363b32c93e2b539', 1, 24, 'Male', 'Women', 'hsf7', 78),
 (8, NULL, 'hassanseffiani8@gmail.com', 'hsf8', 'hsf', 'killer', '$2b$10$hTjDZwFzQ.Uavk9Lo5aALejyMNuZDmfVwZDw5XaxeDnU6LzlRWzNq', '97be55b68b72a7c0ef398f6669ba35504f2723657e87e7abda012f141e2c953f', 1, 25, 'Women', 'Male', 'hsf8', 158),
 (9, NULL, 'hassanseffiani9@gmail.com', 'hsf9', 'hsf', 'killer', '$2b$10$zHASi/H3aNiIIjZxoquiOufGXErwof7lImISY//51k7XwMuCwwuiW', '350ed02542008080850a19376e54df7d7640c9474149946ddaf91f05a34b22ef', 1, 26, 'Male', 'Both', 'hsf9', 85),
