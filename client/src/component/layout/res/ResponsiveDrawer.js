@@ -106,7 +106,6 @@ const ResponsiveDrawer =  (props) => {
     }, [])
 
     const handelLogout = () => {
-      console.log(props);
       instance.post("http://localhost:3001/logout");
       props.logout();
     }; 
