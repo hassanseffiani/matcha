@@ -1,6 +1,7 @@
 const Helpers = require('../util/Helpers')
 const Geo = require('../models/geoData')
 const Like = require('../models/likeData')
+const History = require('../models/historyData')
 
 exports.geoOneUser = (req, res) => {
   // get location about with users id
@@ -62,4 +63,32 @@ exports.deLikes = (req, res, next) => {
   Like.addToTableBlocked(data)
 
   res.json({status: true})
+}
+
+exports.history = async (req, res, next) => {
+  var data = {}, dataErr = {}
+  data = { ...req.body }
+  data.visited = req.params.id
+  await History.checkIfVisited(data).then(([history]) => {
+    history.map((el) => {
+      !el.lenght ? (dataErr.historyErr = "Already visited") : "";
+    });
+  });
+
+  if (Object.keys(dataErr).length === 0) {
+    const history = new History(null, data.visitor, data.visited)
+    history.save()
+  }
+}
+
+exports.getHsitory = async (req, res, next) => {
+  const { id } = req.params
+  var data = []
+  await History.getHistoryData(id).then(([res]) => {
+    res.map((el) => {
+      data.push(el)
+    })
+  })
+
+  res.json(data)
 }

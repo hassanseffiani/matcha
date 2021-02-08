@@ -2,9 +2,9 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: db
--- Generation Time: Feb 06, 2021 at 11:15 PM
--- Server version: 8.0.22
+-- Host: 192.168.99.100
+-- Generation Time: Feb 08, 2021 at 05:16 PM
+-- Server version: 8.0.23
 -- PHP Version: 7.4.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -51,6 +51,32 @@ CREATE TABLE `blocked` (
 
 INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
 (1, 3, 2, 0, '2021-02-05 05:21:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `id` int NOT NULL,
+  `visitor_id` int NOT NULL,
+  `visited_id` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
+(1, 1, 2, '2021-02-08 14:14:56'),
+(3, 1, 4, '2021-02-08 14:19:24'),
+(4, 1, 6, '2021-02-08 16:38:01'),
+(5, 1, 8, '2021-02-08 16:38:05'),
+(6, 1, 14, '2021-02-08 16:38:07'),
+(7, 1, 12, '2021-02-08 16:39:41'),
+(8, 1, 15, '2021-02-08 16:39:41');
 
 -- --------------------------------------------------------
 
@@ -256,6 +282,12 @@ ALTER TABLE `blocked`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
@@ -310,6 +342,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `blocked`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `history`
+--
+ALTER TABLE `history`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`

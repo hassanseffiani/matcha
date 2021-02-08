@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
 import Filter from './filter'
 import clsx from 'clsx'
+import Profil from './profil'
 import {
   Card,
   CardHeader,
@@ -19,7 +20,6 @@ import {
   Favorite,
   NotInterested,
   ExpandMore,
-  MoreVert,
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -116,8 +116,9 @@ const Browsing = (props) => {
                   }
                   action={
                     <IconButton aria-label='settings'>
-                      <MoreVert />
+                      <Profil visitor={props.match.params.id} visited={el.id} element={el}/>
                     </IconButton>
+                    // add the ppop up component here so show profil and added to history table databse
                   }
                   title={el.userName}
                   subheader={el.firstName + ' ' + el.lastName}

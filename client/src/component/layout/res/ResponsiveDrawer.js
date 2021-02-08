@@ -22,7 +22,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 // import { MenuItem } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { FaHome, FaInfoCircle, FaRegComments, FaHotjar } from 'react-icons/fa'
+import { FaHome, FaInfoCircle, FaRegComments, FaHotjar,FaHistory } from 'react-icons/fa'
 import { RiLogoutCircleLine } from 'react-icons/ri'
 import { MdAccountCircle } from "react-icons/md";
 
@@ -33,6 +33,7 @@ import Home from '../../profil/Home'
 import EditProfil from '../../profil/editProfill'
 // import FillProfil from '../../profil/fillProfil'
 import Match from '../../Match/match'
+import History from '../../history/history'
 import Axios from "axios";
 
 const instance = Axios.create({ withCredentials: true });
@@ -118,6 +119,7 @@ const ResponsiveDrawer =  (props) => {
     // {text: "fill", icon : < FaRegComments/>, onClick : () => history.push(`/fillProfil/${id}`)},
     {text: "browsing", icon : < FaHotjar/>, onClick : () => history.push(`/browsing/${id}`)},
     {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
+    {text: "History", icon: < FaHistory/>, onClick:  () => history.push(`/history/${id}`)}, 
     {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
     ];
     const itemsListTwo = [{text: "Logout", icon : < RiLogoutCircleLine />, onClick : () => {handelLogout();}}];
@@ -217,6 +219,7 @@ const ResponsiveDrawer =  (props) => {
             <Route exact path='/match/:id' component={Match} />
             {/* <Route exact path='/fillProfil/:id' component={FillProfil} /> */}
             <Route exact path='/browsing/:id' component={Browsing} />
+            <Route exact path='/history/:id' component={History} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' component={Home} />
           </Switch>
