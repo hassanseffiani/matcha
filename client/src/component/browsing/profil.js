@@ -84,13 +84,16 @@ const CustomizedDialogs = (props) => {
                         Age : {props.element.age}
                     </Typography>
                     <Typography>
-                        Distance : {props.element.km.toFixed(2) + ' km'}
+                        Distance : {props.element.km.toFixed(2) + '  km'}
                     </Typography>
                     <Typography>
                         Gender : {props.element.gender}
                     </Typography>
                     <Typography>
                         City : {props.element.city}
+                    </Typography>
+                    <Typography>
+                        Fame Rating : {props.element.fameRating + "  exp"}
                     </Typography>
                 </DialogContent>
                 <DialogActions>

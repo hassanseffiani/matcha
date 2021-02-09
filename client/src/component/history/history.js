@@ -16,7 +16,7 @@ const History = (props) => {
     React.useEffect(() => {
         Axios.post(`/browsing/getHistory/${props.match.params.id}`).then(res => {
             const fieldToAdd = res.data.map(el => {
-                return ({id: el.id, col1: el.userName, col2: moment(el.created_at).format('HH') + " Hours"})
+                return ({id: el.id, col1: el.userName, col2: moment(el.created_at).fromNow()})
             })
             if (Object.keys(rowsData).length === 0)
                 setRows([...rowsData, ...fieldToAdd])

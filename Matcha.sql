@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.100
--- Generation Time: Feb 08, 2021 at 05:16 PM
+-- Generation Time: Feb 09, 2021 at 04:40 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.13
 
@@ -75,8 +75,8 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (4, 1, 6, '2021-02-08 16:38:01'),
 (5, 1, 8, '2021-02-08 16:38:05'),
 (6, 1, 14, '2021-02-08 16:38:07'),
-(7, 1, 12, '2021-02-08 16:39:41'),
-(8, 1, 15, '2021-02-08 16:39:41');
+(9, 1, 15, '2021-02-09 16:35:35'),
+(10, 1, 12, '2021-02-09 16:36:13');
 
 -- --------------------------------------------------------
 
@@ -347,7 +347,7 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
