@@ -11,18 +11,16 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import {ListItemText, ListItemIcon, ListItem, Badge} from "@material-ui/core";
 // import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
+import {Menu as MenuIcon, LocationOn} from "@material-ui/icons";
 import Toolbar from "@material-ui/core/Toolbar";
 // import Button from "@material-ui/core/Button";
 // import Link from '@material-ui/core/Link';
 // import { MenuItem } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { FaHome, FaInfoCircle, FaRegComments, FaHotjar,FaHistory } from 'react-icons/fa'
+import { FaHome, FaInfoCircle, FaHotjar,FaHistory } from 'react-icons/fa'
 import { RiLogoutCircleLine } from 'react-icons/ri'
 import { MdAccountCircle } from "react-icons/md";
 
@@ -34,6 +32,7 @@ import EditProfil from '../../profil/editProfill'
 // import FillProfil from '../../profil/fillProfil'
 import Match from '../../Match/match'
 import History from '../../history/history'
+import Test from './test'
 import Axios from "axios";
 
 const instance = Axios.create({ withCredentials: true });
@@ -51,8 +50,17 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
       root: {
+        flexGrow: 1,
         display: "flex"
       },
+      ty : {
+        flexGrow: 1,
+        fontFamily: "Comfortaa",
+      },
+      // notif:{
+        
+      //   flexGrow: 1
+      // },
       drawer: {
         [theme.breakpoints.up("sm")]: {
           width: drawerWidth,
@@ -80,9 +88,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3)
       },
-      ty : {
-        fontFamily: "Comfortaa",
-      }
+      
 }));
 
 
@@ -115,7 +121,7 @@ const ResponsiveDrawer =  (props) => {
       setMobileOpen(!mobileOpen);
     };
     const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
-    {text: "match", icon : < FaRegComments/>, onClick : () => history.push(`/match/${id}`)},
+    {text: "match", icon : < LocationOn/>, onClick : () => history.push(`/match/${id}`)},
     // {text: "fill", icon : < FaRegComments/>, onClick : () => history.push(`/fillProfil/${id}`)},
     {text: "browsing", icon : < FaHotjar/>, onClick : () => history.push(`/browsing/${id}`)},
     {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
@@ -179,6 +185,11 @@ const ResponsiveDrawer =  (props) => {
             <Typography className={classes.ty} variant='h6' noWrap>
               Matcha
             </Typography>
+            <IconButton className={classes.notif} aria-label="show 17 new notifications" color="inherit">
+                <Badge badgeContent={1} color="secondary">
+                  <Test />
+                </Badge>
+              </IconButton>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label='mailbox folders'>

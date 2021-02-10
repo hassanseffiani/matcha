@@ -238,3 +238,16 @@ exports.geo = async (req, res) => {
   })
   res.json(word[0])
 }
+
+// update locallisation
+
+exports.updateLoc = async (req, res) => {
+  // call Geo.updateGeo
+  var data = {},
+    data = { ...req.body }
+  data.id = req.params.id
+
+  await Geo.updateGeo(data).then(city => {
+    res.json({status: true})
+  })
+}

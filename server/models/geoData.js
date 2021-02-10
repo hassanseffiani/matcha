@@ -30,4 +30,8 @@ module.exports = class Geo {
       [cord[0], cord[1], id, id, id, id, cord[0], cord[1]]
     )
   }
+
+  static updateGeo(data){
+    return db.execute('UPDATE location SET city = ?, lat = ?, `long` = ? WHERE users_id = ?', [data.city, data.latlng.lat, data.latlng.lng, data.id])
+  }
 }

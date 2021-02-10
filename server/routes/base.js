@@ -72,5 +72,9 @@ route.post('/base/check/:id', homeController.checkIs)
 
 route.post('/base/localisation/:id', homeController.geo)
 
+// Update localistion
+
+route.post('/base/updateGeo/:id', homeController.updateLoc)
+
 
 module.exports = route;

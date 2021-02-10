@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.100
--- Generation Time: Feb 09, 2021 at 04:40 PM
+-- Generation Time: Feb 10, 2021 at 06:01 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.13
 
@@ -50,7 +50,8 @@ CREATE TABLE `blocked` (
 --
 
 INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
-(1, 3, 2, 0, '2021-02-05 05:21:31');
+(1, 3, 2, 0, '2021-02-05 05:21:31'),
+(10, 2, 3, 1, '2021-02-10 16:15:54');
 
 -- --------------------------------------------------------
 
@@ -76,7 +77,9 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (5, 1, 8, '2021-02-08 16:38:05'),
 (6, 1, 14, '2021-02-08 16:38:07'),
 (9, 1, 15, '2021-02-09 16:35:35'),
-(10, 1, 12, '2021-02-09 16:36:13');
+(10, 1, 12, '2021-02-09 16:36:13'),
+(11, 2, 5, '2021-02-10 16:18:33'),
+(12, 2, 7, '2021-02-10 16:18:43');
 
 -- --------------------------------------------------------
 
@@ -104,6 +107,16 @@ CREATE TABLE `likes` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
+(2, 2, 1, '2021-02-10 16:15:08'),
+(3, 2, 3, '2021-02-10 16:15:53'),
+(4, 1, 2, '2021-02-10 16:17:20'),
+(5, 1, 4, '2021-02-10 16:18:03');
+
 -- --------------------------------------------------------
 
 --
@@ -123,8 +136,8 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
-(1, 1, 'Tagleft', 32.253101, -6.257210),
-(3, 2, 'Tagleft', 32.253300, -6.257230),
+(1, 1, 'Northwest', 65.135612, -19.075956),
+(3, 2, 'Azamor', 33.119366, -8.325620),
 (4, 3, 'Tagleft', 32.252300, -6.257130),
 (5, 5, 'Tagleft', 32.262299, -6.256130),
 (6, 4, 'Ouled', 32.362301, -6.356130),
@@ -152,6 +165,13 @@ CREATE TABLE `matchs` (
   `liked` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `matchs`
+--
+
+INSERT INTO `matchs` (`id`, `liker`, `liked`, `created_at`) VALUES
+(1, 1, 2, '2021-02-10 16:17:20');
 
 -- --------------------------------------------------------
 
@@ -341,13 +361,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blocked`
 --
 ALTER TABLE `blocked`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
@@ -359,7 +379,7 @@ ALTER TABLE `imgProfil`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -371,7 +391,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `matchs`
 --
 ALTER TABLE `matchs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tag`

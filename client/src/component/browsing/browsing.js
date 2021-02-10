@@ -87,7 +87,7 @@ const Browsing = (props) => {
     Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
       if (res.data.status) {
         const newList = list.filter((item) => item.id !== idLiked)
-        setList(newList)
+        setList1(newList)
       }
     })
   }
@@ -97,7 +97,7 @@ const Browsing = (props) => {
     Axios.post(`/browsing/deslike/${idLiker}`, {idLiked: idLiked}).then(res => {
       if (res.data.status) {
         const newList = list.filter((item) => item.id !== idLiked)
-        setList(newList)
+        setList1(newList)
       }
     })
   }

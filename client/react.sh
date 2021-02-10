@@ -1,1 +1,1 @@
-npm i react-router-dom axios @material-ui/core @material-ui/icons @material-ui/lab  @material-ui/data-grid moment react-leaflet --save
+npm i react-router-dom axios @material-ui/core @material-ui/icons @material-ui/lab  @material-ui/data-grid moment react-leaflet leaflet node-geocoder --save

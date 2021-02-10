@@ -55,6 +55,8 @@ const DialogActions = withStyles((theme) => ({
 
 const Geo = (props) => {
     const [open, setOpen] = React.useState(false)
+    const [position, setPosition] = React.useState(null)
+    const [city, setCity] = React.useState(null)
     const  zoom = 8
     const location = [33.562, -7.36126]
     const handleClickOpen = (e) => {
@@ -65,44 +67,49 @@ const Geo = (props) => {
       setOpen(false)
     }
 
-    function LocationMarker() {
+    const handelDone = (e, position, city) => {
+      console.log(position)
+    }
+
+
+    const LocationMarker = (props) => {
       const [position, setPosition] = React.useState(null)
       const [city, setCity] = React.useState(null)
-      const map = useMapEvents({
+      useMapEvents({
         click: (e) => {
           // initialaza variable state
           setCity(null)
-          // const { lat, lng } = e.latlng
-          // console.log(lat)
-          // L.marker([lat, lng]).addTo(map)
           setPosition(e.latlng)
         },
-        // click() {
-        //   map.locate()
-        // },
-        // locationfound(e) {
-        //   setPosition(e.latlng)
-        //   map.flyTo(e.latlng, map.getZoom())
-        // },
       })
 
       React.useEffect(() => {
         if (position !== null) {
-          Axios.get(
-            `https://api.opencagedata.com/geocode/v1/json?q=${position.lat}+${position.lng}&key=292b5efd6196403abb6bc01c3a2c0f8a`
-          ).then((res) => {
-            res.data.results[0].components.city
-              ? setCity(res.data.results[0].components.city)
-              : setCity(res.data.results[0].components.village)
+          Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lng}&appid=73c5dd364ef3d52d963cd755cd4b58a8`).then(res => {
+              res.data.name ? setCity(res.data.name) : setCity(res.data.name)
+          })
+          // Axios.get(
+          //   `https://api.opencagedata.com/geocode/v1/json?q=${position.lat}+${position.lng}&key=241774b7073842c4a3f73e7fefe8768f`
+          // ).then((res) => {
+          //   res.data.results[0].components.city
+          //     ? setCity(res.data.results[0].components.city)
+          //     : setCity(res.data.results[0].components.village)
+          // })
+        }
+        if (city !== null) {
+          // console.log("object")
+          // props.p(position)
+          // props.c(city)
+            // axios to edit geolocalization of the user connected
+          Axios.post(`/base/updateGeo/${props.id}`, {
+            city: city,
+            latlng: position
+          }).then(res => {
+            if(res.data.status)
+              setOpen(false)
           })
         }
-        if (city !== null && city !== undefined) {
-            console.log(city)
-            // axios to edit geolocalization of the user connected
-            // console.log(props.id)
-        }else
-            setCity(null)
-      }, [position, city])
+      }, [position, city, props.id, props])
       return position === null ? null : (
         <Marker position={position}>
           <Popup>{city && city}</Popup>
@@ -125,16 +132,17 @@ const Geo = (props) => {
           </DialogTitle>
           <DialogContent dividers>
             {/* add map here */}
+            <Typography>Choose with your mouse a position :</Typography>
             <MapContainer center={location} zoom={zoom} Icon={Icon}>
               <TileLayer
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               />
-              <LocationMarker />
+              <LocationMarker id={props.id} p={setPosition} c={setCity}/>
             </MapContainer>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={handleClose} color='primary'>
+            <Button autoFocus onClick={(event) => handelDone(event, position, city)} color='primary'>
               Done
             </Button>
           </DialogActions>
