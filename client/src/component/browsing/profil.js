@@ -1,13 +1,11 @@
 import React from 'react';
 import Axios from 'axios'
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Dialog} from '@material-ui/core';
+import { Button, Dialog, Typography, IconButton } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) => ({
     root: {
@@ -51,10 +49,6 @@ const DialogActions = withStyles((theme) => ({
 
 const CustomizedDialogs = (props) => {
     const [open, setOpen] = React.useState(false);
-
-    React.useEffect(() => {
-
-    }, [])
 
     const handleClickOpen = (e, visitor, visited) => {
         setOpen(true);
