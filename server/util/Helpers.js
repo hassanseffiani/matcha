@@ -68,6 +68,7 @@ const storage = multer.diskStorage({
   },
 })
 
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype == 'image/jpeg' ||
@@ -77,15 +78,15 @@ const fileFilter = (req, file, cb) => {
   ) {
     cb(null, true)
   } else {
-    cb(null, false)
+    // cb(null, false)
+    cb('Error: Images Only')
   }
 }
 exports.upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: { fileSize: 5000000 },
-})
-
+}).single('file')
 
 exports.geoLocal = async (lat, long) => {
   var data = {};

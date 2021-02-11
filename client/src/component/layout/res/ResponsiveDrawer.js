@@ -1,23 +1,10 @@
 import React from "react";
+import Axios from 'axios'
 import { withRouter, Switch, Route } from "react-router-dom"
-// import "../../../../src/history/history";
 import PropTypes from "prop-types";
 import "../../../start/styles.css"
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-// import InboxIcon from "@material-ui/icons/MoveToInbox";
-import List from "@material-ui/core/List";
-import {ListItemText, ListItemIcon, ListItem, Badge} from "@material-ui/core";
-// import MailIcon from "@material-ui/icons/Mail";
+import {Toolbar, AppBar, CssBaseline, Divider, List, IconButton, Hidden, Drawer, ListItemText, ListItemIcon, ListItem, Badge} from "@material-ui/core";
 import {Menu as MenuIcon, LocationOn} from "@material-ui/icons";
-import Toolbar from "@material-ui/core/Toolbar";
-// import Button from "@material-ui/core/Button";
-// import Link from '@material-ui/core/Link';
-// import { MenuItem } from '@material-ui/core';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { FaHome, FaInfoCircle, FaHotjar,FaHistory } from 'react-icons/fa'
@@ -32,68 +19,53 @@ import EditProfil from '../../profil/editProfill'
 // import FillProfil from '../../profil/fillProfil'
 import Match from '../../Match/match'
 import History from '../../history/history'
-import Test from './test'
-import Axios from "axios";
+// import Notif from './notif'
 
 const instance = Axios.create({ withCredentials: true });
-
-/////////////////////////// to Complet /////////////////////////
-//  unmatch -50 | block -100
-//  auto get geolocalisation ....
-//  add table dislake create some algo for that
-//  Work with notification
-//  
-/////////////////////////////////////////////////////////////////
-
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-      root: {
-        flexGrow: 1,
-        display: "flex"
-      },
-      ty : {
-        flexGrow: 1,
-        fontFamily: "Comfortaa",
-      },
-      // notif:{
-        
-      //   flexGrow: 1
-      // },
-      drawer: {
-        [theme.breakpoints.up("sm")]: {
-          width: drawerWidth,
-          flexShrink: 0
-        }
-      },
-      appBar: {
-        [theme.breakpoints.up("sm")]: {
-          width: `calc(100% - ${drawerWidth}px)`,
-          marginLeft: drawerWidth
-        }
-      },
-      menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up("sm")]: {
-          display: "none"
-        }
-      },
-      // necessary for content to be below app bar
-      toolbar: theme.mixins.toolbar,
-      drawerPaper: {
-        width: drawerWidth
-      },
-      content: {
-        flexGrow: 1,
-        padding: theme.spacing(3)
-      },
-      
+  root: {
+    flexGrow: 1,
+    display: "flex"
+  },
+  ty : {
+    flexGrow: 1,
+    fontFamily: "Comfortaa",
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth
+    }
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    }
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  
 }));
 
 
 const ResponsiveDrawer =  (props) => {
-
     const { history } = props
     const { window } = props
     const classes = useStyles()
@@ -105,7 +77,7 @@ const ResponsiveDrawer =  (props) => {
       instance
         .get('http://localhost:3001/base')
         .then((res) => {
-          setId(res.data[0].id)
+          if (res.data.user.id !== undefined) setId(res.data.user.id)
         })
         .catch((error) => {
           console.log(error)
@@ -185,11 +157,11 @@ const ResponsiveDrawer =  (props) => {
             <Typography className={classes.ty} variant='h6' noWrap>
               Matcha
             </Typography>
-            <IconButton className={classes.notif} aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={1} color="secondary">
-                  <Test />
-                </Badge>
-              </IconButton>
+            <IconButton aria-label='show 17 new notifications' color='inherit'>
+              <Badge badgeContent={1} color='secondary'>
+                {/* <Notif /> */}
+              </Badge>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label='mailbox folders'>
@@ -232,7 +204,7 @@ const ResponsiveDrawer =  (props) => {
             <Route exact path='/browsing/:id' component={Browsing} />
             <Route exact path='/history/:id' component={History} />
             <Route exact path='/about' component={About} />
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' render={(props) => <Home id={id} />} />
           </Switch>
         </main>
       </div>

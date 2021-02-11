@@ -8,7 +8,7 @@ const route = express.Router();
 
 // Get home [page]
 
-route.get("/base", authVrfy.requireAuth, homeController.index);
+route.get('/base', authVrfy.getUserInfos)
 
 //continue with this part
 
@@ -50,11 +50,17 @@ route.post(
 
 // add img
 
-route.post(
-  '/base/img/:id',
-  [Helpers.upload.array('myImage', 5)],
-  homeController.fillImg
-)
+// route.post(
+//   '/base/img/:id',
+//   [Helpers.upload.array('myImage', 5)],
+//   homeController.fillImg
+// )
+
+route.post('/base/img/:id', homeController.multerUpload)
+
+route.post('/base/img/dnd/:id', homeController.dnd)
+
+route.post('/base/img/fetch/:id', homeController.fetchImgs)
 
 // get all tags [POST]
 

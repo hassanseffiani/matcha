@@ -251,3 +251,68 @@ exports.updateLoc = async (req, res) => {
     res.json({status: true})
   })
 }
+
+exports.multerUpload = (req, res, next) => {
+  Helpers.upload(req, res, (err) => {
+    const go = async () => {
+      // console.log('formData', req.body.index);
+      const data = {}
+      // console.log('2', {...req.file})
+      if (err) {
+        data.msg = 'Error Has Occured'
+        data.errors = err
+        // console.log('error:' ,err)
+        // res.json({
+        //   msg: err
+        // });
+      } else {
+        if (req.file == undefined) {
+          // res.json({
+          //   msg: 'Error: No File Selected!'
+          // });
+          data.msg = 'No File Selected!'
+          data.errors = ''
+        } else {
+          data.msg = 'File Uploaded!'
+          data.errors = ''
+          data.index = req.body.index
+          checkIm = await Img.checkImg(req.body.userId, req.body.index)
+          if (checkIm[0].length == 0) {
+            image = new Img(
+              null,
+              req.body.userId,
+              req.file.filename,
+              req.body.index
+            )
+            await image.save()
+          } else {
+            var updated = await Img.updateImg(
+              req.body.userId,
+              req.file.filename,
+              req.body.index
+            )
+          }
+          // res.json( {
+          //   msg: 'File Uploaded!', req: req.file
+          //   // file: `uploads/${req.file.filename}`
+          // });
+        }
+      }
+      data.userId = req.body.userId
+      res.json({ data: data })
+      res.locals.data = data
+      next()
+    }
+    go()
+  })
+}
+
+  exports.dnd = async (req, res, next) => {
+    res.json({ ops: 'DnD' })
+    var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id)
+  }
+
+  exports.fetchImgs = async (req, res, next) => {
+    const total = await Img.ImgsTotalNumber(req.body.userId)
+    res.json({ s: total[0].length })
+  }

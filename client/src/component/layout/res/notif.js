@@ -1,10 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import {Button, Menu, MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import {Send as SendIcon,  Notifications as NotificationsIcon} from '@material-ui/icons';
 
 const StyledMenu = withStyles({
@@ -50,7 +46,7 @@ const CustomizedMenus = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -72,7 +68,7 @@ const CustomizedMenus = (props) => {
           <ListItemText primary="Sent mail" />
         </StyledMenuItem>
       </StyledMenu>
-    </div>
+    </React.Fragment>
   );
 }
 
