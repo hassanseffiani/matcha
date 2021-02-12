@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.100
--- Generation Time: Feb 10, 2021 at 06:01 PM
+-- Generation Time: Feb 12, 2021 at 04:59 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.13
 
@@ -45,14 +45,6 @@ CREATE TABLE `blocked` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `blocked`
---
-
-INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
-(1, 3, 2, 0, '2021-02-05 05:21:31'),
-(10, 2, 3, 1, '2021-02-10 16:15:54');
-
 -- --------------------------------------------------------
 
 --
@@ -79,7 +71,8 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (9, 1, 15, '2021-02-09 16:35:35'),
 (10, 1, 12, '2021-02-09 16:36:13'),
 (11, 2, 5, '2021-02-10 16:18:33'),
-(12, 2, 7, '2021-02-10 16:18:43');
+(12, 2, 7, '2021-02-10 16:18:43'),
+(13, 3, 14, '2021-02-12 15:44:08');
 
 -- --------------------------------------------------------
 
@@ -91,7 +84,7 @@ CREATE TABLE `imgProfil` (
   `id` int NOT NULL,
   `users_id` int NOT NULL,
   `image` varchar(255) NOT NULL,
-  `is_profil` int NOT NULL DEFAULT '0'
+  `pointer` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -106,16 +99,6 @@ CREATE TABLE `likes` (
   `liked` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `likes`
---
-
-INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
-(2, 2, 1, '2021-02-10 16:15:08'),
-(3, 2, 3, '2021-02-10 16:15:53'),
-(4, 1, 2, '2021-02-10 16:17:20'),
-(5, 1, 4, '2021-02-10 16:18:03');
 
 -- --------------------------------------------------------
 
@@ -165,13 +148,6 @@ CREATE TABLE `matchs` (
   `liked` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `matchs`
---
-
-INSERT INTO `matchs` (`id`, `liker`, `liked`, `created_at`) VALUES
-(1, 1, 2, '2021-02-10 16:17:20');
 
 -- --------------------------------------------------------
 
@@ -225,14 +201,6 @@ CREATE TABLE `tag_user` (
 --
 
 INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
-(1, 1, 12),
-(2, 1, 1),
-(3, 1, 8),
-(4, 1, 14),
-(5, 2, 12),
-(6, 2, 11),
-(7, 2, 13),
-(8, 2, 7),
 (9, 3, 5),
 (10, 3, 13),
 (11, 4, 1),
@@ -274,8 +242,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastName`, `password`, `vkey`, `verify`, `age`, `gender`, `type`, `bio`, `fameRating`) VALUES
-(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$LEb3P9Oh7hIiV/peSVcq0ukVzXKYJghlm56yErcQfErnC3mIKo2Di', '8ed36dad89cc210327dc5f1bf7b125af8257cb2d17fdeed0a5a35363c18d91ed', 1, 18, 'Male', 'Women', 'hsf', 500),
-(2, NULL, 'hassanseffiani1@gmail.com', 'hsf1', 'hsf', 'killer', '$2b$10$uosJXbLE6wakMcuf0eQj4OHPjcnP927gyWAcgkubtc.3jsO8JUQN2', '38f5a1f3990219e246ba81c0b44e38d0011225e74fea1c7ff7aba97f9e5e6eee', 1, 19, 'Women', 'Male', 'hsf2', 55),
+(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$LEb3P9Oh7hIiV/peSVcq0ukVzXKYJghlm56yErcQfErnC3mIKo2Di', '8ed36dad89cc210327dc5f1bf7b125af8257cb2d17fdeed0a5a35363c18d91ed', 1, NULL, NULL, NULL, NULL, 300),
+(2, NULL, 'hassanseffiani1@gmail.com', 'hsf1', 'hsf', 'killer', '$2b$10$uosJXbLE6wakMcuf0eQj4OHPjcnP927gyWAcgkubtc.3jsO8JUQN2', '38f5a1f3990219e246ba81c0b44e38d0011225e74fea1c7ff7aba97f9e5e6eee', 1, 19, 'Male', 'Women', 'ewqe', 101),
 (3, NULL, 'hassanseffiani2@gmail.com', 'hsf2', 'hsf', 'killer', '$2b$10$D5oIGX0rnur68i0rPnAOe.3VuqUQmLJW/dHTYClcpEK/82vAe9fDW', '6728794d2be2ee19a7cc92edd3667ba692666bf6320d8533a479d8de1070e7b1', 1, 20, 'Male', 'Women', 'hsf3', 158),
 (4, NULL, 'hassanseffiani3@gmail.com', 'hsf3', 'hsf', 'killer', '$2b$10$fbKE8bU3k.u6gvwiG9/8JegMumYukM1wHIZN6MxZAMew6P58YZpKK', 'dc2c19b64d0a577c53e31241e2c7a9ba252c33b43accf00ba1b59d2956914601', 1, 21, 'Women', 'Male', 'hsf4', 85),
 (5, NULL, 'hassanseffiani5@gmail.com', 'hsf5', 'hsf', 'killer', '$2b$10$piZs9lmFc0C.VKdA3R7bquXHE684gVZapws95JFi2OcwfPKs798Ry', 'e9456c8ddf6d785b5e6c3edf0ba5acf3da8c6b9d364b148335e49456e97db76e', 1, 22, 'Male', 'Women', 'hsf5', 87),
@@ -289,7 +257,8 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (13, NULL, 'hassanseffiani13@gmail.com', 'hsf13', 'hsf', 'killer', '$2b$10$r7Exv8nTg.f4zUmnuFvVvuhF2ZNIcYb6wIb22T0E6Wzq4Qwi3yKCy', '538eb74b99ddbdc7c67677642f5865ca8f8fb785692883aa7586458f7e40b35c', 1, 30, 'Male', 'Women', 'hsf13', 25),
 (14, NULL, 'hassanseffiani14@gmail.com', 'hsf14', 'hsf', 'killer', '$2b$10$Gnkm8CKx0u.60Xm55TkbxOLv4UTvyh4KUmf5Z1KV3VQkvmoa1iYYm', '68539e1c7c9498700fd885300c4c7da495062e08b7c5b386f95b94f90203cd79', 1, 31, 'Women', 'Male', 'hsf14', 600),
 (15, NULL, 'hassanseffiani15@gmail.com', 'hsf15', 'hsf', 'killer', '$2b$10$QnyzItAyGqFkLggZQnpRw.vVUeV6HW34FV6bApSEsI4P3JuyyyNhO', '3bb2d8045d1481f43e4fa1fe78a14ca572742d8c7cae702e6ff7e5f7a0eafbf1', 1, 32, 'Women', 'Male', 'hsf15', 200),
-(16, NULL, 'hassanseffiani16@gmail.com', 'hsf16', 'hsf', 'killer', '$2b$10$trUxriEmMveAO3HSI0wsx.1m1gkXm.DO30kNnRlcdvnsmsihb8fRy', '8aeb7b2d8667ccd9dcc6f962365b05f12bf0c95844086c86f71633d77c8fdd0e', 1, 33, 'Male', 'Women', 'hsf16', 25);
+(16, NULL, 'hassanseffiani16@gmail.com', 'hsf16', 'hsf', 'killer', '$2b$10$trUxriEmMveAO3HSI0wsx.1m1gkXm.DO30kNnRlcdvnsmsihb8fRy', '8aeb7b2d8667ccd9dcc6f962365b05f12bf0c95844086c86f71633d77c8fdd0e', 1, 33, 'Male', 'Women', 'hsf16', 25),
+(17, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'ya29.A0AfH6SMCjTG_IIf8-eRlaNtsi7JJsiqFUmxHsUV1H_wCGtiPUwI5d19T_BYvSa99trN1lh5-2IZq6aQKiP72maXfwt95Mz5ipJbPE00hwJ6UDGpoxYxBTieKGpt5klMnSgB6QlRANzo3atNjgMhnv1FlsLdhB', 1, 22, 'Male', 'Women', 'wqew', 1);
 
 --
 -- Indexes for dumped tables
@@ -367,19 +336,19 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -403,13 +372,13 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
