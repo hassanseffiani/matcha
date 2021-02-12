@@ -181,4 +181,8 @@ module.exports = class User {
   static getDataMatch(id) {
     return db.execute('SELECT * FROM users WHERE id = ?', [id])
   }
+  
+  static DeleteProfilInfo(id) {
+    return db.execute('UPDATE users SET age = null, gender = null, type = null, bio = null, fameRating = fameRating - 100 WHERE id = ?',[id])
+  }
 }

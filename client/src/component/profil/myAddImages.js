@@ -1,11 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
-// import Size from '../helpers/size'
-import {
-  // GridListTile,GridList,CircularProgress,Fab,Button,
-  Grid
-  // ,Typography,Container,
-} from '@material-ui/core'
+import Size from '../helpers/size'
+import {Grid, Card, CardMedia} from '@material-ui/core'
 // import {Alert} from '@material-ui/lab'
 // import { Add, EventSeat } from '@material-ui/icons'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -14,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAddCircle } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
 
-// isDragDisable ==> isDD
 const intialItems = [
     {
       id: "0",
@@ -53,6 +48,13 @@ const intialItems = [
     }
   ];
   const useStyles = makeStyles(() => ({
+    root: {
+      maxWidth: 600,
+    },
+    media: {
+      height: 600,
+      width: 400
+    },
     big: {
       position: "relative",
       backgroundColor: "#E0E4E9",
@@ -109,17 +111,22 @@ const MyAddImages = (props) => {
   // count of images
 
   const fetchImgs = React.useCallback(async () => {
-    await Axios.post(`/base/img/fetch/${props.id}`, { userId: props.id }).then(
+    let s = await Axios.post(`/base/img/fetch/${props.id}`, { userId: props.id }).then(
       (res) => {
-        console.log(res.data.s)
-        if (res.data.s === 1) props.checkTotalImg()
+        if (res.data.s === 1) return true; else return false
       }
     )
-  }, [props])
+    return s;
+  })
     
   useEffect(() => {
-    fetchImgs()
-  }, [fetchImgs])
+    fetchImgs().then(res => {
+      if (res)
+        props.checkTotalImg()
+    })
+    // if (fetchImgs())
+    //   props.checkTotalImg()
+  }, [fetchImgs, props])
 
   ////////////////////////////
 
@@ -154,7 +161,7 @@ const MyAddImages = (props) => {
     formData.set("file", event.target.files[0]);
     const config = {
         headers: {
-            'content-type': 'multipart/form-data',
+          'content-type': 'multipart/form-data',
         }
     }
     await Axios.post(`base/img/${props.id}`, formData, config)
@@ -176,7 +183,7 @@ const MyAddImages = (props) => {
   }
 
   return (
-    <div className="App">
+    <Size>
       <Grid container>
         <div style={{ overflowY: "scroll", height: "600px" }}>
           <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -213,7 +220,6 @@ const MyAddImages = (props) => {
                                 id={id}
                                 type="file"
                                 />
-                            index:{index}-id:{id}
                             {provided.placeholder}
                             <IoMdAddCircle className={classes.addCircle} />
                           </div>
@@ -226,14 +232,22 @@ const MyAddImages = (props) => {
             </Droppable>
           </DragDropContext>
         </div>
-        <div
+        {/* <div
           ref={ProfImgRef}
           style={{ width: "400px", height: "600px", border: "1px black solid" }}
           >
-          Profile image
-        </div>
+        </div> */}
+        <Card className={classes.root}>
+            <CardMedia
+              // image="https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg"
+              title="Contemplative Reptile"
+            // style={{ width: "400px", height: "600px" }}
+              ref={ProfImgRef}
+              className={classes.media}
+            />
+        </Card>
       </Grid>
-    </div>
+    </Size>
   );
 }
 

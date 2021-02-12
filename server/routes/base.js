@@ -62,6 +62,10 @@ route.post('/base/img/dnd/:id', homeController.dnd)
 
 route.post('/base/img/fetch/:id', homeController.fetchImgs)
 
+route.post('/base/dltImg/:id', homeController.dltImg)
+
+route.post('/base/onlyImg/:id', homeController.onlyImg)
+
 // get all tags [POST]
 
 route.post("/base/tag/:id", homeController.tags);

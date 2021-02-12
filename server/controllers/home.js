@@ -197,7 +197,7 @@ exports.tags = async (req, res) => {
 
 exports.getImges = (req, res) => {
   const uploadDerictory = path.join("public/upload");
-  console.log(uploadDerictory);
+  // console.log(uploadDerictory);
   fs.readdir(uploadDerictory, (err, files) => {
     console.log(files);
     if (err) {
@@ -309,10 +309,42 @@ exports.multerUpload = (req, res, next) => {
 
   exports.dnd = async (req, res, next) => {
     res.json({ ops: 'DnD' })
+    const { id } = req.params
+    console.log(id)
     var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id)
   }
 
   exports.fetchImgs = async (req, res, next) => {
     const total = await Img.ImgsTotalNumber(req.body.userId)
     res.json({ s: total[0].length })
+  }
+
+  exports.dltImg = async (req, res, next) => {
+    const { id } = req.params
+    Img.selectImg(id).then(([res]) => {
+      res.map(el => {
+        const uploadDerictory = path.join('public/upload')
+        var fs = require('fs')
+        var filePath = uploadDerictory + '/' + el.image
+        fs.unlinkSync(filePath)
+      })
+    })
+    await Img.DeleteImages(id)
+    await User.DeleteProfilInfo(id)
+    await Tag.DeleteTags(id)
+    res.json({status: true})
+  }
+
+  exports.onlyImg = async (req, res, next) => {
+    const { id } = req.params
+    Img.selectImg(id).then(([res]) => {
+      res.map(el => {
+        const uploadDerictory = path.join('public/upload')
+        var fs = require('fs')
+        var filePath = uploadDerictory + '/' + el.image
+        fs.unlinkSync(filePath)
+      })
+    })
+    await Img.DeleteImages(id)
+    res.json({status: true})
   }

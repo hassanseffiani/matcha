@@ -39,4 +39,8 @@ module.exports = class Tag {
   static getAllTag(id) {
     return db.execute("SELECT * FROM tag WHERE id = ?", [id]);
   }
+
+  static DeleteTags(id){
+    return db.execute('DELETE FROM tag_user WHERE users_id = ?', [id])
+  }
 };

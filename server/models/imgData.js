@@ -38,4 +38,12 @@ module.exports = class Img {
   static ImgsTotalNumber(userId) {
     return db.execute('SELECT * FROM imgProfil WHERE users_id = ?', [userId])
   }
+
+  static DeleteImages(id){
+    return db.execute('DELETE FROM imgProfil WHERE users_id = ?', [id])
+  }
+
+  static selectImg(id) {
+    return db.execute('SELECT * from imgProfil WHERE `users_id` = ?', [id])
+  }
 }

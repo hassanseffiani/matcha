@@ -1,4 +1,5 @@
 import React from 'react'
+import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
@@ -6,9 +7,8 @@ import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 
 import { Typography } from '@material-ui/core'
-// import { AccountCircle } from '@material-ui/icons'
-// import history from '../../history/history'
 import MyAddImages from './myAddImages'
+import FillProfil from './fillProfil'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,27 +28,23 @@ function getSteps() {
 }
 
 function getStepContent(step, props, checkTI) {
-  // switch (step) {
-  //   case 0:
-  //     return <MyAddImages id={props.id}/>;
-  //   case 1:
-  //     return "Fill all required Informations?";
+  // if (step === 0 || step === 1) {
+  //   if (step === 0)
+  //     return <MyAddImages id={props.id} checkTotalImg={checkTI} />
+  //   if (step === 1) return <FillProfil id={props.id}/>
+  // } else return 'Uknown step'
 
-  //   default:
-  //     return "Unknown step";
-  // }
-  // console.log('P', props)
-  if (step === 0 || step === 1) {
-    if (step === 0) {
-      // console.log('------->' ,props)
-      return <MyAddImages id={props.id} checkTotalImg={checkTI} />
+  switch (step) {
+      case 0:
+        return <FillProfil id={props.id}/>
+      case 1:
+        return <MyAddImages id={props.id} checkTotalImg={checkTI} />
+      default:
+        return 'Unknown step'
     }
-    if (step === 1) return 'Fill all required Informations?'
-  } else return 'Uknown step'
 }
 
-export default function HorizontalLinearStepper(props) {
-  // console.log('Props:', props)
+const HorizontalLinearStepper = (props) => {
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
   const steps = getSteps()
@@ -58,17 +54,30 @@ export default function HorizontalLinearStepper(props) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  // }
 
-  const handleReset = () => {
-    setActiveStep(0)
+  const handleReset = (e, id) => {
+    Axios.post(`/base/dltImg/${id}`).then(res => {
+      if (res.data.status)
+        setActiveStep(0)
+    })
   }
 
   const checkTotalImg = () => {
     setStepOneFilled('yes')
   }
+
+  const reloadFunc = React.useCallback(() => {
+    if (activeStep === 0 && props.id){
+      Axios.post(`/base/onlyImg/${props.id}`)
+    }
+  },[activeStep, props])
+
+  React.useEffect(() => {
+    reloadFunc()
+  }, [reloadFunc])
 
   return (
     <div className={classes.root}>
@@ -91,7 +100,7 @@ export default function HorizontalLinearStepper(props) {
             >
               All steps completed - you&apos;re finished
             </Typography>
-            <Button onClick={handleReset} className={classes.button}>
+            <Button onClick={(event) => handleReset(event, props.id)} className={classes.button}>
               Reset
             </Button>
           </div>
@@ -105,12 +114,20 @@ export default function HorizontalLinearStepper(props) {
               {getStepContent(activeStep, props, checkTotalImg)}
             </Typography>
             <div>
-              <Button
+              {/* <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 className={classes.button}
               >
                 Back
+              </Button> */}
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={handleNext}
+                className={classes.button}
+              >
+                {activeStep === steps.length - 1 ? 'Skip' : 'Skip'}
               </Button>
               <Button
                 variant='contained'
@@ -128,3 +145,5 @@ export default function HorizontalLinearStepper(props) {
     </div>
   )
 }
+
+export default HorizontalLinearStepper
