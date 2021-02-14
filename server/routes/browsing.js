@@ -15,16 +15,4 @@ route.post('/browsing/:id', Browsing.index)
 
 route.post('/browsing/likes/:id', Browsing.likes)
 
-// deslike
-
-route.post('/browsing/deslike/:id', Browsing.deLikes)
-
-// history
-
-route.post('/browsing/history/:id', Browsing.history)
-
-// getHsitory
-
-route.post('/browsing/getHistory/:id', Browsing.getHsitory)
-
 module.exports = route

@@ -109,12 +109,9 @@ exports.postLogin = async (req, res, next) => {
       if (user.length) {
         user.map((el) => {
           if (Helpers.cmpBcypt(req.body.password, el.password)) {
-            // console.log('verify : ' , verify);
             if(verify === false)
-            {
-              console.log("\n+++\n");
               dataErr.errorGlobal = "Please Verify Your account from the link we sent you in you mailbox"; 
-            } else {
+            else {
               try {
                 const token = createtoken(el.id);
                 res.cookie("jwt", token, {

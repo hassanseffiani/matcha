@@ -5,19 +5,17 @@ const User = require('../models/userData');
 
 exports.requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
-
     if (token){
         jwt.verify(token, 'secret', (err, decodedToken) => {
-            if (err){
+            if (err)
                 res.json({access:"denied", msg: "Protected Route - You Must Loggin To Access This Route !"})
-            }else{
+            else{
                 res.json({access:"Granted", jwt: req.cookies.jwt, msg: "User Allowed"})
                 next();
             }
         })
-    }else{
+    }else
         res.json({access:"denied", msg: "Protected Route - You Must Loggin To Access This Route !"})
-    }
 }
 
 // Check if user already exist ...
@@ -37,7 +35,7 @@ exports.getUserInfos = (req, res, next) => {
                     if(infos.length != 0)
                         res.json({user: infos})
                 }
-                else
+                else    // res.locals.user = infos
                 {
                     let oUser = await User.UserAuthIdModel(decodedToken.id)
                     let oInfos = oUser[0][0]

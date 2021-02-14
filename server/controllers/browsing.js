@@ -14,7 +14,7 @@ exports.geoOneUser = (req, res) => {
 }
 
 exports.index = async (req, res, next) => {
-  const { cord , gender } = req.body
+  const { cord, gender } = req.body
   const { id } = req.params
   var data = []
   /// iiner table users with location set where in search step < 1 km
@@ -29,20 +29,21 @@ exports.index = async (req, res, next) => {
 }
 
 exports.likes = async (req, res, next) => {
-  var data = {}, dataErr = {}
+  var data = {},
+    dataErr = {}
   data = { ...req.body }
   data.idLiker = req.params.id
 
   await Like.checkIfLiked(data).then(([like]) => {
     like.map((el) => {
-      !el.lenght ? (dataErr.likeErr = "Already liked") : "";
-    });
-  });
+      !el.lenght ? (dataErr.likeErr = 'Already liked') : ''
+    })
+  })
   // if the user is alr
   await Like.checkIfUserisLiked(data).then(([isLike]) => {
-    if (Object.keys(isLike).length !== 0){
+    if (Object.keys(isLike).length !== 0) {
       // add this user to table match
-      Like.addToTableMatch(data);
+      Like.addToTableMatch(data)
     }
   })
 
@@ -50,30 +51,31 @@ exports.likes = async (req, res, next) => {
     const like = new Like(null, data.idLiker, data.idLiked)
     like.save()
     // check if two users match
-    res.json({status: true})
-  }else
-    res.json(dataErr)
+    res.json({ status: true })
+  } else res.json(dataErr)
 }
 
 exports.deLikes = (req, res, next) => {
-   var data = {}, dataErr = {}
+  var data = {},
+    dataErr = {}
   data = { ...req.body }
   data.idLiker = req.params.id
 
   Like.addToTableBlocked(data)
 
-  res.json({status: true})
+  res.json({ status: true })
 }
 
 exports.history = async (req, res, next) => {
-  var data = {}, dataErr = {}
+  var data = {},
+    dataErr = {}
   data = { ...req.body }
   data.visited = req.params.id
   await History.checkIfVisited(data).then(([history]) => {
     history.map((el) => {
-      !el.lenght ? (dataErr.historyErr = "Already visited") : "";
-    });
-  });
+      !el.lenght ? (dataErr.historyErr = 'Already visited') : ''
+    })
+  })
 
   if (Object.keys(dataErr).length === 0) {
     const history = new History(null, data.visitor, data.visited)

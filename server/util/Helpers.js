@@ -88,6 +88,7 @@ exports.upload = multer({
   limits: { fileSize: 5000000 },
 }).single('file')
 
+
 exports.geoLocal = async (lat, long) => {
   var data = {};
   const options = {

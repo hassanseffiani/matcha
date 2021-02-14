@@ -1,25 +1,25 @@
-import React from "react";
+import React from "react"
 import Axios from 'axios'
-import { withRouter, Switch, Route } from "react-router-dom"
+import { withRouter, Switch, Route } from 'react-router-dom'
 import PropTypes from "prop-types";
 import "../../../start/styles.css"
-import {Toolbar, AppBar, CssBaseline, Divider, List, IconButton, Hidden, Drawer, ListItemText, ListItemIcon, ListItem, Badge} from "@material-ui/core";
-import {Menu as MenuIcon, LocationOn} from "@material-ui/icons";
-import Typography from "@material-ui/core/Typography";
+import {Typography, Toolbar, AppBar, CssBaseline, Divider, List, IconButton, Hidden, Drawer, ListItemText, ListItemIcon, ListItem, 
+  // Badge
+} from "@material-ui/core";
+import { Menu as MenuIcon, 
+  // LocationOn 
+} from '@material-ui/icons'
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { FaHome, FaInfoCircle, FaHotjar,FaHistory } from 'react-icons/fa'
+import { FaHome, FaInfoCircle, FaRegComments, FaHotjar } from 'react-icons/fa'
 import { RiLogoutCircleLine } from 'react-icons/ri'
 import { MdAccountCircle } from "react-icons/md";
-
 
 import { About } from "./About"
 import Browsing from '../../browsing/browsing'
 import Home from '../../profil/Home'
 import EditProfil from '../../profil/editProfill'
-// import FillProfil from '../../profil/fillProfil'
+import FillProfil from '../../profil/fillProfil'
 import Match from '../../Match/match'
-import History from '../../history/history'
-// import Notif from './notif'
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -28,60 +28,54 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    display: "flex"
+    display: 'flex',
   },
-  ty : {
+  ty: {
     flexGrow: 1,
-    fontFamily: "Comfortaa",
+    fontFamily: 'Comfortaa',
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   appBar: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth
-    }
+      marginLeft: drawerWidth,
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
-  
-}));
-
+}))
 
 const ResponsiveDrawer =  (props) => {
-    const { history } = props
-    const { window } = props
+    const { history, window } = props
     const classes = useStyles()
     const theme = useTheme()
     const [mobileOpen, setMobileOpen] = React.useState(false)
     const [id, setId] = React.useState('')
 
     React.useEffect(() => {
-      instance
-        .get('http://localhost:3001/base')
-        .then((res) => {
-          if (res.data.user.id !== undefined) setId(res.data.user.id)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      instance.get('http://localhost:3001/base')
+      .then((response) => {
+        if(response.data.user.id !== undefined)
+          setId(response.data.user.id)
+      }).catch((error) => {console.log(error)})
     }, [])
 
     const handelLogout = () => {
@@ -92,13 +86,14 @@ const ResponsiveDrawer =  (props) => {
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
-    const itemsListOne = [{text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
-    {text: "match", icon : < LocationOn/>, onClick : () => history.push(`/match/${id}`)},
-    // {text: "fill", icon : < FaRegComments/>, onClick : () => history.push(`/fillProfil/${id}`)},
-    {text: "browsing", icon : < FaHotjar/>, onClick : () => history.push(`/browsing/${id}`)},
-    {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
-    {text: "History", icon: < FaHistory/>, onClick:  () => history.push(`/history/${id}`)}, 
-    {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
+
+    const itemsListOne = [
+      {text: "Home", icon : < FaHome/>, onClick : () => history.push("/")},
+      { text: "match", icon: < FaRegComments />, onClick: () => history.push(`/match/${id}`) },
+      { text: "profil", icon : < FaRegComments/>, onClick : () => history.push(`/profil/${id}`)},
+      {text: "browsing", icon : < FaHotjar/>, onClick : () => history.push(`/browsing/${id}`)},
+      {text: "Profile", icon: < MdAccountCircle/>, onClick:  () => history.push(`/edit/${id}`)}, 
+      {text: "About", icon :< FaInfoCircle/>, onClick : () => history.push("/about")},
     ];
     const itemsListTwo = [{text: "Logout", icon : < RiLogoutCircleLine />, onClick : () => {handelLogout();}}];
     const drawer = (
@@ -157,11 +152,11 @@ const ResponsiveDrawer =  (props) => {
             <Typography className={classes.ty} variant='h6' noWrap>
               Matcha
             </Typography>
-            <IconButton aria-label='show 17 new notifications' color='inherit'>
+            {/* <IconButton aria-label='show 17 new notifications' color='inherit'>
               <Badge badgeContent={1} color='secondary'>
-                {/* <Notif /> */}
+                <Notif />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label='mailbox folders'>
@@ -200,9 +195,8 @@ const ResponsiveDrawer =  (props) => {
           <Switch>
             <Route exact path='/edit/:id' component={EditProfil} />
             <Route exact path='/match/:id' component={Match} />
-            {/* <Route exact path='/fillProfil/:id' component={FillProfil} /> */}
+            <Route exact path='/profil/:id' component={FillProfil} />
             <Route exact path='/browsing/:id' component={Browsing} />
-            <Route exact path='/history/:id' component={History} />
             <Route exact path='/about' component={About} />
             <Route exact path='/' render={(props) => <Home id={id} />} />
           </Switch>

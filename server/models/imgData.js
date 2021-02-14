@@ -1,4 +1,4 @@
-const db = require('../util/database')
+const db = require('../util/database');
 
 module.exports = class Img {
   constructor(id, users_id, image, pointer) {
@@ -39,7 +39,7 @@ module.exports = class Img {
     return db.execute('SELECT * FROM imgProfil WHERE users_id = ?', [userId])
   }
 
-  static DeleteImages(id){
+  static DeleteImages(id) {
     return db.execute('DELETE FROM imgProfil WHERE users_id = ?', [id])
   }
 

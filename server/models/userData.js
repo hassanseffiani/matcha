@@ -77,9 +77,9 @@ module.exports = class User {
   }
 
   static UserIdModel(id) {
-    return db.execute('SELECT * FROM users WHERE id = ? limit 1', [id])
+    return db.query('SELECT * FROM users WHERE id = ? limit 1', [id])
   }
-  
+
   static UserAuthIdModel(oauth_id) {
     return db.query('SELECT * FROM users WHERE oauth_id = ? limit 1', [
       oauth_id,
@@ -142,10 +142,6 @@ module.exports = class User {
     )
   }
 
-  // static fillProfilById(id){
-  // return db.execute('UPDATE users SET verify = 1 WHERE vkey = ?', [id]);
-  // }
-
   static delete(id) {
     return db.execute('DELETE FROM products WHERE products.id = ?', [id])
   }
@@ -181,8 +177,11 @@ module.exports = class User {
   static getDataMatch(id) {
     return db.execute('SELECT * FROM users WHERE id = ?', [id])
   }
-  
+
   static DeleteProfilInfo(id) {
-    return db.execute('UPDATE users SET age = null, gender = null, type = null, bio = null, fameRating = fameRating - 100 WHERE id = ?',[id])
+    return db.execute(
+      'UPDATE users SET age = null, gender = null, type = null, bio = null, fameRating = fameRating - 100 WHERE id = ?',
+      [id]
+    )
   }
 }

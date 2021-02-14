@@ -63,17 +63,19 @@ const FillProfil = (props) => {
   const [errMsg, setErrMsg] = React.useState(initialValue)
   const [age, setAge] = React.useState([])
   const [age1, setAge1] = React.useState('')
+  const [active, setActive] = React.useState(false)
 
   
   const classes = useStyles(props);
 
   React.useEffect(() => {
     setAge(range(18, 60))
-  }, []);
+    props.checkSkip()
+    active ? props.checkTotalImg() : props.checkFill()
+  }, [props, active]);
 
-  const fill = async (e, id, props) => {
-    console.log(id)
-    e.preventDefault();
+  const fill = async (e, id, yes, no) => {
+    e.preventDefault()
     await Axios.post(`base/tag/${id}`).then((res) => {
       for (var i = chipData.length - 1; i >= 0; i--) {
         for (var j = 0; j < res.data.length; j++) {
@@ -96,7 +98,13 @@ const FillProfil = (props) => {
           setErrMsg(res.data.input)
         else
           setErrMsg({ validBio: undefined, validTag: undefined })
-        if (res.data.status) props.onlisten(true)
+        if (res.data.status) {
+          setActive(true)
+          yes()
+        }else{
+          setActive(false)
+          no()
+        }
       })
       .catch((error) => {})
   };
@@ -147,8 +155,7 @@ const FillProfil = (props) => {
         <div className={classes.paper}>
           <form
             method='POST'
-            onSubmit={(event) => fill(event, props.match.params.id, props)}
-            //props id with stepper
+            onSubmit={(event) => fill(event, props.id, props.checkTotalImg, props.checkFill)}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -304,13 +311,8 @@ const FillProfil = (props) => {
                 </FormControl>
               </Grid>
             </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='outlined'
-              className={classes.submit}
-            >
-              Fill Profil
+            <Button type='submit' variant='outlined' className={classes.submit}>
+              DONE
             </Button>
           </form>
         </div>

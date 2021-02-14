@@ -5,16 +5,6 @@ const Geo = require('../models/geoData')
 const Helpers = require("../util/Helpers");
 const fs = require("fs");
 const path = require("path");
-// res.locals work like $_SESSION['name']....
-
-// Home controller
-
-exports.index = (req, res, next) => {
-  res.locals.user[0].map((el) => {
-    // console.log(el);
-    res.json(res.locals.user[0]);
-  });
-};
 
 // edit information if user want that
 
@@ -94,7 +84,8 @@ exports.fillProfil = async (req, res, next) => {
     toSend = {};
   toSend.input = { ...res.locals.input }
   data = { ...req.body }
-  data.id = req.params.id  
+  data.id = req.params.id
+  
   if (Object.keys(toSend.input).length !== 0) res.json(toSend)
   else{
     try {
@@ -138,53 +129,6 @@ exports.fillProfil = async (req, res, next) => {
   }
 };
 
-exports.fillImg = async (req, res, next) => {
-  // **************************************************
-  // need some validator in the validator file.
-  ///////////////////////////////////// Images : //////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////
-
-  //save in db
-  // base 64 doesn't work in mac
-  // var images = [];
-  // await req.files.map((el) => {
-  //   // const { originalname, path } = el
-  //   const path = base64Img.base64Sync(el.path)
-  //   images.push({ name: el.originalname, path: path });
-  // });
-  // // console.log(images);
-  // res.json(images);
-  // res.json(req.files)
-
-  // try {
-  //   return res.status(201).json({
-  //     message: "File uploded successfully",
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  var dataErr = {},
-    data = {},
-  data = { ...req.body }
-  data.id = req.params.id
-    dataErr.status = false
-  if (Object.keys(req.files).length !== 0) {
-    req.files.map((el, iKey) => {
-      const img = new Img(
-        null,
-        data.id,
-        'public/upload/' + el.filename,
-        iKey > 0 ? 0 : 1
-      )
-      img.save()
-    })
-    dataErr.msgImg = 'upload done correctly'
-    dataErr.status = true
-  } else dataErr.msgImg = 'No Images uploaded'
-  res.json(dataErr)
-}
-
 exports.tags = async (req, res) => {
   var data = {};
   await Tag.getAllTag(req.params.id).then(([res]) => {
@@ -197,7 +141,7 @@ exports.tags = async (req, res) => {
 
 exports.getImges = (req, res) => {
   const uploadDerictory = path.join("public/upload");
-  // console.log(uploadDerictory);
+  console.log(uploadDerictory);
   fs.readdir(uploadDerictory, (err, files) => {
     console.log(files);
     if (err) {
@@ -211,10 +155,22 @@ exports.getImges = (req, res) => {
   });
 };
 
+// check for edit profil
 
 exports.checkIs = (req, res) => {
   User.CheckIfE(req.params.id).then(([is]) => {
     if (is.length) {
+      res.json({ status: true })
+    }else
+      res.json({ status: false })
+  })
+}
+
+// check for stepper
+
+exports.checkIs1 = (req, res) => {
+  User.CheckIfE(req.params.id).then(([is]) => {
+    if (!is.length) {
       res.json({ status: true })
     }else
       res.json({ status: false })
@@ -255,96 +211,81 @@ exports.updateLoc = async (req, res) => {
 exports.multerUpload = (req, res, next) => {
   Helpers.upload(req, res, (err) => {
     const go = async () => {
-      // console.log('formData', req.body.index);
-      const data = {}
-      // console.log('2', {...req.file})
-      if (err) {
-        data.msg = 'Error Has Occured'
-        data.errors = err
-        // console.log('error:' ,err)
-        // res.json({
-        //   msg: err
-        // });
+      const data = {};
+      if(err){
+        data.msg = "Error Has Occured";
+        data.errors = err;
       } else {
-        if (req.file == undefined) {
-          // res.json({
-          //   msg: 'Error: No File Selected!'
-          // });
-          data.msg = 'No File Selected!'
-          data.errors = ''
+        if(req.file == undefined){
+          data.msg = "No File Selected!"
+          data.errors = "";
         } else {
-          data.msg = 'File Uploaded!'
-          data.errors = ''
-          data.index = req.body.index
-          checkIm = await Img.checkImg(req.body.userId, req.body.index)
-          if (checkIm[0].length == 0) {
-            image = new Img(
-              null,
-              req.body.userId,
-              req.file.filename,
-              req.body.index
-            )
+          data.msg = "File Uploaded!"
+          data.errors = "";
+          data.index = req.body.index;
+          checkIm = await Img.checkImg(req.body.userId, req.body.index);
+          if(checkIm[0].length == 0)
+          {
+            image = new Img(null, req.body.userId, req.file.filename, req.body.index)
             await image.save()
-          } else {
-            var updated = await Img.updateImg(
-              req.body.userId,
-              req.file.filename,
-              req.body.index
-            )
-          }
-          // res.json( {
-          //   msg: 'File Uploaded!', req: req.file
-          //   // file: `uploads/${req.file.filename}`
-          // });
+          } else
+            await Img.updateImg(req.body.userId, req.file.filename, req.body.index);
         }
       }
       data.userId = req.body.userId
-      res.json({ data: data })
-      res.locals.data = data
-      next()
+      res.json({data: data})
+      res.locals.data = data;
+      next();
     }
-    go()
+    go();
   })
 }
 
-  exports.dnd = async (req, res, next) => {
-    res.json({ ops: 'DnD' })
-    const { id } = req.params
-    console.log(id)
-    var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id)
-  }
 
-  exports.fetchImgs = async (req, res, next) => {
-    const total = await Img.ImgsTotalNumber(req.body.userId)
-    res.json({ s: total[0].length })
-  }
+exports.dnd = async (req, res, next) => {
+  console.log('-')
+  console.log('dnd', req.body)
+  res.json({ops :'DnD'});
+  var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id)
+}
 
-  exports.dltImg = async (req, res, next) => {
-    const { id } = req.params
-    Img.selectImg(id).then(([res]) => {
-      res.map(el => {
-        const uploadDerictory = path.join('public/upload')
-        var fs = require('fs')
-        var filePath = uploadDerictory + '/' + el.image
-        fs.unlinkSync(filePath)
-      })
+// get number of images saved in db
+
+exports.fetchImgs  = async (req, res, next) => {
+  const total = await Img.ImgsTotalNumber(req.body.userId);
+  res.json({s:total[0].length})
+}
+
+// delete all stepper part
+
+exports.dltImg = async (req, res, next) => {
+  const { id } = req.params
+  Img.selectImg(id).then(([res]) => {
+    res.map((el) => {
+      const uploadDerictory = path.join('public/upload')
+      var fs = require('fs')
+      var filePath = uploadDerictory + '/' + el.image
+      fs.unlinkSync(filePath)
     })
-    await Img.DeleteImages(id)
-    await User.DeleteProfilInfo(id)
-    await Tag.DeleteTags(id)
-    res.json({status: true})
-  }
+  })
+  await Img.DeleteImages(id)
+  await User.DeleteProfilInfo(id)
+  await Tag.DeleteTags(id)
+  res.json({ status: true })
+}
 
-  exports.onlyImg = async (req, res, next) => {
-    const { id } = req.params
-    Img.selectImg(id).then(([res]) => {
-      res.map(el => {
-        const uploadDerictory = path.join('public/upload')
-        var fs = require('fs')
-        var filePath = uploadDerictory + '/' + el.image
-        fs.unlinkSync(filePath)
-      })
+// delete just the images stepper part
+
+exports.onlyImg = async (req, res, next) => {
+  const { id } = req.params
+  Img.selectImg(id).then(([res]) => {
+    res.map((el) => {
+      const uploadDerictory = path.join('public/upload')
+      var fs = require('fs')
+      var filePath = uploadDerictory + '/' + el.image
+      fs.unlinkSync(filePath)
     })
-    await Img.DeleteImages(id)
-    res.json({status: true})
-  }
+  })
+  await Img.DeleteImages(id)
+  res.json({ status: true })
+}
