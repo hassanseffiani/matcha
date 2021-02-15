@@ -177,22 +177,23 @@ exports.checkIs1 = (req, res) => {
   })
 }
 
-exports.geo = async (req, res) => {
+exports.geo = (req, res) => {
   var data = {},
     data = { ...req.body }
   data.id = req.params.id
-  // const { lat, long } = req.body;
-  let word, lat, long
-  // res.json(Helpers.geoLocal(lat, long));
-  await Helpers.geoLocal(data.lat, data.long).then(city => {
-    city.map(el => {
-      word = el.city.split(' ')
-      // insert into info geo user into db 
-      const geo = new Geo(null, data.id, word[0], data.lat, data.long)
-      geo.save();
-    })
+  let word
+
+  Geo.checkLocIs(data.id).then(([res]) => {
+    if (!res.length){
+      Helpers.geoLocal(data.lat, data.long).then(city => {
+        city.map(el => {
+          word = el.city.split(' ')
+          const geo = new Geo(null, data.id, word[0], data.lat, data.long)
+          geo.save();
+        })
+      })
+    }
   })
-  res.json(word[0])
 }
 
 // update locallisation

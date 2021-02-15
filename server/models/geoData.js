@@ -38,4 +38,8 @@ module.exports = class Geo {
       [data.city, data.latlng.lat, data.latlng.lng, data.id]
     )
   }
+
+  static checkLocIs(id){
+    return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
+  }
 }

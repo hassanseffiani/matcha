@@ -70,7 +70,9 @@ const HorizontalLinearStepper = (props) => {
 
   const reloadFunc = React.useCallback(() => {
     if (activeStep === 0 && props.id) {
-      Axios.post(`/base/onlyImg/${props.id}`)
+      // IF YOU WANT TO DELETE IMAGES OF USERS IN FIRST EVENT
+      // Axios.post(`/base/onlyImg/${props.id}`)
+      
     }
   }, [activeStep, props])
 
@@ -87,7 +89,7 @@ const HorizontalLinearStepper = (props) => {
         if (res.data.status) await setCheck(true)
       })
     }
-    if (check) history.push('/about')
+    if (check) history.push(`/edit/${props.id}`)
   }, [props, check])
 
   return (
