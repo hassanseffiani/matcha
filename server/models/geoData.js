@@ -39,6 +39,14 @@ module.exports = class Geo {
     )
   }
 
+
+  static updateLatlng(data) {
+    return db.execute(
+      'UPDATE location SET lat = ?, `long` = ? WHERE users_id = ?',
+      [data.latlng.lat, data.latlng.lng, data.id]
+    )
+  }
+
   static checkLocIs(id){
     return db.execute('SELECT * FROM location WHERE users_id = ?', [id])
   }

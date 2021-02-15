@@ -256,7 +256,7 @@ class Signup extends Component {
                 className={classes.intra}
                 startIcon={<IntraSvg />}
               >
-                <Hidden only="xs">sign in with intra</Hidden>
+                <Hidden only="xs">sign up with intra</Hidden>
               </Button>
               <Button
                 size="large"

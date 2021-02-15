@@ -204,9 +204,21 @@ exports.updateLoc = async (req, res) => {
     data = { ...req.body }
   data.id = req.params.id
 
-  await Geo.updateGeo(data).then(city => {
-    res.json({status: true})
-  })
+  await Helpers.geoLocal(data.latlng.lat, data.latlng.lng).then(city => {
+    city.map(el => {
+      if (el.city !== undefined){
+        word = el.city.split(' ')
+        data.city = word[0]
+        Geo.updateGeo(data)
+      }
+    })
+  }).catch(() => Geo.updateLatlng(data));
+
+  res.json(data.city)
+  // console.log(data)
+  // await Geo.updateGeo(data).then(city => {
+  //   res.json({status: true})
+  // })
 }
 
 exports.multerUpload = (req, res, next) => {

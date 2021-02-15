@@ -23,7 +23,7 @@ import {
   // LocationOn
 } from "@material-ui/icons"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { FaHome, FaInfoCircle, FaHistory, FaHotjar } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaHistory, FaHotjar, FaRegSun } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
 import { MdAccountCircle } from "react-icons/md"
 
@@ -31,7 +31,8 @@ import { About } from "./About"
 import Browsing from "../../browsing/browsing"
 import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
-import History from "../../history/history";
+import Setting from "../../profil/setting"
+import History from "../../history/history"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -100,10 +101,27 @@ const ResponsiveDrawer = (props) => {
       });
   });
 
+  const getLocIp = React.useCallback(() => {
+    // get locallization with help of ip
+    Axios.get('https://api.ipify.org?format=json').then(async (res) => {
+      // console.log(res.data.ip)
+      await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then(res => {
+        console.log(res.data)
+        setLat(res.data.lat);
+        setLong(res.data.lon);
+      })
+      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long });
+    })
+  }, [id, lat, long])
+
   React.useEffect(() => {
     // save the localization here
-    if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long });
-  }, [id, lat, long]);
+    if (lat === false && long === false){
+      // hta l push after enablet
+      // getLocIp()
+    }else
+      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long });
+  }, [id, lat, long, getLocIp]);
 
   const handelLogout = () => {
     instance.post("http://localhost:3001/logout");
@@ -130,6 +148,12 @@ const ResponsiveDrawer = (props) => {
       text: "History",
       icon: <FaHistory />,
       onClick: () => history.push(`/history/${id}`),
+    },
+    
+    {
+      text: "Setting",
+      icon: <FaRegSun />,
+      onClick: () => history.push("/setting"),
     },
     {
       text: "About",
@@ -240,6 +264,7 @@ const ResponsiveDrawer = (props) => {
           <Route exact path="/edit/:id" component={EditProfil} />
           <Route exact path="/browsing/:id" component={Browsing} />
           <Route exact path="/history/:id" component={History} />
+          <Route exact path="/setting" component={(props) => <Setting id={id} />}/>
           <Route exact path="/about" component={About} />
           <Route exact path="/" render={(props) => <Home id={id} />} />
         </Switch>

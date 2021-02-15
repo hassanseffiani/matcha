@@ -24,7 +24,6 @@ const History = (props) => {
     }, [rowsData, props.match.params.id])
     return (
         <Container>
-            {console.log()}
             <Typography display="block" align="center" gutterBottom component='h1' variant='h5'>History</Typography>
 
             <div style={{ height: 500, width: "100%" }}>

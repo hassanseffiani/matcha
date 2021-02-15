@@ -89,7 +89,7 @@ const HorizontalLinearStepper = (props) => {
         if (res.data.status) await setCheck(true)
       })
     }
-    if (check) history.push(`/edit/${props.id}`)
+    // if (check) history.push(`/edit/${props.id}`)
   }, [props, check])
 
   return (

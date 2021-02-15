@@ -84,10 +84,10 @@ const Geo = (props) => {
       })
 
       React.useEffect(() => {
-        if (position !== null) {
-          Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lng}&appid=73c5dd364ef3d52d963cd755cd4b58a8`).then(res => {
-              res.data.name ? setCity(res.data.name) : setCity(res.data.name)
-          })
+        // if (position !== null) {
+        //   Axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lng}&appid=73c5dd364ef3d52d963cd755cd4b58a8`).then(res => {
+        //       res.data.name ? setCity(res.data.name) : setCity(res.data.name)
+        //   })
           // Axios.get(
           //   `https://api.opencagedata.com/geocode/v1/json?q=${position.lat}+${position.lng}&key=241774b7073842c4a3f73e7fefe8768f`
           // ).then((res) => {
@@ -95,18 +95,14 @@ const Geo = (props) => {
           //     ? setCity(res.data.results[0].components.city)
           //     : setCity(res.data.results[0].components.village)
           // })
-        }
-        if (city !== null) {
-          // console.log("object")
-          // props.p(position)
-          // props.c(city)
-            // axios to edit geolocalization of the user connected
-          Axios.post(`/base/updateGeo/${props.id}`, {
-            city: city,
-            latlng: position
-          }).then(res => {
-            if(res.data.status)
-              setOpen(false)
+        // }
+
+        if (position !== null){
+          console.log(position)
+          Axios.post(`/base/updateGeo/${props.id}`, {latlng: position}).then(res => {
+            if (res.data !== ""){
+              setCity(res.data)
+            }
           })
         }
       }, [position, city, props.id, props])
@@ -120,7 +116,7 @@ const Geo = (props) => {
     return (
       <React.Fragment>
         <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-          Edit Geolicalization
+          Edit Your Position
         </Button>
         <Dialog
           onClose={handleClose}

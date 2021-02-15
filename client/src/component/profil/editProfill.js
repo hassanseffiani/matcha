@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import { Button, TextField, IconButton } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../history/history'
@@ -165,9 +165,7 @@ const EditProfil = (props) => {
           Edit
         </Button>
       </form>
-      <IconButton aria-label='settings'>
-        <Geo id={data.id} />
-      </IconButton>
+      <Geo id={data.id} />
     </React.Fragment>
   )
 }
