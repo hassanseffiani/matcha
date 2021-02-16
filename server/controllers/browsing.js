@@ -112,24 +112,5 @@ exports.allImg = async (req, res, next) => {
   images.map(el => {
     base64.push(fs.readFileSync(el, 'base64'))
   })
-
-  
-  // console.log(base64)
   res.json(base64)
-  // var filePath = uploadDerictory + '/' + el.image
-  // var imageAsBase64 = fs.readFileSync('./your-image.png', 'base64')
-  // console.log(filePath)
- //  fs.unlinkSync(filePath)
-//  fs.readdir(uploadDerictory, (err, files) => {
-  //  console.log(files)
-   // if (err) {
-   //   res.json({ msg: err })
-   //   //   console.log(err)
-   // } else if (files.length === 0) {
-   //   res.json({ msg: 'No Images uploaded' })
-   // }
-  //  return res.json({ files })
-   // console.log(file)
-//  })
-  //  console.log(data)
 }

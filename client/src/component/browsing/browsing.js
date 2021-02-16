@@ -7,7 +7,7 @@ import Profil from './profil'
 import {
   Card,
   CardHeader,
-  // CardMedia,
+  CardMedia,
   CardContent,
   CardActions,
   Collapse,
@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  media1: {
+    height: 0,
+    paddingTop: '15.25%',
+    marginTop: '1%',
+    width: '15vw',
+  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -57,6 +63,7 @@ const Browsing = (props) => {
   const [expanded, setExpanded] = React.useState(false)
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
+  const [listImg, setListImg] = React.useState([])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -76,11 +83,35 @@ const Browsing = (props) => {
         cord: cord,
         gender: gender,
       }).then((res) => {
+        // console.log(res.data)
+        // http://localhost:3001/RcluVQIR4R9HzbW6xS5w5file-1613494261054.jpeg
         setList(res.data)
         setList1(res.data)
+        // res.data.map(el => {
+        //   if (el.id === pro)
+        // })
       })
     } else getLocalisation()
   }, [cord, gender, getLocalisation, props.match.params.id])
+
+  // React.useEffect(() => {
+  //       console.log(listImg)
+  //       if (listImg.length === 0) {
+  //           // Axios.post(`/browsing/fetchAllImg/${props.match.params.id}`).then(res => {
+  //           //     setListImg(res.data)
+  //           // })
+  //       }
+  //   }, [props.match.params.id, listImg, list1])
+
+  React.useEffect(() => {
+    // console.log(listImg)
+    if (listImg.length === 0){
+      list1.map(el => {
+        // console.log(el)
+        setListImg(img => ([...img, {"id": el.id, "images": el.images}]))
+      })
+    }
+  }, [list1, listImg])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
@@ -101,6 +132,12 @@ const Browsing = (props) => {
       }
     })
   }
+
+  // const handelNext = (e, k) => {
+    // console.log(k)
+        // const newList = listImg.filter((el, key) => key !== k)
+        // setListImg(newList)
+  // }
 
   return (
     <Container className={classes.copy} component='main' maxWidth='xs'>
@@ -123,11 +160,66 @@ const Browsing = (props) => {
                   title={el.userName}
                   subheader={el.firstName + ' ' + el.lastName}
                 />
-                {/* <CardMedia
-                className={classes.media}
-                image='/static/images/cards/paella.jpg'
-                title='Paella dish'
-              /> */}
+                {
+                  // console.log(listImg.id)
+                  // listImg.map(el1 => {
+                    // console.log("el : " + el.id)
+                    // if (el1.id === el.id){
+                      // console.log(el1.images)
+                      //  el1.images.split(',').map((el2, iKey) => {
+                        // let srcImg = `http://localhost:3001/${el2}`
+                        //  console.log(iKey)
+                        // let altImg = `display all image loop${iKey}`
+                        // return (
+                      //     <CardMedia
+                      //       key={iKey}
+                      //       className={classes.media1}
+                      //       image={srcImg}
+                      //       title={altImg}
+                      //       // onClick={(event) => {
+                      //       //   console.log(iKey)
+                      //       // }}
+                      //       // handelNext(event, iKey)
+                      //     />
+                      //   )
+                      // }).splice(0, 20)
+                    // }
+                      // console.log("el1 : " + el1.id)
+                    //   console.log(el1)
+                  // })
+                  // const explode = el.images.split(',');
+                  // console.log()
+                  el.images.split(',').map((el, iKey) => {
+                    let srcImg = `http://localhost:3001/${el}`
+                    let altImg = `display all image loop${iKey}`
+                    return (
+                      <CardMedia
+                        key={iKey}
+                        className={classes.media1}
+                        image={srcImg}
+                        title={altImg}
+                        onClick={(event) => {
+                          console.log(iKey)
+                        }}
+                        // handelNext(event, iKey)
+                      />
+                    )
+                  }).splice(0, 2)
+                }
+                {/* {listImg &&
+                  listImg.map((el, iKey) => {
+                    let srcImg = `data:image/png;base64,${el}`
+                    let altImg = `display all image loop${iKey}`
+                    return (
+                      <CardMedia
+                        key={iKey}
+                        className={classes.media1}
+                        image={srcImg}
+                        title={altImg}
+                        onClick={(event) => handelNext(event, iKey)}
+                      />
+                    )
+                  }).splice(0, 1)} */}
 
                 <CardContent>
                   <Typography
