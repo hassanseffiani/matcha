@@ -27,4 +27,8 @@ route.post('/browsing/history/:id', Browsing.history)
 
 route.post('/browsing/getHistory/:id', Browsing.getHsitory)
 
+// fetch all images
+
+route.post('/browsing/fetchAllImg/:id', Browsing.allImg)
+
 module.exports = route

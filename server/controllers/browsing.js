@@ -1,6 +1,8 @@
 const Helpers = require('../util/Helpers')
+const path = require('path')
 const Geo = require('../models/geoData')
 const Like = require('../models/likeData')
+const Img = require('../models/imgData')
 const History = require('../models/historyData')
 
 exports.geoOneUser = (req, res) => {
@@ -93,4 +95,41 @@ exports.getHsitory = async (req, res, next) => {
   })
 
   res.json(data)
+}
+
+exports.allImg = async (req, res, next) => {
+  var data = {}, images = [], base64 = []
+  data.id = req.params.id
+  var fs = require('fs')
+  const uploadDerictory = path.join('public/upload')
+
+  await Img.selectImg(data.id).then(([res]) => {
+    res.map((el) => {
+      images.push(uploadDerictory + '/' + el.image)
+    })
+  })
+
+  images.map(el => {
+    base64.push(fs.readFileSync(el, 'base64'))
+  })
+
+  
+  // console.log(base64)
+  res.json(base64)
+  // var filePath = uploadDerictory + '/' + el.image
+  // var imageAsBase64 = fs.readFileSync('./your-image.png', 'base64')
+  // console.log(filePath)
+ //  fs.unlinkSync(filePath)
+//  fs.readdir(uploadDerictory, (err, files) => {
+  //  console.log(files)
+   // if (err) {
+   //   res.json({ msg: err })
+   //   //   console.log(err)
+   // } else if (files.length === 0) {
+   //   res.json({ msg: 'No Images uploaded' })
+   // }
+  //  return res.json({ files })
+   // console.log(file)
+//  })
+  //  console.log(data)
 }

@@ -33,6 +33,7 @@ import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
+import ImgTest from "../../browsing/fetchImg"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -140,6 +141,11 @@ const ResponsiveDrawer = (props) => {
       onClick: () => history.push(`/browsing/${id}`),
     },
     {
+      text: "ImgTest",
+      icon: <FaHotjar />,
+      onClick: () => history.push(`/ImgTest/${id}`),
+    },
+    {
       text: "Profile",
       icon: <MdAccountCircle />,
       onClick: () => history.push(`/edit/${id}`),
@@ -220,11 +226,6 @@ const ResponsiveDrawer = (props) => {
           <Typography className={classes.ty} variant="h6" noWrap>
             Matcha
           </Typography>
-          {/* <IconButton aria-label='show 17 new notifications' color='inherit'>
-              <Badge badgeContent={1} color='secondary'>
-                <Notif />
-              </Badge>
-            </IconButton> */}
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -263,6 +264,7 @@ const ResponsiveDrawer = (props) => {
         <Switch>
           <Route exact path="/edit/:id" component={EditProfil} />
           <Route exact path="/browsing/:id" component={Browsing} />
+          <Route exact path="/ImgTest/:id" render={(props) => <ImgTest id={id} />} />
           <Route exact path="/history/:id" component={History} />
           <Route exact path="/setting" component={(props) => <Setting id={id} />}/>
           <Route exact path="/about" component={About} />
