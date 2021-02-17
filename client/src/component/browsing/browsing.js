@@ -106,10 +106,7 @@ const Browsing = (props) => {
   React.useEffect(() => {
     // console.log(listImg)
     if (listImg.length === 0){
-      list1.map(el => {
-        // console.log(el)
-        setListImg(img => ([...img, {"id": el.id, "images": el.images}]))
-      })
+      list1.map(el => setListImg(img => ([...img, {"id": el.id, "images": el.images}])))
     }
   }, [list1, listImg])
 
@@ -153,7 +150,11 @@ const Browsing = (props) => {
                   }
                   action={
                     <IconButton aria-label='settings'>
-                      <Profil visitor={props.match.params.id} visited={el.id} element={el}/>
+                      <Profil
+                        visitor={props.match.params.id}
+                        visited={el.id}
+                        element={el}
+                      />
                     </IconButton>
                     // add the ppop up component here so show profil and added to history table databse
                   }
@@ -161,66 +162,30 @@ const Browsing = (props) => {
                   subheader={el.firstName + ' ' + el.lastName}
                 />
                 {
-                  // console.log(listImg.id)
-                  // listImg.map(el1 => {
-                    // console.log("el : " + el.id)
-                    // if (el1.id === el.id){
-                      // console.log(el1.images)
-                      //  el1.images.split(',').map((el2, iKey) => {
-                        // let srcImg = `http://localhost:3001/${el2}`
-                        //  console.log(iKey)
-                        // let altImg = `display all image loop${iKey}`
-                        // return (
-                      //     <CardMedia
-                      //       key={iKey}
-                      //       className={classes.media1}
-                      //       image={srcImg}
-                      //       title={altImg}
-                      //       // onClick={(event) => {
-                      //       //   console.log(iKey)
-                      //       // }}
-                      //       // handelNext(event, iKey)
-                      //     />
-                      //   )
-                      // }).splice(0, 20)
-                    // }
-                      // console.log("el1 : " + el1.id)
-                    //   console.log(el1)
-                  // })
-                  // const explode = el.images.split(',');
-                  // console.log()
-                  el.images.split(',').map((el, iKey) => {
-                    let srcImg = `http://localhost:3001/${el}`
-                    let altImg = `display all image loop${iKey}`
-                    return (
-                      <CardMedia
-                        key={iKey}
-                        className={classes.media1}
-                        image={srcImg}
-                        title={altImg}
-                        onClick={(event) => {
-                          console.log(iKey)
-                        }}
-                        // handelNext(event, iKey)
-                      />
-                    )
-                  }).splice(0, 2)
+                  el.images.split(',').length > 1
+                    ? el.images
+                        .split(',')
+                        .map((el, iKey) => {
+                          let srcImg = `http://localhost:3001/${el}`
+                          let altImg = `display all image loop${iKey}`
+                          return (
+                            <CardMedia
+                              key={iKey}
+                              className={classes.media1}
+                              image={srcImg}
+                              title={altImg}
+                            />
+                          )
+                        })
+                        .splice(0, 1)
+                    : 
+                    <CardMedia
+                      iKey={Math.random()}
+                      className={classes.media1}
+                      image={`http://localhost:3001/${el.images}`}
+                      title={'display one image'}
+                    />
                 }
-                {/* {listImg &&
-                  listImg.map((el, iKey) => {
-                    let srcImg = `data:image/png;base64,${el}`
-                    let altImg = `display all image loop${iKey}`
-                    return (
-                      <CardMedia
-                        key={iKey}
-                        className={classes.media1}
-                        image={srcImg}
-                        title={altImg}
-                        onClick={(event) => handelNext(event, iKey)}
-                      />
-                    )
-                  }).splice(0, 1)} */}
-
                 <CardContent>
                   <Typography
                     variant='body2'
