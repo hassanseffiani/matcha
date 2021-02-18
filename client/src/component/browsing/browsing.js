@@ -7,22 +7,30 @@ import Profil from './profil'
 import {
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
-  Collapse,
+  // Collapse,
   Avatar,
   IconButton,
   Typography,
   Container,
+  Grid
 } from '@material-ui/core'
 import {
   Favorite,
   NotInterested,
-  ExpandMore,
+  // ExpandMore,
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
+  diva: {
+    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    height: '100vh',
+    overflowY: 'hidden',
+  },
+  container: {
+    fontFamily: "Comfortaa"
+  },
   copy: {
     marginBottom: theme.spacing(8),
     textAlign: 'center',
@@ -35,10 +43,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '56.25%', // 16:9
   },
   media1: {
-    height: 0,
-    paddingTop: '15.25%',
-    marginTop: '1%',
-    width: '15vw',
+    width: '2vw',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -51,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    width: '120%',
+    width: '2vw',
     marginRight: '100%', // 16:9
   },
 }))
@@ -60,14 +65,12 @@ const Browsing = (props) => {
   const [cord, setCord] = React.useState([])
   const [gender, setGender] = React.useState('')
   const classes = useStyles()
-  const [expanded, setExpanded] = React.useState(false)
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
-  const [listImg, setListImg] = React.useState([])
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded)
+  // }
 
 
   const getLocalisation = React.useCallback(async () => {
@@ -79,17 +82,13 @@ const Browsing = (props) => {
 
   React.useEffect(() => {
     if (cord.length) {
+      console.log("test")
       Axios.post(`/browsing/${props.match.params.id}`, {
         cord: cord,
         gender: gender,
       }).then((res) => {
-        // console.log(res.data)
-        // http://localhost:3001/RcluVQIR4R9HzbW6xS5w5file-1613494261054.jpeg
         setList(res.data)
         setList1(res.data)
-        // res.data.map(el => {
-        //   if (el.id === pro)
-        // })
       })
     } else getLocalisation()
   }, [cord, gender, getLocalisation, props.match.params.id])
@@ -103,18 +102,23 @@ const Browsing = (props) => {
   //       }
   //   }, [props.match.params.id, listImg, list1])
 
-  React.useEffect(() => {
-    // console.log(listImg)
-    if (listImg.length === 0){
-      list1.map(el => setListImg(img => ([...img, {"id": el.id, "images": el.images}])))
-    }
-  }, [list1, listImg])
+  // React.useEffect(() => {
+  //   if (cord.length && list1.length === 0) {
+  //     Axios.post(`/browsing/${props.match.params.id}`, {
+  //       cord: cord,
+  //       gender: gender,
+  //     }).then((res) => {
+  //       setList(res.data)
+  //       setList1(res.data)
+  //     })
+  //   }
+  // }, [cord, list1])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
     Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
       if (res.data.status) {
-        const newList = list.filter((item) => item.id !== idLiked)
+        const newList = list1.filter((item) => item.id !== idLiked)
         setList1(newList)
       }
     })
@@ -124,122 +128,107 @@ const Browsing = (props) => {
     event.preventDefault()
     Axios.post(`/browsing/deslike/${idLiker}`, {idLiked: idLiked}).then(res => {
       if (res.data.status) {
-        const newList = list.filter((item) => item.id !== idLiked)
+        const newList = list1.filter((item) => item.id !== idLiked)
         setList1(newList)
       }
     })
   }
 
-  // const handelNext = (e, k) => {
-    // console.log(k)
-        // const newList = listImg.filter((el, key) => key !== k)
-        // setListImg(newList)
-  // }
-
   return (
     <Container className={classes.copy} component='main' maxWidth='xs'>
-      <Filter setList1={setList1} list={list}/>
-      {list1 && list1.map((el, key) => {
-            return (
-              <Card key={key} className={classes.root}>
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label='recipe' className={classes.avatar}>
-                      profil
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label='settings'>
-                      <Profil
-                        visitor={props.match.params.id}
-                        visited={el.id}
-                        element={el}
-                      />
-                    </IconButton>
-                    // add the ppop up component here so show profil and added to history table databse
-                  }
-                  title={el.userName}
-                  subheader={el.firstName + ' ' + el.lastName}
-                />
-                {
-                  el.images.split(',').length > 1
-                    ? el.images
-                        .split(',')
-                        .map((el, iKey) => {
-                          let srcImg = `http://localhost:3001/${el}`
-                          let altImg = `display all image loop${iKey}`
-                          return (
-                            <CardMedia
-                              key={iKey}
-                              className={classes.media1}
-                              image={srcImg}
-                              title={altImg}
-                            />
-                          )
-                        })
-                        .splice(0, 1)
-                    : 
-                    <CardMedia
-                      iKey={Math.random()}
-                      className={classes.media1}
-                      image={`http://localhost:3001/${el.images}`}
-                      title={'display one image'}
+      <div className={classes.diva}>
+        <Grid container className={classes.container}>
+          <Grid container item md={8}>
+            <Grid item sm={8}></Grid>
+          <Filter setList1={setList1} list={list} />
+          {list1 &&
+            list1
+              .map((el, key) => {
+                const imageProfil = el.images.split(',')
+                return (
+                  <Card key={key} className={classes.root}>
+                    <CardHeader
+                      avatar={
+                        <Avatar
+                          aria-label='recipe'
+                          className={classes.avatar}
+                          src={`http://localhost:3001/${imageProfil[0]}`}
+                          alt='test'
+                        ></Avatar>
+                      }
+                      action={
+                        <IconButton aria-label='settings'>
+                          <Profil
+                            visitor={props.match.params.id}
+                            visited={el.id}
+                            element={el}
+                          />
+                        </IconButton>
+                        // add the ppop up component here so show profil and added to history table databse
+                      }
+                      title={el.userName}
+                      subheader={el.firstName + ' ' + el.lastName}
                     />
-                }
-                <CardContent>
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='p'
-                  >
-                    {el.bio}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton
-                    aria-label='add to favorites'
-                    onClick={(event) =>
-                      handelLike(event, props.match.params.id, el.id)
-                    }
-                  >
-                    <Favorite />
-                  </IconButton>
-                  <IconButton
-                    aria-label='NotInterested'
-                    onClick={(event) =>
-                      handelDeslike(event, props.match.params.id, el.id)
-                    }
-                  >
-                    <NotInterested />
-                  </IconButton>
-                  <IconButton
-                    className={clsx(classes.expand, {
-                      [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label='show more'
-                  >
-                    <ExpandMore />
-                  </IconButton>
-                </CardActions>
-                <Collapse in={expanded} timeout='auto' unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>More :</Typography>
-                    {'Age: ' +
-                      el.age +
-                      ' distance: ' +
-                      el.km.toFixed(2) +
-                      'km  gender :' +
-                      el.gender +
-                      ' CITY : ' +
-                      el.city}
-                  </CardContent>
-                </Collapse>
-              </Card>
-            )
-          })
-          .splice(0, 20)}
+                    <CardContent>
+                      <Typography variant='h6'>Biography :</Typography>
+                      <Typography
+                        variant='body2'
+                        color='textSecondary'
+                        component='p'
+                      >
+                        {el.bio}
+                      </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                      <IconButton
+                        aria-label='add to favorites'
+                        onClick={(event) =>
+                          handelLike(event, props.match.params.id, el.id)
+                        }
+                      >
+                        <Favorite />
+                      </IconButton>
+                      <IconButton
+                        className={clsx(classes.expand)}
+                        aria-label='NotInterested'
+                        onClick={(event) =>
+                          handelDeslike(event, props.match.params.id, el.id)
+                        }
+                      >
+                        <NotInterested />
+                      </IconButton>
+                      {/* <IconButton
+                        className={clsx(classes.expand, {
+                          [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label='show more'
+                      >
+                        <ExpandMore />
+                      </IconButton> */}
+                    </CardActions>
+                    {/* <Collapse in={expanded} timeout='auto' unmountOnExit> */}
+                    {/* <CardContent>
+                        <Typography paragraph>More :</Typography>
+                        {'Age: ' +
+                          el.age +
+                          ' distance: ' +
+                          el.km.toFixed(2) +
+                          'km  gender :' +
+                          el.gender +
+                          ' CITY : ' +
+                          el.city}
+                      </CardContent> */}
+                    {/* </Collapse> */}
+                  </Card>
+                )
+              })
+              .splice(0, 2)}
+          </Grid>
+
+        </Grid>
+      </div>
     </Container>
   )
 }

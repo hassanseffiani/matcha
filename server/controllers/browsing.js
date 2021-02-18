@@ -20,13 +20,15 @@ exports.index = async (req, res, next) => {
   const { id } = req.params
   var data = []
   /// iiner table users with location set where in search step < 1 km
-  await Geo.getAll(cord, gender, id).then(([res]) => {
-    res.map((el) => {
-      data.push(el)
+  await Geo.getAll(cord, gender, id)
+    .then(([res]) => {
+      res.map((el) => {
+        data.push(el)
+      })
+      //     data.sort((a, b) => a.cmp - b.cmp);
     })
-    //     data.sort((a, b) => a.cmp - b.cmp);
-  })
-
+    .catch((err) => console.log(err))
+  // console.log(data)
   res.json(data)
 }
 

@@ -155,7 +155,9 @@ const FillProfil = (props) => {
         <div className={classes.paper}>
           <form
             method='POST'
-            onSubmit={(event) => fill(event, props.id, props.checkTotalImg, props.checkFill)}
+            onSubmit={(event) =>
+              fill(event, props.id, props.checkTotalImg, props.checkFill)
+            }
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -275,9 +277,9 @@ const FillProfil = (props) => {
                       label='Male'
                     />
                     <FormControlLabel
-                      value='both'
+                      value='other'
                       control={<Radio />}
-                      label='Both'
+                      label='Other'
                     />
                   </RadioGroup>
                 </FormControl>
@@ -303,9 +305,9 @@ const FillProfil = (props) => {
                       label='Male'
                     />
                     <FormControlLabel
-                      value='both'
+                      value='other'
                       control={<Radio />}
-                      label='Both'
+                      label='Other'
                     />
                   </RadioGroup>
                 </FormControl>

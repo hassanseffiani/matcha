@@ -1,20 +1,14 @@
 import React from 'react';
 import Axios from 'axios'
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Dialog,
-  Typography,
-  IconButton,
-  CardMedia,
-  GridList,
-  GridListTile
-} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
+import { Button, Dialog, Typography, IconButton, CardMedia } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
-import Img from '../../../../server/models/imgData';
+import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
+import { Carousel } from 'react-responsive-carousel'
 
 const styles = (theme) => ({
     root: {
@@ -27,11 +21,13 @@ const styles = (theme) => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500],
     },
-    gridList: {
-        width: 500,
-        height: 450,
-    },
 });
+
+const useStyles = makeStyles((theme) => ({
+  media: {
+    height: '60vh'
+  },
+}))
 
 const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
@@ -62,6 +58,7 @@ const DialogActions = withStyles((theme) => ({
 
 const CustomizedDialogs = (props) => {
     const [open, setOpen] = React.useState(false);
+    const classes = useStyles()
 
     const handleClickOpen = (e, visitor, visited) => {
         setOpen(true);
@@ -71,9 +68,6 @@ const CustomizedDialogs = (props) => {
         setOpen(false);
     };
 
-    // React.useEffect(() => {
-    //     console.log(props.element.images)
-    // }, [props.element])
     return (
       <React.Fragment>
         <Button
@@ -86,6 +80,8 @@ const CustomizedDialogs = (props) => {
           Show profil
         </Button>
         <Dialog
+          fullWidth
+          maxWidth='sm'
           onClose={handleClose}
           aria-labelledby='customized-dialog-title'
           open={open}
@@ -93,7 +89,7 @@ const CustomizedDialogs = (props) => {
           <DialogTitle id='customized-dialog-title' onClose={handleClose}>
             {props.element.userName}
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent>
             <Typography gutterBottom>
               Full Name :{' '}
               {' ' + props.element.firstName + ' ' + props.element.lastName}
@@ -108,18 +104,25 @@ const CustomizedDialogs = (props) => {
             <Typography>
               Fame Rating : {props.element.fameRating + '  exp'}
             </Typography>
-            <GridList cellHeight={160} className={classes.gridList} cols={3}>
-                {
-                    props.element.images.split(',').map((el, iKey) => {
-                        let srcImg = `http://localhost:3001/${el}`
-                        let altImg = `display all image loop${iKey}`
-                        // return (
-                        //     <CardMedia />
-                        // )
-                    })
-                }
-            </GridList>
-            {/* // .splice(0, 1) */}
+            <Carousel autoPlay showThumbs={false}>
+              {props.element.images.split(',').length > 1
+                ? props.element.images.split(',').map((el, iKey) => {
+                    let srcImg = `http://localhost:3001/${el}`
+                    let altImg = `display all image loop${iKey}`
+                    return (
+                      <div key={iKey}>
+                        <CardMedia
+                          className={classes.media}
+                          image={srcImg}
+                          title={altImg}
+                        />
+                        {/* <img src={srcImg} alt={altImg} /> */}
+                        <p>{altImg}</p>
+                      </div>
+                    )
+                  })
+                : ''}
+            </Carousel>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose} color='primary'>
