@@ -68,7 +68,7 @@ const RangeSlider = (props) =>  {
   };
 
   return (
-    <div className={classes.root}>
+    <React.Fragment>
       <Typography id="range-slider" gutterBottom>
         Age Filter :
       </Typography>
@@ -120,7 +120,7 @@ const RangeSlider = (props) =>  {
         aria-labelledby="range-slider2"
         getAriaValueText={tagText}
       />
-    </div>
+    </React.Fragment>
   );
 }
 
