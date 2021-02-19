@@ -69,11 +69,6 @@ const Browsing = (props) => {
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
 
-  // const handleExpandClick = () => {
-  //   setExpanded(!expanded)
-  // }
-
-
   const getLocalisation = React.useCallback(async () => {
     await Axios.post(`/browsing/geo/${props.match.params.id}`).then((res) => {
       setGender(res.data.type)
@@ -93,11 +88,6 @@ const Browsing = (props) => {
       })
     } else getLocalisation()
   }, [cord, gender, getLocalisation, props.match.params.id])
-
-
-  // React.useEffect(() => {
-  //   console.log(list1)
-  // }, [list1])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
@@ -119,12 +109,20 @@ const Browsing = (props) => {
     })
   }
 
+  // const handelTest = (e) => {
+  //   setList1(list1.sort((a, b) => {return a.age - b.age}))
+  //   // setList(list1.sort((a, b) => a.age - b.age))
+  //   // setList([])
+  //   console.log(list1)
+  // }
+
   return (
     <Container className={classes.copy} component='main' maxWidth='xs'>
       <div className={classes.diva}>
         <Grid container className={classes.container} spacing={3}>
           <Grid item xs={5}>
-            <SortComponent setList1={setList1} list={list} />
+            {/* <button onChange={handelTest}>sort</button> */}
+            <SortComponent setList={setList1} list={list1} />
           </Grid>
           <Grid item xs={6}>
             <Filter setList1={setList1} list={list} />
@@ -215,7 +213,7 @@ const Browsing = (props) => {
                     </Box>
                   )
                 })
-                .splice(0, 5)}
+                .splice(0, 20)}
           </Grid>
         </Grid>
       </div>
