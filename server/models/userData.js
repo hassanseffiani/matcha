@@ -184,4 +184,11 @@ module.exports = class User {
       [id]
     )
   }
+
+  // static CheckRequiredUserInfo(userId) {
+  //   return db.execute(
+  //     'SELECT users.bio ,users.gender, users.type, imgProfil.users_id AS ImgUserId, tag_user.tag_id FROM users INNER JOIN imgProfil ON users.id = imgProfil.users_id INNER JOIN tag_user ON users.id = tag_user.users_id WHERE users.id = ?',
+  //     [userId]
+  //   )
+  // }
 }

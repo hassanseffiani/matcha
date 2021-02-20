@@ -5,6 +5,12 @@ const express = require('express');
 const route = express.Router();
 const passport = require('passport');
 
+// // Route to check if The user Filled all the required personal Informations
+
+// route.post("/user/userInfoVerification", userController.userInfoVerification);
+
+
+
 // get signUp
 route.get('/users/signup'); // .....
 

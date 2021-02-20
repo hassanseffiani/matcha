@@ -286,3 +286,19 @@ exports.intraCallback = (req, res, next) => {
   res.redirect('http://localhost:3000/Login');
   (req, res, next)
 };
+
+// Controller to check if The user Filled all the required personal Informations
+
+// exports.userInfoVerification = async (req, res) => {
+//   console.log('ooooo')
+//   var id = req.body.userId;
+//   await User.CheckRequiredUserInfo(id).then((response) => {
+//     if(response[0] != undefined && response[0].length != 0)
+//     res.json({status: true});
+//     else 
+//     res.json({status: false});
+//     console.log('response', response[0])
+//     // res.json({flag: "wewewewe"})
+//   })
+//   .catch(err => console.log('checkReuired..Error', err));
+// };

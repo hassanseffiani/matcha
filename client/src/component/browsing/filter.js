@@ -20,7 +20,7 @@ function tagText(tag) {
 const RangeSlider = (props) =>  {
   const [value, setValue] = React.useState([18, 60])
   const [rating, setRating] = React.useState([0, 1000])
-  const [geo, setGeo] = React.useState([0, 300]);
+  const [geo, setGeo] = React.useState([0, 100]);
   const [tag, setTag] = React.useState([0, 100]);
 
   const kit3awad = () => {
@@ -36,6 +36,7 @@ const RangeSlider = (props) =>  {
     const newList3 = newList2.filter(
       (item) => item.tag >= tag[0] && item.tag <= tag[1]
     );
+    console.log(newList1)
     props.setList1(newList3);
   }
   
@@ -79,7 +80,7 @@ const RangeSlider = (props) =>  {
       </Typography>
       <Slider
         min={0}
-        max={300}
+        max={100}
         value={geo}
         onChange={handleChange1}
         valueLabelDisplay="auto"
