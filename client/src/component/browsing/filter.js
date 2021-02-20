@@ -1,12 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import {Typography , Slider} from '@material-ui/core'
-
-const useStyles = makeStyles({
-  root: {
-    width: 300,
-  },
-})
 
 function valuetext(value) {
   return `${value} - Old`
@@ -25,7 +18,6 @@ function tagText(tag) {
 }
 
 const RangeSlider = (props) =>  {
-  const classes = useStyles()
   const [value, setValue] = React.useState([18, 60])
   const [rating, setRating] = React.useState([0, 1000])
   const [geo, setGeo] = React.useState([0, 300]);

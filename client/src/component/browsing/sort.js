@@ -1,9 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import { TextField, MenuItem } from '@material-ui/core'
-
-const useStyles = makeStyles({
-})
 
 
 const SortComponent = (props) => {
@@ -23,9 +19,8 @@ const SortComponent = (props) => {
             case 'Tag':
                 return b.tag - a.tag
             default:
-                    return ;
-            }
-            return ;
+                return undefined
+          }
       })
       console.log(newList1)
         props.setList(newList1)
