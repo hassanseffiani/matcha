@@ -1,11 +1,12 @@
 import React from 'react'
 import Axios from 'axios'
 import { withStyles } from '@material-ui/core/styles'
-import {Slider, Button, Dialog, Typography, IconButton } from '@material-ui/core'
+import {TextField, Chip, Slider, Button, Dialog, Typography, IconButton } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogActions from '@material-ui/core/DialogActions'
 import CloseIcon from '@material-ui/icons/Close'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const styles = (theme) => ({
   root: {
@@ -65,10 +66,11 @@ function geoText(geo) {
 
 const Search = (props) => {
   const [value, setValue] = React.useState([18, 60])
-  const [rating, setRating] = React.useState([0, 1000])
-  const [geo, setGeo] = React.useState([0, 100])
+  const [rating, setRating] = React.useState(1000)
+  const [geo, setGeo] = React.useState(100)
+  const [tag, setTag] = React.useState([])
+  const [tag1, setTag1] = React.useState([])
   const [open, setOpen] = React.useState(false)
-  const [position, setPosition] = React.useState([])
 
   const handleClickOpen = (e) => {
     setOpen(true)
@@ -81,30 +83,23 @@ const Search = (props) => {
   const handelDone = (e) => {
     setOpen(false)
   }
-  // craete anew request sql to find users with 4 criteria
   // A age gap. • A “fame rating” gap. • A location. • One or multiple interests tags.
-  React.useEffect(() => {
-    //   Axios.post(`/browsing/search/${props.id}`)
-
-  })
-
-
-  // const tagSearch = (e) => {
-    // Axios.post(`/browsing/search/${props.id}`, {cord: props.cord, gender: props.gender}).then(res => {
-    //   if (res.data) {
-    //     props.setList(res.data)
-    //     props.setList1(res.data)
-    //   }
-    // })
-  // }
+  // next search with a new autocomplete for tag */
 
   const kit3awad = () => {
-    Axios.post(`/browsing/search/${props.id}`, {cord: props.cord, gender: props.gender, value: value, rating: rating, geo: geo}).then(res => {
+    Axios.post(`/browsing/search/${props.id}`, {
+      cord: props.cord,
+      gender: props.gender,
+      value: value,
+      rating: rating,
+      geo: geo,
+      tag: tag1
+    }).then((res) => {
       console.log(res.data)
-      if (res.data) {
-        props.setList(res.data)
-        props.setList1(res.data)
-      }
+      // if (res.data) {
+      //   props.setList(res.data)
+      //   props.setList1(res.data)
+      // }
     })
   }
 
@@ -120,6 +115,18 @@ const Search = (props) => {
     setRating(newValue)
   }
 
+  const handleTag = (event, newValue) => {
+    setTag1(newValue)
+  }
+
+  
+
+  React.useEffect(() => {
+    Axios.post(`base/alltag/${props.id}`).then((res) => {
+      if (res.data)
+        setTag(res.data)
+    })
+  }, [props])
 
   return (
     <React.Fragment>
@@ -127,6 +134,7 @@ const Search = (props) => {
         Search
       </Button>
       <Dialog
+        // fullScreen
         onClose={handleClose}
         aria-labelledby='customized-dialog-title'
         open={open}
@@ -172,6 +180,33 @@ const Search = (props) => {
             valueLabelDisplay='auto'
             aria-labelledby='range-slider1'
             getAriaValueText={fametext}
+          />
+          <Autocomplete
+            multiple
+            id='size-small-filled-multi'
+            size='small'
+            options={tag}
+            // getOptionSelected={(option) => option.name}
+            onChange={handleTag}
+            getOptionLabel={(option) => option.name}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  variant='outlined'
+                  label={option.name}
+                  size='small'
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='filled'
+                label='Size small'
+                placeholder='Favorites'
+              />
+            )}
           />
           <Button autoFocus onClick={kit3awad} color='secondary'>
             Search gab
