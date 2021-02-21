@@ -197,7 +197,7 @@ const Browsing = (props) => {
                     </Box>
                   )
                 })
-                .splice(0, 20)}
+                .splice(0, 1)}
           </Grid>
         </Container>
       </Grid>

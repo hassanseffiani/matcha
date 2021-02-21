@@ -96,10 +96,10 @@ const Search = (props) => {
       tag: tag1
     }).then((res) => {
       console.log(res.data)
-      // if (res.data) {
-      //   props.setList(res.data)
-      //   props.setList1(res.data)
-      // }
+      if (res.data) {
+        props.setList(res.data)
+        props.setList1(res.data)
+      }
     })
   }
 
