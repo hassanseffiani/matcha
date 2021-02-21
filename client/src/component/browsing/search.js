@@ -186,8 +186,8 @@ const Search = (props) => {
             id='size-small-filled-multi'
             size='small'
             options={tag}
-            // getOptionSelected={(option) => option.name}
             onChange={handleTag}
+            getOptionSelected={(option) => option.name}
             getOptionLabel={(option) => option.name}
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (

@@ -68,25 +68,26 @@ const Browsing = (props) => {
   const [list1, setList1] = React.useState([])
 
   const getLocalisation = React.useCallback(async () => {
-    await Axios.post(`/browsing/geo/${props.match.params.id}`).then((res) => {
+    await Axios.post(`/browsing/geo/${props.id}`).then((res) => {
       setGender(res.data.type)
       setCord(res.data.geo)
     })
-  }, [props.match.params.id])
+  }, [props.id])
 
   React.useEffect(() => {
     if (cord.length) {
-      Axios.post(`/browsing/${props.match.params.id}`, {
+      Axios.post(`/browsing/${props.id}`, {
         cord: cord,
         gender: gender,
       }).then((res) => {
+        console.log(res.data)
         if (res.data){
           setList(res.data)
           setList1(res.data)  
         }
       })
     } else getLocalisation()
-  }, [cord, gender, getLocalisation, props.match.params.id])
+  }, [cord, gender, getLocalisation, props.id])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
@@ -117,10 +118,10 @@ const Browsing = (props) => {
         justify='center'
         alignItems='center'
       >
-        <Grid iterm xs={12} sm={2}>
+        <Grid item xs={12} sm={2}>
           <SortComponent setList={setList1} list={list1} />
         </Grid>
-        <Grid iterm xs={12} sm={2}>
+        <Grid item xs={12} sm={2}>
           <Map list={list1} />
         </Grid>
         <Grid item xs={12} sm={2}>
@@ -129,7 +130,7 @@ const Browsing = (props) => {
             setList1={setList1}
             cord={cord}
             gender={gender}
-            id={props.match.params.id}
+            id={props.id}
           />
         </Grid>
         <Grid item xs={12} sm={5}>
@@ -142,8 +143,8 @@ const Browsing = (props) => {
                 .map((el, key) => {
                   const imageProfil = el.images.split(',')
                   return (
-                    <Box m={2}>
-                      <Card key={key} className={classes.root}>
+                    <Box m={2} key={key}>
+                      <Card className={classes.root}>
                         <CardHeader
                           avatar={
                             <Avatar
@@ -155,7 +156,7 @@ const Browsing = (props) => {
                           action={
                             <IconButton aria-label='settings'>
                               <Profil
-                                visitor={props.match.params.id}
+                                visitor={props.id}
                                 visited={el.id}
                                 element={el}
                               />
@@ -178,7 +179,7 @@ const Browsing = (props) => {
                           <IconButton
                             aria-label='add to favorites'
                             onClick={(event) =>
-                              handelLike(event, props.match.params.id, el.id)
+                              handelLike(event, props.id, el.id)
                             }
                           >
                             <Favorite />
@@ -187,7 +188,7 @@ const Browsing = (props) => {
                             className={clsx(classes.expand)}
                             aria-label='NotInterested'
                             onClick={(event) =>
-                              handelDeslike(event, props.match.params.id, el.id)
+                              handelDeslike(event, props.id, el.id)
                             }
                           >
                             <NotInterested />
@@ -197,7 +198,7 @@ const Browsing = (props) => {
                     </Box>
                   )
                 })
-                .splice(0, 1)}
+                .splice(0, 20)}
           </Grid>
         </Container>
       </Grid>
