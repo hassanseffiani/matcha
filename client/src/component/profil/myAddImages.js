@@ -120,8 +120,6 @@ const MyAddImages = (props) => {
     fetchImgs().then((res) => {
       if (res) props.checkTotalImg()
     })
-    // if (fetchImgs())
-    //   props.checkTotalImg()
   }, [fetchImgs, props])
 
   ////////////////////////////

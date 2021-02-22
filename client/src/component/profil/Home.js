@@ -23,12 +23,12 @@ function getSteps() {
   return ["Add Images", "Fill Profile Informations"];
 }
 
-function getStepContent(step, props, checkTI, checkNo, checkSkip) {
+function getStepContent(step, props, checkTI, checkNo) {
   switch (step) {
     case 0:
         return <MyAddImages id={props.id} checkTotalImg={checkTI} />
     case 1:
-      return <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} checkSkip={checkSkip}/>
+      return <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo}/>
     default:
       return 'Unknown step'
   }
@@ -39,7 +39,7 @@ const HorizontalLinearStepper = (props) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
-  const [activeSkip, setActiveSkip] = React.useState(false)
+  // const [activeSkip, setActiveSkip] = React.useState(false)
   const [check, setCheck] = React.useState(false)
 
   const handleNext = () => {
@@ -65,9 +65,9 @@ const HorizontalLinearStepper = (props) => {
     setStepOneFilled('no')
   }
 
-  const skipBtnSkip = () => {
-    setActiveSkip(true)
-  }
+  // const skipBtnSkip = () => {
+  //   setActiveSkip(true)
+  // }
 
   const reloadFunc = React.useCallback(() => {
     if (activeStep === 0 && props.id) {
@@ -139,12 +139,12 @@ const HorizontalLinearStepper = (props) => {
                 activeStep,
                 props,
                 checkTotalImg,
-                fillProfil,
-                skipBtnSkip
+                fillProfil
+                // skipBtnSkip
               )}
             </Typography>
             <div>
-              <Button
+              {/* <Button
                 variant='contained'
                 color='primary'
                 onClick={handleNext}
@@ -152,7 +152,7 @@ const HorizontalLinearStepper = (props) => {
                 disabled={activeSkip ? true : false}
               >
                 {activeStep === steps.length - 1 ? 'Skip' : 'Skip'}
-              </Button>
+              </Button> */}
               <Button
                 variant='contained'
                 color='primary'

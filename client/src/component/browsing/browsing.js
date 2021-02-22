@@ -8,21 +8,15 @@ import Profil from './profil'
 import Map from "./map"
 import Search from './search'
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
+  Card, CardHeader, CardContent, CardActions,
   // Collapse,
-  Avatar,
-  IconButton,
-  Typography,
-  Container,
-  Grid,
-  Box
+  Avatar, IconButton, Typography, Container, Grid, Box
 } from '@material-ui/core'
 import {
   Favorite,
-  ThumbDown as ThumbDownIcon
+  ThumbDown as ThumbDownIcon,
+  SkipNext as SkipNextIcon,
+  Report as ReportIcon
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -98,6 +92,23 @@ const Browsing = (props) => {
       }
     })
   }
+
+  const handelSkip = (event, idLiked) => {
+    event.preventDefault()
+    const newList = list1.filter((item) => item.id !== idLiked)
+    setList1(newList)
+  }
+
+  // const handelReport = (event, reporter,reported) => {
+  //   event.preventDefault()
+
+  // }
+
+  // const Report = (props) => {
+
+  // }
+
+  
 
   const handelDeslike = (event, idLiker, idLiked) => {
     event.preventDefault()
@@ -183,6 +194,20 @@ const Browsing = (props) => {
                           >
                             <Favorite style={{ color: 'green' }} />
                           </IconButton>
+                          <IconButton
+                            aria-label='skip'
+                            onClick={(event) =>
+                              handelSkip(event, el.id)
+                            }
+                          >
+                            <SkipNextIcon style={{ color: 'DarkBlue' }} />
+                          </IconButton>
+                          {/* <IconButton
+                            aria-label='report'
+                            onClick={<Report />}
+                          >
+                            <ReportIcon style={{ color: 'DeepPink' }} />
+                          </IconButton> */}
                           <IconButton
                             className={clsx(classes.expand)}
                             aria-label='NotInterested'

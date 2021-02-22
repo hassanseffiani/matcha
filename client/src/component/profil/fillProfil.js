@@ -70,7 +70,7 @@ const FillProfil = (props) => {
 
   React.useEffect(() => {
     setAge(range(18, 60))
-    props.checkSkip()
+    // props.checkSkip()
     active ? props.checkTotalImg() : props.checkFill()
   }, [props, active]);
 

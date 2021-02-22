@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.102
--- Generation Time: Feb 22, 2021 at 01:21 PM
+-- Generation Time: Feb 22, 2021 at 05:04 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -80,7 +80,8 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (15, 1, 9, '2021-02-20 14:42:27'),
 (16, 1, 11, '2021-02-20 14:42:30'),
 (17, 1, 20, '2021-02-20 15:46:55'),
-(18, 2, 15, '2021-02-21 17:25:30');
+(18, 2, 15, '2021-02-21 17:25:30'),
+(19, 1, 22, '2021-02-22 13:47:27');
 
 -- --------------------------------------------------------
 
@@ -194,7 +195,9 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (92, 20, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
 (93, 20, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 2),
 (94, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 3),
-(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 4);
+(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 4),
+(103, 22, 'P3AUehEb1z11KKh4JOKnCfile-1614001723070.jpeg', 0),
+(104, 22, '0uSHoxQYND_ERjRs28aRYfile-1614001726336.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -246,7 +249,8 @@ INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
 (16, 17, 'Tachraft', 32.836529, -6.412170),
 (17, 18, 'Tachraft', 32.834530, -6.412130),
 (18, 19, 'Maadna', 32.839531, -6.492130),
-(19, 20, 'Tachraft', 32.819530, -6.412130);
+(19, 20, 'Tachraft', 32.819530, -6.412130),
+(20, 22, 'Khouribga', 32.878101, -6.888731);
 
 -- --------------------------------------------------------
 
@@ -258,6 +262,20 @@ CREATE TABLE `matchs` (
   `id` int NOT NULL,
   `liker` int NOT NULL,
   `liked` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report`
+--
+
+CREATE TABLE `report` (
+  `id` int NOT NULL,
+  `reporter` int NOT NULL,
+  `reported` int NOT NULL,
+  `feedback` enum('Inapproriate Messages','Inapproriate Photos','Bad Offline Behavior','Feels Like Spam','Other') DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -441,7 +459,8 @@ INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (126, 17, 12),
 (127, 17, 13),
 (128, 17, 11),
-(129, 17, 10);
+(129, 17, 10),
+(130, 22, 20);
 
 -- --------------------------------------------------------
 
@@ -493,7 +512,7 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (19, NULL, 'hassanseffiani18@gmail.com', 'hsf18', 'hsf', 'killer', '$2b$10$ypXVlIQA6QNw0wsTMAAY3Ockgs8XgoR.IT31EACljkj7MAqftNokW', '05274b6d1c81e24c3f8c0bae50cbef090e73cdfeca5481c169dcaad8b4bc74ba', 1, 36, 'Male', 'Other', 'Biography for user19', 600, 1),
 (20, NULL, 'hassanseffiani19@gmail.com', 'hsf19', 'hsf', 'killer', '$2b$10$0.0CMfeqrB7EuXukxRYhMul045HWVFQV.QvcCGYnSzpEABzTgZbsi', '9f02304ae5018042d2a8d4b627052111fc86fb595a2e181b843209e4aad7e648', 1, 37, 'Women', 'Male', 'Biography for user20', 900, 1),
 (21, NULL, 'hassanseffiani20@gmail.com', 'hsf20', 'hsf', 'killer', '$2b$10$EUjrBMO51JdAsKo5yAX9NeNZ9MZL/K9o6gtI9TnSyK1nb/Gm58mfa', '5dfb5741b2d4e8d90dc9d5b24e5c1b84c42c22a8a76933c0c49381de8c49d20c', 1, 38, 'Male', 'Women', 'Biography for user21', 700, 1),
-(22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'ya29.A0AfH6SMDHYkBb5L8kONA2cmRGJgkx3405sX1D9YbTvDjdAJJrMeKOPexWiuGMKHxeQJDA6v2ciUY8PujlyoRHEGhiHDJqo-Uvq_I10Ln51cRV_hu6G2yx_uAHwXJl81bga7u-O_qrS16fGyZZUmBVfdeV8Kk0', 0, 18, 'Male', 'Other', 'Biography for user21=2', 900, 1);
+(22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'ya29.A0AfH6SMDHYkBb5L8kONA2cmRGJgkx3405sX1D9YbTvDjdAJJrMeKOPexWiuGMKHxeQJDA6v2ciUY8PujlyoRHEGhiHDJqo-Uvq_I10Ln51cRV_hu6G2yx_uAHwXJl81bga7u-O_qrS16fGyZZUmBVfdeV8Kk0', 0, 19, 'Male', 'Other', 'test this', 1000, 2);
 
 --
 -- Indexes for dumped tables
@@ -538,6 +557,12 @@ ALTER TABLE `matchs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tag`
 --
 ALTER TABLE `tag`
@@ -571,13 +596,13 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `likes`
@@ -589,12 +614,18 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `matchs`
 --
 ALTER TABLE `matchs`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -607,7 +638,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `users`
