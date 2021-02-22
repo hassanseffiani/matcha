@@ -191,4 +191,8 @@ module.exports = class User {
       [userId]
     )
   }
+  
+  static UpdateStatusUser(userId) {
+    return db.execute('UPDATE users SET status = 2 WHERE id = ?', [userId])
+  }
 }

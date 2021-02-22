@@ -22,8 +22,7 @@ import {
 } from '@material-ui/core'
 import {
   Favorite,
-  NotInterested,
-  // ExpandMore,
+  ThumbDown as ThumbDownIcon
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +91,7 @@ const Browsing = (props) => {
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
     Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
-      console.log(res)
+      console.log(res.data)
       if (res.data.status) {
         const newList = list1.filter((item) => item.id !== idLiked)
         setList1(newList)
@@ -182,7 +181,7 @@ const Browsing = (props) => {
                               handelLike(event, props.id, el.id)
                             }
                           >
-                            <Favorite />
+                            <Favorite style={{ color: 'green' }} />
                           </IconButton>
                           <IconButton
                             className={clsx(classes.expand)}
@@ -191,7 +190,7 @@ const Browsing = (props) => {
                               handelDeslike(event, props.id, el.id)
                             }
                           >
-                            <NotInterested />
+                            <ThumbDownIcon color='secondary' />
                           </IconButton>
                         </CardActions>
                       </Card>

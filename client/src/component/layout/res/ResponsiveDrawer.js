@@ -33,7 +33,6 @@ import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
-import ImgTest from "../../browsing/fetchImg"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -93,30 +92,32 @@ const ResponsiveDrawer = (props) => {
   });
 
   const func = async () => {
-    await instance.get('http://localhost:3001/base').then(
-      (response) => {
-        if (response.data.user.id !== undefined) {
-          setId(response.data.user.id)
-        }
-      },
-      (err) => {}
-    )
-    if (id !== '') {
-      instance
-        .post('http://localhost:3001/user/userInfoVerification', { userId: id })
-        .then(
-          (res) => {
-            if (res.data.status === true) {
-              setRPI(true)
-            } else setRPI(false)
-          },
-          (err) => {}
-        )
+    if (props.loggedin){
+      await instance.get('http://localhost:3001/base').then(
+        (response) => {
+          if (response.data.user.id !== undefined) {
+            setId(response.data.user.id)
+          }
+        },
+        (err) => {}
+      )
+      if (id !== '') {
+        instance
+          .post('http://localhost:3001/user/userInfoVerification', { userId: id })
+          .then(
+            (res) => {
+              if (res.data.status === true) {
+                setRPI(true)
+              } else setRPI(false)
+            },
+            (err) => {}
+          )
+      }
     }
   }
 
   React.useEffect(() => {
-    func()
+      func()
   })
 
   const getLocIp = React.useCallback(() => {
@@ -163,13 +164,6 @@ const ResponsiveDrawer = (props) => {
       text: 'browsing',
       icon: <FaHotjar />,
       onClick: () => history.push(`/browsing/${id}`),
-      disabled: !requiredProfilInfo,
-    },
-    {
-      id: 2,
-      text: 'ImgTest',
-      icon: <FaHotjar />,
-      onClick: () => history.push(`/ImgTest/${id}`),
       disabled: !requiredProfilInfo,
     },
     {
@@ -305,11 +299,6 @@ const ResponsiveDrawer = (props) => {
             exact
             path='/browsing/:id'
             render={(props) => <Browsing id={id} />}
-          />
-          <Route
-            exact
-            path='/ImgTest/:id'
-            render={(props) => <ImgTest id={id} />}
           />
           <Route exact path='/history/:id' component={History} />
           <Route
