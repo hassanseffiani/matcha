@@ -2,8 +2,8 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.102
--- Generation Time: Feb 22, 2021 at 05:04 PM
+-- Host: 192.168.99.104
+-- Generation Time: Feb 23, 2021 at 05:29 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -212,6 +212,14 @@ CREATE TABLE `likes` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
+(29, 1, 17, '2021-02-23 17:12:33'),
+(30, 1, 15, '2021-02-23 17:12:34');
+
 -- --------------------------------------------------------
 
 --
@@ -260,8 +268,8 @@ INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
 
 CREATE TABLE `matchs` (
   `id` int NOT NULL,
-  `liker` int NOT NULL,
-  `liked` int NOT NULL,
+  `user1` int NOT NULL,
+  `user2` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -275,9 +283,17 @@ CREATE TABLE `report` (
   `id` int NOT NULL,
   `reporter` int NOT NULL,
   `reported` int NOT NULL,
-  `feedback` enum('Inapproriate Messages','Inapproriate Photos','Bad Offline Behavior','Feels Like Spam','Other') DEFAULT NULL,
+  `feedback` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`id`, `reporter`, `reported`, `feedback`, `created_at`) VALUES
+(3, 1, 17, 'test', '2021-02-23 15:04:45'),
+(4, 1, 15, 'qweqwe', '2021-02-23 15:11:31');
 
 -- --------------------------------------------------------
 
@@ -590,7 +606,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blocked`
 --
 ALTER TABLE `blocked`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -608,7 +624,7 @@ ALTER TABLE `imgProfil`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -626,7 +642,7 @@ ALTER TABLE `matchs`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tag`

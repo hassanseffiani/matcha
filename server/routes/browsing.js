@@ -35,4 +35,12 @@ route.post('/browsing/fetchAllImg/:id', Browsing.allImg)
 
 route.post('/browsing/search/:id', Browsing.search)
 
+// report user
+
+route.post('/report/:id', Browsing.report)
+
+// Block user
+
+route.post('/block/:id', Browsing.block)
+
 module.exports = route

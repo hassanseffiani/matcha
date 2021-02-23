@@ -4,6 +4,8 @@ const Geo = require('../models/geoData')
 const Like = require('../models/likeData')
 const Img = require('../models/imgData')
 const History = require('../models/historyData')
+const Report = require('../models/reportData')
+const Block = require('../models/blockData')
 
 exports.geoOneUser = (req, res) => {
   // get location about with users id
@@ -131,3 +133,27 @@ exports.search = async (req, res, next) => {
     .catch((err) => console.log(err))
   res.json(data)
 }
+
+exports.report = (req, res, next) => {
+  const {reported, feelback} = req.body
+  const {id} = req.params
+
+  Report.alreadyReported(id, reported).then(([report]) => {
+    if (!report.length){
+      const report = new Report(null, id, reported, feelback)
+      report.save()
+      res.json({status: true})
+    }else
+      res.json({status: false})
+  })
+}
+
+exports.block = (req, res, next) => {
+  const {blocked} = req.body
+  const {id} = req.params
+
+  const block = new Block(null, id, blocked)
+  block.save()
+  res.json({status: true})
+}
+

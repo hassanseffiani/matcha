@@ -23,7 +23,7 @@ import {
   // LocationOn
 } from "@material-ui/icons"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { FaHome, FaInfoCircle, FaHistory, FaHotjar, FaRegSun } from "react-icons/fa"
+import { FaHome, FaInfoCircle, FaHistory, FaHotjar, FaRegSun,FaUsers } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
 import { MdAccountCircle } from "react-icons/md"
 
@@ -33,6 +33,7 @@ import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
+import LikeProfil from "../../allProfil/likeProfil"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -75,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
+
+// create two comnponent fetch users liked and matched
+// component like enw button unmatch delete users from table matchs and like
 
 const ResponsiveDrawer = (props) => {
   const { history, window } = props;
@@ -168,7 +172,7 @@ const ResponsiveDrawer = (props) => {
     },
     {
       id: 3,
-      text: 'Profile',
+      text: 'Edit Profile',
       icon: <MdAccountCircle />,
       onClick: () => history.push(`/edit/${id}`),
       disabled: !requiredProfilInfo,
@@ -193,6 +197,13 @@ const ResponsiveDrawer = (props) => {
       text: 'About',
       icon: <FaInfoCircle />,
       onClick: () => history.push('/about'),
+      disabled: !requiredProfilInfo,
+    },
+    {
+      id: 7,
+      text: 'likeProfil',
+      icon: <FaUsers />,
+      onClick: () => history.push('/likeProfil'),
       disabled: !requiredProfilInfo,
     },
   ]
@@ -307,6 +318,7 @@ const ResponsiveDrawer = (props) => {
             component={(props) => <Setting id={id} />}
           />
           <Route exact path='/about' component={About} />
+          <Route exact path='/LikeProfil' component={(props) => <LikeProfil id={id} />} />
           {requiredProfilInfo === true ? (
             <Route exact path='/' render={(props) => <Browsing id={id} />} />
           ) : (

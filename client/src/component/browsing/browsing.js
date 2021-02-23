@@ -16,7 +16,6 @@ import {
   Favorite,
   ThumbDown as ThumbDownIcon,
   SkipNext as SkipNextIcon,
-  Report as ReportIcon
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -169,6 +168,8 @@ const Browsing = (props) => {
                                 visitor={props.id}
                                 visited={el.id}
                                 element={el}
+                                list={list1}
+                                setlist={setList1}
                               />
                             </IconButton>
                           }

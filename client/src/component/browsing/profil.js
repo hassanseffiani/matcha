@@ -6,12 +6,16 @@ import { Chip, Avatar, Grid, Button, Dialog, Typography, IconButton, CardMedia }
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { Close as CloseIcon, More as MoreIcon } from '@material-ui/icons'
+import {
+  Close as CloseIcon,
+  More as MoreIcon,
+  Block as BlockIcon,
+} from '@material-ui/icons'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 import {  FaFemale ,FaMale  } from "react-icons/fa"
 import Rating from "react-rating"
-
+import Report from './report'
 
 const styles = (theme) => ({
     root: {
@@ -37,7 +41,14 @@ const useStyles = makeStyles((theme) => ({
   },
   typo1: {
     marginLeft: '1vw',
-  }
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
 }))
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -78,6 +89,15 @@ const CustomizedDialogs = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handelBlock = (e) => {
+      Axios.post(`/block/${props.visitor}`, {blocked: props.visited}).then(res => {
+        if (res.data.status){
+          const newList = props.list.filter((item) => item.id !== props.visited)
+          props.setlist(newList)
+        }
+      })
+    }
 
     return (
       <React.Fragment>
@@ -136,67 +156,166 @@ const CustomizedDialogs = (props) => {
                   alt={`test${props.element.images.split(',')[0]}`}
                 />
                 <Typography className={classes.typo}>
-                  {'  ' + props.element.firstName + ' ' + props.element.lastName + ', '+ props.element.age + ' '}
-                  {props.element.gender === "Male" && <FaMale style={{ color: 'green' }}/>}
-                  {props.element.gender === "Women" && <FaFemale style={{ color: 'pink' }}/>}
+                  {'  ' +
+                    props.element.firstName +
+                    ' ' +
+                    props.element.lastName +
+                    ', ' +
+                    props.element.age +
+                    ' '}
+                  {props.element.gender === 'Male' && (
+                    <FaMale style={{ color: 'green' }} />
+                  )}
+                  {props.element.gender === 'Women' && (
+                    <FaFemale style={{ color: 'pink' }} />
+                  )}
                 </Typography>
-                 <Typography className={classes.typo1} variant='body2'>{props.element.city + ' | ' + props.element.km.toFixed(2) + '  km'}</Typography>
+                <Typography className={classes.typo1} variant='body2'>
+                  {props.element.city +
+                    ' | ' +
+                    props.element.km.toFixed(2) +
+                    '  km'}
+                </Typography>
               </Grid>
               <Grid container item xs={8} sm={4}>
-              {props.element.tag1.split(',').length > 0
-                ? props.element.tag1.split(',').map((el, iKey) => {
-                    return (
-                      <div key={iKey}>
-                        <Chip color="secondary" variant="outlined" size="small" label={el} />
-                      </div>
-                    )
-                  })
-                : ''}
+                {props.element.tag1.split(',').length > 0
+                  ? props.element.tag1.split(',').map((el, iKey) => {
+                      return (
+                        <div key={iKey}>
+                          <Chip
+                            color='secondary'
+                            variant='outlined'
+                            size='small'
+                            label={el}
+                          />
+                        </div>
+                      )
+                    })
+                  : ''}
               </Grid>
               <Grid item xs={8} sm={4}>
-                <Typography color="primary" variant='caption'>{props.element.bio}</Typography>
+                <Typography color='primary' variant='caption'>
+                  {props.element.bio}
+                </Typography>
               </Grid>
               <Grid item xs={8} sm={4}>
-                {
-                  0 < props.element.fameRating && props.element.fameRating < 50 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={1}/><br />{props.element.fameRating + ' exp Useless'}</Typography>
-                }
-                {
-                  50 < props.element.fameRating && props.element.fameRating < 150 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={1}/><br />{props.element.fameRating + ' exp Useless+'}</Typography>
-                }
-                {
-                  150 < props.element.fameRating && props.element.fameRating < 250 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={2}/><br />{props.element.fameRating + ' exp Poor'}</Typography>
-                }
-                {
-                  250 < props.element.fameRating && props.element.fameRating < 350 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={2}/><br />{props.element.fameRating + ' exp Poor+'}</Typography>
-                }
-                {
-                  350 < props.element.fameRating && props.element.fameRating < 450 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={3}/><br />{props.element.fameRating + ' exp Ok'}</Typography>
-                }
-                {
-                  450 < props.element.fameRating && props.element.fameRating < 550 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={3}/><br />{props.element.fameRating + ' exp Ok+'}</Typography>
-                }
-                {
-                  550 < props.element.fameRating && props.element.fameRating < 650 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={4}/><br />{props.element.fameRating + ' exp Good'}</Typography>
-                }
-                {
-                  650 < props.element.fameRating && props.element.fameRating < 750 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={4}/><br />{props.element.fameRating + ' exp Good+'}</Typography>
-                }
-                {
-                  750 < props.element.fameRating && props.element.fameRating < 850 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={5}/><br />{props.element.fameRating + ' exp Excellent'}</Typography>
-                }
-                {
-                  850 < props.element.fameRating && props.element.fameRating < 1001 &&
-                  <Typography style={{ color: 'Gold' }} variant="caption"><Rating style={{"pointerEvents": "none" }} initialRating={5}/><br />{props.element.fameRating + ' exp Excellent+'}</Typography>
-                }
+                {0 < props.element.fameRating && props.element.fameRating < 50 && (
+                  <Typography style={{ color: 'Gold' }} variant='caption'>
+                    <Rating
+                      style={{ pointerEvents: 'none' }}
+                      initialRating={1}
+                    />
+                    <br />
+                    {props.element.fameRating + ' exp Useless'}
+                  </Typography>
+                )}
+                {50 < props.element.fameRating &&
+                  props.element.fameRating < 150 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={1}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Useless+'}
+                    </Typography>
+                  )}
+                {150 < props.element.fameRating &&
+                  props.element.fameRating < 250 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={2}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Poor'}
+                    </Typography>
+                  )}
+                {250 < props.element.fameRating &&
+                  props.element.fameRating < 350 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={2}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Poor+'}
+                    </Typography>
+                  )}
+                {350 < props.element.fameRating &&
+                  props.element.fameRating < 450 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={3}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Ok'}
+                    </Typography>
+                  )}
+                {450 < props.element.fameRating &&
+                  props.element.fameRating < 550 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={3}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Ok+'}
+                    </Typography>
+                  )}
+                {550 < props.element.fameRating &&
+                  props.element.fameRating < 650 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={4}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Good'}
+                    </Typography>
+                  )}
+                {650 < props.element.fameRating &&
+                  props.element.fameRating < 750 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={4}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Good+'}
+                    </Typography>
+                  )}
+                {750 < props.element.fameRating &&
+                  props.element.fameRating < 850 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={5}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Excellent'}
+                    </Typography>
+                  )}
+                {850 < props.element.fameRating &&
+                  props.element.fameRating < 1001 && (
+                    <Typography style={{ color: 'Gold' }} variant='caption'>
+                      <Rating
+                        style={{ pointerEvents: 'none' }}
+                        initialRating={5}
+                      />
+                      <br />
+                      {props.element.fameRating + ' exp Excellent+'}
+                    </Typography>
+                  )}
+              </Grid>
+              <Grid container item xs={8} sm={4} direction='row'>
+                <IconButton aria-label='Block User'
+                  onClick={(event) => handelBlock(event)}
+                >
+                  <BlockIcon />
+                </IconButton>
+                <Report visitor={props.visitor} visited={props.visited} />
               </Grid>
             </Grid>
           </DialogContent>
