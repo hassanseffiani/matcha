@@ -20,6 +20,3 @@ module.exports = class Block {
 //     )
 //   }
 } 
-
-
-// blocked(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `` int(11) NOT NULL, `blocked` int(11) NOT NULL,`dlt` int(11) NOT NULL DEFAULT 0, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)

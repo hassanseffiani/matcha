@@ -40,4 +40,18 @@ module.exports = class Like {
       [data.idLiker, data.idLiked, 1]
     )
   }
+
+  static deleteLikes(data){
+    return db.execute(
+      'DELETE FROM likes WHERE `liker` = ? AND `liked` = ?',
+      [data.id, data.user2]
+    )
+  }
+
+  static deleteMatchs(data){
+    return db.execute(
+      'DELETE FROM matchs WHERE `user1` = ? AND `user2` = ?',
+      [data.id, data.user2]
+    )
+  }
 }

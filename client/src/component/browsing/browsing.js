@@ -97,16 +97,6 @@ const Browsing = (props) => {
     const newList = list1.filter((item) => item.id !== idLiked)
     setList1(newList)
   }
-
-  // const handelReport = (event, reporter,reported) => {
-  //   event.preventDefault()
-
-  // }
-
-  // const Report = (props) => {
-
-  // }
-
   
 
   const handelDeslike = (event, idLiker, idLiked) => {

@@ -148,12 +148,42 @@ exports.report = (req, res, next) => {
   })
 }
 
-exports.block = (req, res, next) => {
+exports.block = async (req, res, next) => {
+  var data = {}
   const {blocked} = req.body
-  const {id} = req.params
-
-  const block = new Block(null, id, blocked)
-  block.save()
+  data.id = req.params.id
+  data.user2 = blocked
+  const block = new Block(null, data.id, blocked)
+  await block.save().then(() => {
+    Like.deleteLikes(data)
+    Like.deleteMatchs(data)
+  })
   res.json({status: true})
 }
 
+
+exports.allProfil = async (req, res, next) => {
+  const { cord, gender } = req.body
+  const { id } = req.params
+  var data = []
+  await Geo.allProfilData(cord, gender, id)
+    .then(([res]) => {
+      res.map((el) => {
+        data.push(el)
+      })
+    })
+    .catch((err) => console.log(err))
+  // console.log(data)
+  res.json(data)
+}
+
+exports.unlike = async (req, res, next) => {
+  var data = {},
+    dataErr = {}
+  data = { ...req.body }
+  data.id = req.params.id
+
+  Like.deleteLikes(data)
+  Like.deleteMatchs(data)
+    res.json({ status: true })
+}

@@ -43,4 +43,12 @@ route.post('/report/:id', Browsing.report)
 
 route.post('/block/:id', Browsing.block)
 
+//show all profil
+
+route.post('/allProfil/:id', Browsing.allProfil)
+
+//unLike user
+
+route.post('/browsing/unlike/:id', Browsing.unlike)
+
 module.exports = route

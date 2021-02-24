@@ -33,7 +33,7 @@ import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
-import LikeProfil from "../../allProfil/likeProfil"
+import AllProfil from "../../allProfil/likeProfil"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -201,9 +201,9 @@ const ResponsiveDrawer = (props) => {
     },
     {
       id: 7,
-      text: 'likeProfil',
+      text: 'allProfil',
       icon: <FaUsers />,
-      onClick: () => history.push('/likeProfil'),
+      onClick: () => history.push('/allProfil'),
       disabled: !requiredProfilInfo,
     },
   ]
@@ -318,7 +318,7 @@ const ResponsiveDrawer = (props) => {
             component={(props) => <Setting id={id} />}
           />
           <Route exact path='/about' component={About} />
-          <Route exact path='/LikeProfil' component={(props) => <LikeProfil id={id} />} />
+          <Route exact path='/allProfil' component={(props) => <AllProfil id={id} />} />
           {requiredProfilInfo === true ? (
             <Route exact path='/' render={(props) => <Browsing id={id} />} />
           ) : (

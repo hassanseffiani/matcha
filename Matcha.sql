@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.104
--- Generation Time: Feb 23, 2021 at 05:29 PM
+-- Generation Time: Feb 24, 2021 at 11:25 AM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -45,6 +45,13 @@ CREATE TABLE `blocked` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `blocked`
+--
+
+INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
+(56, 10, 1, 0, '2021-02-24 11:09:16');
+
 -- --------------------------------------------------------
 
 --
@@ -81,7 +88,8 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (16, 1, 11, '2021-02-20 14:42:30'),
 (17, 1, 20, '2021-02-20 15:46:55'),
 (18, 2, 15, '2021-02-21 17:25:30'),
-(19, 1, 22, '2021-02-22 13:47:27');
+(19, 1, 22, '2021-02-22 13:47:27'),
+(20, 10, 17, '2021-02-24 10:38:17');
 
 -- --------------------------------------------------------
 
@@ -218,7 +226,8 @@ CREATE TABLE `likes` (
 
 INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
 (29, 1, 17, '2021-02-23 17:12:33'),
-(30, 1, 15, '2021-02-23 17:12:34');
+(30, 1, 15, '2021-02-23 17:12:34'),
+(31, 1, 10, '2021-02-24 10:37:02');
 
 -- --------------------------------------------------------
 
@@ -293,7 +302,8 @@ CREATE TABLE `report` (
 
 INSERT INTO `report` (`id`, `reporter`, `reported`, `feedback`, `created_at`) VALUES
 (3, 1, 17, 'test', '2021-02-23 15:04:45'),
-(4, 1, 15, 'qweqwe', '2021-02-23 15:11:31');
+(4, 1, 15, 'qweqwe', '2021-02-23 15:11:31'),
+(5, 10, 1, 'qweqwe', '2021-02-24 10:37:40');
 
 -- --------------------------------------------------------
 
@@ -511,7 +521,7 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (2, NULL, 'hassanseffiani1@gmail.com', 'lkahba', 'hsf', 'killer', '$2b$10$0aytWTd9Oo9PPtQIWGgofeiGtYkXnOJ0fjIVzrdrPoKoToTRx8NSW', '38f5a1f3990219e246ba81c0b44e38d0011225e74fea1c7ff7aba97f9e5e6eee', 1, 22, 'Women', 'Male', 'Biography for user2', 200, 2),
 (3, NULL, 'hassanseffiani2@gmail.com', 'hsf2', 'hsf', 'killer', '$2b$10$1ObGsxs1JuJSGlVC5sRgnOFReiW3RnZ8G7zGuK1hwp91SQq1UuJJe', '6728794d2be2ee19a7cc92edd3667ba692666bf6320d8533a479d8de1070e7b1', 1, 20, 'Male', 'Women', 'Biography for user3', 400, 2),
 (4, NULL, 'hassanseffiani3@gmail.com', 'chalotiya', 'hsf', 'killer', '$2b$10$07mGEi/zHYm9kSV.pQqn9u/n5xYMhRoPgVI3/lMqXoyXbIUIe/u2m', 'dc2c19b64d0a577c53e31241e2c7a9ba252c33b43accf00ba1b59d2956914601', 1, 21, 'Women', 'Male', 'Biography for user4', 300, 2),
-(5, NULL, 'hassanseffiani4@gmail.com', 'hsf4', 'hsf', 'killer', '$2b$10$7beU0B32KM99ymOXv/Dpde52.CYFW68lTRMVVdR3/ilp8CPaSMwCS', 'f42561845afb82441da46e8c171e68e1dccbcbb019781f9d09b48ff7fd56e0e1', 1, 22, 'Male', 'Women', 'Biography for user5', 700, 1),
+(5, NULL, 'hassanseffiani4@gmail.com', 'hsf4', 'hsf', 'killer', '$2b$10$7beU0B32KM99ymOXv/Dpde52.CYFW68lTRMVVdR3/ilp8CPaSMwCS', 'f42561845afb82441da46e8c171e68e1dccbcbb019781f9d09b48ff7fd56e0e1', 1, 22, 'Male', 'Women', 'Biography for user5', 700, 2),
 (6, NULL, 'hassanseffiani5@gmail.com', 'hsf5', 'hsf', 'killer', '$2b$10$X.qe0BAaax7Pf7IceKnDu.y0MT5CCQ9Gjd.PauUS8puVzlyhePSZe', 'e9456c8ddf6d785b5e6c3edf0ba5acf3da8c6b9d364b148335e49456e97db76e', 1, 23, 'Women', 'Male', 'Biography for user6', 600, 2),
 (7, NULL, 'hassanseffiani6@gmail.com', 'hsf6', 'hsf', 'killer', '$2b$10$fltwxcJGeTGEvIQ5MmefLeIp4MCNWdybrT/OtRIGAq4Fgd2F51KAO', '6bb02f4cd101c8f1b335a09a2b5348c333b8f829615daf995b848ab78cf23071', 1, 24, 'Male', 'Women', 'Biography for user7', 800, 2),
 (8, NULL, 'hassanseffiani7@gmail.com', 'hsf7', 'hsf', 'killer', '$2b$10$opuDzuh2.ORq.IX0.1yJN.BY7/Qx0c4CxWDmOyGXh.3S7csAfusEG', '2c63da54c98c898388830940fb940d00572a26ca46e690f1b363b32c93e2b539', 1, 25, 'Women', 'Male', 'Biography for user8', 100, 2),
@@ -519,15 +529,15 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (10, NULL, 'hassanseffiani9@gmail.com', 'hsf9', 'hsf', 'killer', '$2b$10$t0yakHHvl9BiOvzBJizlZOIFRYO6u0/ZzCbSLcH38D.1yPJPBRb3e', '350ed02542008080850a19376e54df7d7640c9474149946ddaf91f05a34b22ef', 1, 27, 'Women', 'Male', 'Biography for user10', 400, 2),
 (11, NULL, 'hassanseffiani10@gmail.com', 'hsf10', 'hsf', 'killer', '$2b$10$psqCNSH9xJ14P5DzbZZoW.jNliWNOCUfwuXj6zB8V.ldUHizTPzXm', '03079b90a25d19a503d3ce87577aff440cef60aae89b30cc9f56a19fcc0b69ab', 1, 28, 'Male', 'Women', 'Biography for user11', 600, 2),
 (12, NULL, 'hassanseffiani11@gmail.com', 'hsf11', 'hsf', 'killer', '$2b$10$cuHKksM4huTW0iiWOBZMUeb4yRhtwf9nyJDI3YYcz46H06Yugarb6', '975ed4f9217b165e7193aa9de03acb4d03f235d2e33c7b3fd6f2bc9c05b361d0', 1, 29, 'Women', 'Male', 'Biography for user12', 500, 2),
-(13, NULL, 'hassanseffiani12@gmail.com', 'hsf12', 'hsf', 'killer', '$2b$10$R0v4yUm/ykxS9HLbV0ue2eJNfGAUBoafP8QHeb.IwcFDOZD74Zn6u', '8ad44838a863f5bc0189b452f289e93c46994507bcb32ece87f29c1ab1ee0f34', 1, 30, 'Male', 'Women', 'Biography for user13', 300, 1),
+(13, NULL, 'hassanseffiani12@gmail.com', 'hsf12', 'hsf', 'killer', '$2b$10$R0v4yUm/ykxS9HLbV0ue2eJNfGAUBoafP8QHeb.IwcFDOZD74Zn6u', '8ad44838a863f5bc0189b452f289e93c46994507bcb32ece87f29c1ab1ee0f34', 1, 30, 'Male', 'Women', 'Biography for user13', 300, 2),
 (14, NULL, 'hassanseffiani13@gmail.com', 'hsf13', 'hsf', 'killer', '$2b$10$avNtLEI/MmShi9M8YpAjeuocP2kbCyS1O9.52hL7E5vDIYmy18dQG', '538eb74b99ddbdc7c67677642f5865ca8f8fb785692883aa7586458f7e40b35c', 1, 31, 'Women', 'Women', 'Biography for user14', 300, 2),
 (15, NULL, 'hassanseffiani14@gmail.com', 'hsf14', 'hsf', 'killer', '$2b$10$uwS0wjqJIsaOEv94tEMmVOxJTEiNDXfLjozitKOeJNRhCs84ofmV6', '68539e1c7c9498700fd885300c4c7da495062e08b7c5b386f95b94f90203cd79', 1, 32, 'Male', 'Women', 'Biography for user15', 700, 2),
 (16, NULL, 'hassanseffiani15@gmail.com', 'hsf15', 'hsf', 'killer', '$2b$10$7z6yGS.kX3XGwZ5fgDuSfe27KVq.qADD25HgMeC5svOejRNoZ8662', '3bb2d8045d1481f43e4fa1fe78a14ca572742d8c7cae702e6ff7e5f7a0eafbf1', 1, 33, 'Women', 'Male', 'Biography for user16', 400, 2),
 (17, NULL, 'hassanseffiani16@gmail.com', 'hsf16', 'hsf', 'killer', '$2b$10$YbEhn1UB06grkgYMyCP89.r5BoZY/6lkbFfZ4Dshse/qsby5Gdgb6', '8aeb7b2d8667ccd9dcc6f962365b05f12bf0c95844086c86f71633d77c8fdd0e', 1, 34, 'Male', 'Women', 'Biography for user17', 200, 2),
-(18, NULL, 'hassanseffiani17@gmail.com', 'hsf17', 'hsf', 'killer', '$2b$10$nIsn0FxruNFy9RLJEVb2OuU0KEDFi0mL3F6nLi3N0QHhRGGew3CEe', '441067776d2b5140951c37755bb169647ba2da4f8cef3b8b4c360ca8c1ebf053', 1, 35, 'Women', 'Male', 'Biography for user18', 500, 1),
-(19, NULL, 'hassanseffiani18@gmail.com', 'hsf18', 'hsf', 'killer', '$2b$10$ypXVlIQA6QNw0wsTMAAY3Ockgs8XgoR.IT31EACljkj7MAqftNokW', '05274b6d1c81e24c3f8c0bae50cbef090e73cdfeca5481c169dcaad8b4bc74ba', 1, 36, 'Male', 'Other', 'Biography for user19', 600, 1),
-(20, NULL, 'hassanseffiani19@gmail.com', 'hsf19', 'hsf', 'killer', '$2b$10$0.0CMfeqrB7EuXukxRYhMul045HWVFQV.QvcCGYnSzpEABzTgZbsi', '9f02304ae5018042d2a8d4b627052111fc86fb595a2e181b843209e4aad7e648', 1, 37, 'Women', 'Male', 'Biography for user20', 900, 1),
-(21, NULL, 'hassanseffiani20@gmail.com', 'hsf20', 'hsf', 'killer', '$2b$10$EUjrBMO51JdAsKo5yAX9NeNZ9MZL/K9o6gtI9TnSyK1nb/Gm58mfa', '5dfb5741b2d4e8d90dc9d5b24e5c1b84c42c22a8a76933c0c49381de8c49d20c', 1, 38, 'Male', 'Women', 'Biography for user21', 700, 1),
+(18, NULL, 'hassanseffiani17@gmail.com', 'hsf17', 'hsf', 'killer', '$2b$10$nIsn0FxruNFy9RLJEVb2OuU0KEDFi0mL3F6nLi3N0QHhRGGew3CEe', '441067776d2b5140951c37755bb169647ba2da4f8cef3b8b4c360ca8c1ebf053', 1, 35, 'Women', 'Male', 'Biography for user18', 500, 2),
+(19, NULL, 'hassanseffiani18@gmail.com', 'hsf18', 'hsf', 'killer', '$2b$10$ypXVlIQA6QNw0wsTMAAY3Ockgs8XgoR.IT31EACljkj7MAqftNokW', '05274b6d1c81e24c3f8c0bae50cbef090e73cdfeca5481c169dcaad8b4bc74ba', 1, 36, 'Male', 'Other', 'Biography for user19', 600, 2),
+(20, NULL, 'hassanseffiani19@gmail.com', 'hsf19', 'hsf', 'killer', '$2b$10$0.0CMfeqrB7EuXukxRYhMul045HWVFQV.QvcCGYnSzpEABzTgZbsi', '9f02304ae5018042d2a8d4b627052111fc86fb595a2e181b843209e4aad7e648', 1, 37, 'Women', 'Male', 'Biography for user20', 900, 2),
+(21, NULL, 'hassanseffiani20@gmail.com', 'hsf20', 'hsf', 'killer', '$2b$10$EUjrBMO51JdAsKo5yAX9NeNZ9MZL/K9o6gtI9TnSyK1nb/Gm58mfa', '5dfb5741b2d4e8d90dc9d5b24e5c1b84c42c22a8a76933c0c49381de8c49d20c', 1, 38, 'Male', 'Women', 'Biography for user21', 700, 2),
 (22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'ya29.A0AfH6SMDHYkBb5L8kONA2cmRGJgkx3405sX1D9YbTvDjdAJJrMeKOPexWiuGMKHxeQJDA6v2ciUY8PujlyoRHEGhiHDJqo-Uvq_I10Ln51cRV_hu6G2yx_uAHwXJl81bga7u-O_qrS16fGyZZUmBVfdeV8Kk0', 0, 19, 'Male', 'Other', 'test this', 1000, 2);
 
 --
@@ -606,13 +616,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blocked`
 --
 ALTER TABLE `blocked`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
@@ -624,7 +634,7 @@ ALTER TABLE `imgProfil`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -636,13 +646,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `matchs`
 --
 ALTER TABLE `matchs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tag`
