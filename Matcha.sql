@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.104
--- Generation Time: Feb 24, 2021 at 11:25 AM
+-- Host: 192.168.99.105
+-- Generation Time: Feb 24, 2021 at 04:00 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -227,7 +227,9 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
 (29, 1, 17, '2021-02-23 17:12:33'),
 (30, 1, 15, '2021-02-23 17:12:34'),
-(31, 1, 10, '2021-02-24 10:37:02');
+(31, 1, 10, '2021-02-24 10:37:02'),
+(37, 10, 17, '2021-02-24 15:58:32'),
+(38, 10, 7, '2021-02-24 15:59:24');
 
 -- --------------------------------------------------------
 
@@ -634,7 +636,7 @@ ALTER TABLE `imgProfil`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `location`
