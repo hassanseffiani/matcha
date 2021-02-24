@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
-import { Chip, Avatar, Grid, Button, Typography, IconButton, CardMedia } from '@material-ui/core'
+import { Card, Chip, Avatar, Grid, Button, Typography, IconButton, CardMedia } from '@material-ui/core'
 import Rating from "react-rating"
 import Report from '../browsing/report'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -21,7 +21,7 @@ diva: {
   },
   typo: {
     marginLeft: '1vw',
-    // marginTop: '1vw'
+    marginTop: '1vw'
   },
   typo1: {
     marginLeft: '1vw',
@@ -33,6 +33,10 @@ diva: {
       duration: theme.transitions.duration.shortest,
     }),
   },
+  Button: {
+    marginTop: '2vw',
+    marginLeft: '40vw'
+  }
 }))
 
 
@@ -96,8 +100,9 @@ const LikeProfil = (props) => {
         <React.Fragment>
             {list && list.map((el, iKey) => {
                 return (
-                    <React.Fragment>
-                        <div key={iKey} className={classes.diva}>
+                    <React.Fragment key={iKey}>
+                        <div className={classes.diva}>
+                        <Card>
                             <Grid
                                 container
                                 justify='center'
@@ -105,7 +110,7 @@ const LikeProfil = (props) => {
                                 direction='column'
                                 spacing={2}
                             >
-                                <Grid item xs={12} sm={9}>
+                                <Grid item xs={12} sm={3}>
                                     <Carousel autoPlay showThumbs={false}>
                                         {el.images.split(',').length > 1
                                         ? el.images.split(',').map((el, iKey) => {
@@ -125,7 +130,7 @@ const LikeProfil = (props) => {
                                         : ''}
                                     </Carousel>
                                 </Grid>
-                                <Grid container item xs={8} sm={4}>
+                                <Grid container item xs={12} sm={2}>
                                     <Avatar
                                         aria-label='recipe'
                                         src={`http://localhost:3001/${
@@ -155,7 +160,7 @@ const LikeProfil = (props) => {
                                         '  km'}
                                     </Typography>
                                 </Grid>
-                                <Grid container item xs={8} sm={4}>
+                                <Grid container item xs={12} sm={2}>
                                     {el.tag1.split(',').length > 0
                                         ? el.tag1.split(',').map((el, iKey) => {
                                             return (
@@ -171,12 +176,12 @@ const LikeProfil = (props) => {
                                         })
                                         : ''}
                                 </Grid>
-                                <Grid item xs={8} sm={4}>
+                                <Grid container item xs={12} sm={2}>
                                     <Typography color='primary' variant='caption'>
                                         {el.bio}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={8} sm={4}>
+                                <Grid container item xs={12} sm={2}>
                                     {0 < el.fameRating && el.fameRating < 50 && (
                                         <Typography style={{ color: 'Gold' }} variant='caption'>
                                         <Rating
@@ -286,7 +291,7 @@ const LikeProfil = (props) => {
                                         </Typography>
                                         )}
                                 </Grid>
-                                <Grid container item xs={8} sm={4} direction='row'>
+                                <Grid container item xs={12} sm={2} direction='row'>
                                     <IconButton aria-label='Block User'
                                         onClick={(event) => handelBlock(event, props.id, el.id)}>
                                         <BlockIcon />
@@ -299,8 +304,9 @@ const LikeProfil = (props) => {
                                     </IconButton>
                                 </Grid>
                             </Grid>
+                        </Card>
+                                <Button autoFocus variant='outlined' onClick={(event) => nextUser(event, el.id)} style={{ color: 'DarkBlue' }}>Next user</Button>
                         </div>
-                        <Button autoFocus variant='outlined' onClick={(event) => nextUser(event, el.id)} style={{ color: 'DarkBlue' }}>Next user</Button>
                     </React.Fragment>
                 )
             }).slice(0, 1)}

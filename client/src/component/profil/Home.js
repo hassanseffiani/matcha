@@ -41,6 +41,7 @@ const HorizontalLinearStepper = (props) => {
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
   // const [activeSkip, setActiveSkip] = React.useState(false)
   const [check, setCheck] = React.useState(false)
+  const []
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
