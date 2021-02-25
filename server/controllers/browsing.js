@@ -1,4 +1,3 @@
-const Helpers = require('../util/Helpers')
 const path = require('path')
 const Geo = require('../models/geoData')
 const Like = require('../models/likeData')

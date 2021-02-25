@@ -26,9 +26,13 @@ function getSteps() {
 function getStepContent(step, props, checkTI, checkNo) {
   switch (step) {
     case 0:
-        return <MyAddImages id={props.id} checkTotalImg={checkTI} />
+      return (
+        <MyAddImages id={props.id} checkTotalImg={checkTI} />
+      )
     case 1:
-      return <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo}/>
+      return (
+        <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} />
+      )
     default:
       return 'Unknown step'
   }
@@ -41,7 +45,7 @@ const HorizontalLinearStepper = (props) => {
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
   // const [activeSkip, setActiveSkip] = React.useState(false)
   const [check, setCheck] = React.useState(false)
-  const [progress, setprogress] = React.useState(false)
+  const [progress, setprogress] = React.useState(true)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -88,8 +92,10 @@ const HorizontalLinearStepper = (props) => {
   React.useEffect(() => {
     if (props.id){
       Axios.post(`/base/check1/${props.id}`).then(async (res) => {
-        if (res.data.status) await setCheck(true)
+        if (res.data.status)
+          await setCheck(true)
       })
+      setprogress(false)
     }else
       setprogress(true)
     // if (check) history.push(`/edit/${props.id}`)

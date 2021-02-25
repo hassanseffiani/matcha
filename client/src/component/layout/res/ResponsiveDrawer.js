@@ -77,8 +77,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// create two comnponent fetch users liked and matched
-// component like enw button unmatch delete users from table matchs and like
+// edit fameRating fl webSites , report, block , unlike
+// print images in drop so that can help to delete them
+// geolocalization in all sites
+// notification
+// anass: Import pictures from Facebook and/or Google+.
 
 const ResponsiveDrawer = (props) => {
   const { history, window } = props;
