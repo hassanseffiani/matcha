@@ -134,7 +134,7 @@ const FillProfil = (props) => {
         : (id = chipData.slice(-1)[0].key + 1);
       chipData.push({ key: id, name: tag });
     }
-  };
+  }
 
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) =>

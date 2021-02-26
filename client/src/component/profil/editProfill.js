@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import Axios from 'axios'
-import {Tab, AppBar, Box, Tabs, Grid, Button, TextField } from '@material-ui/core'
+import {
+  FormControlLabel, FormControl, FormLabel, Tab, AppBar, Box,
+  Tabs, Grid, Button, TextField,Radio, RadioGroup, Select, MenuItem,
+  InputLabel, FormHelperText, Collapse, Chip, Paper, Typography
+} from '@material-ui/core'
 import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../history/history'
@@ -17,7 +21,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
-  }
+  },
+  root1: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    margin: 0,
+  },
 }))
 
 const TabPanel = (props) => {
@@ -69,6 +81,26 @@ const EditProfil = (props) => {
   const [f, setF] = React.useState(false)
   const [check, setCheck] = React.useState(false)
   const [value, setValue] = React.useState(0);
+  const [value1, setValue1] = React.useState('male')
+  const [type, setType] = React.useState('women')
+  const [age, setAge] = React.useState([])
+  const [age1, setAge1] = React.useState('')
+  const [tag, setTag] = React.useState("");
+  const [chipData, setChipData] = React.useState([]);
+  const [chipData1, setChipData1] = React.useState([]);
+
+  const [dsbl, setDsbl] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(true);
+  const [errTag, setErrTag] = React.useState("");
+
+  React.useEffect(() => {
+    setAge(range(18, 60))
+    Axios.post(`base/alltag/${props.id}`).then((res) => {
+      if (res.data)
+        setChipData(res.data)
+    })
+  }, [props])
 
   const edit = (e, id) => {
     e.preventDefault()
@@ -77,18 +109,28 @@ const EditProfil = (props) => {
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
-      bio: data.bio
+      bio: data.bio,
+      gender: value1,
+      type: type,
+      age: age1,
+      tag: chipData,
+      tag1: chipData1
     })
       .then((res) => {
         if (res.data.input) {
           setErrMsg(res.data.input)
           setF(true)
-        }
-        else setErrMsg({ validUserNameErr: undefined, validEmailErr: undefined, validFirstNameErr: undefined, validLastNameErr: undefined, validBio: undefined})
+        } else
+          setErrMsg({
+            validUserNameErr: undefined,
+            validEmailErr: undefined,
+            validFirstNameErr: undefined,
+            validLastNameErr: undefined,
+            validBio: undefined,
+          })
         if (res.data.status) {
           setStatus(!status)
           setF(false)
-          // history.push('/about')
         }
       })
       .catch((error) => {
@@ -111,7 +153,11 @@ const EditProfil = (props) => {
       instance
         .get('http://localhost:3001/base')
         .then((res) => {
+          console.log(res.data)
           setData(res.data.user)
+          // setAge1(data.age)
+          // setValue1(data.gender.toLowerCase())
+          // setType(data.type.toLowerCase())
         })
         .catch((error) => {
           console.log(error)
@@ -123,24 +169,67 @@ const EditProfil = (props) => {
     setValue(newValue);
   };
 
+  const range = (start, end) => {
+    return Array(end - start + 1)
+      .fill()
+      .map((_, idx) => start + idx)
+  }
+
+  const handleChange1 = (event) => {
+    setAge1(event.target.value)
+  }
+
+  const addToOption = (tag) => {
+    if (errTag === "") {
+      var id;
+      Object.keys(chipData).length === 0
+        ? (id = 1)
+        : (id = chipData.slice(-1)[0].key + 1);
+      chipData.push({ key: id, name: tag });
+    }
+  }
+
+  const handleDelete = (chipToDelete) => () => {
+    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+    setChipData1(data => ([ ...data ,chipToDelete]))
+  };
+
+  const handelTag = (e) => {
+    setTag(e.target.value);
+    if (tag.match(/^#([A-Za-z0-9_]){3,25}$/) === null) {
+      setErrTag("Enter a valid tag");
+      setDsbl(true);
+    } else {
+      setErrTag("");
+      setDsbl(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (data.gender !== undefined && data.type !== undefined){
+      setAge1(data.age)
+      setValue1(data.gender.toLowerCase())
+      setType(data.type.toLowerCase())
+    }
+  }, [data])
+
   return (
     <div className={classes.diva}>
-      
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position='static'>
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="tabs edit profil"
+            aria-label='tabs edit profil'
           >
-            <Tab label="Images" {...a11yProps(0)} />
-            <Tab label="Profil" {...a11yProps(1)} />
-            <Tab label="Password" {...a11yProps(2)} />
-            <Tab label="Localization" {...a11yProps(3)} />
+            <Tab label='Images' {...a11yProps(0)} />
+            <Tab label='Profil' {...a11yProps(1)} />
+            <Tab label='Password' {...a11yProps(2)} />
+            <Tab label='Localization' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <EditImages id={props.id}/>
+          <EditImages id={props.id} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Grid
@@ -149,10 +238,7 @@ const EditProfil = (props) => {
             alignItems='center'
             // direction='column'
           >
-            <form
-              method='POST'
-              onSubmit={(event) => edit(event, data.id)}
-            >
+            <form method='POST' onSubmit={(event) => edit(event, data.id)}>
               <Grid item xs={12} sm={8}>
                 <TextField
                   variant='outlined'
@@ -222,11 +308,151 @@ const EditProfil = (props) => {
                   helperText={errMsg.validBio}
                   error={errMsg.validBio !== undefined}
                 />
+                <Grid item xs={12}>
+                  <FormControl
+                    className={classes.formControl}
+                    error={errMsg.validAge !== undefined}
+                  >
+                    <InputLabel id='demo-simple-select-required-label'>
+                      Age
+                    </InputLabel>
+                    <Select
+                      labelId='demo-simple-select-required-label'
+                      id='demo-simple-select-required'
+                      value={age1}
+                      onChange={handleChange1}
+                      className={classes.selectEmpty}
+                    >
+                      <MenuItem value=''>
+                        <em>None</em>
+                      </MenuItem>
+                      {age.map((el, key) => {
+                        return (
+                          <MenuItem key={key} value={el}>
+                            {el}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                    <FormHelperText>{errMsg.validAge}</FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl component='fieldset'>
+                    <FormLabel component='legend'>Gender</FormLabel>
+                    <RadioGroup
+                      row
+                      aria-label='gender'
+                      name='gender1'
+                      value={value1}
+                      onChange={(e) => setValue1(e.target.value)}
+                    >
+                      <FormControlLabel
+                        value='women'
+                        control={<Radio />}
+                        label='Women'
+                      />
+                      <FormControlLabel
+                        value='male'
+                        control={<Radio />}
+                        label='Male'
+                      />
+                      <FormControlLabel
+                        value='other'
+                        control={<Radio />}
+                        label='Other'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl component='fieldset'>
+                    <FormLabel component='legend'>Sexual preferences</FormLabel>
+                    <RadioGroup
+                      row
+                      aria-label='type'
+                      name='type1'
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                    >
+                      <FormControlLabel
+                        value='women'
+                        control={<Radio />}
+                        label='Women'
+                      />
+                      <FormControlLabel
+                        value='male'
+                        control={<Radio />}
+                        label='Male'
+                      />
+                      <FormControlLabel
+                        value='other'
+                        control={<Radio />}
+                        label='Other'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <Collapse in={open}>
+                  <TextField
+                    label='Add New Tag'
+                    multiline
+                    variant='outlined'
+                    value={tag}
+                    onChange={(e) => handelTag(e)}
+                    helperText={errTag}
+                    error={errTag !== ''}
+                  />
+                  <Button
+                    variant='outlined'
+                    color='secondary'
+                    onClick={() => {
+                      setOpen(false)
+                      setOpen1(true)
+                      addToOption(tag)
+                    }}
+                    disabled={dsbl}
+                  >
+                    Add
+                  </Button>
+                </Collapse>
+                <Collapse in={open1}>
+                  <Button
+                    disabled={open}
+                    variant='outlined'
+                    color='secondary'
+                    onClick={() => {
+                      setOpen(true)
+                      setOpen1(false)
+                    }}
+                  >
+                    New Tag
+                  </Button>
+                </Collapse>
+                <Paper component='ul' className={classes.root1}>
+                  {chipData &&
+                    chipData.map((data) => {
+                      return (
+                        <li key={data.key}>
+                          <Chip
+                            label={data.name}
+                            onDelete={handleDelete(data)}
+                            className={classes.chip}
+                          />
+                        </li>
+                      )
+                    })}
+                  <Typography color='secondary'>
+                    {chipData && errMsg.validTag}
+                  </Typography>
+                </Paper>
+              </Grid>
                 {status ? (
-                          <Alert severity='success'>Update Complet</Alert>
-                        ) : (
-                          f && <Alert severity='error'>Solve Error</Alert>
-                        )}
+                  <Alert severity='success'>Update Complet</Alert>
+                ) : (
+                  f && <Alert severity='error'>Solve Error</Alert>
+                )}
                 <Button
                   type='submit'
                   fullWidth
@@ -241,7 +467,7 @@ const EditProfil = (props) => {
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <EditPassword id={props.id}/>
+          <EditPassword id={props.id} />
         </TabPanel>
         <TabPanel value={value} index={3}>
           <Geo id={data.id} />

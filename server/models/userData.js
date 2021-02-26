@@ -154,13 +154,16 @@ module.exports = class User {
 
   static UpdateProfilInfo(data) {
     return db.execute(
-      'UPDATE users SET userName = ?, email = ?, firstName= ?, lastName= ?, bio= ? WHERE id = ?',
+      'UPDATE users SET userName = ?, email = ?, firstName= ?, lastName= ?, bio= ?, gender = ?, type = ?, age = ? WHERE id = ?',
       [
         data.userName,
         data.email,
         data.firstName,
         data.lastName,
         data.bio,
+        data.gender,
+        data.type,
+        data.age,
         data.id,
       ]
     )
