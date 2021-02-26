@@ -209,6 +209,37 @@ exports.forgetPassword = async (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+// edit password
+
+exports.editPassword = async (req, res, next) => {
+  // console.log(req.body)
+  var dataErr = {},
+    data = {},
+    toSend = {},psText;
+
+  toSend.input = { ...res.locals.input }
+  data = { ...req.body }
+  data.id = req.params.id
+  await User.getDataMatch(data.id).then(([user]) => {
+    user.map((el) => (psText = el.password));
+  });
+
+  if (Object.keys(toSend.input).length !== 0) res.json(toSend)
+  else{
+    if (data.newPassword === data.cnfrmPassword) {
+      if (Helpers.cmpBcypt(data.password, psText)) {
+        if (!Helpers.cmpBcypt(data.newPassword, psText)) {
+          User.UserForgetPassword_(
+            Helpers.keyBcypt(data.newPassword),
+            data.id
+          ).then((dataErr.status = "success"))
+        } else dataErr.msg = "Password already exists.";
+      } else dataErr.msg = "Enter your Old Password";
+    } else dataErr.msg = "Confirm Your password.";
+    res.json(dataErr);
+  }
+};
+
 // validate user profil
 
 exports.confirmUser = (req, res, next) => {

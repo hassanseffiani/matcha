@@ -107,7 +107,6 @@ module.exports = class User {
   }
 
   static UserForgetPassword_(password, id) {
-    // need to pass vkey to compare with in db. after updating table vkey
     return db.execute('UPDATE users SET password = ? WHERE id = ?', [
       password,
       id,

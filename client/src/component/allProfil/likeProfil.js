@@ -13,7 +13,7 @@ import {
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
-diva: {
+  diva: {
     height: '100vh',
   },
   media: {

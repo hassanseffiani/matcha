@@ -1,18 +1,59 @@
 import React from 'react'
+import PropTypes from "prop-types";
 import Axios from 'axios'
-import { Button, TextField } from "@material-ui/core";
+import {Tab, AppBar, Box, Tabs, Grid, Button, TextField } from '@material-ui/core'
 import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../history/history'
 import Geo from "./geo"
+import EditImages from "./myAddImages"
+import EditPassword from "../forget/editPassword"
 const instance = Axios.create({ withCredentials: true })
 
 const useStyles = makeStyles((theme) => ({
-
+  diva: {
+    height: '100vh',
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
+  }
 }))
 
-const EditProfil = (props) => {
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
+};
+
+const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`
+  };
+}
+
+const EditProfil = (props) => {
   const classes = useStyles(props);
   const [data, setData] = React.useState({
     id: '',
@@ -27,6 +68,7 @@ const EditProfil = (props) => {
   const [status, setStatus] = React.useState()
   const [f, setF] = React.useState(false)
   const [check, setCheck] = React.useState(false)
+  const [value, setValue] = React.useState(0);
 
   const edit = (e, id) => {
     e.preventDefault()
@@ -61,7 +103,7 @@ const EditProfil = (props) => {
   };
 
   React.useEffect(() => {
-    Axios.post(`/base/check/${props.match.params.id}`).then(async (res) => {
+    Axios.post(`/base/check/${props.id}`).then(async (res) => {
       if (res.data.status) await setCheck(true)
     })
     if (check) history.push('/')
@@ -75,98 +117,137 @@ const EditProfil = (props) => {
           console.log(error)
         })
     }
-  }, [props.match.params.id, check])
+  }, [props.id, check])
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <React.Fragment>
-      <form
-        method='POST'
-        onSubmit={(event) => edit(event, data.id)}
-      >
-        <TextField
-          variant='outlined'
-          margin='normal'
-          required
-          fullWidth
-          id='inputUserName'
-          label='User Name'
-          name='userName'
-          autoComplete='userName'
-          autoFocus
-          onChange={handelInput}
-          value={data.userName}
-          helperText={errMsg.validUserNameErr}
-          error={errMsg.validUserNameErr !== undefined}
-        />
-        <TextField
-          variant='outlined'
-          required
-          fullWidth
-          id='email'
-          label='Email Address'
-          name='email'
-          autoComplete='email'
-          autoFocus
-          onChange={handelInput}
-          value={data.email}
-          helperText={errMsg.validEmailErr}
-          error={errMsg.validEmailErr !== undefined}
-        />
-        <TextField
-          autoComplete='fname'
-          name='firstName'
-          variant='outlined'
-          required
-          fullWidth
-          id='inputFirstName'
-          label='First Name'
-          autoFocus
-          onChange={handelInput}
-          value={data.firstName}
-          helperText={errMsg.validFirstNameErr}
-          error={errMsg.validFirstNameErr !== undefined}
-        />
-        <TextField
-          variant='outlined'
-          required
-          fullWidth
-          id='inputLastName'
-          label='Last Name'
-          name='lastName'
-          autoComplete='lname'
-          autoFocus
-          onChange={handelInput}
-          value={data.lastName}
-          helperText={errMsg.validLastNameErr}
-          error={errMsg.validLastNameErr !== undefined}
-        />
-        <TextField
-          label='Biography'
-          name='bio'
-          multiline
-          rows={3}
-          variant='outlined'
-          onChange={handelInput}
-          value={data.bio}
-          helperText={errMsg.validBio}
-          error={errMsg.validBio !== undefined}
-        />
-        {status ? (
-                  <Alert severity='success'>Update Complet</Alert>
-                ) : (
-                  f && <Alert severity='error'>Solve Error</Alert>
-                )}
-        <Button
-          type='submit'
-          fullWidth
-          variant='contained'
-          color='primary'
-          className={classes.submit}
-        >
-          Edit
-        </Button>
-      </form>
-      <Geo id={data.id} />
-    </React.Fragment>
+    <div className={classes.diva}>
+      
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="tabs edit profil"
+          >
+            <Tab label="Images" {...a11yProps(0)} />
+            <Tab label="Profil" {...a11yProps(1)} />
+            <Tab label="Password" {...a11yProps(2)} />
+            <Tab label="Localization" {...a11yProps(3)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <EditImages id={props.id}/>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Grid
+            container
+            justify='center'
+            alignItems='center'
+            // direction='column'
+          >
+            <form
+              method='POST'
+              onSubmit={(event) => edit(event, data.id)}
+            >
+              <Grid item xs={12} sm={8}>
+                <TextField
+                  variant='outlined'
+                  margin='normal'
+                  required
+                  fullWidth
+                  id='inputUserName'
+                  label='User Name'
+                  name='userName'
+                  autoComplete='userName'
+                  autoFocus
+                  onChange={handelInput}
+                  value={data.userName}
+                  helperText={errMsg.validUserNameErr}
+                  error={errMsg.validUserNameErr !== undefined}
+                />
+                <TextField
+                  variant='outlined'
+                  required
+                  fullWidth
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
+                  autoFocus
+                  onChange={handelInput}
+                  value={data.email}
+                  helperText={errMsg.validEmailErr}
+                  error={errMsg.validEmailErr !== undefined}
+                />
+                <TextField
+                  autoComplete='fname'
+                  name='firstName'
+                  variant='outlined'
+                  required
+                  fullWidth
+                  id='inputFirstName'
+                  label='First Name'
+                  autoFocus
+                  onChange={handelInput}
+                  value={data.firstName}
+                  helperText={errMsg.validFirstNameErr}
+                  error={errMsg.validFirstNameErr !== undefined}
+                />
+                <TextField
+                  variant='outlined'
+                  required
+                  fullWidth
+                  id='inputLastName'
+                  label='Last Name'
+                  name='lastName'
+                  autoComplete='lname'
+                  autoFocus
+                  onChange={handelInput}
+                  value={data.lastName}
+                  helperText={errMsg.validLastNameErr}
+                  error={errMsg.validLastNameErr !== undefined}
+                />
+                <TextField
+                  label='Biography'
+                  name='bio'
+                  multiline
+                  rows={3}
+                  variant='outlined'
+                  onChange={handelInput}
+                  value={data.bio}
+                  helperText={errMsg.validBio}
+                  error={errMsg.validBio !== undefined}
+                />
+                {status ? (
+                          <Alert severity='success'>Update Complet</Alert>
+                        ) : (
+                          f && <Alert severity='error'>Solve Error</Alert>
+                        )}
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  color='primary'
+                  className={classes.submit}
+                >
+                  Edit
+                </Button>
+              </Grid>
+            </form>
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <EditPassword id={props.id}/>
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <Geo id={data.id} />
+        </TabPanel>
+      </div>
+    </div>
   )
 }
 

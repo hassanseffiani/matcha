@@ -29,7 +29,6 @@ exports.index = async (req, res, next) => {
       //     data.sort((a, b) => a.cmp - b.cmp);
     })
     .catch((err) => console.log(err))
-  // console.log(data)
   res.json(data)
 }
 

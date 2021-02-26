@@ -25,8 +25,6 @@ import {
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import { FaHome, FaInfoCircle, FaHistory, FaHotjar, FaRegSun,FaUsers } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
-import { MdAccountCircle } from "react-icons/md"
-
 import About from "./About"
 import Browsing from "../../browsing/browsing"
 import Home from "../../profil/Home"
@@ -78,10 +76,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // edit fameRating fl webSites , report, block , unlike
-// print images in drop so that can help to delete them
 // geolocalization in all sites
 // notification
-// anass: Import pictures from Facebook and/or Google+.
+
+// anass part : print images in drop so that can help to delete them
+// Import pictures from Facebook and/or Google+.
 
 const ResponsiveDrawer = (props) => {
   const { history, window } = props;
@@ -175,8 +174,8 @@ const ResponsiveDrawer = (props) => {
     },
     {
       id: 3,
-      text: 'Edit Profile',
-      icon: <MdAccountCircle />,
+      text: 'Setting',
+      icon: <FaRegSun />,
       onClick: () => history.push(`/edit/${id}`),
       disabled: !requiredProfilInfo,
     },
@@ -187,12 +186,11 @@ const ResponsiveDrawer = (props) => {
       onClick: () => history.push(`/history/${id}`),
       disabled: !requiredProfilInfo,
     },
-
     {
       id: 5,
-      text: 'Setting',
-      icon: <FaRegSun />,
-      onClick: () => history.push('/setting'),
+      text: 'Profil',
+      icon: <FaUsers />,
+      onClick: () => history.push('/allProfil'),
       disabled: !requiredProfilInfo,
     },
     {
@@ -201,14 +199,7 @@ const ResponsiveDrawer = (props) => {
       icon: <FaInfoCircle />,
       onClick: () => history.push('/about'),
       disabled: !requiredProfilInfo,
-    },
-    {
-      id: 7,
-      text: 'allProfil',
-      icon: <FaUsers />,
-      onClick: () => history.push('/allProfil'),
-      disabled: !requiredProfilInfo,
-    },
+    }
   ]
   const itemsListTwo = [
     {
@@ -308,7 +299,7 @@ const ResponsiveDrawer = (props) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path='/edit/:id' component={EditProfil} />
+          <Route exact path='/edit/:id' render={(props) => <EditProfil id={id} />} />
           <Route
             exact
             path='/browsing/:id'

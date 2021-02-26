@@ -25,6 +25,10 @@ route.post('/users/sendForget', validator.validationInput, userController.sendFo
 
 route.post('/users/forget/:vkey', validator.validationInput, userController.forgetPassword);
 
+//  post edit password
+
+route.post('/users/edit/:id', validator.validationInput, userController.editPassword);
+
 // get confirm account
 
 route.get('/users/confirm/:vkey', userController.confirmUser);
