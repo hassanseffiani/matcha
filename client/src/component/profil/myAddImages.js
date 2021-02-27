@@ -4,8 +4,8 @@ import Size from '../helpers/size'
 import { Grid, Card, CardMedia } from '@material-ui/core'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { makeStyles } from '@material-ui/core/styles'
-import { IoMdAddCircle } from 'react-icons/io'
-import { useState, useRef, useEffect } from 'react'
+import { IoMdAddCircle, IoIosRemoveCircleOutline } from 'react-icons/io'
+import { useEffect } from 'react'
 
 const intialItems = [
   {
@@ -68,15 +68,20 @@ const useStyles = makeStyles(() => ({
     width: '40px',
     height: '40px',
   },
+  media1: {
+    width: '200px',
+    height: '300px',
+  },
 }))
 
 const MyAddImages = (props) => {
   const classes = useStyles()
-  const [Items, UpdateItems] = useState(intialItems)
-  const imageRefs = useRef([])
-  const [ProfileImg, SetProfileImg] = useState(null)
-  const ProfImgRef = useRef(null)
-  const [effect, triggerEffect] = useState(false)
+  const [Items, UpdateItems] = React.useState(intialItems)
+  const imageRefs = React.useRef([])
+  const [ProfileImg, SetProfileImg] = React.useState(null)
+  const ProfImgRef = React.useRef(null)
+  const [effect, triggerEffect] = React.useState(false)
+  const [printImages, setprintImages] = React.useState('')
   // const [isDD, SetIsDD] = useState(true);
   // const [disabled, SetDisabled] = useState(true);
 
@@ -87,6 +92,14 @@ const MyAddImages = (props) => {
       imageRefs.current.push(el)
     }
   }
+
+  // display images inside dragar
+  React.useEffect(() => {
+    Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
+      // console.log(res.data.images[0])
+      if (res.data.images[0]) setprintImages(res.data.images[0])
+    })
+  }, [props, effect])
 
   // display of images
 
@@ -179,9 +192,34 @@ const MyAddImages = (props) => {
     })
   }
 
+  const handelRemoveImg = (e, key) => {
+    const newString = printImages.split(',')
+    const newString1 = newString.filter((item, iKey) => iKey !== key)
+    console.log(newString[key])
+    setprintImages(newString1.join(', '))
+    console.log(props.id)
+    Axios.post(`base/dltImgUser/${props.id}`, {image: newString[key]})
+  }
+
   return (
     <Size>
       <Grid container>
+        {printImages !== "" && printImages.split(',').length >= 0
+          ? printImages.split(',').map((el, iKey) => {
+              let srcImg = `http://localhost:3001/${el}`
+              let altImg = `display all image loop${iKey}`
+              return (
+                <div key={iKey} className={classes.big}>
+                  <CardMedia
+                    className={classes.media1}
+                    image={srcImg}
+                    title={altImg}
+                  />
+                  <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, iKey)}/>
+                </div>
+              )
+            })
+          : ''}
         <div style={{ overflowY: 'scroll', height: '600px' }}>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId='items'>
@@ -236,7 +274,7 @@ const MyAddImages = (props) => {
         </div> */}
         <Card className={classes.root}>
           <CardMedia
-            image="https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg"
+            image='https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg'
             title='Contemplative Reptile'
             // style={{ width: "400px", height: "600px" }}
             ref={ProfImgRef}

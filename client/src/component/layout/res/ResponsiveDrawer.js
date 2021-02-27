@@ -139,13 +139,15 @@ const ResponsiveDrawer = (props) => {
   }, [id, lat, long])
 
   React.useEffect(() => {
-    // save the localization here
-    if (lat === false && long === false){
-      // hta l push after enablet
-      // getLocIp()
-    }else
-      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long });
-  }, [id, lat, long, getLocIp]);
+    // tal l push
+    // if (lat === false && long === false) 
+    //   getLocIp()
+  }, [lat, long, getLocIp])
+
+  React.useEffect(() => {
+    if (lat !== false && long !== false && id);
+      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+  }, [id, lat, long])
 
   const handelLogout = () => {
     instance.post("http://localhost:3001/logout");

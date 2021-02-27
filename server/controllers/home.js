@@ -239,23 +239,34 @@ exports.checkIs1 = (req, res) => {
   })
 }
 
-exports.geo = (req, res) => {
+exports.geo = (req, res, next) => {
   var data = {},
     data = { ...req.body }
   data.id = req.params.id
   let word
+  data.latlng = { lat: req.body.lat, lng: req.body.long }
 
-  Geo.checkLocIs(data.id).then(([res]) => {
-    if (!res.length){
-      Helpers.geoLocal(data.lat, data.long).then(city => {
-        city.map(el => {
-          word = el.city.split(' ')
-          const geo = new Geo(null, data.id, word[0], data.lat, data.long)
-          geo.save();
+  if (req.body.lat !== false && req.body.long !== false) {
+    Geo.checkLocIs(data.id).then(([res]) => {
+      if (!res.length) {
+        Helpers.geoLocal(data.lat, data.long).then((city) => {
+          city.map((el) => {
+            word = el.city.split(' ')
+            const geo = new Geo(null, data.id, word[0], data.lat, data.long)
+            geo.save()
+          })
         })
-      })
-    }
-  })
+      } else {
+        Helpers.geoLocal(data.lat, data.long).then((city) => {
+          city.map((el) => {
+            word = el.city.split(' ')
+            data.city = word[0]
+            Geo.updateGeo(data)
+          })
+        })
+      }
+    })
+  }
 }
 
 // update locallisation
@@ -362,5 +373,35 @@ exports.onlyImg = async (req, res, next) => {
     })
   })
   await Img.DeleteImages(id)
+  res.json({ status: true })
+}
+
+// display images inside the drager
+
+exports.displayIndrager = async (req, res, next) => {
+  const { id } = req.params
+  var data = []
+  await Img.displayAllImages(id).then(([res]) => {
+    res.map((el) => {
+      // console.log(el.images)
+      data.push(el.images)
+    })
+  })
+  res.json({images: data})
+}
+
+// delete images with help of el.name and id user
+
+
+exports.dltImgUser = async (req, res, next) => {
+  const { id } = req.params
+  const { image } = req.body
+  console.log(id)
+  console.log(image)
+  const uploadDerictory = path.join('public/upload')
+  var fs = require('fs')
+  var filePath = uploadDerictory + '/' + image
+  fs.unlinkSync(filePath)
+  await Img.DeleteImagesUsers(id, image)
   res.json({ status: true })
 }
