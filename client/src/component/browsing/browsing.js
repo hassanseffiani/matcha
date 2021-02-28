@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
-import { makeStyles } from '@material-ui/core/styles'
+import moment from 'moment'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import Filter from './filter'
 import SortComponent from './sort'
 import clsx from 'clsx'
@@ -8,7 +9,7 @@ import Profil from './profil'
 import Map from "./map"
 import Search from './search'
 import {
-  Card, CardHeader, CardContent, CardActions,
+  Card, CardHeader, CardContent, CardActions,Badge,
   // Collapse,
   Avatar, IconButton, Typography, Container, Grid, Box
 } from '@material-ui/core'
@@ -18,13 +19,30 @@ import {
   SkipNext as SkipNextIcon,
 } from '@material-ui/icons'
 
+const StyledBadge = withStyles((theme) => ({
+  badge: (props) => 
+    props.status === "true"
+    ? {
+        backgroundColor: '#A9A9A9',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+          border: '1px',
+        },
+      }
+    : {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      },
+}))(Badge)
+
 const useStyles = makeStyles((theme) => ({
   diva: {
     // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     height: '100vh',
   },
   container: {
-    fontFamily: "Comfortaa"
+    fontFamily: 'Comfortaa',
   },
   copy: {
     marginBottom: theme.spacing(8),
@@ -50,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
+  date: {
+    paddingRight: '13vw'
+  },
 }))
 
 const Browsing = (props) => {
@@ -58,6 +79,9 @@ const Browsing = (props) => {
   const classes = useStyles()
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
+  const [status, setStatus] = React.useState("true")
+  const [curTime, setcurTime] = React.useState()
+  // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
     await Axios.post(`/browsing/geo/${props.id}`).then((res) => {
@@ -107,6 +131,16 @@ const Browsing = (props) => {
     })
   }
 
+  const handelClick = (e) => {
+    if (status === 'true'){
+      setStatus('false')
+      setcurTime()
+    }else{
+      setStatus('true')
+      setcurTime(new Date())
+    }
+  }
+
   return (
     <div className={classes.diva}>
       <Grid
@@ -144,11 +178,21 @@ const Browsing = (props) => {
                       <Card className={classes.root}>
                         <CardHeader
                           avatar={
-                            <Avatar
-                              aria-label='recipe'
-                              src={`http://localhost:3001/${imageProfil[0]}`}
-                              alt={`test${imageProfil[0]}`}
-                            ></Avatar>
+                            <StyledBadge
+                              overlap='circle'
+                              anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                              }}
+                              variant='dot'
+                              status={status}
+                            >
+                              <Avatar
+                                aria-label='recipe'
+                                src={`http://localhost:3001/${imageProfil[0]}`}
+                                alt={`test${imageProfil[0]}`}
+                              />
+                            </StyledBadge>
                           }
                           action={
                             <IconButton aria-label='settings'>
@@ -158,12 +202,25 @@ const Browsing = (props) => {
                                 element={el}
                                 list={list1}
                                 setlist={setList1}
+                                StyledBadge={StyledBadge}
+                                status={status}
+                                curTime={curTime}
                               />
                             </IconButton>
                           }
                           title={el.userName}
                           subheader={el.firstName + ' ' + el.lastName}
                         />
+                        {curTime && (
+                          <Typography
+                            variant='body2'
+                            display='initial'
+                            className={classes.date}
+                          >
+                            Last Seen {moment(curTime).fromNow()}
+                          </Typography>
+                        )}
+                        <button onClick={handelClick}>Click</button>
                         <CardContent>
                           <Typography variant='h6'>Biography :</Typography>
                           <Typography
@@ -185,9 +242,7 @@ const Browsing = (props) => {
                           </IconButton>
                           <IconButton
                             aria-label='skip'
-                            onClick={(event) =>
-                              handelSkip(event, el.id)
-                            }
+                            onClick={(event) => handelSkip(event, el.id)}
                           >
                             <SkipNextIcon style={{ color: 'DarkBlue' }} />
                           </IconButton>

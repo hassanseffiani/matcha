@@ -76,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // edit fameRating fl webSites , report, block , unlike
-// geolocalization in all sites
 // notification
 // son status de connexion - si l'utilisateur apparait deconnecte, on doit voir la data de sa dernierre visite
 // un utilisateur qui ne possede pas de photo ne doit [as pouvoir liker le profil d'une auter utilisateur
@@ -282,7 +281,7 @@ const ResponsiveDrawer = (props) => {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true
+              keepMounted: true,
             }}
           >
             {drawer}
@@ -303,7 +302,11 @@ const ResponsiveDrawer = (props) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path='/edit/:id' render={(props) => <EditProfil id={id} />} />
+          <Route
+            exact
+            path='/edit/:id'
+            render={(props) => <EditProfil id={id} />}
+          />
           <Route
             exact
             path='/browsing/:id'
@@ -316,9 +319,17 @@ const ResponsiveDrawer = (props) => {
             component={(props) => <Setting id={id} />}
           />
           <Route exact path='/about' component={About} />
-          <Route exact path='/allProfil' component={(props) => <AllProfil id={id} />} />
+          <Route
+            exact
+            path='/allProfil'
+            component={(props) => <AllProfil id={id} />}
+          />
           {requiredProfilInfo === true ? (
-            <Route exact path='/' render={(props) => <Browsing id={id} />} />
+            <Route
+              exact
+              path='/'
+              render={(props) => <Browsing id={id} />}
+            />
           ) : (
             <Route exact path='/*' render={(props) => <Home id={id} />} />
           )}

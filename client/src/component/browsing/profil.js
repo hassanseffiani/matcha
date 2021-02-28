@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios'
+import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles'
 import { withStyles } from '@material-ui/core/styles'
 import { Chip, Avatar, Grid, Button, Dialog, Typography, IconButton, CardMedia } from '@material-ui/core'
@@ -148,13 +149,32 @@ const CustomizedDialogs = (props) => {
                 </Carousel>
               </Grid>
               <Grid container item xs={8} sm={4}>
-                <Avatar
-                  aria-label='recipe'
-                  src={`http://localhost:3001/${
-                    props.element.images.split(',')[0]
-                  }`}
-                  alt={`test${props.element.images.split(',')[0]}`}
-                />
+                <props.StyledBadge
+                  overlap='circle'
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  variant='dot'
+                  status={props.status}
+                >
+                  <Avatar
+                    aria-label='recipe'
+                    src={`http://localhost:3001/${
+                      props.element.images.split(',')[0]
+                    }`}
+                    alt={`test${props.element.images.split(',')[0]}`}
+                  />
+                </props.StyledBadge>
+                {props.curTime && (
+                  <Typography
+                    variant='body2'
+                    display='initial'
+                    className={classes.date}
+                  >
+                    Last Seen {moment(props.curTime).fromNow()}
+                  </Typography>
+                )}
                 <Typography className={classes.typo}>
                   {'  ' +
                     props.element.firstName +
@@ -310,7 +330,8 @@ const CustomizedDialogs = (props) => {
                   )}
               </Grid>
               <Grid container item xs={8} sm={4} direction='row'>
-                <IconButton aria-label='Block User'
+                <IconButton
+                  aria-label='Block User'
                   onClick={(event) => handelBlock(event)}
                 >
                   <BlockIcon />

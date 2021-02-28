@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.105
--- Generation Time: Feb 27, 2021 at 06:10 PM
+-- Generation Time: Feb 28, 2021 at 06:45 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -44,13 +44,6 @@ CREATE TABLE `blocked` (
   `dlt` int NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `blocked`
---
-
-INSERT INTO `blocked` (`id`, `blocker`, `blocked`, `dlt`, `created_at`) VALUES
-(56, 10, 1, 0, '2021-02-24 11:09:16');
 
 -- --------------------------------------------------------
 
@@ -224,17 +217,6 @@ CREATE TABLE `likes` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `likes`
---
-
-INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
-(39, 10, 17, '2021-02-24 17:16:24'),
-(40, 1, 17, '2021-02-25 16:12:36'),
-(41, 1, 15, '2021-02-25 16:12:44'),
-(42, 1, 5, '2021-02-26 10:12:52'),
-(43, 1, 6, '2021-02-27 18:02:02');
-
 -- --------------------------------------------------------
 
 --
@@ -254,7 +236,7 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
-(1, 1, 'El', 33.527657, -7.542114),
+(1, 1, 'Bouskoura', 33.520504, -7.561083),
 (2, 2, 'Khouribga', 32.876572, -6.986470),
 (3, 3, 'Khouribga', 32.856571, -6.976470),
 (4, 4, 'Khouribga', 32.866570, -6.966470),
@@ -302,6 +284,13 @@ CREATE TABLE `report` (
   `feedback` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`id`, `reporter`, `reported`, `feedback`, `created_at`) VALUES
+(6, 1, 3, 'qwewe', '2021-02-28 10:45:24');
 
 -- --------------------------------------------------------
 
@@ -358,7 +347,6 @@ CREATE TABLE `tag_user` (
 
 INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (1, 1, 12),
-(3, 1, 10),
 (4, 10, 3),
 (5, 1, 11),
 (6, 10, 10),
@@ -648,7 +636,7 @@ ALTER TABLE `matchs`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tag`
@@ -660,7 +648,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `users`
