@@ -72,7 +72,6 @@ const Browsing = (props) => {
         cord: cord,
         gender: gender,
       }).then((res) => {
-        console.log(res.data)
         if (res.data){
           setList(res.data)
           setList1(res.data)  
@@ -84,7 +83,6 @@ const Browsing = (props) => {
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
     Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
-      console.log(res.data)
       if (res.data.status) {
         const newList = list1.filter((item) => item.id !== idLiked)
         setList1(newList)

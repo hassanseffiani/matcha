@@ -48,7 +48,6 @@ const SendForget = (props) => {
     })
     const forgetPassword = async (e) => {
         e.preventDefault()
-        console.log("test")
         await Axios.post('users/sendForget', {
         email: email
         }).then((res) => {
@@ -61,7 +60,6 @@ const SendForget = (props) => {
             // Object.assign would also work
             return { ...prevState, ...res.data }
           })
-          console.log(errMsg)
           if (errMsg.status === "success") setValid(!valid)
         })
     }

@@ -96,7 +96,6 @@ const MyAddImages = (props) => {
   // display images inside dragar
   React.useEffect(() => {
     Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
-      // console.log(res.data.images[0])
       if (res.data.images[0]) setprintImages(res.data.images[0])
     })
   }, [props, effect])
@@ -195,9 +194,7 @@ const MyAddImages = (props) => {
   const handelRemoveImg = (e, key) => {
     const newString = printImages.split(',')
     const newString1 = newString.filter((item, iKey) => iKey !== key)
-    console.log(newString[key])
     setprintImages(newString1.join(', '))
-    console.log(props.id)
     Axios.post(`base/dltImgUser/${props.id}`, {image: newString[key]})
   }
 

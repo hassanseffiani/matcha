@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
 // edit fameRating fl webSites , report, block , unlike
 // geolocalization in all sites
 // notification
+// son status de connexion - si l'utilisateur apparait deconnecte, on doit voir la data de sa dernierre visite
+// un utilisateur qui ne possede pas de photo ne doit [as pouvoir liker le profil d'une auter utilisateur
+
 
 // anass part : print images in drop so that can help to delete them
 // Import pictures from Facebook and/or Google+.
@@ -130,7 +133,6 @@ const ResponsiveDrawer = (props) => {
     // get locallization with help of ip
     Axios.get('https://api.ipify.org?format=json').then(async (res) => {
       await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then(res => {
-        console.log(res.data)
         setLat(res.data.lat);
         setLong(res.data.lon);
       })

@@ -15,7 +15,6 @@ class Valid extends Component {
   handelConfirm = (id) => {
     Axios.get(`users/confirm/${id}`).then((response) => {
       let { status, msg } = response.data;
-      console.log(response.data.status);
       if (status === "succes") this.setState({ verify: true, msg: msg });
       else if (status === "verify") this.setState({ verify: true, msg: msg });
     });

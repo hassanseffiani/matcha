@@ -93,7 +93,6 @@ const FillProfil = (props) => {
       tag: chipData,
     })
       .then((res) => {
-        // console.log(res)
         if (res.data.input)
           setErrMsg(res.data.input)
         else

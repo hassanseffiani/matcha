@@ -153,11 +153,7 @@ const EditProfil = (props) => {
       instance
         .get('http://localhost:3001/base')
         .then((res) => {
-          console.log(res.data)
           setData(res.data.user)
-          // setAge1(data.age)
-          // setValue1(data.gender.toLowerCase())
-          // setType(data.type.toLowerCase())
         })
         .catch((error) => {
           console.log(error)

@@ -56,9 +56,6 @@ const LikeProfil = (props) => {
     }, [props.id])
 
     React.useEffect(() => {
-        // , el.id
-        // console.log(props.id)
-        // Axios.post(`/browsing/history/${visited}`, { visitor: visitor })
         if (cord.length) {
         Axios.post(`/allProfil/${props.id}`, {
             cord: cord,
@@ -70,15 +67,6 @@ const LikeProfil = (props) => {
         })
         } else getLocalisation()
     }, [cord, gender, getLocalisation, props.id])
-
-    // history fhad l part
-    // read last line consultation wahad l problem a regler
-
-    React.useEffect(() => {
-        if (list[0] !== undefined && props.id)
-            Axios.post(`/browsing/history/${props.id}`, { visitor: list[0].id })
-            // Axios.post(`/browsing/history/${props.id}`, { visitor: list[0].id })
-    }, [props, list])
 
     const handelBlock = (e, user1, user2) => {
         Axios.post(`/block/${user1}`, {blocked: user2}).then(res => {

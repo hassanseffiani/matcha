@@ -68,7 +68,6 @@ exports.editProfil = (req, res) => {
   data.id = req.params.id
   dataErr.status = false
 
-  // console.log(data)
   if (Object.keys(toSend.input).length !== 0) res.json(toSend)
   else{
     User.UpdateProfilInfo(data);
@@ -203,17 +202,14 @@ exports.allTags = async (req, res, next) => {
 
 exports.getImges = (req, res) => {
   const uploadDerictory = path.join("public/upload");
-  console.log(uploadDerictory);
   fs.readdir(uploadDerictory, (err, files) => {
     console.log(files);
     if (err) {
       res.json({ msg: err });
-      //   console.log(err)
     } else if (files.length === 0) {
       res.json({ msg: "No Images uploaded" });
     }
     return res.json({ files });
-    // console.log(file)
   });
 };
 
@@ -383,7 +379,6 @@ exports.displayIndrager = async (req, res, next) => {
   var data = []
   await Img.displayAllImages(id).then(([res]) => {
     res.map((el) => {
-      // console.log(el.images)
       data.push(el.images)
     })
   })
@@ -396,8 +391,6 @@ exports.displayIndrager = async (req, res, next) => {
 exports.dltImgUser = async (req, res, next) => {
   const { id } = req.params
   const { image } = req.body
-  console.log(id)
-  console.log(image)
   const uploadDerictory = path.join('public/upload')
   var fs = require('fs')
   var filePath = uploadDerictory + '/' + image

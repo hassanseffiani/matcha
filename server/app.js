@@ -28,7 +28,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 const path = require('path');
 // static folder to thing like image ...
 app.use(express.static(path.join(__dirname, 'public/upload')));
-// console.log(express.static(path.join(__dirname, 'public'))
 //**********************************************************
 
 // parse application/json
