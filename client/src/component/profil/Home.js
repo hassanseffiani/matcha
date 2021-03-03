@@ -45,7 +45,7 @@ const HorizontalLinearStepper = (props) => {
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
   // const [activeSkip, setActiveSkip] = React.useState(false)
   const [check, setCheck] = React.useState(false)
-  const [progress, setprogress] = React.useState(true)
+  const [progress, setprogress] = React.useState(false)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -95,16 +95,16 @@ const HorizontalLinearStepper = (props) => {
         if (res.data.status)
           await setCheck(true)
       })
-      setprogress(false)
-    }else
       setprogress(true)
+    }else
+      setprogress(false)
     // if (check) history.push(`/edit/${props.id}`)
   }, [props, check])
 
   return (
     
   <div className={classes.root}>
-    {progress === true ? <CircularProgress disableShrink /> : 
+    {progress === false ? <CircularProgress disableShrink /> : 
       <React.Fragment>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {

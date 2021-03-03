@@ -21,8 +21,14 @@ const Init = (props) => {
   };
 
   useEffect(() => {
+    const CancelToken = Axios.CancelToken;
+    const source = CancelToken.source();
+
+   // { cancelToken: source.token }
+         
     Axios.get("http://localhost:3001/users/checkLogin", {
       withCredentials: true,
+      cancelToken: source.token
     })
       .then((response) => {
         if (response.data.access === "Granted" && response.data.jwt)
@@ -33,6 +39,11 @@ const Init = (props) => {
       .catch((error) => {
         console.log(error);
       });
+
+      return () => {
+        if (source)
+          source.cancel()
+      };
   });
 
   // const [darkMode, setDarkMode] = useState(false);

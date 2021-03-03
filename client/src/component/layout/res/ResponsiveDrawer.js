@@ -93,11 +93,24 @@ const ResponsiveDrawer = (props) => {
   const [lat, setLat] = React.useState(false);
   const [long, setLong] = React.useState(false);
   const [requiredProfilInfo, setRPI] = React.useState('')
+  
+  function success(pos){
+    setLat(pos.coords.latitude);
+    setLong(pos.coords.longitude);
+    // if (id1)
+    navigator.geolocation.clearWatch(id1)
+  }
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    setLat(position.coords.latitude);
-    setLong(position.coords.longitude);
-  });
+  // const error = (err) => {
+  //   console.warn('ERROR' + err.code + '): ' + err.message)
+  // }
+  const options = {
+    enableHighAccuracy: false,
+    timeout: 5000,
+    maximumAge: 0
+  };
+
+  let id1 = navigator.geolocation.getCurrentPosition(success, () => { }, options)
 
   const func = async () => {
     if (props.loggedin){
@@ -132,10 +145,10 @@ const ResponsiveDrawer = (props) => {
     // get locallization with help of ip
     Axios.get('https://api.ipify.org?format=json').then(async (res) => {
       await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then(res => {
-        setLat(res.data.lat);
-        setLong(res.data.lon);
+        setLat(res.data.lat)
+        setLong(res.data.lon)
       })
-      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long });
+      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
     })
   }, [id, lat, long])
 

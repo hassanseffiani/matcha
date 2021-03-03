@@ -144,7 +144,6 @@ class Login extends Component {
     errMsg: {},
     userName: "",
     password: "",
-    redirect: null,
     data: [],
     disabled: false,
     progress: false
@@ -168,17 +167,27 @@ class Login extends Component {
           this.setState({ errMsg: response.data.toSend });
         }
         else if (response.data.status === "success" && response.data.verified === true) {
-          this.setState({ redirect: "/" });
+          this.props.login();
+          history.push("/");
         }
       });
   };
 
+  CancelToken = Axios.CancelToken;
+  abortController = new AbortController();
+  source = this.CancelToken.source();
+  
   componentDidMount() {
     Axios.get("http://localhost:3001/users/checkLogin", {
-      withCredentials: true,
+      withCredentials: true
+      , cancelToken: this.source.token
     })
       .then((response) => {
-        if (response.data.jwt) this.setState({ redirect: "/" })
+        console.log(response)
+        if (response.data.jwt) {
+          this.props.login();
+          history.push("/");
+        }
         else this.setState({ progress: true })
       })
       .catch((error) => {
@@ -186,10 +195,9 @@ class Login extends Component {
       });
   }
 
-  componentDidUpdate() {
-    if (this.state.redirect) {
-      this.props.login();
-      history.push("/");
+  componentWillUnmount() {
+    if (this.source.cancel){
+      this.source.cancel()
     }
   }
 

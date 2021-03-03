@@ -174,7 +174,7 @@ const Browsing = (props) => {
                 .map((el, key) => {
                   const imageProfil = el.images.split(',')
                   return (
-                    <Box m={2} key={key}>
+                    <Box m={1} key={key}>
                       <Card className={classes.root}>
                         <CardHeader
                           avatar={
@@ -266,7 +266,7 @@ const Browsing = (props) => {
                     </Box>
                   )
                 })
-                .splice(0, 20)}
+                .splice(0, 1)}
           </Grid>
         </Container>
       </Grid>

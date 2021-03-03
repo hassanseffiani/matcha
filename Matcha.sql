@@ -2,8 +2,8 @@
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.105
--- Generation Time: Feb 28, 2021 at 06:45 PM
+-- Host: 192.168.99.108
+-- Generation Time: Mar 03, 2021 at 05:17 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -108,7 +108,6 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (2, 1, '1uc7B6qNE34U4dFyuCIrOfile-1613573425166.jpeg', 1),
 (3, 1, '2THVqG4lhbq4IpafW_D5ffile-1613573391583.jpeg', 2),
 (4, 1, '9eAaRpB5Py4KT1jhcOmP0file-1613573439520.jpeg', 3),
-(5, 1, 'apchqSAKEbNxlbuLsNQd3file-1613573440952.jpeg', 4),
 (6, 2, 'CO6_ad6DlriGBMtTv11Bmfile-1613573409821.jpeg', 0),
 (7, 2, 'dvWCqxET097hdBn2B0Wh1file-1613573387244.jpeg', 1),
 (8, 2, 'e0UMjiO-ig4CVbBkeWP2Bfile-1613573427654.jpeg', 2),
