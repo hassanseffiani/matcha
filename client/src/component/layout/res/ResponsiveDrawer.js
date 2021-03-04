@@ -89,16 +89,18 @@ const ResponsiveDrawer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [id, setId] = React.useState("");
+  const [id, setId] = React.useState(0);
   const [lat, setLat] = React.useState(false);
   const [long, setLong] = React.useState(false);
   const [requiredProfilInfo, setRPI] = React.useState('')
+  const [didMount, setDidMount] = React.useState(false)
+  const [errorAxios, setErrorAxios] = React.useState(false)
   
   function success(pos){
     setLat(pos.coords.latitude);
-    setLong(pos.coords.longitude);
-    // if (id1)
-    navigator.geolocation.clearWatch(id1)
+    setLong(pos.coords.longitude)
+    if (id1)
+      navigator.geolocation.clearWatch(id1)
   }
 
   // const error = (err) => {
@@ -113,7 +115,7 @@ const ResponsiveDrawer = (props) => {
   let id1 = navigator.geolocation.getCurrentPosition(success, () => { }, options)
 
   const func = async () => {
-    if (props.loggedin){
+    if (!errorAxios && props.loggedin){
       await instance.get('http://localhost:3001/base').then(
         (response) => {
           if (response.data.user.id !== undefined) {
@@ -135,11 +137,18 @@ const ResponsiveDrawer = (props) => {
           )
       }
     }
+    setDidMount(true)
+    return () => 
+    {
+      setDidMount(false)
+      setErrorAxios(true) }
   }
 
   React.useEffect(() => {
       func()
   })
+
+  
 
   const getLocIp = React.useCallback(() => {
     // get locallization with help of ip
@@ -159,8 +168,12 @@ const ResponsiveDrawer = (props) => {
   }, [lat, long, getLocIp])
 
   React.useEffect(() => {
-    if (lat !== false && long !== false && id);
-      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+    if (lat !== false && long !== false && id)
+      Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+    setDidMount(true)
+    return () => {
+      setDidMount(false)
+    }
   }, [id, lat, long])
 
   const handelLogout = () => {
@@ -171,6 +184,9 @@ const ResponsiveDrawer = (props) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  if (!didMount)
+    return null
 
   const itemsListOne = [
     {

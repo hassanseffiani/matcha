@@ -47,26 +47,35 @@ const LikeProfil = (props) => {
     const [gender, setGender] = React.useState('')
     const classes = useStyles()
     const [list, setList] = React.useState([])
+    const [didMount, setDidMount] = React.useState(false)
+
 
     const getLocalisation = React.useCallback(async () => {
         await Axios.post(`/browsing/geo/${props.id}`).then((res) => {
-        setGender(res.data.type)
-        setCord(res.data.geo)
+            setGender(res.data.type)
+            setCord(res.data.geo)
         })
+        
     }, [props.id])
 
     React.useEffect(() => {
         if (cord.length) {
-        Axios.post(`/allProfil/${props.id}`, {
-            cord: cord,
-            gender: gender,
-        }).then((res) => {
-            if (res.data){
-                setList(res.data)
-            }
-        })
+            Axios.post(`/allProfil/${props.id}`, {
+                cord: cord,
+                gender: gender,
+            }).then((res) => {
+                if (res.data){
+                    setList(res.data)
+                }
+            })
         } else getLocalisation()
+        setDidMount(true);
+        return () => setDidMount(false);
+
     }, [cord, gender, getLocalisation, props.id])
+
+    if (!didMount)
+        return null
 
     const handelBlock = (e, user1, user2) => {
         Axios.post(`/block/${user1}`, {blocked: user2}).then(res => {

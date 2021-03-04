@@ -10,7 +10,7 @@ import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../history/history'
 import Geo from "./geo"
-import EditImages from "./myAddImages"
+// import EditImages from "./myAddImages"
 import EditPassword from "../forget/editPassword"
 const instance = Axios.create({ withCredentials: true })
 
@@ -93,6 +93,7 @@ const EditProfil = (props) => {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(true);
   const [errTag, setErrTag] = React.useState("");
+  const [didMount, setDidMount] = React.useState(false)
 
   React.useEffect(() => {
     setAge(range(18, 60))
@@ -207,8 +208,13 @@ const EditProfil = (props) => {
       setValue1(data.gender.toLowerCase())
       setType(data.type.toLowerCase())
     }
+    setDidMount(true);
+    return () => setDidMount(false);
   }, [data])
 
+  if (!didMount)
+    return null
+    
   return (
     <div className={classes.diva}>
       <div className={classes.root}>
@@ -225,7 +231,7 @@ const EditProfil = (props) => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <EditImages id={props.id} />
+          {/* <EditImages id={props.id} /> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Grid

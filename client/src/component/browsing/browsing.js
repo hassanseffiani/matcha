@@ -11,7 +11,7 @@ import Search from './search'
 import {
   Card, CardHeader, CardContent, CardActions,Badge,
   // Collapse,
-  Avatar, IconButton, Typography, Container, Grid, Box
+  Avatar, IconButton, Typography, Container, Grid
 } from '@material-ui/core'
 import {
   Favorite,
@@ -43,13 +43,22 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     fontFamily: 'Comfortaa',
+
   },
   copy: {
-    marginBottom: theme.spacing(8),
+    [theme.breakpoints.up("lg")]: {
+      marginLeft: theme.spacing(70),
+    },
     textAlign: 'center',
   },
   root: {
-    maxWidth: 345,
+    height: '35vh',
+    width: '50vh',
+    backgroundColor: '#FFFAFA',
+    color: '#778899',
+    boxShadow: `10px 10px 10px #A9A9A9`,
+
+    // maxWidth: 395,
   },
   media: {
     height: 0,
@@ -81,6 +90,7 @@ const Browsing = (props) => {
   const [list1, setList1] = React.useState([])
   const [status, setStatus] = React.useState("true")
   const [curTime, setcurTime] = React.useState()
+  const [didMount, setDidMount] = React.useState(false)
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
@@ -102,6 +112,8 @@ const Browsing = (props) => {
         }
       })
     } else getLocalisation()
+    setDidMount(true);
+    return () => setDidMount(false);
   }, [cord, gender, getLocalisation, props.id])
 
   const handelLike = (event, idLiker, idLiked) => {
@@ -118,6 +130,8 @@ const Browsing = (props) => {
     event.preventDefault()
     const newList = list1.filter((item) => item.id !== idLiked)
     setList1(newList)
+    if (list1.length === 1)
+      getLocalisation()
   }
   
 
@@ -140,6 +154,9 @@ const Browsing = (props) => {
       setcurTime(new Date())
     }
   }
+
+  if (!didMount)
+    return null
 
   return (
     <div className={classes.diva}>
@@ -167,107 +184,97 @@ const Browsing = (props) => {
         <Grid item xs={12} sm={5}>
           <Filter setList1={setList1} list={list} />
         </Grid>
-        <Container className={classes.copy} component='main' maxWidth='xs'>
-          <Grid item xs={12} sm={12}>
-            {list1 &&
-              list1
-                .map((el, key) => {
-                  const imageProfil = el.images.split(',')
-                  return (
-                    <Box m={1} key={key}>
-                      <Card className={classes.root}>
-                        <CardHeader
-                          avatar={
-                            <StyledBadge
-                              overlap='circle'
-                              anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                              }}
-                              variant='dot'
-                              status={status}
-                            >
-                              <Avatar
-                                aria-label='recipe'
-                                src={`http://localhost:3001/${imageProfil[0]}`}
-                                alt={`test${imageProfil[0]}`}
-                              />
-                            </StyledBadge>
-                          }
-                          action={
-                            <IconButton aria-label='settings'>
-                              <Profil
-                                visitor={props.id}
-                                visited={el.id}
-                                element={el}
-                                list={list1}
-                                setlist={setList1}
-                                StyledBadge={StyledBadge}
-                                status={status}
-                                curTime={curTime}
-                              />
-                            </IconButton>
-                          }
-                          title={el.userName}
-                          subheader={el.firstName + ' ' + el.lastName}
-                        />
-                        {curTime && (
-                          <Typography
-                            variant='body2'
-                            display='initial'
-                            className={classes.date}
-                          >
-                            Last Seen {moment(curTime).fromNow()}
-                          </Typography>
-                        )}
-                        <button onClick={handelClick}>Click</button>
-                        <CardContent>
-                          <Typography variant='h6'>Biography :</Typography>
-                          <Typography
-                            variant='body2'
-                            color='textSecondary'
-                            component='p'
-                          >
-                            {el.bio}
-                          </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                          <IconButton
-                            aria-label='add to favorites'
-                            onClick={(event) =>
-                              handelLike(event, props.id, el.id)
-                            }
-                          >
-                            <Favorite style={{ color: 'green' }} />
-                          </IconButton>
-                          <IconButton
-                            aria-label='skip'
-                            onClick={(event) => handelSkip(event, el.id)}
-                          >
-                            <SkipNextIcon style={{ color: 'DarkBlue' }} />
-                          </IconButton>
-                          {/* <IconButton
-                            aria-label='report'
-                            onClick={<Report />}
-                          >
-                            <ReportIcon style={{ color: 'DeepPink' }} />
-                          </IconButton> */}
-                          <IconButton
-                            className={clsx(classes.expand)}
-                            aria-label='NotInterested'
-                            onClick={(event) =>
-                              handelDeslike(event, props.id, el.id)
-                            }
-                          >
-                            <ThumbDownIcon color='secondary' />
-                          </IconButton>
-                        </CardActions>
-                      </Card>
-                    </Box>
-                  )
-                })
-                .splice(0, 1)}
-          </Grid>
+        <Container className={classes.copy} component='main' fixed disableGutters>
+        {list1 &&
+            list1
+              .map((el, key) => {
+                const imageProfil = el.images.split(',')
+                return (
+                  <Card className={classes.root} key={key}>
+                    <CardHeader
+                      avatar={
+                        <StyledBadge
+                          overlap='circle'
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                          }}
+                          variant='dot'
+                          status={status}
+                        >
+                          <Avatar
+                            aria-label='recipe'
+                            src={`http://localhost:3001/${imageProfil[0]}`}
+                            alt={`test${imageProfil[0]}`}
+                          />
+                        </StyledBadge>
+                      }
+                      action={
+                        <IconButton aria-label='settings'>
+                          <Profil
+                            visitor={props.id}
+                            visited={el.id}
+                            element={el}
+                            list={list1}
+                            setlist={setList1}
+                            StyledBadge={StyledBadge}
+                            status={status}
+                            curTime={curTime}
+                          />
+                        </IconButton>
+                      }
+                      title={el.userName}
+                      subheader={el.firstName + ' ' + el.lastName}
+                    />
+                    {curTime && (
+                      <Typography
+                        variant='body2'
+                        display='initial'
+                        className={classes.date}
+                      >
+                        Last Seen {moment(curTime).fromNow()}
+                      </Typography>
+                    )}
+                    <button onClick={handelClick}>Click</button>
+                    <CardContent>
+                      <Typography variant='h6'>Biography :</Typography>
+                      <Typography
+                        variant='body2'
+                        color='textSecondary'
+                        component='p'
+                      >
+                        {el.bio}
+                      </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                      <IconButton
+                        aria-label='add to favorites'
+                        onClick={(event) =>
+                          handelLike(event, props.id, el.id)
+                        }
+                      >
+                        <Favorite style={{ color: 'green' }} />
+                      </IconButton>
+                      <IconButton
+                        aria-label='skip'
+                        onClick={(event) => handelSkip(event, el.id)}
+                      >
+                        <SkipNextIcon style={{ color: 'DarkBlue' }} />
+                      </IconButton>
+                      <IconButton
+                        className={clsx(classes.expand)}
+                        aria-label='NotInterested'
+                        onClick={(event) =>
+                          handelDeslike(event, props.id, el.id)
+                        }
+                      >
+                        <ThumbDownIcon color='secondary' />
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                )
+              })
+              .splice(0, 1)}
         </Container>
       </Grid>
     </div>

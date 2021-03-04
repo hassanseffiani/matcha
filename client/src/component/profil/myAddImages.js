@@ -126,13 +126,14 @@ const MyAddImages = (props) => {
       else return false
     })
     return s
-  })
+  }, [props])
 
   useEffect(() => {
     fetchImgs().then((res) => {
       if (res) props.checkTotalImg()
     })
-  }, [fetchImgs, props])
+    if (printImages || ProfileImg) props.checkTotalImg()
+  }, [fetchImgs, props, printImages, ProfileImg])
 
   ////////////////////////////
 

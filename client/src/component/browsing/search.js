@@ -71,6 +71,7 @@ const Search = (props) => {
   const [tag, setTag] = React.useState([])
   const [tag1, setTag1] = React.useState([])
   const [open, setOpen] = React.useState(false)
+  const [didMount, setDidMount] = React.useState(false)
 
   const handleClickOpen = (e) => {
     setOpen(true)
@@ -126,8 +127,13 @@ const Search = (props) => {
       if (res.data)
         setTag(res.data)
     })
+    setDidMount(true);
+    return () => setDidMount(false);
   }, [props])
 
+  if (!didMount)
+    return null
+    
   return (
     <React.Fragment>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>

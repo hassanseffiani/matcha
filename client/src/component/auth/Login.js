@@ -183,7 +183,6 @@ class Login extends Component {
       , cancelToken: this.source.token
     })
       .then((response) => {
-        console.log(response)
         if (response.data.jwt) {
           this.props.login();
           history.push("/");
