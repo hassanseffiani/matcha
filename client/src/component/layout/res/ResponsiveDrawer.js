@@ -23,9 +23,8 @@ import {
   // LocationOn
 } from "@material-ui/icons"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { FaHome, FaInfoCircle, FaHistory, FaHotjar, FaRegSun,FaUsers } from "react-icons/fa"
+import { FaHome, FaHistory, FaHotjar, FaRegSun,FaUsers } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
-import About from "./About"
 import Browsing from "../../browsing/browsing"
 import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
@@ -75,85 +74,80 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// edit fameRating fl webSites , report, block , unlike
+// anass part :
 // notification
 // son status de connexion - si l'utilisateur apparait deconnecte, on doit voir la data de sa dernierre visite
-// un utilisateur qui ne possede pas de photo ne doit [as pouvoir liker le profil d'une auter utilisateur
-
-
-// anass part : print images in drop so that can help to delete them
 // Import pictures from Facebook and/or Google+.
 
+///////////////////////////////// Big steps ///////////////////////////////////////////////////////////
+// edit fameRating fl webSites , report, block , unlike
+// un utilisateur qui ne possede pas de photo ne doit [as pouvoir liker le profil d'une auter utilisateur
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////// try to do /////////////////////////////////////////////////////////////////
+// print images in drop so that can help to delete them
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const ResponsiveDrawer = (props) => {
-  const { history, window } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [id, setId] = React.useState(0);
-  const [lat, setLat] = React.useState(false);
-  const [long, setLong] = React.useState(false);
+  const { history, window } = props
+  const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [id, setId] = React.useState(0)
+  const [lat, setLat] = React.useState(false)
+  const [long, setLong] = React.useState(false)
   const [requiredProfilInfo, setRPI] = React.useState('')
   const [didMount, setDidMount] = React.useState(false)
-  const [errorAxios, setErrorAxios] = React.useState(false)
-  
-  function success(pos){
-    setLat(pos.coords.latitude);
+
+  function success(pos) {
+    setLat(pos.coords.latitude)
     setLong(pos.coords.longitude)
-    if (id1)
-      navigator.geolocation.clearWatch(id1)
+    if (id1) navigator.geolocation.clearWatch(id1)
   }
 
-  // const error = (err) => {
-  //   console.warn('ERROR' + err.code + '): ' + err.message)
-  // }
   const options = {
     enableHighAccuracy: false,
     timeout: 5000,
-    maximumAge: 0
-  };
-
-  let id1 = navigator.geolocation.getCurrentPosition(success, () => { }, options)
-
-  const func = async () => {
-    if (!errorAxios && props.loggedin){
-      await instance.get('http://localhost:3001/base').then(
-        (response) => {
-          if (response.data.user.id !== undefined) {
-            setId(response.data.user.id)
-          }
-        },
-        (err) => {}
-      )
-      if (id !== '') {
-        instance
-          .post('http://localhost:3001/user/userInfoVerification', { userId: id })
-          .then(
-            (res) => {
-              if (res.data.status === true) {
-                setRPI(true)
-              } else setRPI(false)
-            },
-            (err) => {}
-          )
-      }
-    }
-    setDidMount(true)
-    return () => 
-    {
-      setDidMount(false)
-      setErrorAxios(true) }
+    maximumAge: 0,
   }
 
-  React.useEffect(() => {
-      func()
-  })
+  let id1 = navigator.geolocation.getCurrentPosition(success, () => {}, options)
 
-  
+  const func = React.useCallback(async () => {
+    if (!didMount){
+      const CancelToken = Axios.CancelToken
+      const source = CancelToken.source()
+      let { data } = await instance.get('http://localhost:3001/base', {
+        cancelToken: source.token,
+      })
+      setId(data.user.id)
+      return () => {
+        if (source) source.cancel('test')
+      }
+    }
+  }, [didMount])
+
+  React.useEffect(() => {
+    func()
+    if (id !== 0) {
+      instance
+        .post('http://localhost:3001/user/userInfoVerification', { userId: id })
+        .then((res) => {
+          if (res.data.status === true) {
+            setRPI(true)
+          } else setRPI(false)
+        })
+    }
+    setDidMount(true)
+    return () => {
+      setDidMount(false)
+    }
+  }, [func, props, id])
 
   const getLocIp = React.useCallback(() => {
     // get locallization with help of ip
     Axios.get('https://api.ipify.org?format=json').then(async (res) => {
-      await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then(res => {
+      await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then((res) => {
         setLat(res.data.lat)
         setLong(res.data.lon)
       })
@@ -163,7 +157,7 @@ const ResponsiveDrawer = (props) => {
 
   React.useEffect(() => {
     // tal l push
-    // if (lat === false && long === false) 
+    // if (lat === false && long === false)
     //   getLocIp()
   }, [lat, long, getLocIp])
 
@@ -177,16 +171,13 @@ const ResponsiveDrawer = (props) => {
   }, [id, lat, long])
 
   const handelLogout = () => {
-    instance.post("http://localhost:3001/logout");
-    props.logout();
-  };
+    instance.post('http://localhost:3001/logout')
+    props.logout()
+  }
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  if (!didMount)
-    return null
+    setMobileOpen(!mobileOpen)
+  }
 
   const itemsListOne = [
     {
@@ -225,24 +216,17 @@ const ResponsiveDrawer = (props) => {
       onClick: () => history.push('/allProfil'),
       disabled: !requiredProfilInfo,
     },
-    {
-      id: 6,
-      text: 'About',
-      icon: <FaInfoCircle />,
-      onClick: () => history.push('/about'),
-      disabled: !requiredProfilInfo,
-    }
   ]
   const itemsListTwo = [
     {
       id: 100,
-      text: "Logout",
+      text: 'Logout',
       icon: <RiLogoutCircleLine />,
       onClick: () => {
-        handelLogout();
+        handelLogout()
       },
     },
-  ];
+  ]
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -277,7 +261,11 @@ const ResponsiveDrawer = (props) => {
   )
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window().document.body : undefined
+
+  if (!didMount) {
+    return null
+  }
 
   return (
     <div className={classes.root}>
@@ -347,18 +335,13 @@ const ResponsiveDrawer = (props) => {
             path='/setting'
             component={(props) => <Setting id={id} />}
           />
-          <Route exact path='/about' component={About} />
           <Route
             exact
             path='/allProfil'
             component={(props) => <AllProfil id={id} />}
           />
           {requiredProfilInfo === true ? (
-            <Route
-              exact
-              path='/'
-              render={(props) => <Browsing id={id} />}
-            />
+            <Route exact path='/' render={(props) => <Browsing id={id} />} />
           ) : (
             <Route exact path='/*' render={(props) => <Home id={id} />} />
           )}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Route, Switch } from "react-router-dom";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Login from "../component/auth/Login";
 import Signup from "../component/auth/Sign-in";
 import Valid from "../component/auth/Valid";
@@ -11,22 +10,22 @@ import ResponsiveDrawer from "../component/layout/res/ResponsiveDrawer";
 
 
 const Init = (props) => {
-  const [loggedin, setLoggedin] = useState(false);
-  
+  const [loggedin, setLoggedin] = useState(false)
+  const [lay3awn, setLay3awn] = React.useState(false)
+
   const login = () => {
     setLoggedin(!loggedin);
   };
   const logout = () => {
-    setLoggedin(!loggedin);
+    setLoggedin(false)
+    setLay3awn(false)
   };
 
-  useEffect(() => {
-    const CancelToken = Axios.CancelToken;
-    const source = CancelToken.source();
+  const CancelToken = Axios.CancelToken
+  const source = CancelToken.source()
 
-   // { cancelToken: source.token }
-         
-    Axios.get("http://localhost:3001/users/checkLogin", {
+  const checkLogin = React.useCallback(async () => {
+    await Axios.get("http://localhost:3001/users/checkLogin", {
       withCredentials: true,
       cancelToken: source.token
     })
@@ -39,26 +38,19 @@ const Init = (props) => {
       .catch((error) => {
         console.log(error);
       });
+  }, [source])
 
-      return () => {
-        if (source)
-          source.cancel()
-      };
-  });
+  useEffect(() => {
+    checkLogin()
+    return () => {
+      if (source)
+        source.cancel("init")
+    }
+  }, [checkLogin, source]);
 
-  // const [darkMode, setDarkMode] = useState(false);
-
-  const darkTheme = createMuiTheme({
-    // palette: {
-    //   type: darkMode ? "dark" : "light",
-    // },
-  });
   return (
-    <ThemeProvider theme={darkTheme}>
-      {loggedin === true && (
-        <ResponsiveDrawer logout={logout} loggedin={loggedin} />
-      )}
-      {loggedin === false && (
+    <React.Fragment>
+      {loggedin === false ? (
         <Switch>
           <Route exact path='/Sign-up' component={Signup} />
           <Route path='/Login' component={() => <Login login={login} />} />
@@ -67,9 +59,16 @@ const Init = (props) => {
           <Route path='/forget/:frgId' component={Forget} />
           <Route path='/*' component={() => <Login login={login} />} />
         </Switch>
+      ) : (
+        <ResponsiveDrawer
+          logout={logout}
+          loggedin={loggedin}
+          lay3awn={lay3awn}
+          setLay3awn={setLay3awn}
+        />
       )}
-    </ThemeProvider>
+    </React.Fragment>
   )
-};
+}
 
 export default Init;

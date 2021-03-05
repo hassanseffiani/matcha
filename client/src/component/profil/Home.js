@@ -155,15 +155,7 @@ const HorizontalLinearStepper = (props) => {
                 )}
               </Typography>
               <div>
-                {/* <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleNext}
-                  className={classes.button}
-                  disabled={activeSkip ? true : false}
-                >
-                  {activeStep === steps.length - 1 ? 'Skip' : 'Skip'}
-                </Button> */}
+                
                 <Button
                   variant='contained'
                   color='primary'
