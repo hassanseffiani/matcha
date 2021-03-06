@@ -274,7 +274,7 @@ const Browsing = (props) => {
                   </Card>
                 )
               })
-              .splice(0, 1)}
+              .splice(0, 10)}
         </Container>
       </Grid>
     </div>

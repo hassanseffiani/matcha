@@ -44,7 +44,6 @@ const HorizontalLinearStepper = (props) => {
   const steps = getSteps();
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
   // const [activeSkip, setActiveSkip] = React.useState(false)
-  const [check, setCheck] = React.useState(false)
   const [progress, setprogress] = React.useState(false)
 
   const handleNext = () => {
@@ -89,17 +88,17 @@ const HorizontalLinearStepper = (props) => {
 
   // check if data is already filled
 
-  React.useEffect(() => {
+  const funProgress = React.useCallback(async () => {
     if (props.id){
-      Axios.post(`/base/check1/${props.id}`).then(async (res) => {
-        if (res.data.status)
-          await setCheck(true)
-      })
+      await Axios.post(`/base/check1/${props.id}`)
       setprogress(true)
     }else
       setprogress(false)
-    // if (check) history.push(`/edit/${props.id}`)
-  }, [props, check])
+  }, [props])
+
+  React.useEffect(() => {
+    funProgress()
+  }, [funProgress, progress])
 
   return (
     

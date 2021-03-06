@@ -2,8 +2,8 @@
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.108
--- Generation Time: Mar 04, 2021 at 05:58 PM
+-- Host: 192.168.99.111
+-- Generation Time: Mar 06, 2021 at 10:42 AM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -84,7 +84,10 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (19, 1, 22, '2021-02-22 13:47:27'),
 (20, 10, 17, '2021-02-24 10:38:17'),
 (21, 5, 1, '2021-02-27 18:04:51'),
-(22, 6, 1, '2021-02-27 18:05:16');
+(22, 6, 1, '2021-02-27 18:05:16'),
+(23, 24, 25, '2021-03-06 09:45:28'),
+(24, 24, 2, '2021-03-06 09:47:33'),
+(25, 24, 22, '2021-03-06 09:48:11');
 
 -- --------------------------------------------------------
 
@@ -203,7 +206,9 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (117, 23, 'r9ed6GmYFFtBrnXldfABNfile-1614448344419.jpeg', 0),
 (118, 23, 'BM3LzP8-tvzcEmLvRcZIbfile-1614448348768.jpeg', 0),
 (138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 0),
-(139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1);
+(139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1),
+(140, 25, 'Rq09Wx5j63rWrO_Sv-M5bfile-1615022999706.jpeg', 0),
+(141, 25, 'qCbp10eFQ7IRFqA50JAZDfile-1615023003536.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -223,9 +228,8 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
-(44, 1, 7, '2021-03-03 18:18:17'),
-(45, 1, 17, '2021-03-04 17:50:10'),
-(46, 1, 15, '2021-03-04 17:50:39');
+(60, 25, 24, '2021-03-06 09:45:13'),
+(62, 24, 25, '2021-03-06 09:47:19');
 
 -- --------------------------------------------------------
 
@@ -246,7 +250,7 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
-(1, 1, 'Khouribga', 32.882252, -6.897858),
+(1, 1, 'Khouribga', 32.878109, -6.888982),
 (2, 2, 'Khouribga', 32.876572, -6.986470),
 (3, 3, 'Khouribga', 32.856571, -6.976470),
 (4, 4, 'Khouribga', 32.866570, -6.966470),
@@ -266,8 +270,9 @@ INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
 (18, 19, 'Maadna', 32.839531, -6.492130),
 (19, 20, 'Tachraft', 32.819530, -6.412130),
 (20, 22, 'Khouribga', 32.878101, -6.888731),
-(34, 23, 'Khouribga', 32.880402, -6.905700),
-(35, 24, 'Khouribga', 32.878101, -6.889087);
+(34, 23, 'Khouribga', 32.878109, -6.888982),
+(35, 24, 'Khouribga', 32.882252, -6.897797),
+(36, 25, 'Khouribga', 32.882244, -6.897855);
 
 -- --------------------------------------------------------
 
@@ -281,6 +286,13 @@ CREATE TABLE `matchs` (
   `user2` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `matchs`
+--
+
+INSERT INTO `matchs` (`id`, `user1`, `user2`, `created_at`) VALUES
+(8, 24, 25, '2021-03-06 09:47:19');
 
 -- --------------------------------------------------------
 
@@ -482,7 +494,8 @@ INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (129, 17, 10),
 (130, 22, 20),
 (135, 24, 20),
-(136, 1, 20);
+(136, 1, 20),
+(137, 25, 20);
 
 -- --------------------------------------------------------
 
@@ -536,7 +549,8 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (21, NULL, 'hassanseffiani20@gmail.com', 'hsf20', 'hsf', 'killer', '$2b$10$EUjrBMO51JdAsKo5yAX9NeNZ9MZL/K9o6gtI9TnSyK1nb/Gm58mfa', '5dfb5741b2d4e8d90dc9d5b24e5c1b84c42c22a8a76933c0c49381de8c49d20c', 1, 38, 'Male', 'Women', 'Biography for user21', 700, 2),
 (22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'da449380ace40de84cf59ceb24f8deb6f13c5ca641b86ad58b8fa8a249105b46', 0, 19, 'Male', 'Other', 'test this', 1000, 2),
 (23, NULL, 'havat60967@maksap.com', 'new test', 'hassan', 'seffiani', '$2b$10$Mv1cwmiZ.aFPqTh5xBoLQ.P8d3yt6cEW.merQoNxo0iBYtkHdZoEa', '1bdd82ec9dd96e300b9491dc95a856fc0979ff3847eaabc1e7d79da07f856e24', 1, NULL, NULL, NULL, NULL, 1, 1),
-(24, NULL, 'reus@gmail.com', 'test', 'this', 'one', '$2b$10$rn9ipM51W78.b/pKq9Z52eZevp/SWefnXV2q2dlnuxGX.0QHDK1aO', 'ef022e48bd1a0bcb82eb4dead7bfd5321e41c2b5eb3d4a75fe64cb21281cd168', 1, 21, 'Male', 'Other', 'test', 101, 2);
+(24, NULL, 'reus@gmail.com', 'test', 'this', 'one', '$2b$10$rn9ipM51W78.b/pKq9Z52eZevp/SWefnXV2q2dlnuxGX.0QHDK1aO', 'ef022e48bd1a0bcb82eb4dead7bfd5321e41c2b5eb3d4a75fe64cb21281cd168', 1, 21, 'Male', 'Other', 'test', 109, 2),
+(25, NULL, 'xatolig673@nobitcoin.net', 'fame', 'dsfd', 'fdwfw', '$2b$10$BK6uMT7rVHV6amK8fhSmuOYZI90dV88kcprnjLCoI7pBBKvU5/tWS', '8bfc23f7f94b0c6c4d6c1208d85838b03c1971756b84b19c4d618f14d7c832f6', 1, 20, 'Male', 'Other', 'test this bio', 112, 2);
 
 --
 -- Indexes for dumped tables
@@ -620,31 +634,31 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `matchs`
 --
 ALTER TABLE `matchs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `report`
@@ -662,13 +676,13 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables

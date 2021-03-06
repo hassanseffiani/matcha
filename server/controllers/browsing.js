@@ -48,12 +48,17 @@ exports.likes = async (req, res, next) => {
     if (Object.keys(isLike).length !== 0) {
       // add this user to table match
       Like.addToTableMatch(data)
+      // update fame rating with 6
+      Like.fameRatingForLike(data.idLiker, 6)
+      Like.fameRatingForLike(data.idLiked, 6)
     }
   })
 
   if (Object.keys(dataErr).length === 0) {
     const like = new Like(null, data.idLiker, data.idLiked)
     like.save()
+    // update fame rating with 1
+    Like.fameRatingForLike(data.idLiker, 1)
     // check if two users match
     res.json({ status: true })
   } else res.json(dataErr)

@@ -54,4 +54,11 @@ module.exports = class Like {
       [data.id, data.user2]
     )
   }
+
+  static fameRatingForLike(id, size){
+    return db.execute(
+      'UPDATE users SET fameRating = fameRating + ? WHERE id = ?',
+      [size, id]
+    )
+  }
 }

@@ -80,8 +80,8 @@ const useStyles = makeStyles((theme) => ({
 // Import pictures from Facebook and/or Google+.
 
 ///////////////////////////////// Big steps ///////////////////////////////////////////////////////////
-// edit fameRating fl webSites , report, block , unlike
-// un utilisateur qui ne possede pas de photo ne doit [as pouvoir liker le profil d'une auter utilisateur
+// edit fameRating fl webSites , report, block , unlike discust with anass
+// un utilisateur qui ne possede pas de photo ne doit pas pouvoir liker le profil d'une auter utilisateur
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////// try to do /////////////////////////////////////////////////////////////////
@@ -164,6 +164,7 @@ const ResponsiveDrawer = (props) => {
   React.useEffect(() => {
     if (lat !== false && long !== false && id)
       Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+    
     setDidMount(true)
     return () => {
       setDidMount(false)
