@@ -8,15 +8,16 @@ module.exports = class Block {
   }
 
   save() {
-    return db.execute(
-      'INSERT INTO blocked(blocker, blocked) VALUES(?, ?)',
-      [this.blocker, this.blocked]
-    )
+    return db.execute('INSERT INTO blocked(blocker, blocked) VALUES(?, ?)', [
+      this.blocker,
+      this.blocked,
+    ])
   }
 
-//   static alreadyReported(reporter, reported) {
-//     return db.execute(
-//       'SELECT * FROM report WHERE `reporter` = ? AND `reported` = ?', [reporter, reported]
-//     )
-//   }
+  static alreadyBlocked(blocker, blocked) {
+    return db.execute(
+      'SELECT * FROM blocked WHERE `blocker` = ? AND `blocked` = ?',
+      [blocker, blocked]
+    )
+  }
 } 

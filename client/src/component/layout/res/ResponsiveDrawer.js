@@ -25,7 +25,9 @@ import {
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import { FaHome, FaHistory, FaHotjar, FaRegSun,FaUsers } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
-import Browsing from "../../browsing/browsing"
+// import { AiFillMessage } from 'react-icons/ai'
+// import Chat from '../../chat/Chat'
+import Browsing from '../../browsing/browsing'
 import Home from "../../profil/Home"
 import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
@@ -80,7 +82,6 @@ const useStyles = makeStyles((theme) => ({
 // Import pictures from Facebook and/or Google+.
 
 ///////////////////////////////// Big steps ///////////////////////////////////////////////////////////
-// edit fameRating fl webSites , report, block , unlike discust with anass
 // un utilisateur qui ne possede pas de photo ne doit pas pouvoir liker le profil d'une auter utilisateur
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,6 +99,9 @@ const ResponsiveDrawer = (props) => {
   const [long, setLong] = React.useState(false)
   const [requiredProfilInfo, setRPI] = React.useState('')
   const [didMount, setDidMount] = React.useState(false)
+
+// emit(mconnecte)
+
 
   function success(pos) {
     setLat(pos.coords.latitude)
@@ -217,6 +221,13 @@ const ResponsiveDrawer = (props) => {
       onClick: () => history.push('/allProfil'),
       disabled: !requiredProfilInfo,
     },
+    // {
+    //   id: 6,
+    //   text: 'Chat',
+    //   icon: <AiFillMessage />,
+    //   onClick: () => history.push('/chat'),
+    //   disabled: !requiredProfilInfo,
+    // },
   ]
   const itemsListTwo = [
     {
@@ -325,6 +336,7 @@ const ResponsiveDrawer = (props) => {
             path='/edit/:id'
             render={(props) => <EditProfil id={id} />}
           />
+          {/* <Route exact path='/chat' render={(props) => <Chat id={id} />} /> */}
           <Route
             exact
             path='/browsing/:id'

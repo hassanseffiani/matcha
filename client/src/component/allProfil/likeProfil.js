@@ -110,214 +110,255 @@ const LikeProfil = (props) => {
         <React.Fragment>
             {list && list.map((el, iKey) => {
                 return (
-                    <React.Fragment key={iKey}>
-                        <div className={classes.diva}>
-                        <Card>
-                            <Grid
-                                container
-                                justify='center'
-                                alignItems='center'
-                                direction='column'
-                                spacing={2}
-                            >
-                                <Grid item xs={12} sm={3}>
-                                    <Carousel autoPlay showThumbs={false}>
-                                        {el.images.split(',').length > 1
-                                        ? el.images.split(',').map((el, iKey) => {
-                                            let srcImg = `http://localhost:3001/${el}`
-                                            let altImg = `display all image loop${iKey}`
-                                            return (
-                                                <div key={iKey}>
-                                                <CardMedia
-                                                    className={classes.media}
-                                                    image={srcImg}
-                                                    title={altImg}
-                                                />
-                                                <p>{altImg}</p>
-                                                </div>
-                                            )
-                                            })
-                                        : ''}
-                                    </Carousel>
-                                </Grid>
-                                <Grid container item xs={12} sm={2}>
-                                    <Avatar
-                                        aria-label='recipe'
-                                        src={`http://localhost:3001/${
-                                        el.images.split(',')[0]
-                                        }`}
-                                        alt={`test${el.images.split(',')[0]}`}
-                                    />
-                                    <Typography className={classes.typo}>
-                                        {'  ' +
-                                        el.firstName +
-                                        ' ' +
-                                        el.lastName +
-                                        ', ' +
-                                        el.age +
-                                        ' '}
-                                        {el.gender === 'Male' && (
-                                        <FaMale style={{ color: 'green' }} />
-                                        )}
-                                        {el.gender === 'Women' && (
-                                        <FaFemale style={{ color: 'pink' }} />
-                                        )}
-                                    </Typography>
-                                    <Typography className={classes.typo1} variant='body2'>
-                                        {el.city +
-                                        ' | ' +
-                                        el.km.toFixed(2) +
-                                        '  km'}
-                                    </Typography>
-                                </Grid>
-                                <Grid container item xs={12} sm={2}>
-                                    {el.tag1.split(',').length > 0
-                                        ? el.tag1.split(',').map((el, iKey) => {
-                                            return (
-                                            <div key={iKey}>
-                                                <Chip
-                                                color='secondary'
-                                                variant='outlined'
-                                                size='small'
-                                                label={el}
-                                                />
-                                            </div>
-                                            )
-                                        })
-                                        : ''}
-                                </Grid>
-                                <Grid container item xs={12} sm={2}>
-                                    <Typography color='primary' variant='caption'>
-                                        {el.bio}
-                                    </Typography>
-                                </Grid>
-                                <Grid container item xs={12} sm={2}>
-                                    {0 < el.fameRating && el.fameRating < 50 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                        <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={1}
+                  <React.Fragment key={iKey}>
+                    <div className={classes.diva}>
+                      <Card>
+                        <Grid
+                          container
+                          justify='center'
+                          alignItems='center'
+                          direction='column'
+                          spacing={2}
+                        >
+                          <Grid item xs={12} sm={3}>
+                            <Typography variant='h6' gutterBottom align='center'>
+                              {el.userName}
+                            </Typography>
+                            <Carousel autoPlay showThumbs={false}>
+                              {el.images.split(',').length > 1
+                                ? el.images.split(',').map((el, iKey) => {
+                                    let srcImg = `http://localhost:3001/${el}`
+                                    let altImg = `display all image loop${iKey}`
+                                    return (
+                                      <div key={iKey}>
+                                        <CardMedia
+                                          className={classes.media}
+                                          image={srcImg}
+                                          title={altImg}
                                         />
-                                        <br />
-                                        {el.fameRating + ' exp Useless'}
-                                        </Typography>
-                                    )}
-                                    {50 < el.fameRating &&
-                                        el.fameRating < 150 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={1}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Useless+'}
-                                        </Typography>
-                                        )}
-                                    {150 < el.fameRating &&
-                                        el.fameRating < 250 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={2}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Poor'}
-                                        </Typography>
-                                        )}
-                                    {250 < el.fameRating &&                el.fameRating < 350 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={2}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Poor+'}
-                                        </Typography>
-                                        )}
-                                    {350 < el.fameRating &&
-                                        el.fameRating < 450 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={3}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Ok'}
-                                        </Typography>
-                                        )}
-                                    {450 < el.fameRating &&
-                                        el.fameRating < 550 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={3}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Ok+'}
-                                        </Typography>
-                                        )}
-                                    {550 < el.fameRating &&
-                                        el.fameRating < 650 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={4}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Good'}
-                                        </Typography>
-                                        )}
-                                    {650 < el.fameRating &&
-                                        el.fameRating < 750 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={4}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Good+'}
-                                        </Typography>
-                                        )}
-                                    {750 < el.fameRating &&
-                                        el.fameRating < 850 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={5}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Excellent'}
-                                        </Typography>
-                                        )}
-                                    {850 < el.fameRating &&
-                                        el.fameRating < 1001 && (
-                                        <Typography style={{ color: 'Gold' }} variant='caption'>
-                                            <Rating
-                                            style={{ pointerEvents: 'none' }}
-                                            initialRating={5}
-                                            />
-                                            <br />
-                                            {el.fameRating + ' exp Excellent+'}
-                                        </Typography>
-                                        )}
-                                </Grid>
-                                <Grid container item xs={12} sm={2} direction='row'>
-                                    <IconButton aria-label='Block User'
-                                        onClick={(event) => handelBlock(event, props.id, el.id)}>
-                                        <BlockIcon />
-                                    </IconButton>
-                                    <Report visitor={props.id} visited={el.id} />
-                                    <IconButton aria-label='Unlike user'
-                                        onClick={(event) => handelUnlike(event, props.id, el.id)}>
-                                    <Typography>Unlike</Typography>
-                                        <FavoriteBorder />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Card>
-                                <Button autoFocus variant='outlined' onClick={(event) => nextUser(event, el.id)} style={{ color: 'DarkBlue' }}>Next user</Button>
-                        </div>
-                    </React.Fragment>
+                                        <p>{altImg}</p>
+                                      </div>
+                                    )
+                                  })
+                                : ''}
+                            </Carousel>
+                          </Grid>
+                          <Grid container item xs={12} sm={2}>
+                            <Avatar
+                              aria-label='recipe'
+                              src={`http://localhost:3001/${
+                                el.images.split(',')[0]
+                              }`}
+                              alt={`test${el.images.split(',')[0]}`}
+                            />
+
+                            <Typography className={classes.typo}>
+                              {'  ' +
+                                el.firstName +
+                                ' ' +
+                                el.lastName +
+                                ', ' +
+                                el.age +
+                                ' '}
+                              {el.gender === 'Male' && (
+                                <FaMale style={{ color: 'green' }} />
+                              )}
+                              {el.gender === 'Women' && (
+                                <FaFemale style={{ color: 'pink' }} />
+                              )}
+                            </Typography>
+                            <Typography
+                              className={classes.typo1}
+                              variant='body2'
+                            >
+                              {el.city + ' | ' + el.km.toFixed(2) + '  km'}
+                            </Typography>
+                          </Grid>
+                          <Grid container item xs={12} sm={2}>
+                            {el.tag1.split(',').length > 0
+                              ? el.tag1.split(',').map((el, iKey) => {
+                                  return (
+                                    <div key={iKey}>
+                                      <Chip
+                                        color='secondary'
+                                        variant='outlined'
+                                        size='small'
+                                        label={el}
+                                      />
+                                    </div>
+                                  )
+                                })
+                              : ''}
+                          </Grid>
+                          <Grid container item xs={12} sm={2}>
+                            <Typography color='primary' variant='caption'>
+                              {el.bio}
+                            </Typography>
+                          </Grid>
+                          <Grid container item xs={12} sm={2}>
+                            {0 < el.fameRating && el.fameRating < 50 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={1}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Useless'}
+                              </Typography>
+                            )}
+                            {50 < el.fameRating && el.fameRating < 150 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={1}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Useless+'}
+                              </Typography>
+                            )}
+                            {150 < el.fameRating && el.fameRating < 250 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={2}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Poor'}
+                              </Typography>
+                            )}
+                            {250 < el.fameRating && el.fameRating < 350 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={2}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Poor+'}
+                              </Typography>
+                            )}
+                            {350 < el.fameRating && el.fameRating < 450 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={3}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Ok'}
+                              </Typography>
+                            )}
+                            {450 < el.fameRating && el.fameRating < 550 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={3}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Ok+'}
+                              </Typography>
+                            )}
+                            {550 < el.fameRating && el.fameRating < 650 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={4}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Good'}
+                              </Typography>
+                            )}
+                            {650 < el.fameRating && el.fameRating < 750 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={4}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Good+'}
+                              </Typography>
+                            )}
+                            {750 < el.fameRating && el.fameRating < 850 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={5}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Excellent'}
+                              </Typography>
+                            )}
+                            {850 < el.fameRating && el.fameRating < 1001 && (
+                              <Typography
+                                style={{ color: 'Gold' }}
+                                variant='caption'
+                              >
+                                <Rating
+                                  style={{ pointerEvents: 'none' }}
+                                  initialRating={5}
+                                />
+                                <br />
+                                {el.fameRating + ' exp Excellent+'}
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid container item xs={12} sm={2} direction='row'>
+                            <IconButton
+                              aria-label='Block User'
+                              onClick={(event) =>
+                                handelBlock(event, props.id, el.id)
+                              }
+                            >
+                              <BlockIcon />
+                            </IconButton>
+                            <Report visitor={props.id} visited={el.id} />
+                            <IconButton
+                              aria-label='Unlike user'
+                              onClick={(event) =>
+                                handelUnlike(event, props.id, el.id)
+                              }
+                            >
+                              <Typography>Unlike</Typography>
+                              <FavoriteBorder />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
+                      </Card>
+                      <Button
+                        autoFocus
+                        variant='outlined'
+                        onClick={(event) => nextUser(event, el.id)}
+                        style={{ color: 'DarkBlue' }}
+                      >
+                        Next user
+                      </Button>
+                    </div>
+                  </React.Fragment>
                 )
             }).slice(0, 1)}
         </React.Fragment>

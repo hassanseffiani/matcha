@@ -46,19 +46,18 @@ const useStyles = makeStyles((theme) => ({
 
   },
   copy: {
-    [theme.breakpoints.up("lg")]: {
-      marginLeft: theme.spacing(70),
-    },
+    // [theme.breakpoints.up("lg")]: {
+    //   marginLeft: theme.spacing(70),
+    // },
     textAlign: 'center',
   },
   root: {
-    height: '35vh',
-    width: '50vh',
+    // height: '35vh',
+    // width: '50vh',
     backgroundColor: '#FFFAFA',
     color: '#778899',
     boxShadow: `10px 10px 10px #A9A9A9`,
-
-    // maxWidth: 395,
+    maxWidth: 395,
   },
   media: {
     height: 0,
@@ -274,7 +273,7 @@ const Browsing = (props) => {
                   </Card>
                 )
               })
-              .splice(0, 10)}
+              .splice(0, 1)}
         </Container>
       </Grid>
     </div>

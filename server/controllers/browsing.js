@@ -20,16 +20,20 @@ exports.index = async (req, res, next) => {
   const { cord, gender } = req.body
   const { id } = req.params
   var data = []
-  /// iiner table users with location set where in search step < 1 km
-  await Geo.getAll(cord, gender, id)
-    .then(([res]) => {
-      res.map((el) => {
-        data.push(el)
+  if (isNaN(id))
+    res.json(false)
+  else{
+    /// iiner table users with location set where in search step < 1 km
+    await Geo.getAll(cord, gender, id)
+      .then(([res]) => {
+        res.map((el) => {
+          data.push(el)
+        })
+        //     data.sort((a, b) => a.cmp - b.cmp);
       })
-      //     data.sort((a, b) => a.cmp - b.cmp);
-    })
-    .catch((err) => console.log(err))
-  res.json(data)
+      .catch((err) => console.log(err))
+    res.json(data)
+  }
 }
 
 exports.likes = async (req, res, next) => {
@@ -126,15 +130,19 @@ exports.search = async (req, res, next) => {
   const { cord, gender, value, rating, geo, tag } = req.body
   const { id } = req.params
   var data = []
-
-  await Geo.searchUsers(cord, gender, id, value, rating, geo, tag)
-    .then(([res]) => {
-      res.map((el) => {
-        data.push(el)
+  
+  if (data.length) {
+    await Geo.searchUsers(cord, gender, id, value, rating, geo, tag)
+      .then(([res]) => {
+        res.map((el) => {
+          data.push(el)
+        })
       })
-    })
-    .catch((err) => console.log(err))
-  res.json(data)
+      .catch((err) => console.log(err))
+    res.json(data)
+  }else
+    res.json(false)
+
 }
 
 
@@ -146,23 +154,32 @@ exports.report = (req, res, next) => {
     if (!report.length){
       const report = new Report(null, id, reported, feelback)
       report.save()
+      Like.fameRatingForLike(id, -2)
+      Like.fameRatingForLike(reported, -4)  
       res.json({status: true})
     }else
       res.json({status: false})
   })
 }
 
-exports.block = async (req, res, next) => {
+exports.block = (req, res, next) => {
   var data = {}
   const {blocked} = req.body
   data.id = req.params.id
   data.user2 = blocked
-  const block = new Block(null, data.id, blocked)
-  await block.save().then(() => {
-    Like.deleteLikes(data)
-    Like.deleteMatchs(data)
+
+  Block.alreadyBlocked(data.id, data.user2).then(async ([block]) => {
+    if (!block.length) {
+      const block = new Block(null, data.id, blocked)
+      await block.save().then(() => {
+        Like.fameRatingForLike(data.id, -2)
+        Like.fameRatingForLike(data.user2, -4)
+        Like.deleteLikes(data)
+        Like.deleteMatchs(data)
+      })
+      res.json({ status: true })
+    } else res.json({ status: false })
   })
-  res.json({status: true})
 }
 
 
@@ -170,15 +187,17 @@ exports.allProfil = async (req, res, next) => {
   const { cord, gender } = req.body
   const { id } = req.params
   var data = []
-  await Geo.allProfilData(cord, gender, id)
-    .then(([res]) => {
-      res.map((el) => {
-        data.push(el)
+  if (data.length) {
+    await Geo.allProfilData(cord, gender, id)
+      .then(([res]) => {
+        res.map((el) => {
+          data.push(el)
+        })
       })
-    })
-    .catch((err) => console.log(err))
-  // console.log(data)
-  res.json(data)
+      .catch((err) => console.log(err))
+    // console.log(data)
+    res.json(data)
+  } else res.json(false)
 }
 
 exports.unlike = async (req, res, next) => {
@@ -187,6 +206,8 @@ exports.unlike = async (req, res, next) => {
   data = { ...req.body }
   data.id = req.params.id
 
+  Like.fameRatingForLike(data.id, -2)
+  Like.fameRatingForLike(data.user2, -4)
   Like.deleteLikes(data)
   Like.deleteMatchs(data)
     res.json({ status: true })

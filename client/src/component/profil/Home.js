@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { CircularProgress, Stepper, Step, StepLabel, Button, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import FillProfil from './fillProfil'
-import MyAddImages from './myAddImages'
+// import MyAddImages from './myAddImages'
 import history from '../../history/history'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,8 @@ function getStepContent(step, props, checkTI, checkNo) {
   switch (step) {
     case 0:
       return (
-        <MyAddImages id={props.id} checkTotalImg={checkTI} />
+        ''
+        // <MyAddImages id={props.id} checkTotalImg={checkTI} />
       )
     case 1:
       return (
