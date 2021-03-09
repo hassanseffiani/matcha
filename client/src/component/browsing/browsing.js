@@ -18,6 +18,7 @@ import {
   ThumbDown as ThumbDownIcon,
   SkipNext as SkipNextIcon,
 } from '@material-ui/icons'
+import SocketContext from "../../start/SocketContext";
 
 const StyledBadge = withStyles((theme) => ({
   badge: (props) => 
@@ -90,6 +91,8 @@ const Browsing = (props) => {
   const [status, setStatus] = React.useState("true")
   const [curTime, setcurTime] = React.useState()
   const [didMount, setDidMount] = React.useState(false)
+  const [active, setActive] = React.useState("")
+  const socket = React.useContext(SocketContext);
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
@@ -153,6 +156,21 @@ const Browsing = (props) => {
       setcurTime(new Date())
     }
   }
+
+  React.useEffect(() => {
+    socket.on("getActive", (data) => {
+      if (data !== "")
+        setActive(data)
+    })
+  })
+  
+  React.useEffect(() => {
+    if (active === props.id.toString()) {
+      console.log(active)
+      setStatus('false')
+      setcurTime()
+    }
+  }, [active, props])
 
   if (!didMount)
     return null

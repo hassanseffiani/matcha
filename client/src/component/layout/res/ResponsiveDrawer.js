@@ -33,6 +33,7 @@ import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
 import AllProfil from "../../allProfil/likeProfil"
+import SocketContext from "../../../start/SocketContext";
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -88,6 +89,15 @@ const useStyles = makeStyles((theme) => ({
 /////////////////////////// try to do /////////////////////////////////////////////////////////////////
 // print images in drop so that can help to delete them
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+/// auteur file don't forget that////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// implimantation active users .............................////////
+////////////////////////////////////////////////////////////////////
+/// edit password auth two and 3adii ///////////////////////////////
+////////////////////////////////////////////////////////////////////
+// check all route with post man //////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
 
 const ResponsiveDrawer = (props) => {
   const { history, window } = props
@@ -99,10 +109,16 @@ const ResponsiveDrawer = (props) => {
   const [long, setLong] = React.useState(false)
   const [requiredProfilInfo, setRPI] = React.useState('')
   const [didMount, setDidMount] = React.useState(false)
+  const socket = React.useContext(SocketContext);
 
-// emit(mconnecte)
+// socket connected to set active users ////////////////////////////////////////////////////////
+  React.useEffect(() => {
+    if (id){
+      socket.emit("active", id)
+    }
+  }, [socket, id])
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////
   function success(pos) {
     setLat(pos.coords.latitude)
     setLong(pos.coords.longitude)
@@ -176,6 +192,7 @@ const ResponsiveDrawer = (props) => {
   }, [id, lat, long])
 
   const handelLogout = () => {
+    socket.disconnect()
     instance.post('http://localhost:3001/logout')
     props.logout()
   }

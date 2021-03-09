@@ -9,9 +9,6 @@ const passport = require('passport');
 
 route.post("/user/userInfoVerification", userController.userInfoVerification);
 
-// get signUp
-route.get('/users/signup'); // .....
-
 //  post signUp
 route.post('/users/signup', validator.validationInput, userController.signUp);
 
@@ -60,4 +57,4 @@ route.get('/auth/42', userController.intra);
 route.get('/auth/42/callback', passport.authenticate('42', { failureRedirect: '/error' }), userController.intraCallback);
 
 
-module.exports = route;
+module.exports = route

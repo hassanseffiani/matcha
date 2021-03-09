@@ -23,16 +23,18 @@ exports.index = async (req, res, next) => {
   if (isNaN(id))
     res.json(false)
   else{
-    /// iiner table users with location set where in search step < 1 km
-    await Geo.getAll(cord, gender, id)
-      .then(([res]) => {
-        res.map((el) => {
-          data.push(el)
+    if (cord !== undefined && gender !== undefined) {
+      /// iiner table users with location set where in search step < 1 km
+      await Geo.getAll(cord, gender, id)
+        .then(([res]) => {
+          res.map((el) => {
+            data.push(el)
+          })
+          //     data.sort((a, b) => a.cmp - b.cmp);
         })
-        //     data.sort((a, b) => a.cmp - b.cmp);
-      })
-      .catch((err) => console.log(err))
-    res.json(data)
+        .catch((err) => console.log(err))
+      res.json(data)
+    } else res.json(false)
   }
 }
 
@@ -41,31 +43,32 @@ exports.likes = async (req, res, next) => {
     dataErr = {}
   data = { ...req.body }
   data.idLiker = req.params.id
-
-  await Like.checkIfLiked(data).then(([like]) => {
-    like.map((el) => {
-      !el.lenght ? (dataErr.likeErr = 'Already liked') : ''
+  if (data.idLiker !== undefined && data.idLiked !== undefined) {
+    await Like.checkIfLiked(data).then(([like]) => {
+      like.map((el) => {
+        !el.lenght ? (dataErr.likeErr = 'Already liked') : ''
+      })
     })
-  })
-  // if the user is alr
-  await Like.checkIfUserisLiked(data).then(([isLike]) => {
-    if (Object.keys(isLike).length !== 0) {
-      // add this user to table match
-      Like.addToTableMatch(data)
-      // update fame rating with 6
-      Like.fameRatingForLike(data.idLiker, 6)
-      Like.fameRatingForLike(data.idLiked, 6)
-    }
-  })
+    // if the user is alr
+    await Like.checkIfUserisLiked(data).then(([isLike]) => {
+      if (Object.keys(isLike).length !== 0) {
+        // add this user to table match
+        Like.addToTableMatch(data)
+        // update fame rating with 6
+        Like.fameRatingForLike(data.idLiker, 6)
+        Like.fameRatingForLike(data.idLiked, 6)
+      }
+    })
 
-  if (Object.keys(dataErr).length === 0) {
-    const like = new Like(null, data.idLiker, data.idLiked)
-    like.save()
-    // update fame rating with 1
-    Like.fameRatingForLike(data.idLiker, 1)
-    // check if two users match
-    res.json({ status: true })
-  } else res.json(dataErr)
+    if (Object.keys(dataErr).length === 0) {
+      const like = new Like(null, data.idLiker, data.idLiked)
+      like.save()
+      // update fame rating with 1
+      Like.fameRatingForLike(data.idLiker, 1)
+      // check if two users match
+      res.json({ status: true })
+    } else res.json(dataErr)
+  } else res.json(false)
 }
 
 exports.deLikes = (req, res, next) => {
@@ -74,9 +77,11 @@ exports.deLikes = (req, res, next) => {
   data = { ...req.body }
   data.idLiker = req.params.id
 
-  Like.addToTableBlocked(data)
+  if (data.idLiker !== undefined && data.idLiked !== undefined) {
+    Like.addToTableBlocked(data)
 
-  res.json({ status: true })
+    res.json({ status: true })
+  } else res.json(false)
 }
 
 exports.history = async (req, res, next) => {
@@ -84,15 +89,22 @@ exports.history = async (req, res, next) => {
     dataErr = {}
   data = { ...req.body }
   data.visited = req.params.id
-  await History.checkIfVisited(data).then(([history]) => {
-    history.map((el) => {
-      !el.lenght ? (dataErr.historyErr = 'Already visited') : ''
-    })
-  })
-
-  if (Object.keys(dataErr).length === 0) {
-    const history = new History(null, data.visitor, data.visited)
-    history.save()
+  if (isNaN(req.params.id))
+    res.json(false)
+  else{
+    if (data.visitor !== undefined && data.visited !== undefined) {
+      await History.checkIfVisited(data).then(([history]) => {
+        history.map((el) => {
+          !el.lenght ? (dataErr.historyErr = 'Already visited') : ''
+        })
+      })
+  
+      if (Object.keys(dataErr).length === 0) {
+        const history = new History(null, data.visitor, data.visited)
+        history.save()
+        }
+      res.json({ status: true })
+    } else res.json(false)
   }
 }
 
@@ -131,7 +143,7 @@ exports.search = async (req, res, next) => {
   const { id } = req.params
   var data = []
   
-  if (data.length) {
+  if (!data.length) {
     await Geo.searchUsers(cord, gender, id, value, rating, geo, tag)
       .then(([res]) => {
         res.map((el) => {
@@ -187,7 +199,7 @@ exports.allProfil = async (req, res, next) => {
   const { cord, gender } = req.body
   const { id } = req.params
   var data = []
-  if (data.length) {
+  if (!data.length) {
     await Geo.allProfilData(cord, gender, id)
       .then(([res]) => {
         res.map((el) => {
@@ -195,14 +207,12 @@ exports.allProfil = async (req, res, next) => {
         })
       })
       .catch((err) => console.log(err))
-    // console.log(data)
     res.json(data)
   } else res.json(false)
 }
 
 exports.unlike = async (req, res, next) => {
   var data = {},
-    dataErr = {}
   data = { ...req.body }
   data.id = req.params.id
 
@@ -210,5 +220,5 @@ exports.unlike = async (req, res, next) => {
   Like.fameRatingForLike(data.user2, -4)
   Like.deleteLikes(data)
   Like.deleteMatchs(data)
-    res.json({ status: true })
+  res.json({ status: true })
 }

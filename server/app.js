@@ -23,11 +23,12 @@ const io = require('socket.io')(http, {
 // we have to fetch for connected user Email To create a room and join the user to it!
 
 io.sockets.on('connection', (socket) => {
-  console.log('a user connected', socket.id)
+  // console.log('a user connected', socket.id)
+  // client.set("key", socket.id, redis.print);
   socket.on('join', (data) => {
     socket.join(data.id + 'Room')
     // client.SET(data.id, socket.id), redis.print;
-    console.log(data.id, socket.id)
+    // console.log(data.id, socket.id)
   })
   socket.on('msg', (data) => {
     // console.log('msgto', data.to);
@@ -41,20 +42,23 @@ io.sockets.on('connection', (socket) => {
     //   console.log(socketId);
     // io.to(socketId).emit("new_msg", data.text);
   })
-  socket.on('disconnect', () => {
-    console.log('disconnect')
+
+  socket.on('active', async (data) => {
+    client.set("connected_users", data)
+    const value = await client.getAsync("connected_users")
+    console.log(value)
+    io.emit("getActive", value)
   })
-  // console.log('rooms', io.sockets);
+  
+  socket.on('disconnect', () => {
+    client.del("connected_users")
+  })
   // socket.on('inResponsive', (id) => {
-  //     console.log('inResponsive');
-  //     console.log(id, socket.id);
   //     client.set(id, socket.id, redis.print);
   //     client.set(id+'-'+'time', Date(), redis.print);
-  //     // console.log()
   //     client.keys('*', function (err, keys) {
   //         if (err) return console.log(err);
   //         for(var i = 0, len = keys.length; i < len; i++) {
-  //           console.log(keys[i]);
   //         }
   //       });
   // });

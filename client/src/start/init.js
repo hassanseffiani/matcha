@@ -14,6 +14,8 @@ const URL = 'http://localhost:3001'
 const socket = io(URL)
 
 
+console.log(socket)
+
 const Init = (props) => {
   const [loggedin, setLoggedin] = useState(false)
   const [lay3awn, setLay3awn] = React.useState(false)
@@ -66,7 +68,6 @@ const Init = (props) => {
         </Switch>
       ) : (
         <SocketContext.Provider value={socket}>
-
           <ResponsiveDrawer
             logout={logout}
             loggedin={loggedin}
