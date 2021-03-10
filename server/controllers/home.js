@@ -394,7 +394,10 @@ exports.dltImgUser = async (req, res, next) => {
   const uploadDerictory = path.join('public/upload')
   var fs = require('fs')
   var filePath = uploadDerictory + '/' + image
+  // console.log(filePath)
   fs.unlinkSync(filePath)
   await Img.DeleteImagesUsers(id, image)
   res.json({ status: true })
 }
+
+// Brwqcgt2Q-50Iv4TCfGhIfile-1615400884139.jpeg

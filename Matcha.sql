@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.111
--- Generation Time: Mar 09, 2021 at 05:45 PM
+-- Generation Time: Mar 10, 2021 at 06:32 PM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -73,7 +73,8 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (27, 1, 17, '2021-03-09 09:44:46'),
 (30, 3, 1, '2021-03-09 10:01:27'),
 (31, 3, 1123123, '2021-03-09 10:01:56'),
-(32, 3, 123123, '2021-03-09 10:04:08');
+(32, 3, 123123, '2021-03-09 10:04:08'),
+(33, 1, 8, '2021-03-10 15:41:15');
 
 -- --------------------------------------------------------
 
@@ -93,108 +94,110 @@ CREATE TABLE `imgProfil` (
 --
 
 INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
-(1, 1, 'EZehQ4TCvgey_P2zM4JlMfile-1614332359417.jpeg', 0),
-(2, 1, '1uc7B6qNE34U4dFyuCIrOfile-1613573425166.jpeg', 0),
-(3, 1, '2THVqG4lhbq4IpafW_D5ffile-1613573391583.jpeg', 0),
-(4, 1, '9eAaRpB5Py4KT1jhcOmP0file-1613573439520.jpeg', 0),
-(6, 2, 'CO6_ad6DlriGBMtTv11Bmfile-1613573409821.jpeg', 0),
-(7, 2, 'dvWCqxET097hdBn2B0Wh1file-1613573387244.jpeg', 0),
-(8, 2, 'e0UMjiO-ig4CVbBkeWP2Bfile-1613573427654.jpeg', 0),
-(9, 2, 'dvWCqxET097hdBn2B0Wh1file-1613573387244.jpeg', 0),
-(10, 2, 'k3GlJpk3N_ycOdSXycByGfile-1613573471176.jpeg', 0),
-(11, 3, 'kgdOnGDQPZ6FvagyTqft4file-1613573473343.jpeg', 0),
-(12, 3, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(13, 4, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(14, 4, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(15, 4, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(16, 5, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(17, 5, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(18, 5, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(19, 5, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(20, 5, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(21, 6, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(22, 6, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(23, 6, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(24, 6, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(25, 6, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(26, 7, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(27, 7, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(28, 7, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(29, 7, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(30, 7, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(31, 8, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(32, 8, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(33, 8, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(34, 8, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(35, 8, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(36, 9, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(37, 9, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(38, 9, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(39, 9, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(40, 9, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(41, 10, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(42, 10, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(43, 10, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(44, 10, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(45, 10, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(46, 11, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(47, 11, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(48, 11, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(49, 11, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(50, 11, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(51, 12, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(52, 12, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(53, 12, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(54, 12, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(55, 12, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(56, 13, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(57, 13, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(58, 13, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(59, 13, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(60, 13, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(61, 14, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(62, 14, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(63, 14, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(64, 14, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(65, 14, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(66, 15, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(67, 15, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(68, 15, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(69, 15, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(70, 15, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(71, 16, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(72, 16, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(73, 16, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(74, 16, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(75, 16, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(76, 17, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(77, 17, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(78, 17, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(79, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(80, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(81, 18, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(82, 18, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(83, 18, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(84, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(85, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(86, 19, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(87, 19, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(88, 19, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(89, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(90, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(91, 20, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
-(92, 20, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 0),
-(93, 20, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 0),
-(94, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 0),
-(105, 22, 'E7FtL-cDBA1Wluw73DBO7file-1614334610449.jpeg', 0),
-(106, 22, 'MhVdUBNIcRLdJSBTUjnO0file-1614334612188.jpeg', 0),
-(117, 23, 'r9ed6GmYFFtBrnXldfABNfile-1614448344419.jpeg', 0),
-(118, 23, 'BM3LzP8-tvzcEmLvRcZIbfile-1614448348768.jpeg', 0),
-(138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 0),
+(1, 1, 'EZehQ4TCvgey_P2zM4JlMfile-1614332359417.jpeg', 1),
+(2, 1, '1uc7B6qNE34U4dFyuCIrOfile-1613573425166.jpeg', 1),
+(3, 1, '2THVqG4lhbq4IpafW_D5ffile-1613573391583.jpeg', 1),
+(4, 1, '9eAaRpB5Py4KT1jhcOmP0file-1613573439520.jpeg', 1),
+(6, 2, 'CO6_ad6DlriGBMtTv11Bmfile-1613573409821.jpeg', 1),
+(7, 2, 'dvWCqxET097hdBn2B0Wh1file-1613573387244.jpeg', 1),
+(8, 2, 'e0UMjiO-ig4CVbBkeWP2Bfile-1613573427654.jpeg', 1),
+(9, 2, 'dvWCqxET097hdBn2B0Wh1file-1613573387244.jpeg', 1),
+(10, 2, 'k3GlJpk3N_ycOdSXycByGfile-1613573471176.jpeg', 1),
+(11, 3, 'kgdOnGDQPZ6FvagyTqft4file-1613573473343.jpeg', 1),
+(12, 3, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(13, 4, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(14, 4, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(15, 4, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(16, 5, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(17, 5, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(18, 5, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(19, 5, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(20, 5, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(21, 6, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(22, 6, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(23, 6, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(24, 6, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(25, 6, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(26, 7, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(27, 7, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(28, 7, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(29, 7, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(30, 7, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(31, 8, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(32, 8, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(33, 8, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(34, 8, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(35, 8, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(36, 9, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(37, 9, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(38, 9, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(39, 9, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(40, 9, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(41, 10, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(42, 10, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(43, 10, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(44, 10, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(45, 10, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(46, 11, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(47, 11, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(48, 11, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(49, 11, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(50, 11, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(51, 12, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(52, 12, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(53, 12, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(54, 12, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(55, 12, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(56, 13, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(57, 13, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(58, 13, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(59, 13, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(60, 13, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(61, 14, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(62, 14, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(63, 14, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(64, 14, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(65, 14, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(66, 15, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(67, 15, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(68, 15, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(69, 15, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(70, 15, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(71, 16, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(72, 16, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(73, 16, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(74, 16, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(75, 16, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(76, 17, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(77, 17, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(78, 17, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(79, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(80, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(81, 18, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(82, 18, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(83, 18, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(84, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(85, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(86, 19, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(87, 19, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(88, 19, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(89, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(90, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(91, 20, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(92, 20, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
+(93, 20, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
+(94, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(105, 22, 'E7FtL-cDBA1Wluw73DBO7file-1614334610449.jpeg', 1),
+(106, 22, 'MhVdUBNIcRLdJSBTUjnO0file-1614334612188.jpeg', 1),
+(138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 1),
 (139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1),
-(140, 25, 'Rq09Wx5j63rWrO_Sv-M5bfile-1615022999706.jpeg', 0),
-(141, 25, 'qCbp10eFQ7IRFqA50JAZDfile-1615023003536.jpeg', 1);
+(142, 28, 'lOcBZZEPlJOzgp5M-xcoLfile-1615384283364.jpeg', 1),
+(143, 28, 'gpjgdnZOhcX1JtxqZWqoZfile-1615384285602.png', 1),
+(191, 23, 'eah_vV-zs7qeGz_axNB4sfile-1615400596188.jpeg', 0),
+(194, 23, '2zsf2gns2v6b1E6xOHffdfile-1615400761167.jpeg', 1),
+(200, 23, '7v7Sqdl-Tqkp4QygFk8cifile-1615400881472.jpeg', 2),
+(204, 23, 'MX48b7I9S89QY0Eeywd_Ifile-1615401081142.jpeg', 3);
 
 -- --------------------------------------------------------
 
@@ -257,9 +260,9 @@ INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
 (18, 19, 'Maadna', 32.839531, -6.492130),
 (19, 20, 'Tachraft', 32.819530, -6.412130),
 (20, 22, 'Khouribga', 32.878101, -6.888731),
-(34, 23, 'Khouribga', 32.878109, -6.888982),
+(34, 23, 'Khouribga', 32.878101, -6.888731),
 (35, 24, 'Khouribga', 32.878101, -6.888731),
-(36, 25, 'Khouribga', 32.882244, -6.897855);
+(37, 28, 'Khouribga', 32.878101, -6.888731);
 
 -- --------------------------------------------------------
 
@@ -331,7 +334,8 @@ INSERT INTO `tag` (`id`, `name`) VALUES
 (17, '#reading'),
 (18, '#magicians'),
 (19, '#wick'),
-(20, '#luther');
+(20, '#luther'),
+(21, '#3dsas');
 
 -- --------------------------------------------------------
 
@@ -475,8 +479,7 @@ INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (129, 17, 10),
 (130, 22, 20),
 (135, 24, 20),
-(136, 1, 20),
-(137, 25, 20);
+(136, 1, 20);
 
 -- --------------------------------------------------------
 
@@ -507,7 +510,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastName`, `password`, `vkey`, `verify`, `age`, `gender`, `type`, `bio`, `fameRating`, `status`) VALUES
-(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$8bX4hMaDoWAx5kIdzAow0.BNV798QwZWzq2CvGcaE7/CMyACpxJ7O', 'da449380ace40de84cf59ceb24f8deb6f13c5ca641b86ad58b8fa8a249105b46', 1, 20, 'Male', 'Other', 'Biography for user1', 585, 2),
+(1, NULL, 'hassanseffiani@gmail.com', 'hsf', 'hsf', 'killer', '$2b$10$ytWyDF1zrhjoUtOhAsJzwue1dKZsbEKU1f6FCcHO8VnuhJmx24PAK', 'da449380ace40de84cf59ceb24f8deb6f13c5ca641b86ad58b8fa8a249105b46', 1, 20, 'Male', 'Other', 'Biography for user1', 585, 2),
 (2, NULL, 'hassanseffiani1@gmail.com', 'lkahba', 'hsf', 'killer', '$2b$10$0aytWTd9Oo9PPtQIWGgofeiGtYkXnOJ0fjIVzrdrPoKoToTRx8NSW', '38f5a1f3990219e246ba81c0b44e38d0011225e74fea1c7ff7aba97f9e5e6eee', 1, 22, 'Women', 'Male', 'Biography for user2', 197, 2),
 (3, NULL, 'hassanseffiani2@gmail.com', 'hsf2', 'hsf', 'killer', '$2b$10$1ObGsxs1JuJSGlVC5sRgnOFReiW3RnZ8G7zGuK1hwp91SQq1UuJJe', '6728794d2be2ee19a7cc92edd3667ba692666bf6320d8533a479d8de1070e7b1', 1, 20, 'Male', 'Women', 'Biography for user3', 372, 2),
 (4, NULL, 'hassanseffiani3@gmail.com', 'chalotiya', 'hsf', 'killer', '$2b$10$07mGEi/zHYm9kSV.pQqn9u/n5xYMhRoPgVI3/lMqXoyXbIUIe/u2m', 'dc2c19b64d0a577c53e31241e2c7a9ba252c33b43accf00ba1b59d2956914601', 1, 21, 'Women', 'Male', 'Biography for user4', 308, 2),
@@ -531,8 +534,8 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'da449380ace40de84cf59ceb24f8deb6f13c5ca641b86ad58b8fa8a249105b46', 0, 19, 'Male', 'Other', 'test this', 1000, 2),
 (23, NULL, 'havat60967@maksap.com', 'new test', 'hassan', 'seffiani', '$2b$10$Mv1cwmiZ.aFPqTh5xBoLQ.P8d3yt6cEW.merQoNxo0iBYtkHdZoEa', '1bdd82ec9dd96e300b9491dc95a856fc0979ff3847eaabc1e7d79da07f856e24', 1, NULL, NULL, NULL, NULL, 1, 1),
 (24, NULL, 'reus@gmail.com', 'test', 'this', 'one', '$2b$10$rn9ipM51W78.b/pKq9Z52eZevp/SWefnXV2q2dlnuxGX.0QHDK1aO', 'ef022e48bd1a0bcb82eb4dead7bfd5321e41c2b5eb3d4a75fe64cb21281cd168', 1, 21, 'Male', 'Other', 'test', 109, 2),
-(25, NULL, 'xatolig673@nobitcoin.net', 'fame', 'dsfd', 'fdwfw', '$2b$10$BK6uMT7rVHV6amK8fhSmuOYZI90dV88kcprnjLCoI7pBBKvU5/tWS', '8bfc23f7f94b0c6c4d6c1208d85838b03c1971756b84b19c4d618f14d7c832f6', 1, 20, 'Male', 'Other', 'test this bio', 112, 2),
-(26, NULL, 'esrseresr@dfsd.com', 'testew2', 'resrest', 'rewrewr', '$2b$10$t8pRWCERz/3KktHnDDpM3.giyvecJ8seEoHGg9CDdaZtmfi5jrm2e', '82c3560ee319467fdc9ae46c2a70a0cca387956a9eca80512e614347b988ac5a', 0, NULL, NULL, NULL, NULL, 1, 1);
+(26, NULL, 'esrseresr@dfsd.com', 'testew2', 'resrest', 'rewrewr', '$2b$10$t8pRWCERz/3KktHnDDpM3.giyvecJ8seEoHGg9CDdaZtmfi5jrm2e', '82c3560ee319467fdc9ae46c2a70a0cca387956a9eca80512e614347b988ac5a', 0, NULL, NULL, NULL, NULL, 1, 1),
+(28, NULL, 'mavan51565@igoqu.com', 'hsf21', 'hsf', 'killer', '$2b$10$5hEKByBGvQEQgoDX27PlROYtbYvKGDh7mCyQck8z4xFpkDZmDRkL.', 'e59ba2a5bb1b1335839cba3338ec1c3703959341cd2f73e9e7d1183002a4d4c4', 1, NULL, NULL, NULL, NULL, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -616,13 +619,13 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `likes`
@@ -634,7 +637,7 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `matchs`
@@ -652,19 +655,19 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables

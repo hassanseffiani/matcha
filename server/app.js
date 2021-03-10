@@ -70,7 +70,6 @@ io.sockets.on('connection', (socket) => {
   // });
 })
 
-
 app.use(express.json());
 var corsOptions = {
     origin: 'http://localhost:3000',
