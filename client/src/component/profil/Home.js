@@ -27,12 +27,12 @@ function getStepContent(step, props, checkTI, checkNo) {
   switch (step) {
     case 0:
       return (
-        ''
-        // <MyAddImages id={props.id} checkTotalImg={checkTI} />
+        <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} />
       )
     case 1:
       return (
-        <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} />
+        ''
+        // <MyAddImages id={props.id} checkTotalImg={checkTI} />
       )
     default:
       return 'Unknown step'
