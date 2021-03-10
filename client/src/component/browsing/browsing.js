@@ -190,7 +190,7 @@ const Browsing = (props) => {
           <SortComponent setList={setList1} list={list1} />
         </Grid>
         <Grid item xs={12} sm={2}>
-          <Map list={list1} />
+          <Map list={list} />
         </Grid>
         <Grid item xs={12} sm={2}>
           <Search

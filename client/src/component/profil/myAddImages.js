@@ -96,9 +96,32 @@ const MyAddImages = (props) => {
   // display images inside dragar
   React.useEffect(() => {
     Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
-      if (res.data.images[0]) setprintImages(res.data.images[0])
+      console.log(res.data.images[0])
+      if (res.data.images[0] !== null)
+        setprintImages(res.data.images[0])
     })
   }, [props, effect])
+
+  React.useEffect(() => {
+    if (printImages !== "" && printImages.split(',').length >= 0){
+        printImages.split(',').map((el, iKey) => {
+          let srcImg = `http://localhost:3001/${el}`
+          if (iKey === 0) {
+            SetProfileImg(srcImg)
+          }
+          triggerEffect(!effect)
+          if (srcImg != null) {
+            var tmp = Items
+            tmp[iKey].srcImg = srcImg
+            UpdateItems(tmp)
+            const gridId = imageRefs.current[iKey].id + 'img'
+            const grid = document.getElementById(gridId)
+            grid.style.background = 'url(' + srcImg + ')'
+            grid.style.backgroundSize = '200px 300px'
+          }
+      })
+    }
+  }, [printImages])
 
   // display of images
 
@@ -138,8 +161,10 @@ const MyAddImages = (props) => {
   ////////////////////////////
 
   const triggerInput = (index) => {
-    if (imageRefs.current[index]) {
-      imageRefs.current[index].click()
+    if (printImages.split(',').length <= index) {
+      if (imageRefs.current[index]) {
+        imageRefs.current[index].click()
+      }
     }
   }
 
@@ -197,12 +222,16 @@ const MyAddImages = (props) => {
     const newString1 = newString.filter((item, iKey) => iKey !== key)
     setprintImages(newString1.join(', '))
     Axios.post(`base/dltImgUser/${props.id}`, {image: newString[key]})
+    const gridId = imageRefs.current[key].id + 'img'
+    const grid = document.getElementById(gridId)
+    grid.style.background = 'url()'
+    grid.style.backgroundSize = '200px 300px'
   }
 
   return (
     <Size>
       <Grid container>
-        {printImages !== "" && printImages.split(',').length >= 0
+        {/* {printImages !== "" && printImages.split(',').length >= 0
           ? printImages.split(',').map((el, iKey) => {
               let srcImg = `http://localhost:3001/${el}`
               let altImg = `display all image loop${iKey}`
@@ -217,7 +246,7 @@ const MyAddImages = (props) => {
                 </div>
               )
             })
-          : ''}
+          : ''} */}
         <div style={{ overflowY: 'scroll', height: '600px' }}>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId='items'>
@@ -254,7 +283,8 @@ const MyAddImages = (props) => {
                               type='file'
                             />
                             {provided.placeholder}
-                            <IoMdAddCircle className={classes.addCircle} />
+                            {console.log(Object.keys(printImages.split(',')))}
+                            {Object.keys(printImages.split(',')) <= index ? <IoMdAddCircle className={classes.addCircle} /> : <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, id)} />}
                           </div>
                         )}
                       </Draggable>

@@ -3,8 +3,27 @@ import Axios from 'axios'
 import { CircularProgress, Stepper, Step, StepLabel, Button, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import FillProfil from './fillProfil'
-// import MyAddImages from './myAddImages'
+import MyAddImages from './myAddImages'
 import history from '../../history/history'
+
+
+
+// const triggerInput = (index) => {
+//   // console.log(printImages.split(',').length <= index)
+//   // if (printImages.split(',').length <= index) {
+//   //   console.log("test")
+//   // }
+//   if (imageRefs.current[index]) {
+//     imageRefs.current[index].click()
+//   }
+// }
+
+
+
+{/* (printImages.split(',').length > index) || (imageRefs.current[index].id) ? <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, index)} /> */ }
+{/* <IoMdAddCircle className={classes.addCircle} /> */}
+{/* {printImages.split(',').length <= index ? <IoMdAddCircle className={classes.addCircle} /> : <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, index)} />} */ }
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,12 +46,11 @@ function getStepContent(step, props, checkTI, checkNo) {
   switch (step) {
     case 0:
       return (
-        <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} />
+        <MyAddImages id={props.id} checkTotalImg={checkTI} />
       )
     case 1:
       return (
-        ''
-        // <MyAddImages id={props.id} checkTotalImg={checkTI} />
+        <FillProfil id={props.id} checkTotalImg={checkTI} checkFill={checkNo} />
       )
     default:
       return 'Unknown step'
