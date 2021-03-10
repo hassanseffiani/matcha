@@ -43,13 +43,19 @@ io.sockets.on('connection', (socket) => {
     // io.to(socketId).emit("new_msg", data.text);
   })
 
-  socket.on('active', async (data) => {
-    client.set("connected_users", data)
-    const value = await client.getAsync("connected_users")
-    console.log(value)
-    io.emit("getActive", value)
-  })
-  
+  // let id
+  // socket.on('active', async (data) => {
+  //   client.set(data, socket.id)
+  //   //get redis
+  //   const value = await client.getAsync(data)
+  //   console.log(value)
+  //   // socket.broadcast.emit("getActive", data)
+  //   io.emit("getActive", value)
+  // })
+
+  // io.on("connection", (socket) => {
+  // });
+
   socket.on('disconnect', () => {
     client.del("connected_users")
   })

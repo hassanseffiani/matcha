@@ -98,7 +98,6 @@ exports.postLogin = async (req, res, next) => {
     await User.UserNameModel(req.body.userName).then(([el]) => {
       if(el.length != 0)
       {
-        // console.log("***", el);
         el.map((el) => {
           if (el.verify === 1)
           verify = true;
@@ -222,7 +221,6 @@ exports.forgetPassword = async (req, res, next) => {
 // edit password
 
 exports.editPassword = async (req, res, next) => {
-  // console.log(req.body)
   var dataErr = {},
     data = {},
     toSend = {},psText;
@@ -230,24 +228,26 @@ exports.editPassword = async (req, res, next) => {
   toSend.input = { ...res.locals.input }
   data = { ...req.body }
   data.id = req.params.id
-  await User.getDataMatch(data.id).then(([user]) => {
-    user.map((el) => (psText = el.password));
-  });
+  if (req.body.password !== undefined && req.body.newPassword !== undefined && req.body.cnfrmPassword !== undefined) {
+    await User.getDataMatch(data.id).then(([user]) => {
+      user.map((el) => (psText = el.password));
+    });
+    if (Object.keys(toSend.input).length !== 0) res.json(toSend)
+    else{
+      if (data.newPassword === data.cnfrmPassword) {
+        if (Helpers.cmpBcypt(data.password, psText)) {
+          if (!Helpers.cmpBcypt(data.newPassword, psText)) {
+            User.UserForgetPassword_(
+              Helpers.keyBcypt(data.newPassword),
+              data.id
+            ).then((dataErr.status = "success"))
+          } else dataErr.msg = "Password already exists.";
+        } else dataErr.msg = "Enter your Old Password";
+      } else dataErr.msg = "Confirm Your password.";
+      res.json(dataErr);
+    }
+  } else res.json(false)
 
-  if (Object.keys(toSend.input).length !== 0) res.json(toSend)
-  else{
-    if (data.newPassword === data.cnfrmPassword) {
-      if (Helpers.cmpBcypt(data.password, psText)) {
-        if (!Helpers.cmpBcypt(data.newPassword, psText)) {
-          User.UserForgetPassword_(
-            Helpers.keyBcypt(data.newPassword),
-            data.id
-          ).then((dataErr.status = "success"))
-        } else dataErr.msg = "Password already exists.";
-      } else dataErr.msg = "Enter your Old Password";
-    } else dataErr.msg = "Confirm Your password.";
-    res.json(dataErr);
-  }
 };
 
 // validate user profil
@@ -260,6 +260,9 @@ exports.confirmUser = (req, res, next) => {
         data.status = "succes";
         data.msg = "You can login now !";
         data.url = "/Login";
+        // update vkey with a new one
+        var vkey = Helpers.keyCrypto(req.params.vkey + req.params.vkey)
+        User.UpdateOldVkey_(vkey, req.params.vkey)
       } else if (vKey.affectedRows === 1) {
         data.status = "verify";
         data.msg = "Already verify";
@@ -301,7 +304,6 @@ exports.googleCallback = (req, res, next) => {
 };
 // facebook
 exports.facebook = (req, res, next) => {
-  console.log('FACEBOOK')
   passport.authenticate('facebook', { authType: 'reauthenticate', session : false, scope: ['email']})
   (req, res, next)
 };
@@ -316,7 +318,6 @@ exports.facebookCallback = (req, res, next) => {
 // 42
 
 exports.intra = (req, res, next) => {
-  console.log('42')
   passport.authenticate('42')
   (req, res, next)
 };

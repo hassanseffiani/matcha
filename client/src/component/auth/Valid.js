@@ -19,7 +19,6 @@ const Valid  = (props) => {
   useEffect(() => {
     Axios.get(`users/confirm/${props.match.params.cnfId}`).then((response) => {
       let { status } = response.data
-      console.log(response.data)
       if (status === 'succes') setVerify(true)
       else if (status === 'verify') setVerify(true)
     })

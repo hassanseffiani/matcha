@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import moment from 'moment'
+// import moment from 'moment'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import Filter from './filter'
 import SortComponent from './sort'
@@ -18,23 +18,23 @@ import {
   ThumbDown as ThumbDownIcon,
   SkipNext as SkipNextIcon,
 } from '@material-ui/icons'
-import SocketContext from "../../start/SocketContext";
+// import SocketContext from "../../start/SocketContext";
 
 const StyledBadge = withStyles((theme) => ({
-  badge: (props) => 
-    props.status === "true"
-    ? {
-        backgroundColor: '#A9A9A9',
-        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        '&::after': {
-          border: '1px',
-        },
-      }
-    : {
-        backgroundColor: '#44b700',
-        color: '#44b700',
-        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-      },
+  // badge: (props) => 
+  //   props.status === "true"
+  //   ? {
+  //       backgroundColor: '#A9A9A9',
+  //       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+  //       '&::after': {
+  //         border: '1px',
+  //       },
+  //     }
+  //   : {
+  //       backgroundColor: '#44b700',
+  //       color: '#44b700',
+  //       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+  //     },
 }))(Badge)
 
 const useStyles = makeStyles((theme) => ({
@@ -88,11 +88,11 @@ const Browsing = (props) => {
   const classes = useStyles()
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
-  const [status, setStatus] = React.useState("true")
-  const [curTime, setcurTime] = React.useState()
+  // const [status, setStatus] = React.useState("true")
+  // const [curTime, setcurTime] = React.useState()
   const [didMount, setDidMount] = React.useState(false)
-  const [active, setActive] = React.useState("")
-  const socket = React.useContext(SocketContext);
+  // const [active, setActive] = React.useState("")
+  // const socket = React.useContext(SocketContext);
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
@@ -147,30 +147,33 @@ const Browsing = (props) => {
     })
   }
 
-  const handelClick = (e) => {
-    if (status === 'true'){
-      setStatus('false')
-      setcurTime()
-    }else{
-      setStatus('true')
-      setcurTime(new Date())
-    }
-  }
+  // mochkiill to solve
 
-  React.useEffect(() => {
-    socket.on("getActive", (data) => {
-      if (data !== "")
-        setActive(data)
-    })
-  })
+  // const handelClick = async (e) => {
+  //   console.log(e)
+  //   // if (status === 'true'){
+  //   //   setStatus('false')
+  //   //   setcurTime()
+  //   // }else{
+  //   //   setStatus('true')
+  //   //   setcurTime(new Date())
+  //   // }
+
+  //   await socket.on("getActive", (data) => {
+  //     console.log(data)
+  //     // if (data !== "")
+  //     //   setActive(data)
+  //   })
+  // }
   
-  React.useEffect(() => {
-    if (active === props.id.toString()) {
-      console.log(active)
-      setStatus('false')
-      setcurTime()
-    }
-  }, [active, props])
+  // React.useEffect(() => {
+  //   console.log(active)
+  //   if (active === props.id.toString()) {
+  //     console.log(active)
+  //     setStatus('false')
+  //     setcurTime()
+  //   }
+  // }, [active, props])
 
   if (!didMount)
     return null
@@ -217,7 +220,7 @@ const Browsing = (props) => {
                             horizontal: 'right',
                           }}
                           variant='dot'
-                          status={status}
+                          // status={status}
                         >
                           <Avatar
                             aria-label='recipe'
@@ -235,15 +238,15 @@ const Browsing = (props) => {
                             list={list1}
                             setlist={setList1}
                             StyledBadge={StyledBadge}
-                            status={status}
-                            curTime={curTime}
+                            // status={status}
+                            // curTime={curTime}
                           />
                         </IconButton>
                       }
                       title={el.userName}
                       subheader={el.firstName + ' ' + el.lastName}
                     />
-                    {curTime && (
+                    {/* {curTime && (
                       <Typography
                         variant='body2'
                         display='initial'
@@ -251,8 +254,8 @@ const Browsing = (props) => {
                       >
                         Last Seen {moment(curTime).fromNow()}
                       </Typography>
-                    )}
-                    <button onClick={handelClick}>Click</button>
+                    )} */}
+                    {/* <button onClick={handelClick}>Click</button> */}
                     <CardContent>
                       <Typography variant='h6'>Biography :</Typography>
                       <Typography

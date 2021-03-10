@@ -132,6 +132,14 @@ module.exports = class User {
     ])
   }
 
+
+  static UpdateOldVkey_(vkey, vkey_) {
+    return db.execute('UPDATE users SET vkey = ? WHERE vkey = ?', [
+      vkey,
+      vkey_,
+    ])
+  }
+
   // filling profil
 
   static fillProfilUpdate(data) {
