@@ -203,7 +203,6 @@ exports.allTags = async (req, res, next) => {
 exports.getImges = (req, res) => {
   const uploadDerictory = path.join("public/upload");
   fs.readdir(uploadDerictory, (err, files) => {
-    console.log(files);
     if (err) {
       res.json({ msg: err });
     } else if (files.length === 0) {
@@ -325,10 +324,18 @@ exports.multerUpload = (req, res, next) => {
 
 
 exports.dnd = async (req, res, next) => {
-  console.log('-')
-  console.log('dnd', req.body)
-  res.json({ops :'DnD'});
-  var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id, req.params.id)
+  res.json({ops :'DnD'})
+  await Img.updateImgPointer(req.body.index, req.body.id, req.params.id)
+  // await Img.updateJustProfil(req.params.id)
+}
+
+exports.dnd1 = (req, res, next) => {
+  Img.justThefirstRows(req.params.id)
+  Img.condtionBeforeUpdate(req.params.id).then(async ([res]) => {
+    if (!res.length){
+      await Img.justThefirstRows1(req.params.id)
+    }
+  })
 }
 
 // get number of images saved in db

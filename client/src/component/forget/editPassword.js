@@ -47,7 +47,6 @@ const Forget = (props) => {
             newPassword: newPassword,
             cnfrmPassword: cnfrmPassword
         }).then((res) => {
-          console.log(res.data)
             if (res.data.input)
               setInputErr(res.data.input)
             else

@@ -80,7 +80,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const CustomizedDialogs = (props) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
     const classes = useStyles()
 
     const handleClickOpen = (e, visitor, visited) => {
@@ -198,7 +198,7 @@ const CustomizedDialogs = (props) => {
                 </Typography>
               </Grid>
               <Grid container item xs={8} sm={4}>
-                {props.element.tag1.split(',').length > 0
+                {props.element.tag1 && props.element.tag1.split(',').length > 0
                   ? props.element.tag1.split(',').map((el, iKey) => {
                       return (
                         <div key={iKey}>
@@ -211,6 +211,8 @@ const CustomizedDialogs = (props) => {
                         </div>
                       )
                     })
+
+                    ////// work with tag2 to get all tags and filter them with help of .... ///
                   : ''}
               </Grid>
               <Grid item xs={8} sm={4}>

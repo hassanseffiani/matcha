@@ -108,13 +108,14 @@ const Browsing = (props) => {
         cord: cord,
         gender: gender,
       }).then((res) => {
+        console.log(res.data)
         if (res.data){
           setList(res.data)
           setList1(res.data)  
         }
       })
     } else getLocalisation()
-    setDidMount(true);
+    setDidMount(true)
     return () => setDidMount(false);
   }, [cord, gender, getLocalisation, props.id])
 
@@ -294,7 +295,7 @@ const Browsing = (props) => {
                   </Card>
                 )
               })
-              .splice(0, 1)}
+              .splice(0, 20)}
         </Container>
       </Grid>
     </div>

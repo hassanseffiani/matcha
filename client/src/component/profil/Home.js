@@ -19,12 +19,6 @@ import history from '../../history/history'
 // }
 
 
-
-{/* (printImages.split(',').length > index) || (imageRefs.current[index].id) ? <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, index)} /> */ }
-{/* <IoMdAddCircle className={classes.addCircle} /> */}
-{/* {printImages.split(',').length <= index ? <IoMdAddCircle className={classes.addCircle} /> : <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, index)} />} */ }
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%"

@@ -179,6 +179,7 @@ const FillProfil = (props) => {
                   onChange={(e) => setBio(e.target.value)}
                   helperText={errMsg.validBio}
                   error={errMsg.validBio !== undefined}
+                  inputProps={{ maxLength: 150 }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

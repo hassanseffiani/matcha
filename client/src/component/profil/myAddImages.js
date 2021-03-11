@@ -5,9 +5,9 @@ import { Grid, Card, CardMedia } from '@material-ui/core'
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { makeStyles } from '@material-ui/core/styles'
-import { IoMdAddCircle, IoIosRemoveCircleOutline } from 'react-icons/io'
+import { IoMdAddCircle } from 'react-icons/io'
 import { useEffect } from 'react'
-import AlertDialoge from './alertDialog'
+// import AlertDialoge from './alertDialog'
 
 const intialItems = [
   {
@@ -107,36 +107,33 @@ const MyAddImages = (props) => {
   // display images inside dragar
 
   React.useEffect(() => {
-      Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
-        if (!printImages.length && res.data.images[0] !== null){
-          console.log("test this res data rendring")
-          setprintImages(res.data.images[0].split(','))
-        }
-      })
+    Axios.post(`/base/displayIndrager/${props.id}`).then(async (res) => {
+      if (!printImages.length && res.data.images[0] !== null){
+        setprintImages(res.data.images[0].split(','))
+      }
+    })
   }, [props, printImages])
-
   
-
   React.useEffect(() => {
     if (printImages !== ""){
         var tmp = Items
-      printImages.map((el, iKey) => {
-        let srcImg = `http://localhost:3001/${el}`
-        if (iKey === 0) {
-          SetProfileImg(srcImg)
-        }
-        triggerEffect(!effect)
-        if (srcImg != null) {
-          tmp[iKey].value = srcImg
-          UpdateItems(tmp)
-          const gridId = imageRefs.current[iKey].id + 'img'
-          const grid = document.getElementById(gridId)
-          grid.style.background = 'url(' + srcImg + ')'
-          grid.style.backgroundSize = '200px 300px'
-        }
+        printImages.map((el, iKey) => {
+          let srcImg = `http://localhost:3001/${el}`
+          if (iKey === 0) {
+            SetProfileImg(srcImg)
+          }
+          if (srcImg != null) {
+            tmp[iKey].value = srcImg
+            UpdateItems(tmp)
+            const gridId = imageRefs.current[iKey].id + 'img'
+            const grid = document.getElementById(gridId)
+            grid.style.background = 'url(' + srcImg + ')'
+            grid.style.backgroundSize = '200px 300px'
+          }
+          return '';
       })
     }
-  }, [printImages])
+  }, [Items, printImages])
 
   // display of images
 
@@ -150,7 +147,8 @@ const MyAddImages = (props) => {
 
   useEffect(() => {
     displayProfileImg()
-  }, [displayProfileImg])
+    Axios.post(`base/img/dnd1/${props.id}`) // index stuff
+  }, [displayProfileImg, props])
 
   //////////////////////////
 
@@ -217,7 +215,10 @@ const MyAddImages = (props) => {
     await Axios.post(`base/img/${props.id}`, formData, config)
   }
 
+  //////////////////////////////////////// Drager ////////////////////////////////////////
+
   async function handleOnDragEnd(result) {
+    // await Axios.post(`base/img/dnd1/${props.id}`) // index stuff
     if (!result.destination) return
     const items = Array.from(Items)
     const [reorderedItem] = items.splice(result.source.index, 1)
@@ -239,6 +240,7 @@ const MyAddImages = (props) => {
     handelRemoveImg(keyIndex)
     setOpen(false)
   }
+  /////////////////////////////////////////////////////////////////////////////////////////
 
   const handelRemoveImg = async (key) => {
     if (printImages[key] === undefined){
@@ -255,6 +257,7 @@ const MyAddImages = (props) => {
               grid.style.backgroundSize = '200px 300px'
               Axios.post(`base/dltImgUser/${props.id}`, {image: el})
             }
+            return '';
           })
         }
       })

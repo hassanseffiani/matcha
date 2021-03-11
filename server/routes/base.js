@@ -53,6 +53,7 @@ route.post('/base/status/:id', homeController.changeStatus)
 route.post('/base/img/:id', homeController.multerUpload)
 
 route.post('/base/img/dnd/:id', homeController.dnd)
+route.post('/base/img/dnd1/:id', homeController.dnd1)
 
 route.post('/base/img/fetch/:id', homeController.fetchImgs)
 
