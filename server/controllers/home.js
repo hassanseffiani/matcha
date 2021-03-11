@@ -328,7 +328,7 @@ exports.dnd = async (req, res, next) => {
   console.log('-')
   console.log('dnd', req.body)
   res.json({ops :'DnD'});
-  var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id)
+  var changeIndex = await Img.updateImgPointer(req.body.index, req.body.id, req.params.id)
 }
 
 // get number of images saved in db

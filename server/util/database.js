@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const ip = require("docker-ip");
 
 const ipAdress = ip(); // 192.168.99.100 a "default" one
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 const pool = mysql.createPool({

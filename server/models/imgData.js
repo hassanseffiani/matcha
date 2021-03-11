@@ -28,10 +28,18 @@ module.exports = class Img {
     )
   }
 
-  static updateImgPointer(oldPointer, newPointer) {
+  /// to compleet
+
+  static updateJustProfil(id){
     return db.execute(
-      'UPDATE imgProfil SET pointer=( case when pointer=? then ? when pointer=? then ? else 0 end)',
-      [oldPointer, newPointer, newPointer, oldPointer]
+      'UPDATE imgProfil SET pointer=( case when pointer <> 0 then 0 else 0 end) WHERE users_id = ? LIMIT 1',
+      [id]
+    )
+  }
+
+  static updateImgPointer(oldPointer, newPointer, id) {
+    return db.execute(
+      'UPDATE imgProfil SET pointer=( case when pointer = ? then ? when pointer = ? then ? else pointer end) WHERE users_id = ?', [oldPointer, newPointer, newPointer, oldPointer, id, id]
     )
   }
 

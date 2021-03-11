@@ -108,8 +108,10 @@ const MyAddImages = (props) => {
 
   React.useEffect(() => {
       Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
-        if (!printImages.length && res.data.images[0] !== null)
+        if (!printImages.length && res.data.images[0] !== null){
+          console.log("test this res data rendring")
           setprintImages(res.data.images[0].split(','))
+        }
       })
   }, [props, printImages])
 
@@ -117,6 +119,7 @@ const MyAddImages = (props) => {
 
   React.useEffect(() => {
     if (printImages !== ""){
+        var tmp = Items
       printImages.map((el, iKey) => {
         let srcImg = `http://localhost:3001/${el}`
         if (iKey === 0) {
@@ -124,7 +127,6 @@ const MyAddImages = (props) => {
         }
         triggerEffect(!effect)
         if (srcImg != null) {
-          var tmp = Items
           tmp[iKey].value = srcImg
           UpdateItems(tmp)
           const gridId = imageRefs.current[iKey].id + 'img'
@@ -239,21 +241,31 @@ const MyAddImages = (props) => {
   }
 
   const handelRemoveImg = async (key) => {
-    console.log(printImages[key])
     if (printImages[key] === undefined){
       await Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
         if (res.data.images[0] !== null){
           res.data.images[0].split(',').map((el, Keyi) => {
-            if (key === Keyi)
+            if (key === Keyi){
+              var tmp = Items
+              tmp[key].value = ''
+              UpdateItems(tmp)
+              const gridId = imageRefs.current[key].id + 'img'
+              const grid = document.getElementById(gridId)
+              grid.style.background = 'url() #E0E4E9'
+              grid.style.backgroundSize = '200px 300px'
               Axios.post(`base/dltImgUser/${props.id}`, {image: el})
+            }
           })
         }
       })
     }else{
-      if (Items[key].value !== '' && key !== 0){
-        // if (key === 0) {
-        //   SetProfileImg('https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg')
-        // }
+      if (Items[key].value !== ''){
+        if (key === 0) {
+          SetProfileImg(
+            'https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg'
+          )
+        }
+        triggerEffect(!effect)
         var tmp = Items
         tmp[key].value = ''
         UpdateItems(tmp)
@@ -261,10 +273,11 @@ const MyAddImages = (props) => {
         const grid = document.getElementById(gridId)
         grid.style.background = 'url() #E0E4E9'
         grid.style.backgroundSize = '200px 300px'
-        await Axios.post(`base/dltImgUser/${props.id}`, {image: printImages[key]})
-        const newList = printImages.filter((item, _key) => key !== _key)
-        // console.log(newList)
-        setprintImages(newList)
+        await Axios.post(`base/dltImgUser/${props.id}`, {
+          image: printImages[key],
+        })
+        printImages[key] = ""
+        setprintImages(printImages)
       }
     }
   }
@@ -272,22 +285,6 @@ const MyAddImages = (props) => {
   return (
     <Size>
       <Grid container>
-        {/* {printImages !== "" && printImages.split(',').length >= 0
-          ? printImages.split(',').map((el, iKey) => {
-              let srcImg = `http://localhost:3001/${el}`
-              let altImg = `display all image loop${iKey}`
-              return (
-                <div key={iKey} className={classes.big}>
-                  <CardMedia
-                    className={classes.media1}
-                    image={srcImg}
-                    title={altImg}
-                  />
-                  <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, iKey)}/>
-                </div>
-              )
-            })
-          : ''} */}
         <div style={{ overflowY: 'scroll', height: '600px' }}>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId='items'>
@@ -322,8 +319,6 @@ const MyAddImages = (props) => {
                               type='file'
                             />
                             {provided.placeholder}
-                            {/* {console.log(Object.keys(printImages.split(',')))}
-                            {Object.keys(printImages.split(',')) <= index ? <IoMdAddCircle className={classes.addCircle} /> : <IoIosRemoveCircleOutline className={classes.addCircle} onClick={(event) => handelRemoveImg(event, id)} />} */}
                             <IoMdAddCircle className={classes.addCircle} />
                           </div>
                         )}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.111
--- Generation Time: Mar 10, 2021 at 06:32 PM
+-- Generation Time: Mar 11, 2021 at 11:54 AM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -194,10 +194,9 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1),
 (142, 28, 'lOcBZZEPlJOzgp5M-xcoLfile-1615384283364.jpeg', 1),
 (143, 28, 'gpjgdnZOhcX1JtxqZWqoZfile-1615384285602.png', 1),
-(191, 23, 'eah_vV-zs7qeGz_axNB4sfile-1615400596188.jpeg', 0),
-(194, 23, '2zsf2gns2v6b1E6xOHffdfile-1615400761167.jpeg', 1),
-(200, 23, '7v7Sqdl-Tqkp4QygFk8cifile-1615400881472.jpeg', 2),
-(204, 23, 'MX48b7I9S89QY0Eeywd_Ifile-1615401081142.jpeg', 3);
+(240, 23, '6Isjfonhn0mLyr_Z3gqL-file-1615460313165.jpeg', 0),
+(244, 23, 'zc1XEx0yLKT3wRGKA2umlfile-1615462316184.jpeg', 1),
+(245, 23, 'Rg8myHL-7rAOZvjb-2Voffile-1615462335424.jpeg', 2);
 
 -- --------------------------------------------------------
 
@@ -625,7 +624,7 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
 --
 -- AUTO_INCREMENT for table `likes`
