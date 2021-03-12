@@ -144,7 +144,7 @@ module.exports = class User {
 
   static fillProfilUpdate(data) {
     return db.execute(
-      'UPDATE users SET age = ?, gender = ?, type = ?, bio = ?, fameRating = fameRating + 100 WHERE id = ?',
+      'UPDATE users SET age = ?, gender = ?, type = ?, bio = ?, status = 2, fameRating = fameRating + 100 WHERE id = ?',
       [data.age, data.gender, data.type, data.bio, data.id]
     )
   }
@@ -193,8 +193,9 @@ module.exports = class User {
 
   static CheckRequiredUserInfo(userId) {
     return db.execute(
-      'SELECT users.bio ,users.gender, users.type, imgProfil.users_id AS ImgUserId, tag_user.tag_id FROM users INNER JOIN imgProfil ON users.id = imgProfil.users_id INNER JOIN tag_user ON users.id = tag_user.users_id WHERE users.id = ?',
-      [userId]
+      'SELECT * FROM users WHERE users.id = ? AND status = 2', [userId]
+      // 'SELECT users.bio ,users.gender, users.type, imgProfil.users_id AS ImgUserId, tag_user.tag_id FROM users INNER JOIN imgProfil ON users.id = imgProfil.users_id INNER JOIN tag_user ON users.id = tag_user.users_id WHERE users.id = ?',
+      // [userId]
     )
   }
   

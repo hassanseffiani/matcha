@@ -118,7 +118,7 @@ const FillProfil = (props) => {
       setErrTag("");
       setDsbl(false);
     }
-  };
+  }
 
   const addToOption = (tag) => {
     if (errTag === "") {
@@ -128,13 +128,7 @@ const FillProfil = (props) => {
         : (id = chipData.slice(-1)[0].key + 1);
       chipData.push({ key: id, name: tag });
     }
-  };
-
-  // const handleDelete = (chipToDelete) => () => {
-  //   setChipData((chips) =>
-  //     chips.filter((chip) => chip.key !== chipToDelete.key)
-  //   );
-  // };
+  }
 
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
@@ -182,6 +176,7 @@ const FillProfil = (props) => {
                     onChange={(e) => handelTag(e)}
                     helperText={errTag}
                     error={errTag !== ''}
+                    inputProps={{maxLength: 15 }}
                   />
                   <Button
                     variant='outlined'
@@ -215,9 +210,9 @@ const FillProfil = (props) => {
                   style={{ textDecoration: 'none' }}
                 >
                   <GridList
-                    cellHeight={34}
+                    cellHeight={32}
                     className={classes.gridList}
-                    cols={2}
+                    cols={1}
                   >
                     {chipData &&
                       chipData.map((data) => {
@@ -324,7 +319,11 @@ const FillProfil = (props) => {
               </Grid>
             </Grid>
             <Collapse in={!active}>
-              <Button type='submit' variant='outlined' className={classes.submit}>
+              <Button
+                type='submit'
+                variant='outlined'
+                className={classes.submit}
+              >
                 DONE
               </Button>
             </Collapse>

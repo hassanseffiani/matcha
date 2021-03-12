@@ -103,9 +103,10 @@ const EditProfil = (props) => {
     })
   }, [props])
 
-  const edit = (e, id) => {
+  const edit = async (e, id) => {
     e.preventDefault()
-    Axios.post(`base/editprofil/${id}`, {
+    console.log(id)
+    await Axios.post(`base/editprofil/${id}`, {
       userName: data.userName,
       email: data.email,
       firstName: data.firstName,
@@ -116,8 +117,8 @@ const EditProfil = (props) => {
       age: age1,
       tag: chipData,
       tag1: chipData1
-    })
-      .then((res) => {
+    }).then((res) => {
+        console.log(res)
         if (res.data.input) {
           setErrMsg(res.data.input)
           setF(true)

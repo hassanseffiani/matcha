@@ -68,48 +68,61 @@ exports.editProfil = (req, res) => {
   data.id = req.params.id
   dataErr.status = false
 
-  if (Object.keys(toSend.input).length !== 0) res.json(toSend)
-  else{
-    User.UpdateProfilInfo(data);
-    data.tag.map((el) => {
-      Tag.tagExists(el.name).then(([tagRes]) => {
-        if (!tagRes.length) {
-          const tag = new Tag(null, el.name)
-          tag.save().then(() => {
-            Tag.tagExists(el.name).then((res) => {
-              res[0].map((id) => {
-                Tag.insertInTagUser(data.id, id.id)
-              })
-            })
-          })
-        } else {
-          Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
-            if (!userTag.length) {
+  if (
+    req.body.userName !== undefined &&
+    req.body.bio !== undefined &&
+    req.body.gender !== undefined &&
+    req.body.type !== undefined &&
+    req.body.age !== undefined &&
+    req.body.tag !== undefined &&
+    req.body.tag1 !== undefined &&
+    req.body.email !== undefined &&
+    req.body.password !== undefined &&
+    req.body.cnfrmPassword !== undefined &&
+    req.body.firstName !== undefined &&
+    req.body.lastName !== undefined
+  ) {
+    if (Object.keys(toSend.input).length !== 0) res.json(toSend)
+    else {
+      User.UpdateProfilInfo(data)
+      data.tag.map((el) => {
+        Tag.tagExists(el.name).then(([tagRes]) => {
+          if (!tagRes.length) {
+            const tag = new Tag(null, el.name)
+            tag.save().then(() => {
               Tag.tagExists(el.name).then((res) => {
                 res[0].map((id) => {
                   Tag.insertInTagUser(data.id, id.id)
                 })
               })
-            }
-            else{
-              data.tag1.map(el => {
-                Tag.tagExists(el.name).then(([res]) => {
-                  res.map((id) => {
-                    Tag.deleteTagUser(data.id, id.id)
+            })
+          } else {
+            Tag.tagIdModel(data.id, el.name).then(([userTag]) => {
+              if (!userTag.length) {
+                Tag.tagExists(el.name).then((res) => {
+                  res[0].map((id) => {
+                    Tag.insertInTagUser(data.id, id.id)
                   })
                 })
-              })
-              
-            }
-          })
-          dataErr.msgTag = 'Already exists'
-        }
+              } else {
+                data.tag1.map((el) => {
+                  Tag.tagExists(el.name).then(([res]) => {
+                    res.map((id) => {
+                      Tag.deleteTagUser(data.id, id.id)
+                    })
+                  })
+                })
+              }
+            })
+            dataErr.msgTag = 'Already exists'
+          }
+        })
       })
-    })
-    dataErr.status = true
-    res.json(dataErr);
-  }
-};
+      dataErr.status = true
+      res.json(dataErr)
+    }
+  } else res.json(false)
+}
 
 // Fill profil with help of id just for test
 

@@ -32,7 +32,7 @@ route.post(
 
 route.post(
   "/base/editprofil/:id",
-  validator.validationInput,
+  // validator.validationInput,
   homeController.editProfil
 );
 
