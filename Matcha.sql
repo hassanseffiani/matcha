@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.99.111
--- Generation Time: Mar 11, 2021 at 06:21 PM
+-- Generation Time: Mar 12, 2021 at 10:40 AM
 -- Server version: 8.0.23
 -- PHP Version: 7.4.15
 
@@ -77,7 +77,9 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (40, 1, 15, '2021-03-11 16:55:35'),
 (41, 1, 19, '2021-03-11 16:58:49'),
 (42, 1, 10, '2021-03-11 17:36:58'),
-(43, 1, 4, '2021-03-11 17:37:37');
+(43, 1, 4, '2021-03-11 17:37:37'),
+(44, 23, 20, '2021-03-12 10:39:52'),
+(45, 23, 6, '2021-03-12 10:39:56');
 
 -- --------------------------------------------------------
 
@@ -176,30 +178,29 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (78, 17, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
 (79, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
 (80, 17, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(81, 18, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(81, 18, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
 (82, 18, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
-(83, 18, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
-(84, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
+(83, 18, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 2),
+(84, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 3),
 (85, 18, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(86, 19, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(86, 19, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
 (87, 19, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
-(88, 19, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
-(89, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(90, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(91, 20, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 1),
+(88, 19, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 2),
+(89, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 3),
+(90, 19, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 4),
+(91, 20, 'n5F9uE0PCgiDpLdmXPo4hfile-1613573360996.jpeg', 0),
 (92, 20, 'laohiKiU-RNJjgvocBrHjfile-1613573429329.jpeg', 1),
-(93, 20, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 1),
-(94, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 1),
-(105, 22, 'E7FtL-cDBA1Wluw73DBO7file-1614334610449.jpeg', 1),
+(93, 20, 'luUkEtlqN03RF_18D5Jgdfile-1613573414137.jpeg', 2),
+(94, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 3),
+(95, 20, 'lvv-sV0htWwmqmaMHRtTzfile-1613573475670.jpeg', 4),
+(105, 22, 'E7FtL-cDBA1Wluw73DBO7file-1614334610449.jpeg', 0),
 (106, 22, 'MhVdUBNIcRLdJSBTUjnO0file-1614334612188.jpeg', 1),
-(138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 1),
+(138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 0),
 (139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1),
-(142, 28, 'lOcBZZEPlJOzgp5M-xcoLfile-1615384283364.jpeg', 1),
+(142, 28, 'lOcBZZEPlJOzgp5M-xcoLfile-1615384283364.jpeg', 0),
 (143, 28, 'gpjgdnZOhcX1JtxqZWqoZfile-1615384285602.png', 1),
-(264, 23, '8sNom_nIkdFGvhqQuwjM6file-1615477674158.jpeg', 1),
-(268, 23, 'E-HYNzF-iv4d1K8h_wKZlfile-1615477770944.jpeg', 0),
-(272, 23, '18GTcwj7nCMrJbOn6cOAOfile-1615486454121.jpeg', 2);
+(278, 23, 'opPIottd7sMULLx4ewZjMfile-1615543516689.jpeg', 0),
+(279, 23, 'HkRwk0REmWxg-AU5f1rqKfile-1615543519982.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -336,7 +337,7 @@ INSERT INTO `tag` (`id`, `name`) VALUES
 (19, '#wick'),
 (20, '#luther'),
 (21, '#3dsas'),
-(22, '#tes');
+(26, '#weqe');
 
 -- --------------------------------------------------------
 
@@ -480,7 +481,8 @@ INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (130, 22, 20),
 (135, 24, 20),
 (136, 1, 20),
-(140, 1, 8);
+(140, 1, 8),
+(144, 23, 26);
 
 -- --------------------------------------------------------
 
@@ -533,7 +535,7 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (20, NULL, 'hassanseffiani19@gmail.com', 'hsf19', 'hsf', 'killer', '$2b$10$0.0CMfeqrB7EuXukxRYhMul045HWVFQV.QvcCGYnSzpEABzTgZbsi', '9f02304ae5018042d2a8d4b627052111fc86fb595a2e181b843209e4aad7e648', 1, 37, 'Women', 'Male', 'Biography for user20', 900, 2),
 (21, NULL, 'hassanseffiani20@gmail.com', 'hsf20', 'hsf', 'killer', '$2b$10$EUjrBMO51JdAsKo5yAX9NeNZ9MZL/K9o6gtI9TnSyK1nb/Gm58mfa', '5dfb5741b2d4e8d90dc9d5b24e5c1b84c42c22a8a76933c0c49381de8c49d20c', 1, 38, 'Male', 'Women', 'Biography for user21', 700, 2),
 (22, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '*', 'da449380ace40de84cf59ceb24f8deb6f13c5ca641b86ad58b8fa8a249105b46', 0, 19, 'Male', 'Other', 'test this', 1000, 2),
-(23, NULL, 'havat60967@maksap.com', 'new test', 'hassan', 'seffiani', '$2b$10$Mv1cwmiZ.aFPqTh5xBoLQ.P8d3yt6cEW.merQoNxo0iBYtkHdZoEa', '1bdd82ec9dd96e300b9491dc95a856fc0979ff3847eaabc1e7d79da07f856e24', 1, NULL, NULL, NULL, '', NULL, NULL),
+(23, NULL, 'havat60967@maksap.com', 'new test', 'hassan', 'seffiani', '$2b$10$Mv1cwmiZ.aFPqTh5xBoLQ.P8d3yt6cEW.merQoNxo0iBYtkHdZoEa', '1bdd82ec9dd96e300b9491dc95a856fc0979ff3847eaabc1e7d79da07f856e24', 1, 27, 'Male', 'Women', 'qwe', 201, 2),
 (24, NULL, 'reus@gmail.com', 'test', 'this', 'one', '$2b$10$rn9ipM51W78.b/pKq9Z52eZevp/SWefnXV2q2dlnuxGX.0QHDK1aO', 'ef022e48bd1a0bcb82eb4dead7bfd5321e41c2b5eb3d4a75fe64cb21281cd168', 1, 21, 'Male', 'Other', 'test', 109, 2),
 (26, NULL, 'esrseresr@dfsd.com', 'testew2', 'resrest', 'rewrewr', '$2b$10$t8pRWCERz/3KktHnDDpM3.giyvecJ8seEoHGg9CDdaZtmfi5jrm2e', '82c3560ee319467fdc9ae46c2a70a0cca387956a9eca80512e614347b988ac5a', 0, NULL, NULL, NULL, NULL, 1, 1),
 (28, NULL, 'mavan51565@igoqu.com', 'hsf21', 'hsf', 'killer', '$2b$10$5hEKByBGvQEQgoDX27PlROYtbYvKGDh7mCyQck8z4xFpkDZmDRkL.', 'e59ba2a5bb1b1335839cba3338ec1c3703959341cd2f73e9e7d1183002a4d4c4', 1, NULL, NULL, NULL, NULL, 1, 1);
@@ -620,13 +622,13 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT for table `likes`
@@ -656,13 +658,13 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `users`

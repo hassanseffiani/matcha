@@ -166,9 +166,9 @@ const MyAddImages = (props) => {
 
   useEffect(() => {
     fetchImgs().then((res) => {
-      if (res) props.checkTotalImg()
+      if (res && !props.stop) props.checkTotalImg()
     })
-    if (ProfileImg) props.checkTotalImg()
+    if (ProfileImg && !props.stop) props.checkTotalImg()
   }, [fetchImgs, props, ProfileImg])
 
   ////////////////////////////

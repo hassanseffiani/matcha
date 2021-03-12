@@ -117,6 +117,8 @@ const Search = (props) => {
   }
 
   const handleTag = (event, newValue) => {
+    // console.log(newValue)
+    // setTag(data => ([ ...data ,newValue]))
     setTag1(newValue)
   }
 

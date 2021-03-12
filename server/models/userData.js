@@ -149,10 +149,6 @@ module.exports = class User {
     )
   }
 
-  static delete(id) {
-    return db.execute('DELETE FROM products WHERE products.id = ?', [id])
-  }
-
   static UpdateFirstInfo(data) {
     return db.execute(
       'UPDATE users SET email = ?, userName = ?, firstName= ?, lastName= ? WHERE id = ?',
@@ -190,7 +186,7 @@ module.exports = class User {
 
   static DeleteProfilInfo(id) {
     return db.execute(
-      'UPDATE users SET age = null, gender = null, type = null, bio = null, fameRating = fameRating - 100 WHERE id = ?',
+      'UPDATE users SET age = null, gender = null, type = null, bio = null, fameRating = 1 WHERE id = ?',
       [id]
     )
   }

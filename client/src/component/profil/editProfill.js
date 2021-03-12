@@ -10,7 +10,7 @@ import {Alert} from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../history/history'
 import Geo from "./geo"
-// import EditImages from "./myAddImages"
+import EditImages from "./myAddImages"
 import EditPassword from "../forget/editPassword"
 const instance = Axios.create({ withCredentials: true })
 
@@ -231,7 +231,7 @@ const EditProfil = (props) => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          {/* <EditImages id={props.id} /> */}
+          <EditImages id={props.id} stop={true}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Grid
