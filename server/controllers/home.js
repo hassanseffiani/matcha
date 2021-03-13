@@ -68,20 +68,18 @@ exports.editProfil = (req, res) => {
   data.id = req.params.id
   dataErr.status = false
 
-  if (
-    req.body.userName !== undefined &&
-    req.body.bio !== undefined &&
-    req.body.gender !== undefined &&
-    req.body.type !== undefined &&
-    req.body.age !== undefined &&
-    req.body.tag !== undefined &&
-    req.body.tag1 !== undefined &&
-    req.body.email !== undefined &&
-    req.body.password !== undefined &&
-    req.body.cnfrmPassword !== undefined &&
-    req.body.firstName !== undefined &&
-    req.body.lastName !== undefined
-  ) {
+  // if (
+  //   req.body.userName !== undefined &&
+  //   req.body.bio !== undefined &&
+  //   req.body.gender !== undefined &&
+  //   req.body.type !== undefined &&
+  //   req.body.age !== undefined &&
+  //   req.body.email !== undefined &&
+  //   req.body.password !== undefined &&
+  //   req.body.cnfrmPassword !== undefined &&
+  //   req.body.firstName !== undefined &&
+  //   req.body.lastName !== undefined
+  // ) {
     if (Object.keys(toSend.input).length !== 0) res.json(toSend)
     else {
       User.UpdateProfilInfo(data)
@@ -121,7 +119,7 @@ exports.editProfil = (req, res) => {
       dataErr.status = true
       res.json(dataErr)
     }
-  } else res.json(false)
+  // } else res.json(false)
 }
 
 // Fill profil with help of id just for test

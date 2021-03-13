@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import './App.css';
 import Init from './start/init'
 
-class App extends Component {
+// const noop = () => {
+//   if (process.env.NODE_ENV !== 'development') {
+//       console.log = noop
+//       console.warn = noop
+//       console.error = noop
+//   }
+// }
+// noop()
 
+class App extends Component {
   render() {
     return (
       <React.Fragment>

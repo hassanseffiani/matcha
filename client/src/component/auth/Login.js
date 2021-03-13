@@ -196,7 +196,7 @@ class Login extends Component {
 
   componentWillUnmount() {
     if (this.source.cancel){
-      this.source.cancel()
+      this.source.cancel("Login")
     }
   }
 

@@ -65,14 +65,16 @@ const Forget = (props) => {
       <Size>
         <Container className={classes.copy} component='main' maxWidth='xs'>
           <Typography className={classes.typo} component='h1' variant='h5'>
-            Change Password 
+            Change Password
           </Typography>
           <div className={classes.paper}>
-            <form method='POST' onSubmit={(event) => forget(event, props.id) }>
+            <form method='POST' onSubmit={(event) => forget(event, props.id)}>
               <Grid container spacing={2}>
                 <Typography variant='subtitle2' gutterBottom color='secondary'>
                   {errMsg}
                 </Typography>
+                {/* <input id="userName" name="username" autocomplete="username" value="" /> */}
+                <input type='text' autoComplete='username' hidden />
                 <Grid item xs={12}>
                   <TextField
                     variant='outlined'
@@ -125,7 +127,9 @@ const Forget = (props) => {
                     error={inputErr.validCnfpErr !== undefined}
                   />
                 </Grid>
-                {valid === true && <Alert severity='success'>Update Complet</Alert>}
+                {valid === true && (
+                  <Alert severity='success'>Update Complet</Alert>
+                )}
               </Grid>
               <Button
                 type='submit'

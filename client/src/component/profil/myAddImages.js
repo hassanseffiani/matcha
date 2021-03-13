@@ -86,6 +86,7 @@ const MyAddImages = (props) => {
   const [printImages, setprintImages] = React.useState([])
   const [open, setOpen] = React.useState(false);
   const [keyIndex, setKeyIndex] = React.useState()
+    const [didMount, setDidMount] = React.useState(false)
 
   const handleClickOpen = (index) => {
     setKeyIndex(index)
@@ -93,7 +94,10 @@ const MyAddImages = (props) => {
   }
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
+    console.log("tset")
+    console.log(props)
+
   }
 
   imageRefs.current = []
@@ -107,7 +111,9 @@ const MyAddImages = (props) => {
   // display images inside dragar
 
   React.useEffect(() => {
-    Axios.post(`/base/displayIndrager/${props.id}`).then(async (res) => {
+    console.log(props.id)
+    Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
+      console.log(res)
       if (!printImages.length && res.data.images[0] !== null){
         setprintImages(res.data.images[0].split(','))
       }
@@ -169,6 +175,8 @@ const MyAddImages = (props) => {
       if (res && !props.stop) props.checkTotalImg()
     })
     if (ProfileImg && !props.stop) props.checkTotalImg()
+    setDidMount(true)
+    return () => setDidMount(false)
   }, [fetchImgs, props, ProfileImg])
 
   ////////////////////////////
@@ -285,6 +293,7 @@ const MyAddImages = (props) => {
     }
   }
 
+  if (!didMount) return null
   return (
     <Size>
       <Grid container>

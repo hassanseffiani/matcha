@@ -65,7 +65,7 @@ exports.likes = async (req, res, next) => {
       like.save()
       // update fame rating with 1
       Like.fameRatingForLike(data.idLiker, 1)
-      // check if two users match
+      // check if two users matchw
       res.json({ status: true })
     } else res.json(dataErr)
   } else res.json(false)
@@ -95,7 +95,11 @@ exports.history = async (req, res, next) => {
     if (data.visitor !== undefined && data.visited !== undefined) {
       await History.checkIfVisited(data).then(([history]) => {
         history.map((el) => {
-          !el.lenght ? (dataErr.historyErr = 'Already visited') : ''
+          if (!el.lenght) {
+            dataErr.historyErr = 'Already visited'
+            // update created_at in db
+            History.updateHistoryDate(data)
+          }
         })
       })
   
