@@ -87,11 +87,13 @@ async function(accessToken, refreshToken, profile, done) {
    await User.oauthFindUser(profile.id).then((response) => {
        if(response[0].length === 0)
        {
+           console.log("test")
            //
            User.oauthRegister(profile.id, profile.email, profile.login, profile.first_name, profile.last_name, '*', accessToken, 1, null, null)
            console.log('User created Successfully !');
            
        } else {
+           console.log("test1")
            // 
            console.log('Already Registred!');
        }

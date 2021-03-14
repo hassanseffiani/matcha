@@ -37,3 +37,19 @@ CREATE EVENT myevent
     ON SCHEDULE EVERY 1 SECOND
     DO
       CALL delete_like();
+
+
+   DELIMITER //
+    create procedure Update_duplicated_userName()
+    BEGIN
+    	IF (SELECT
+          CASE WHEN EXISTS 
+          (
+            SELECT COUNT(`userName`) FROM users GROUP BY `userName` HAVING COUNT(`userName`) > 1
+          )
+          THEN 'TRUE'
+          ELSE 'FALSE'
+       END) = TRUE THEN
+       		UPDATE users SET `userName` = concat('0',`userName`) WHERE `oauth_id` IS NOT NULL  order by id desc limit 1;
+        END IF;
+    END //
