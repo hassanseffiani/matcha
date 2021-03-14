@@ -103,4 +103,4 @@ app.use(userRoutes)
 app.use(errRoutes)
 app.use('/chat', chatRoutes)
 
-http.listen(3001)
+app.listen(3001)

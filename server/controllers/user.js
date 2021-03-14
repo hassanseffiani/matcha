@@ -344,3 +344,12 @@ exports.userInfoVerification = async (req, res) => {
     .catch(err => console.log('checkReuired..Error', err));
   }
 };
+
+exports.ckeckOauth = async (req, res) => {
+  const { id } = req.params
+  await User.CheckForOauth2(id).then(([res1]) => {
+    if (res1.length) {
+      res.json(true)
+    } else res.json(false)
+  });
+}

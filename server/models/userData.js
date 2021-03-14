@@ -157,11 +157,11 @@ module.exports = class User {
   }
 
   static UpdateProfilInfo(data) {
+    let email = data.email === undefined ? 'email' : `'${data.email}'`;
     return db.execute(
-      'UPDATE users SET userName = ?, email = ?, firstName= ?, lastName= ?, bio= ?, gender = ?, type = ?, age = ? WHERE id = ?',
+      `UPDATE users SET userName = ?, email = ${email}, firstName= ?, lastName= ?, bio= ?, gender = ?, type = ?, age = ? WHERE id = ?`,
       [
         data.userName,
-        data.email,
         data.firstName,
         data.lastName,
         data.bio,
@@ -202,4 +202,10 @@ module.exports = class User {
   static UpdateStatusUser(userId) {
     return db.execute('UPDATE users SET status = 2 WHERE id = ?', [userId])
   }
+
+
+  static CheckForOauth2(userId) {
+    return db.execute('SELECT * from users WHERE `oauth_id` IS NOT NULL AND id = ?', [userId])
+  }
+  
 }

@@ -1,6 +1,5 @@
 const chat = require('../models/chat');
 
-
 exports.people = async (req, res) => {
     // Getting the Id of people Who i can chat with (peopleIds) : 
 

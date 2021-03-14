@@ -42,14 +42,11 @@ CREATE EVENT myevent
    DELIMITER //
     create procedure Update_duplicated_userName()
     BEGIN
-    	IF (SELECT
-          CASE WHEN EXISTS 
-          (
-            SELECT COUNT(`userName`) FROM users GROUP BY `userName` HAVING COUNT(`userName`) > 1
-          )
-          THEN 'TRUE'
-          ELSE 'FALSE'
-       END) = TRUE THEN
-       		UPDATE users SET `userName` = concat('0',`userName`) WHERE `oauth_id` IS NOT NULL  order by id desc limit 1;
-        END IF;
+    	UPDATE users SET `userName` = concat(`userName`,'0')
+        WHERE `oauth_id` IS NOT NULL AND users.`userName` in (SELECT * FROM (SELECT `userName` FROM users GROUP BY `userName` HAVING COUNT(`userName`) > 1) as a);
     END //
+
+    CREATE EVENT myevent1
+    ON SCHEDULE EVERY 1 SECOND
+    DO
+      CALL Update_duplicated_userName();

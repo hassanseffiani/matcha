@@ -54,19 +54,24 @@ const Profil = (props) => {
     const [open1, setOpen1] = React.useState(true)
     const [errTag, setErrTag] = React.useState('')
     const [didMount, setDidMount] = React.useState(false)
+    const [emailStatus, setEmailStatus] = React.useState(false)
 
     React.useEffect(() => {
       setAge(range(18, 60))
       Axios.post(`base/alltag/${props.id}`).then((res) => {
         if (res.data) setChipData(res.data)
       })
+      Axios.post(`users/outh/${props.id}`).then((res) => {
+        res.data ? setEmailStatus(res.data) : setEmailStatus(res.data)
+      });
     }, [props])
 
     const edit = async (e, id) => {
       e.preventDefault()
       await Axios.post(`base/editprofil/${id}`, {
         userName: data.userName,
-        email: data.email,
+        ...(!emailStatus ? { email: data.email } : {}),
+        // email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         bio: data.bio,
@@ -78,8 +83,8 @@ const Profil = (props) => {
       })
         .then((res) => {
           if (res.data.input) {
-            setErrMsg(res.data.input)
-            setF(true)
+            setErrMsg(res.data.input);
+            setF(true);
           } else
             setErrMsg({
               validUserNameErr: undefined,
@@ -87,17 +92,17 @@ const Profil = (props) => {
               validFirstNameErr: undefined,
               validLastNameErr: undefined,
               validBio: undefined,
-            })
+            });
           if (res.data.status) {
-            setStatus(true)
-            setF(false)
+            setStatus(true);
+            setF(false);
           } else {
-            setStatus(false)
+            setStatus(false);
           }
         })
         .catch((error) => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     }
 
     const handelInput = (e) => {
@@ -173,242 +178,244 @@ const Profil = (props) => {
 
     if (!didMount) return null
     return (
-        <React.Fragment>
-            <Grid
-                container
-                justify='center'
-                alignItems='center'
-                // direction='column'
-            >
-                <form method='POST' onSubmit={(event) => edit(event, data.id)}>
-                <Grid item xs={12} sm={8}>
-                    <TextField
-                    variant='outlined'
-                    margin='normal'
-                    required
-                    fullWidth
-                    id='inputUserName'
-                    label='User Name'
-                    name='userName'
-                    autoComplete='userName'
-                    autoFocus
-                    onChange={handelInput}
-                    value={data.userName}
-                    helperText={errMsg.validUserNameErr}
-                    error={errMsg.validUserNameErr !== undefined}
-                    />
-                    <TextField
-                    variant='outlined'
-                    required
-                    fullWidth
-                    id='email'
-                    label='Email Address'
-                    name='email'
-                    autoComplete='email'
-                    autoFocus
-                    onChange={handelInput}
-                    value={data.email}
-                    helperText={errMsg.validEmailErr}
-                    error={errMsg.validEmailErr !== undefined}
-                    />
-                    <TextField
-                    autoComplete='fname'
-                    name='firstName'
-                    variant='outlined'
-                    required
-                    fullWidth
-                    id='inputFirstName'
-                    label='First Name'
-                    autoFocus
-                    onChange={handelInput}
-                    value={data.firstName}
-                    helperText={errMsg.validFirstNameErr}
-                    error={errMsg.validFirstNameErr !== undefined}
-                    />
-                    <TextField
-                    variant='outlined'
-                    required
-                    fullWidth
-                    id='inputLastName'
-                    label='Last Name'
-                    name='lastName'
-                    autoComplete='lname'
-                    autoFocus
-                    onChange={handelInput}
-                    value={data.lastName}
-                    helperText={errMsg.validLastNameErr}
-                    error={errMsg.validLastNameErr !== undefined}
-                    />
-                    <TextField
-                    label='Biography'
-                    name='bio'
-                    multiline
-                    rows={3}
-                    variant='outlined'
-                    onChange={handelInput}
-                    value={data.bio}
-                    helperText={errMsg.validBio}
-                    error={errMsg.validBio !== undefined}
-                    />
-                    <Grid item xs={12}>
-                    <FormControl
-                        className={classes.formControl}
-                        error={errMsg.validAge !== undefined}
-                    >
-                        <InputLabel id='demo-simple-select-required-label'>
-                        Age
-                        </InputLabel>
-                        <Select
-                        labelId='demo-simple-select-required-label'
-                        id='demo-simple-select-required'
-                        value={age1}
-                        onChange={handleChange1}
-                        className={classes.selectEmpty}
-                        >
-                        <MenuItem value=''>
-                            <em>None</em>
+      <React.Fragment>
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          // direction='column'
+        >
+          <form method="POST" onSubmit={(event) => edit(event, data.id)}>
+            <Grid item xs={12} sm={8}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="inputUserName"
+                label="User Name"
+                name="userName"
+                autoComplete="userName"
+                autoFocus
+                onChange={handelInput}
+                value={data.userName}
+                helperText={errMsg.validUserNameErr}
+                error={errMsg.validUserNameErr !== undefined}
+              />
+              {!emailStatus && (
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={handelInput}
+                  value={data.email}
+                  helperText={errMsg.validEmailErr}
+                  error={errMsg.validEmailErr !== undefined}
+                />
+              )}
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="inputFirstName"
+                label="First Name"
+                autoFocus
+                onChange={handelInput}
+                value={data.firstName}
+                helperText={errMsg.validFirstNameErr}
+                error={errMsg.validFirstNameErr !== undefined}
+              />
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="inputLastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+                autoFocus
+                onChange={handelInput}
+                value={data.lastName}
+                helperText={errMsg.validLastNameErr}
+                error={errMsg.validLastNameErr !== undefined}
+              />
+              <TextField
+                label="Biography"
+                name="bio"
+                multiline
+                rows={3}
+                variant="outlined"
+                onChange={handelInput}
+                value={data.bio}
+                helperText={errMsg.validBio}
+                error={errMsg.validBio !== undefined}
+              />
+              <Grid item xs={12}>
+                <FormControl
+                  className={classes.formControl}
+                  error={errMsg.validAge !== undefined}
+                >
+                  <InputLabel id="demo-simple-select-required-label">
+                    Age
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-required-label"
+                    id="demo-simple-select-required"
+                    value={age1}
+                    onChange={handleChange1}
+                    className={classes.selectEmpty}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {age.map((el, key) => {
+                      return (
+                        <MenuItem key={key} value={el}>
+                          {el}
                         </MenuItem>
-                        {age.map((el, key) => {
-                            return (
-                            <MenuItem key={key} value={el}>
-                                {el}
-                            </MenuItem>
-                            )
-                        })}
-                        </Select>
-                        <FormHelperText>{errMsg.validAge}</FormHelperText>
-                    </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                    <FormControl component='fieldset'>
-                        <FormLabel component='legend'>Gender</FormLabel>
-                        <RadioGroup
-                        row
-                        aria-label='gender'
-                        name='gender1'
-                        value={value1}
-                        onChange={(e) => setValue1(e.target.value)}
-                        >
-                        <FormControlLabel
-                            value='women'
-                            control={<Radio />}
-                            label='Women'
-                        />
-                        <FormControlLabel
-                            value='male'
-                            control={<Radio />}
-                            label='Male'
-                        />
-                        <FormControlLabel
-                            value='other'
-                            control={<Radio />}
-                            label='Other'
-                        />
-                        </RadioGroup>
-                    </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                    <FormControl component='fieldset'>
-                        <FormLabel component='legend'>Sexual preferences</FormLabel>
-                        <RadioGroup
-                        row
-                        aria-label='type'
-                        name='type1'
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        >
-                        <FormControlLabel
-                            value='women'
-                            control={<Radio />}
-                            label='Women'
-                        />
-                        <FormControlLabel
-                            value='male'
-                            control={<Radio />}
-                            label='Male'
-                        />
-                        <FormControlLabel
-                            value='other'
-                            control={<Radio />}
-                            label='Other'
-                        />
-                        </RadioGroup>
-                    </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                    <Collapse in={open}>
-                        <TextField
-                        label='Add New Tag'
-                        multiline
-                        variant='outlined'
-                        value={tag}
-                        onChange={(e) => handelTag(e)}
-                        helperText={errTag}
-                        error={errTag !== ''}
-                        />
-                        <Button
-                        variant='outlined'
-                        color='secondary'
-                        onClick={() => {
-                            setOpen(false)
-                            setOpen1(true)
-                            addToOption(tag)
-                        }}
-                        disabled={dsbl}
-                        >
-                        Add
-                        </Button>
-                    </Collapse>
-                    <Collapse in={open1}>
-                        <Button
-                        disabled={open}
-                        variant='outlined'
-                        color='secondary'
-                        onClick={() => {
-                            setOpen(true)
-                            setOpen1(false)
-                        }}
-                        >
-                        New Tag
-                        </Button>
-                    </Collapse>
-                    <Paper component='ul' className={classes.root1}>
-                        {chipData &&
-                        chipData.map((data) => {
-                            return (
-                            <li key={data.key}>
-                                <Chip
-                                label={data.name}
-                                onDelete={handleDelete(data)}
-                                className={classes.chip}
-                                />
-                            </li>
-                            )
-                        })}
-                        <Typography color='secondary'>
-                        {chipData && errMsg.validTag}
-                        </Typography>
-                    </Paper>
-                    </Grid>
-                    {status ? (
-                    <Alert severity='success'>Update Complet</Alert>
-                    ) : (
-                    f && <Alert severity='error'>Solve Error</Alert>
-                    )}
-                    <Button
-                    type='submit'
-                    fullWidth
-                    variant='contained'
-                    color='primary'
-                    className={classes.submit}
-                    >
-                    Edit
-                    </Button>
-                </Grid>
-                </form>
+                      );
+                    })}
+                  </Select>
+                  <FormHelperText>{errMsg.validAge}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Gender</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="gender"
+                    name="gender1"
+                    value={value1}
+                    onChange={(e) => setValue1(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="women"
+                      control={<Radio />}
+                      label="Women"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="other"
+                      control={<Radio />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Sexual preferences</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="type"
+                    name="type1"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="women"
+                      control={<Radio />}
+                      label="Women"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="other"
+                      control={<Radio />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Collapse in={open}>
+                  <TextField
+                    label="Add New Tag"
+                    multiline
+                    variant="outlined"
+                    value={tag}
+                    onChange={(e) => handelTag(e)}
+                    helperText={errTag}
+                    error={errTag !== ""}
+                  />
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setOpen(false);
+                      setOpen1(true);
+                      addToOption(tag);
+                    }}
+                    disabled={dsbl}
+                  >
+                    Add
+                  </Button>
+                </Collapse>
+                <Collapse in={open1}>
+                  <Button
+                    disabled={open}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setOpen(true);
+                      setOpen1(false);
+                    }}
+                  >
+                    New Tag
+                  </Button>
+                </Collapse>
+                <Paper component="ul" className={classes.root1}>
+                  {chipData &&
+                    chipData.map((data) => {
+                      return (
+                        <li key={data.key}>
+                          <Chip
+                            label={data.name}
+                            onDelete={handleDelete(data)}
+                            className={classes.chip}
+                          />
+                        </li>
+                      );
+                    })}
+                  <Typography color="secondary">
+                    {chipData && errMsg.validTag}
+                  </Typography>
+                </Paper>
+              </Grid>
+              {status ? (
+                <Alert severity="success">Update Complet</Alert>
+              ) : (
+                f && <Alert severity="error">Solve Error</Alert>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Edit
+              </Button>
             </Grid>
-        </React.Fragment>
-    )
+          </form>
+        </Grid>
+      </React.Fragment>
+    );
 }
 
 export default Profil;
