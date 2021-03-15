@@ -24,13 +24,11 @@ exports.index = async (req, res, next) => {
     res.json(false)
   else{
     if (cord !== undefined && gender !== undefined) {
-      /// iiner table users with location set where in search step < 1 km
       await Geo.getAll(cord, gender, id)
         .then(([res]) => {
           res.map((el) => {
             data.push(el)
           })
-          //     data.sort((a, b) => a.cmp - b.cmp);
         })
         .catch((err) => console.log(err))
       res.json(data)

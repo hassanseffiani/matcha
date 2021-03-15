@@ -9,16 +9,17 @@ import Profil from './profil'
 import Map from "./map"
 import Search from './search'
 import {
-  Card, CardHeader, CardContent, CardActions,Badge,
-  // Collapse,
-  Avatar, IconButton, Typography, Container, Grid
+  Card, CardHeader, CardContent, CardActions,Badge, Grid,
+  Collapse, Avatar, IconButton, Typography, Container
 } from '@material-ui/core'
+import {Alert} from '@material-ui/lab';
 import {
   Favorite,
   ThumbDown as ThumbDownIcon,
   SkipNext as SkipNextIcon,
 } from '@material-ui/icons'
 // import SocketContext from "../../start/SocketContext";
+import IdContext from "../../start/IdContext";
 
 const StyledBadge = withStyles((theme) => ({
   // badge: (props) => 
@@ -88,23 +89,39 @@ const Browsing = (props) => {
   const classes = useStyles()
   const [list, setList] = React.useState([])
   const [list1, setList1] = React.useState([])
+  const [statusImg, setStatusImg] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   // const [status, setStatus] = React.useState("true")
   // const [curTime, setcurTime] = React.useState()
   const [didMount, setDidMount] = React.useState(false)
+  const globalId = React.useContext(IdContext)
   // const [active, setActive] = React.useState("")
   // const socket = React.useContext(SocketContext);
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
-    await Axios.post(`/browsing/geo/${props.id}`).then((res) => {
+    console.log(globalId)
+    await Axios.post(`/browsing/geo/${globalId}`).then((res) => {
       setGender(res.data.type)
       setCord(res.data.geo)
     })
-  }, [props.id])
+  }, [globalId])
 
   React.useEffect(() => {
+    Axios.post(`/base/img/fetch/${globalId}`, {
+      userId: globalId,
+    }).then((res) => {
+      if (res.data.s === 0){
+        /// update status in db with 3 if khass
+        setStatusImg(true)
+      }
+      else{
+        /// update status in db with 2 if khass
+        setStatusImg(false)
+      }
+    })
     if (cord.length) {
-      Axios.post(`/browsing/${props.id}`, {
+      Axios.post(`/browsing/${globalId}`, {
         cord: cord,
         gender: gender,
       }).then((res) => {
@@ -117,16 +134,20 @@ const Browsing = (props) => {
     } else getLocalisation()
     setDidMount(true)
     return () => setDidMount(false);
-  }, [cord, gender, getLocalisation, props.id])
+  }, [cord, gender, getLocalisation, globalId])
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
-    Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
-      if (res.data.status) {
-        const newList = list1.filter((item) => item.id !== idLiked)
-        setList1(newList)
-      }
-    })
+    if (statusImg)
+      setOpen(true)
+    else{
+      Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
+        if (res.data.status) {
+          const newList = list1.filter((item) => item.id !== idLiked)
+          setList1(newList)
+        }
+      })
+    }
   }
 
   const handelSkip = (event, idLiked) => {
@@ -140,12 +161,16 @@ const Browsing = (props) => {
 
   const handelDeslike = (event, idLiker, idLiked) => {
     event.preventDefault()
-    Axios.post(`/browsing/deslike/${idLiker}`, {idLiked: idLiked}).then(res => {
-      if (res.data.status) {
-        const newList = list1.filter((item) => item.id !== idLiked)
-        setList1(newList)
-      }
-    })
+    if (statusImg)
+      setOpen(true)
+    else{
+      Axios.post(`/browsing/deslike/${idLiker}`, {idLiked: idLiked}).then(res => {
+        if (res.data.status) {
+          const newList = list1.filter((item) => item.id !== idLiked)
+          setList1(newList)
+        }
+      })
+    }
   }
 
   // mochkiill to solve
@@ -176,11 +201,24 @@ const Browsing = (props) => {
   //   }
   // }, [active, props])
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      if (open)
+        setOpen(false)
+    }, 1500);
+    return () => clearInterval(interval);
+  })
+
   if (!didMount)
     return null
 
   return (
     <div className={classes.diva}>
+      <Collapse in={open}>
+        <Alert  severity="error">
+          Add at least one image to your profil.
+        </Alert>
+      </Collapse>
       <Grid
         container
         className={classes.container}
@@ -239,6 +277,8 @@ const Browsing = (props) => {
                             list={list1}
                             setlist={setList1}
                             StyledBadge={StyledBadge}
+                            statusImg={statusImg}
+                            setOpen={setOpen}
                             // status={status}
                             // curTime={curTime}
                           />

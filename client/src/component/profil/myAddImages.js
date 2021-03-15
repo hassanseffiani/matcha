@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { IoMdAddCircle } from 'react-icons/io'
 import { useEffect } from 'react'
 // import AlertDialoge from './alertDialog'
+import IdContext from "../../start/IdContext"
 
 const intialItems = [
   {
@@ -86,7 +87,8 @@ const MyAddImages = (props) => {
   const [printImages, setprintImages] = React.useState([])
   const [open, setOpen] = React.useState(false);
   const [keyIndex, setKeyIndex] = React.useState()
-    const [didMount, setDidMount] = React.useState(false)
+  const [didMount, setDidMount] = React.useState(false)
+  const globalId = React.useContext(IdContext)
 
   const handleClickOpen = (index) => {
     setKeyIndex(index)
@@ -95,9 +97,6 @@ const MyAddImages = (props) => {
 
   const handleClose = () => {
     setOpen(false)
-    console.log("tset")
-    console.log(props)
-
   }
 
   imageRefs.current = []
@@ -111,14 +110,13 @@ const MyAddImages = (props) => {
   // display images inside dragar
 
   React.useEffect(() => {
-    console.log(props.id)
-    Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
-      console.log(res)
+    Axios.post(`/base/displayIndrager/${globalId}`).then((res) => {
+      console.log(res.data)
       if (!printImages.length && res.data.images[0] !== null){
         setprintImages(res.data.images[0].split(','))
       }
     })
-  }, [props, printImages])
+  }, [globalId, printImages])
   
   React.useEffect(() => {
     if (printImages !== ""){
@@ -153,28 +151,29 @@ const MyAddImages = (props) => {
 
   useEffect(() => {
     displayProfileImg()
-    Axios.post(`base/img/dnd1/${props.id}`) // index stuff
-  }, [displayProfileImg, props])
+    // haya erreur dial zab 
+    // Axios.post(`base/img/dnd1/${globalId}`) // index stuff
+  }, [displayProfileImg, globalId])
 
   //////////////////////////
 
   // count of images
 
   const fetchImgs = React.useCallback(async () => {
-    let s = await Axios.post(`/base/img/fetch/${props.id}`, {
-      userId: props.id,
+    let s = await Axios.post(`/base/img/fetch/${globalId}`, {
+      userId: globalId,
     }).then((res) => {
       if (res.data.s === 1) return true
       else return false
     })
     return s
-  }, [props])
+  }, [globalId])
 
   useEffect(() => {
-    fetchImgs().then((res) => {
-      if (res && !props.stop) props.checkTotalImg()
-    })
-    if (ProfileImg && !props.stop) props.checkTotalImg()
+    // fetchImgs().then((res) => {
+    //   if (res && !props.stop) {console.log("1");props.checkTotalImg()}
+    // })
+    if (ProfileImg && !props.stop) {console.log("2");props.checkTotalImg()}
     setDidMount(true)
     return () => setDidMount(false)
   }, [fetchImgs, props, ProfileImg])
@@ -213,14 +212,14 @@ const MyAddImages = (props) => {
     event.preventDefault()
     var formData = new FormData()
     formData.set('index', index)
-    formData.set('userId', props.id)
+    formData.set('userId', globalId)
     formData.set('file', event.target.files[0])
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
       },
     }
-    await Axios.post(`base/img/${props.id}`, formData, config)
+    await Axios.post(`base/img/${globalId}`, formData, config)
   }
 
   //////////////////////////////////////// Drager ////////////////////////////////////////
@@ -238,7 +237,7 @@ const MyAddImages = (props) => {
       }
       return null
     })
-    await Axios.post(`base/img/dnd/${props.id}`, {
+    await Axios.post(`base/img/dnd/${globalId}`, {
       index: result.source.index,
       id: result.destination.index,
     })
@@ -252,7 +251,7 @@ const MyAddImages = (props) => {
 
   const handelRemoveImg = async (key) => {
     if (printImages[key] === undefined){
-      await Axios.post(`/base/displayIndrager/${props.id}`).then((res) => {
+      await Axios.post(`/base/displayIndrager/${globalId}`).then((res) => {
         if (res.data.images[0] !== null){
           res.data.images[0].split(',').map((el, Keyi) => {
             if (key === Keyi){
@@ -263,7 +262,7 @@ const MyAddImages = (props) => {
               const grid = document.getElementById(gridId)
               grid.style.background = 'url() #E0E4E9'
               grid.style.backgroundSize = '200px 300px'
-              Axios.post(`base/dltImgUser/${props.id}`, {image: el})
+              Axios.post(`base/dltImgUser/${globalId}`, {image: el})
             }
             return '';
           })
@@ -284,7 +283,7 @@ const MyAddImages = (props) => {
         const grid = document.getElementById(gridId)
         grid.style.background = 'url() #E0E4E9'
         grid.style.backgroundSize = '200px 300px'
-        await Axios.post(`base/dltImgUser/${props.id}`, {
+        await Axios.post(`base/dltImgUser/${globalId}`, {
           image: printImages[key],
         })
         printImages[key] = ""

@@ -29,7 +29,9 @@ connection.connect(function(err) {
               connection.query("CREATE TABLE IF NOT EXISTS report(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `reporter` int(11) NOT NULL, `reported` int(11) NOT NULL, `feedback` VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)");
               connection.query("CREATE TABLE IF NOT EXISTS report(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `reporter` int(11) NOT NULL, `reported` int(11) NOT NULL, `feedback` VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)");
               connection.query(`CREATE PROCEDURE delete_like() BEGIN DELETE FROM blocked WHERE HOUR(TIMEDIFF(created_at, now())) >= 5 AND dlt = 1; END`); 
+            //   connection.query(`CREATE PROCEDURE Update_duplicated_userName() BEGIN UPDATE users SET `userName` = concat(`userName`,'0') WHERE `oauth_id` IS NOT NULL AND users.`userName` in (SELECT * FROM (SELECT `userName` FROM users GROUP BY `userName` HAVING COUNT(`userName`) > 1) as a); END`); 
               connection.query(`CREATE EVENT myevent ON SCHEDULE EVERY 1 SECOND DO CALL delete_like();`);
+            //   connection.query(`CREATE EVENT myevent ON SCHEDULE EVERY 1 SECOND DO CALL Update_duplicated_userName();`);
               seed.DBSeeds(connection);
             }
             connection.end();

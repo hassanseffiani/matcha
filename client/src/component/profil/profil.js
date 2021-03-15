@@ -71,7 +71,6 @@ const Profil = (props) => {
       await Axios.post(`base/editprofil/${id}`, {
         userName: data.userName,
         ...(!emailStatus ? { email: data.email } : {}),
-        // email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         bio: data.bio,

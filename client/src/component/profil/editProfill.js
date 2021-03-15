@@ -6,6 +6,7 @@ import Geo from "./geo"
 import EditImages from "./myAddImages"
 import EditPassword from "../forget/editPassword"
 import Profil from './profil'
+import IdContext from "../../start/IdContext"
 
 const useStyles = makeStyles((theme) => ({
   diva: {
@@ -61,8 +62,10 @@ const a11yProps = (index) => {
 const EditProfil = (props) => {
   const classes = useStyles(props)
   const [value, setValue] = React.useState(0)
+  const globalId = React.useContext(IdContext)
 
   const handleChange = (event, newValue) => {
+    console.log(globalId)
     setValue(newValue);
   }
 
@@ -82,16 +85,16 @@ const EditProfil = (props) => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <Profil id={props.id} />
+          <Profil id={globalId} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <EditImages id={props.id} stop={true} />
+          <EditImages id={globalId} stop={true} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <EditPassword id={props.id} />
+          <EditPassword id={globalId} />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Geo id={props.id} />
+          <Geo id={globalId} />
         </TabPanel>
       </div>
     </div>

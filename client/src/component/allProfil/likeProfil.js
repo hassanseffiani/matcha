@@ -1,7 +1,8 @@
 import React from 'react';
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
-import { Card, Chip, Avatar, Grid, Button, Typography, IconButton, CardMedia } from '@material-ui/core'
+import { Card, Chip, Avatar, Grid, Button, Typography, IconButton, CardMedia, Collapse } from '@material-ui/core'
+import {Alert} from '@material-ui/lab';
 import Rating from "react-rating"
 import Report from '../browsing/report'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -48,6 +49,8 @@ const LikeProfil = (props) => {
     const classes = useStyles()
     const [list, setList] = React.useState([])
     const [didMount, setDidMount] = React.useState(false)
+    const [statusImg, setStatusImg] = React.useState(false)
+    const [open, setOpen] = React.useState(false)
 
 
     const getLocalisation = React.useCallback(async () => {
@@ -59,12 +62,25 @@ const LikeProfil = (props) => {
     }, [props.id])
 
     React.useEffect(() => {
+        Axios.post(`/base/img/fetch/${props.id}`, {
+          userId: props.id,
+        }).then((res) => {
+          if (res.data.s === 0){
+            /// update status in db with 3 if khass
+            setStatusImg(true)
+          }
+          else{
+            /// update status in db with 2 if khass
+            setStatusImg(false)
+          }
+        })
         if (cord.length) {
             Axios.post(`/allProfil/${props.id}`, {
                 cord: cord,
                 gender: gender,
             }).then((res) => {
                 if (res.data){
+                  console.log(res.data)
                     setList(res.data)
                 }
             })
@@ -74,16 +90,19 @@ const LikeProfil = (props) => {
 
     }, [cord, gender, getLocalisation, props.id])
 
-    if (!didMount)
-        return null
+
 
     const handelBlock = (e, user1, user2) => {
-        Axios.post(`/block/${user1}`, {blocked: user2}).then(res => {
-            if (res.data.status){
-                const newList = list.filter((item) => item.id !== user2)
-                setList(newList)
-            }
-        })
+        if (statusImg)
+          setOpen(true)
+        else{
+          Axios.post(`/block/${user1}`, {blocked: user2}).then(res => {
+              if (res.data.status){
+                  const newList = list.filter((item) => item.id !== user2)
+                  setList(newList)
+              }
+          })
+        }
     }
 
     const nextUser = (event, id) => {
@@ -96,18 +115,36 @@ const LikeProfil = (props) => {
 
     const handelUnlike = (e, user1, user2) => {
         e.preventDefault()
-
-
-        Axios.post(`/browsing/unlike/${user1}`, {user2 : user2}).then(res => {
-            if (res.data.status){
-                const newList = list.filter((item) => item.id !== user2)
-                setList(newList)
-            }
-        })
+        if (statusImg)
+          setOpen(true)
+        else{
+          Axios.post(`/browsing/unlike/${user1}`, {user2 : user2}).then(res => {
+              if (res.data.status){
+                  const newList = list.filter((item) => item.id !== user2)
+                  setList(newList)
+              }
+          })
+        }
     }
 
+    React.useEffect(() => {
+      const interval = setInterval(() => {
+        if (open)
+          setOpen(false)
+      }, 1500);
+      return () => clearInterval(interval);
+    })
+
+    if (!didMount)
+      return null
+
     return (
-        <React.Fragment>
+        <React.Fragment>  
+          <Collapse in={open}>
+            <Alert  severity="error">
+              Add at least one image to your profil.
+            </Alert>
+          </Collapse>
             {list && list.map((el, iKey) => {
                 return (
                   <React.Fragment key={iKey}>
@@ -175,7 +212,7 @@ const LikeProfil = (props) => {
                             </Typography>
                           </Grid>
                           <Grid container item xs={12} sm={2}>
-                            {el.tag1.split(',').length > 0
+                            {el.tag1 && el.tag1.split(',').length > 0
                               ? el.tag1.split(',').map((el, iKey) => {
                                   return (
                                     <div key={iKey}>
@@ -336,7 +373,7 @@ const LikeProfil = (props) => {
                             >
                               <BlockIcon />
                             </IconButton>
-                            <Report visitor={props.id} visited={el.id} />
+                            <Report visitor={props.id} visited={el.id} statusImg={statusImg} setOpen={setOpen}/>
                             <IconButton
                               aria-label='Unlike user'
                               onClick={(event) =>

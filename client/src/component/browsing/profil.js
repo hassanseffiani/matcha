@@ -92,12 +92,16 @@ const CustomizedDialogs = (props) => {
     };
 
     const handelBlock = (e) => {
-      Axios.post(`/block/${props.visitor}`, {blocked: props.visited}).then(res => {
-        if (res.data.status){
-          const newList = props.list.filter((item) => item.id !== props.visited)
-          props.setlist(newList)
-        }
-      })
+      if (props.statusImg)
+        props.setOpen(true)
+      else{
+        Axios.post(`/block/${props.visitor}`, {blocked: props.visited}).then(res => {
+          if (res.data.status){
+            const newList = props.list.filter((item) => item.id !== props.visited)
+            props.setlist(newList)
+          }
+        })
+      }
     }
 
     return (
@@ -338,7 +342,7 @@ const CustomizedDialogs = (props) => {
                 >
                   <BlockIcon />
                 </IconButton>
-                <Report visitor={props.visitor} visited={props.visited} />
+                <Report visitor={props.visitor} visited={props.visited} statusImg={props.statusImg} setOpen={props.setOpen} />
               </Grid>
             </Grid>
           </DialogContent>

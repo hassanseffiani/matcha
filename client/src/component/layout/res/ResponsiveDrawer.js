@@ -33,7 +33,8 @@ import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
 import AllProfil from "../../allProfil/likeProfil"
-import SocketContext from "../../../start/SocketContext";
+import SocketContext from "../../../start/SocketContext"
+import IdContext from "../../../start/IdContext"
 
 const instance = Axios.create({ withCredentials: true });
 
@@ -80,22 +81,12 @@ const useStyles = makeStyles((theme) => ({
 // anass part :
 // notification
 
-///////////////////////////////// Big steps ///////////////////////////////////////////////////////////
-// un utilisateur qui ne possede pas de photo ne doit pas pouvoir liker le profil d'une auter utilisateur
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////// try to do /////////////////////////////////////////////////////////////////
-// print images in drop so that can help to delete them
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // implimantation active users .............................///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // check all route with post man //////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////// tag error man ba3d .... //////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// edit auth 2 password case
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// auth 2 change username with help of procedure sql //////////////////////////////////////////////////
+//////////////////////////////////// 2 bigs steps /////////////////////////////////////////////////////
+// component my images create a lot of problem in the fucking websites need some improvment ///////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ResponsiveDrawer = (props) => {
@@ -116,6 +107,8 @@ const ResponsiveDrawer = (props) => {
       socket.emit("active", id)
     }
   }, [socket, id])
+
+  
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
   function success(pos) {
@@ -139,6 +132,7 @@ const ResponsiveDrawer = (props) => {
       let { data } = await instance.get('http://localhost:3001/base', {
         cancelToken: source.token,
       })
+      console.log("props.id : " + data.user.id)
       setId(data.user.id)
       return () => {
         if (source) source.cancel('test')
@@ -347,33 +341,35 @@ const ResponsiveDrawer = (props) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route
-            exact
-            path='/edit/:id'
-            render={(props) => <EditProfil id={id} />}
-          />
-          {/* <Route exact path='/chat' render={(props) => <Chat id={id} />} /> */}
-          <Route
-            exact
-            path='/browsing/:id'
-            render={(props) => <Browsing id={id} />}
-          />
-          <Route exact path='/history/:id' component={History} />
-          <Route
-            exact
-            path='/setting'
-            component={(props) => <Setting id={id} />}
-          />
-          <Route
-            exact
-            path='/allProfil'
-            component={(props) => <AllProfil id={id} />}
-          />
-          {requiredProfilInfo === true ? (
-            <Route exact path='/' render={(props) => <Browsing id={id} />} />
-          ) : (
-            <Route exact path='/*' render={(props) => <Home id={id} />} />
-          )}
+          <IdContext.Provider value={id}>
+            <Route
+              exact
+              path='/edit/:id'
+              render={(props) => <EditProfil id={id} />}
+            />
+            {/* <Route exact path='/chat' render={(props) => <Chat id={id} />} /> */}
+            <Route
+              exact
+              path='/browsing/:id'
+              render={(props) => <Browsing id={id} />}
+            />
+            <Route exact path='/history/:id' component={History} />
+            <Route
+              exact
+              path='/setting'
+              component={(props) => <Setting id={id} />}
+            />
+            <Route
+              exact
+              path='/allProfil'
+              component={(props) => <AllProfil id={id} />}
+            />
+            {requiredProfilInfo === true ? (
+              <Route exact path='/' render={(props) => <Browsing id={id} />} />
+            ) : (
+              <Route exact path='/*' render={(props) => <Home id={id} />} />
+            )}
+          </IdContext.Provider>
         </Switch>
       </main>
     </div>

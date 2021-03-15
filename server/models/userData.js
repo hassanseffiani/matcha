@@ -50,12 +50,13 @@ module.exports = class User {
     lastName,
     password,
     vkey,
+    verify,
     gender,
     bio
   ) {
     return db.execute(
-      'INSERT INTO users(oauth_id, email, userName, firstName, lastName, password, vkey, gender, bio) VALUES (?, ? ,?, ?, ? ,? ,?, ?, ?)',
-      [oauth, email, userName, firstName, lastName, password, vkey, gender, bio]
+      'INSERT INTO users(oauth_id, email, userName, firstName, lastName, password, vkey, verify, gender, bio) VALUES (?, ? ,?, ?, ? ,? ,?, ?, ?, ?)',
+      [oauth, email, userName, firstName, lastName, password, vkey, verify, gender, bio]
     )
   }
   static oauthFindUser(oauth_id) {

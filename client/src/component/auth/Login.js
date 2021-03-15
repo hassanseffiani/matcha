@@ -177,6 +177,10 @@ class Login extends Component {
   abortController = new AbortController();
   source = this.CancelToken.source();
   
+  t = () => {
+    window.location.reload(false)
+  }
+
   componentDidMount() {
     Axios.get("http://localhost:3001/users/checkLogin", {
       withCredentials: true

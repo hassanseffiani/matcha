@@ -340,9 +340,9 @@ exports.dnd = async (req, res, next) => {
   // await Img.updateJustProfil(req.params.id)
 }
 
-exports.dnd1 = (req, res, next) => {
-  Img.justThefirstRows(req.params.id)
-  Img.condtionBeforeUpdate(req.params.id).then(async ([res]) => {
+exports.dnd1 = async (req, res, next) => {
+  await Img.justThefirstRows(req.params.id)
+  await Img.condtionBeforeUpdate(req.params.id).then(async ([res]) => {
     if (!res.length){
       await Img.justThefirstRows1(req.params.id)
     }
