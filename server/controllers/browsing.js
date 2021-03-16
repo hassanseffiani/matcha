@@ -224,3 +224,14 @@ exports.unlike = async (req, res, next) => {
   Like.deleteMatchs(data)
   res.json({ status: true })
 }
+
+exports.getAlltag = async (req, res) => {
+  data = []
+  await Geo.getAlltags().then(([rest]) => {
+    rest.map(el => {
+      data.push({id: el.users_id, name: el.name})
+    })
+  })
+  // console.log(d/ata)
+  res.json(data)
+}

@@ -80,7 +80,6 @@ const LikeProfil = (props) => {
                 gender: gender,
             }).then((res) => {
                 if (res.data){
-                  console.log(res.data)
                     setList(res.data)
                 }
             })

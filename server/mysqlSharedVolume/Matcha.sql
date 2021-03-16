@@ -50,3 +50,6 @@ CREATE EVENT myevent
     ON SCHEDULE EVERY 1 SECOND
     DO
       CALL Update_duplicated_userName();
+
+
+    --   SELECT t2.users_id, t1.name from tag t1 INNER JOIN tag_user t2 on t1.id = t2.tag_id INNER JOIN users u1 on u1.id = t2.users_id WHERE t2.users_id = u1.id

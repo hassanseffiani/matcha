@@ -53,5 +53,8 @@ exports.getUserInfos = (req, res, next) => {
         }
     }else{
         res.clearCookie("jwt")
+        // console.log(req.cookies)
+        // if (!req.cookies.lenght)
+        //     next()
     }
 }

@@ -100,7 +100,6 @@ const Browsing = (props) => {
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
-    console.log(globalId)
     await Axios.post(`/browsing/geo/${globalId}`).then((res) => {
       setGender(res.data.type)
       setCord(res.data.geo)
@@ -202,6 +201,7 @@ const Browsing = (props) => {
   // }, [active, props])
 
   React.useEffect(() => {
+    
     const interval = setInterval(() => {
       if (open)
         setOpen(false)

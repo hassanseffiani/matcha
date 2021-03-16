@@ -25,7 +25,7 @@ module.exports = class Geo {
   static getAll(cord, gender, id) {
     let setGender
     if (gender === 'Other')
-      setGender = `(u.gender = 'Male' OR u.gender = "Women")`
+      setGender = `(u.gender = 'Male' OR u.gender = 'Women')`
     else setGender = `u.gender = "${gender}"`
 
     return db.execute(
@@ -86,5 +86,9 @@ module.exports = class Geo {
       [cord[1], cord[0], id, id, id, id, cord[1], cord[0]]
       //  AND(SELECT GROUP_CONCAT(t3.name) from tag_user t1 INNER JOIN tag_user t2 ON t1.tag_id = t2.tag_id INNER JOIN tag t3 ON t1.tag_id = t3.id WHERE t1.users_id = ? AND t2.users_id = u.id) IS NOT NULL
     )
+  }
+
+  static getAlltags(){
+    return db.execute(`SELECT t2.users_id, t1.name from tag t1 INNER JOIN tag_user t2 on t1.id = t2.tag_id INNER JOIN users u1 on u1.id = t2.users_id WHERE t2.users_id = u1.id ORDER BY t2.users_id`)
   }
 }

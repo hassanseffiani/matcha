@@ -81,6 +81,7 @@ const DialogActions = withStyles((theme) => ({
 
 const CustomizedDialogs = (props) => {
     const [open, setOpen] = React.useState(false)
+    const [tagList, setTagList] = React.useState([])
     const classes = useStyles()
 
     const handleClickOpen = (e, visitor, visited) => {
@@ -103,6 +104,19 @@ const CustomizedDialogs = (props) => {
         })
       }
     }
+
+    React.useEffect(() => {
+      Axios.post(`/browsing/tags/${props.id}`).then(res => {
+        // console.log(props.element.id)
+        // console.log(props.element.tag1)
+        res.data.map(el => {
+          // if (props.element.id === el.id){
+            // console.log(el)
+            setTagList(e => [...e, el])
+          // }
+        })
+      })
+    }, [props])
 
     return (
       <React.Fragment>
@@ -202,7 +216,25 @@ const CustomizedDialogs = (props) => {
                 </Typography>
               </Grid>
               <Grid container item xs={8} sm={4}>
-                {props.element.tag1 && props.element.tag1.split(',').length > 0
+                {/* {
+                  tagList && tagList.map((el, iKey) => {
+                    // console.log(el.id)
+                    if (props.element.id === el.id){
+                      // console.log(el.name)
+                      return (
+                        <div key={iKey}>
+                          <Chip
+                            color='secondary'
+                            variant='outlined'
+                            size='small'
+                            label={el.name}
+                          />
+                        </div>
+                      )
+                    }
+                  })
+                } */}
+                {/* {props.element.tag1 && props.element.tag1.split(',').length > 0
                   ? props.element.tag1.split(',').map((el, iKey) => {
                       return (
                         <div key={iKey}>
@@ -217,7 +249,7 @@ const CustomizedDialogs = (props) => {
                     })
 
                     ////// work with tag2 to get all tags and filter them with help of .... ///
-                  : ''}
+                  : ''} */}
               </Grid>
               <Grid item xs={8} sm={4}>
                 <Typography color='primary' variant='caption'>
