@@ -65,7 +65,6 @@ const EditProfil = (props) => {
   const globalId = React.useContext(IdContext)
 
   const handleChange = (event, newValue) => {
-    console.log(globalId)
     setValue(newValue);
   }
 

@@ -111,7 +111,6 @@ const MyAddImages = (props) => {
 
   React.useEffect(() => {
     Axios.post(`/base/displayIndrager/${globalId}`).then((res) => {
-      console.log(res.data)
       if (!printImages.length && res.data.images[0] !== null){
         setprintImages(res.data.images[0].split(','))
       }
@@ -173,7 +172,7 @@ const MyAddImages = (props) => {
     // fetchImgs().then((res) => {
     //   if (res && !props.stop) {console.log("1");props.checkTotalImg()}
     // })
-    if (ProfileImg && !props.stop) {console.log("2");props.checkTotalImg()}
+    if (ProfileImg && !props.stop) {props.checkTotalImg()}
     setDidMount(true)
     return () => setDidMount(false)
   }, [fetchImgs, props, ProfileImg])

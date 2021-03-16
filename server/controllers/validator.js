@@ -49,8 +49,6 @@ exports.validationInput = (req, res, next) => {
   if (req.body.bio === '') dataErr.validBio = 'Enter a valid bio'
   if (req.body.age === '') dataErr.validAge = 'Enter Your Age'
 
-
-  console.log(req.body.tag)
   if (req.body.tag !== undefined){
     if (req.body.tag.length === 0)
       dataErr.validTag = 'Enter a valid tag'

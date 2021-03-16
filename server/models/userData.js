@@ -206,7 +206,7 @@ module.exports = class User {
 
 
   static CheckForOauth2(userId) {
-    return db.execute('SELECT * from users WHERE `oauth_id` IS NOT NULL AND id = ?', [userId])
+    return db.execute('SELECT * from users WHERE `oauth_id` IS NOT NULL AND id = ? AND `password` = "*"', [userId])
   }
   
 }

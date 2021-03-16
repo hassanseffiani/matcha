@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   Button: {
     marginTop: '2vw',
     marginLeft: '40vw'
+  },
+  grid: {
+    margin: theme.spacing(1),
   }
 }))
 
@@ -211,6 +214,25 @@ const LikeProfil = (props) => {
                             </Typography>
                           </Grid>
                           <Grid container item xs={12} sm={2}>
+                          {el.tag2 && el.tag2.split(',').length > 0
+                            ? el.tag2.split(',').map((el, iKey) => {
+                                return (
+                                  <div key={iKey}>
+                                    <Chip
+                                      color='primary'
+                                      variant='outlined'
+                                      size='small'
+                                      label={el}
+                                    />
+                                  </div>
+                                )
+                              })
+                            : ''}
+                          <Grid container className={classes.grid}>
+                            <Typography>
+                              tag in common :
+                            </Typography>
+                          </Grid>
                             {el.tag1 && el.tag1.split(',').length > 0
                               ? el.tag1.split(',').map((el, iKey) => {
                                   return (
@@ -224,7 +246,9 @@ const LikeProfil = (props) => {
                                     </div>
                                   )
                                 })
-                              : ''}
+                                :  <Typography color='secondary' variant='caption'>
+                                    {'Nothing to in common'}
+                                  </Typography>}
                           </Grid>
                           <Grid container item xs={12} sm={2}>
                             <Typography color='primary' variant='caption'>

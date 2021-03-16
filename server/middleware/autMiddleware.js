@@ -22,7 +22,6 @@ exports.requireAuth = (req, res, next) => {
 
 exports.getUserInfos = (req, res, next) => {
     const token = req.cookies.jwt;
-    console.log(token)
     if (token !== undefined){
         if (token) {
             jwt.verify(token, 'secret', async (err, decodedToken) => {
@@ -52,6 +51,7 @@ exports.getUserInfos = (req, res, next) => {
             next()
         }
     }else{
+        //// improve that in the futur
         res.clearCookie("jwt")
         // console.log(req.cookies)
         // if (!req.cookies.lenght)

@@ -124,7 +124,6 @@ const Browsing = (props) => {
         cord: cord,
         gender: gender,
       }).then((res) => {
-        console.log(res.data)
         if (res.data){
           setList(res.data)
           setList1(res.data)  

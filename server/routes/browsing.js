@@ -51,8 +51,4 @@ route.post('/allProfil/:id', Browsing.allProfil)
 
 route.post('/browsing/unlike/:id', Browsing.unlike)
 
-// get all tags
-
-route.post(`/browsing/tags/:id`, Browsing.getAlltag)
-
 module.exports = route
