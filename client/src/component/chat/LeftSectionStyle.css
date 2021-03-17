@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap");
+
+div[class^='makeStyles-Left'] {
+  
+  height: 70vh;
+  /* width: inherit; */
+  /* background-color: red; */
+}
+/* .makeStyles-Left-2164 {
+} */
+span[class^="MuiTab"]
+{
+  text-transform: capitalize;
+}
+
+div[class^="MuiGrid-spacing"], div[class^="MuiGrid-item"] {
+  padding: 0px;
+}
+
+div[class^="MuiGrid-grid"] {
+  max-width: unset;
+}
+header[class^="MuiPaper-elevation4-"] {
+  box-shadow: unset;
+}

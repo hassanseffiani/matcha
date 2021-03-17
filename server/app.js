@@ -3,6 +3,7 @@ const userRoutes = require("./routes/user")
 const errRoutes = require("./routes/error")
 const homeRoutes = require('./routes/base')
 const chatRoutes = require('./routes/chat')
+const notificationsRoute = (Routes = require("./routes/Notifications"));
 const browsingRoutes = require('./routes/browsing')
 const cookieParser = require('cookie-parser')
 const authRoutes = require("./routes/auth")
@@ -22,53 +23,95 @@ const io = require('socket.io')(http, {
 
 // we have to fetch for connected user Email To create a room and join the user to it!
 
-io.sockets.on('connection', (socket) => {
-  // console.log('a user connected', socket.id)
-  // client.set("key", socket.id, redis.print);
-  socket.on('join', (data) => {
-    socket.join(data.id + 'Room')
-    // client.SET(data.id, socket.id), redis.print;
-    // console.log(data.id, socket.id)
-  })
-  socket.on('msg', (data) => {
-    // console.log('msgto', data.to);
-    io.in(data.to + 'Room').emit('new_msg', { msg: data.text })
-    // let socketId = '';
-    // client.get(data.to, function(err, reply) {
-    // reply is null when the key is missing
-    // console.log(reply);
-    // socketId = reply
-    //   });
-    //   console.log(socketId);
-    // io.to(socketId).emit("new_msg", data.text);
-  })
+io.sockets.on("connection", (socket) => {
+  socket.on("join", (data) => {
+    socket.join(data.key);
+    console.log(data.key, socket.id);
+    if (data.key && socket.id) {
+      client.hmset(`user${data.key}`, {
+        id: data.key,
+        socketId: socket.id,
+        connected_at: new Date(),
+      });
+      // client.set(data.key+'-'+(new Date()).getTime() / 1000, socket.id);
+      client.keys("*", (err, keys) => {
+        if (err) return console.log(err);
+        for (var i = 0, len = keys.length; i < len; i++) {
+          // console.log('-', keys[i]);
+          client.hgetall(keys[i], function (err, obj) {
+            console.dir(obj);
+          });
+        }
+      });
+    }
+  });
+  socket.on("msg", (data) => {
+    console.log("data", data);
+    socket
+      .to(data.to)
+      .emit("new_msg", { msg: data.text, from: data.from, to: data.to });
+  });
+  socket.on("new_like", (data) => {
+    console.log("******", data);
+    socket
+      .to(data.target)
+      .emit("receive_like", { who: data.who, target: data.target });
+  });
 
-  // let id
-  // socket.on('active', async (data) => {
-  //   client.set(data, socket.id)
-  //   //get redis
-  //   const value = await client.getAsync(data)
-  //   console.log(value)
-  //   // socket.broadcast.emit("getActive", data)
-  //   io.emit("getActive", value)
-  // })
+  socket.on("new_visit", (data) => {
+    console.log("visit", data);
+    socket
+      .to(data.target)
+      .emit("receive_visit", { who: data.who, target: data.target });
+  });
 
-  // io.on("connection", (socket) => {
-  // });
+  socket.on("new_dislike", (data) => {
+    console.log("dislike", data);
+    socket
+      .to(data.target)
+      .emit("receive_dislike", { who: data.who, target: data.target });
 
-  socket.on('disconnect', () => {
-    client.del("connected_users")
-  })
-  // socket.on('inResponsive', (id) => {
-  //     client.set(id, socket.id, redis.print);
-  //     client.set(id+'-'+'time', Date(), redis.print);
-  //     client.keys('*', function (err, keys) {
-  //         if (err) return console.log(err);
-  //         for(var i = 0, len = keys.length; i < len; i++) {
-  //         }
-  //       });
-  // });
-})
+    socket.on("get_time", (data) => {
+      console.log(".............");
+      // var users = [];
+      // client.keys('*', (err, keys) => {
+      //     if (err)
+      //         return console.log(err);
+      //     for(var i = 0, len = keys.length; i < len; i++){
+      //         client.hgetall(keys[i], function (err, obj) {
+      //             console.dir(obj);
+      //             users.push(obj);
+      //          });
+      //     }
+      // });
+      // socket.to(data.id).emit('connection_time', { users: users});
+    });
+  });
+
+  socket.on("Firedisconnect", (data) => {
+    if (data.id && socket.id) {
+      client.hmset(`user${data.id}`, { disconnect_at: new Date() });
+
+      client.keys("*", (err, keys) => {
+        if (err) return console.log(err);
+        // for(var i = 0, len = keys.length; i < len; i++){
+        //     client.hmset(`user${data.id}`, {id : data.id, status : "disconnected", socketId: socket.id, time: ta.ago(new Date() - seconds)});
+        // }
+      });
+
+      client.keys("*", (err, keys) => {
+        if (err) return console.log(err);
+        for (var i = 0, len = keys.length; i < len; i++) {
+          client.hgetall(keys[i], function (err, obj) {
+            console.dir(obj);
+          });
+        }
+      });
+    }
+
+    console.log("disconnect", data);
+  });
+});
 
 app.use(express.json());
 var corsOptions = {
@@ -101,6 +144,7 @@ app.use(homeRoutes)
 app.use(browsingRoutes)
 app.use(userRoutes)
 app.use(errRoutes)
-app.use('/chat', chatRoutes)
+app.use('/chat', chatRoutes);
+app.use('/notifications', notificationsRoute);
 
 http.listen(3001)
