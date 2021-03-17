@@ -245,6 +245,20 @@ exports.checkIs1 = (req, res) => {
   })
 }
 
+// check localization
+
+exports.checkLocIs1 = async (req, res) => {
+  // res.json(false);
+  if (isNaN(req.params.id) || req.params.id==0);
+  else{
+    await Geo.checkLocIs(req.params.id).then(([is]) => {
+      if (!is.length) {
+        res.json({ status: true });
+      } else res.json({ status: false });
+    });
+  }
+};
+
 exports.geo = (req, res, next) => {
   var data = {},
     data = { ...req.body }
@@ -314,6 +328,7 @@ exports.multerUpload = (req, res, next) => {
         } else {
           data.msg = "File Uploaded!"
           data.errors = "";
+          data.s = true
           data.index = req.body.index;
           checkIm = await Img.checkImg(req.body.userId, req.body.index);
           if(checkIm[0].length == 0)
@@ -341,12 +356,15 @@ exports.dnd = async (req, res, next) => {
 }
 
 exports.dnd1 = async (req, res, next) => {
+  // console.log("test");
   await Img.justThefirstRows(req.params.id)
   await Img.condtionBeforeUpdate(req.params.id).then(async ([res]) => {
     if (!res.length){
+      console.log("test");
       await Img.justThefirstRows1(req.params.id)
     }
   })
+  res.json(false)
 }
 
 // get number of images saved in db

@@ -20,9 +20,9 @@ module.exports = class Like {
 
   static getHistoryData(id) {
     return db.execute(
-      'SELECT u.id, u.userName, h.created_at from history h INNER JOIN users u ON h.visited_id = u.id WHERE visitor_id = ?',
+      "SELECT u.id, u.userName, h.created_at from history h INNER JOIN users u ON h.visited_id = u.id WHERE visitor_id = ? ORDER BY created_at DESC",
       [id]
-    )
+    );
   }
   
   static updateHistoryDate(data) {

@@ -97,6 +97,7 @@ const ResponsiveDrawer = (props) => {
   const [long, setLong] = React.useState(false)
   const [requiredProfilInfo, setRPI] = React.useState('')
   const [didMount, setDidMount] = React.useState(false)
+  const [err, setErr] = React.useState(false)
   const socket = React.useContext(SocketContext);
 
 // socket connected to set active users ////////////////////////////////////////////////////////
@@ -110,6 +111,7 @@ const ResponsiveDrawer = (props) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
   function success(pos) {
+    setErr(false)
     setLat(pos.coords.latitude)
     setLong(pos.coords.longitude)
     if (id1) navigator.geolocation.clearWatch(id1)
@@ -121,7 +123,7 @@ const ResponsiveDrawer = (props) => {
     maximumAge: 0,
   }
 
-  let id1 = navigator.geolocation.getCurrentPosition(success, () => {}, options)
+  let id1 = navigator.geolocation.getCurrentPosition(success, () => {setErr(true)}, options)
 
   const func = React.useCallback(async () => {
     if (!didMount){
@@ -156,24 +158,32 @@ const ResponsiveDrawer = (props) => {
 
   const getLocIp = React.useCallback(() => {
     // get locallization with help of ip
-    Axios.get('https://api.ipify.org?format=json').then(async (res) => {
-      await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then((res) => {
-        setLat(res.data.lat)
-        setLong(res.data.lon)
-      })
-      if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+    Axios.post(`/base/checkLoc/${id}`).then(res => {
+      if (res.data.status && err){
+        Axios.get('https://api.ipify.org?format=json').then(async (res) => {
+          await Axios.get(`http://ip-api.com/json/${res.data.ip}`).then((res) => {
+            setLat(res.data.lat)
+            setLong(res.data.lon)
+          })
+          if (id) Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+        })
+      }
     })
-  }, [id, lat, long])
+  }, [id, lat, long, err])
 
   React.useEffect(() => {
     // tal l push
-    // if (lat === false && long === false)
-    //   getLocIp()
+    if (lat === false && long === false)
+      getLocIp()
   }, [lat, long, getLocIp])
 
   React.useEffect(() => {
-    if (lat !== false && long !== false && id)
-      Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+    Axios.post(`/base/checkLoc/${id}`).then(res => {
+      if (res.data.status){
+        if (lat !== false && long !== false && id)
+          Axios.post(`base/localisation/${id}`, { lat: lat, long: long })
+      }
+    })
     
     setDidMount(true)
     return () => {

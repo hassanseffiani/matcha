@@ -65,7 +65,8 @@ const Map = (props) => {
   const location = position
 
   const handleClickOpen = (e) => {
-    setOpen(true)
+    if (Object.keys(props.list).length)
+      setOpen(true)
   }
 
   const handleClose = (e) => {

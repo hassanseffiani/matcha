@@ -85,8 +85,6 @@ const Search = (props) => {
   const handelDone = (e) => {
     handleClose()
   }
-  // A age gap. • A “fame rating” gap. • A location. • One or multiple interests tags.
-  // next search with a new autocomplete for tag */
 
   const kit3awad = () => {
     Axios.post(`/browsing/search/${props.id}`, {

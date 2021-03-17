@@ -85,6 +85,10 @@ route.post('/base/check/:id', homeController.checkIs)
 
 route.post('/base/check1/:id', homeController.checkIs1)
 
+// check localization is already set
+
+route.post("/base/checkLoc/:id", homeController.checkLocIs1);
+
 // localistation
 
 route.post('/base/localisation/:id', homeController.geo)

@@ -2,8 +2,9 @@ import React from 'react'
 import Axios from 'axios'
 import Size from '../helpers/size'
 import { Grid, Card, CardMedia } from '@material-ui/core'
-import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Button, Dialog, DialogActions, DialogTitle, Collapse } from '@material-ui/core';
+import {Alert} from '@material-ui/lab'
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { makeStyles } from '@material-ui/core/styles'
 import { IoMdAddCircle } from 'react-icons/io'
 import { useEffect } from 'react'
@@ -88,6 +89,10 @@ const MyAddImages = (props) => {
   const [open, setOpen] = React.useState(false);
   const [keyIndex, setKeyIndex] = React.useState()
   const [didMount, setDidMount] = React.useState(false)
+  const [errors, setErrors] = React.useState("");
+  const [msg, setNewMsg] = React.useState("");
+  const [open1, setOpen1] = React.useState(false);
+  const [statusTrue, setStatusTrue] = React.useState(false);
   const globalId = React.useContext(IdContext)
 
   const handleClickOpen = (index) => {
@@ -151,7 +156,7 @@ const MyAddImages = (props) => {
   useEffect(() => {
     displayProfileImg()
     // haya erreur dial zab 
-    // Axios.post(`base/img/dnd1/${globalId}`) // index stuff
+    Axios.post(`base/img/dnd1/${globalId}`) // index stuff
   }, [displayProfileImg, globalId])
 
   //////////////////////////
@@ -191,40 +196,57 @@ const MyAddImages = (props) => {
   }
 
   const handleChange = async (event, id, index) => {
+    const allowedExtensions = ["jpg", "png", "jpeg", "gif"],
+      sizeLimit = 5000000; // 1 megabyte
     if (event.target.files[0]) {
-      var value = URL.createObjectURL(event.target.files[0])
-      if (index === 0) {
-        SetProfileImg(value)
-      }
-      triggerEffect(!effect)
-      if (value != null) {
-        var tmp = Items
-        tmp[index].value = value
-        UpdateItems(tmp)
-        const gridId = imageRefs.current[index].id + 'img'
-        const grid = document.getElementById(gridId)
-        grid.style.background = 'url(' + value + ')'
-        grid.style.backgroundSize = '200px 300px'
+      const fileExtension = event.target.files[0].name.split(".").pop();
+      const fileSize = event.target.files[0].fileSize
+      console.log(fileExtension);
+      if (allowedExtensions.includes(fileExtension) || fileSize < sizeLimit) {
+        var value = URL.createObjectURL(event.target.files[0]);
+        if (index === 0) {
+          SetProfileImg(value);
+        }
+        triggerEffect(!effect);
+        if (value != null) {
+          var tmp = Items;
+          tmp[index].value = value;
+          UpdateItems(tmp);
+          const gridId = imageRefs.current[index].id + "img";
+          const grid = document.getElementById(gridId);
+          grid.style.background = "url(" + value + ")";
+          grid.style.backgroundSize = "200px 300px";
+        }
       }
     }
 
-    event.preventDefault()
-    var formData = new FormData()
-    formData.set('index', index)
-    formData.set('userId', globalId)
-    formData.set('file', event.target.files[0])
+    event.preventDefault();
+    var formData = new FormData();
+    formData.set("index", index);
+    formData.set("userId", globalId);
+    formData.set("file", event.target.files[0]);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
-    }
-    await Axios.post(`base/img/${globalId}`, formData, config)
-  }
+    };
+    await Axios.post(`base/img/${globalId}`, formData, config).then((res) => {
+      console.log(res.data.data);
+      if (res.data.data.s) {
+        setStatusTrue(true);
+        setNewMsg(res.data.data.msg);
+      } else {
+        setOpen1(true);
+        setNewMsg(res.data.data.msg);
+        setErrors(res.data.data.errors);
+      }
+    });
+  };
 
   //////////////////////////////////////// Drager ////////////////////////////////////////
 
   async function handleOnDragEnd(result) {
-    // await Axios.post(`base/img/dnd1/${props.id}`) // index stuff
+    await Axios.post(`base/img/dnd1/${props.id}`) // index stuff
     if (!result.destination) return
     const items = Array.from(Items)
     const [reorderedItem] = items.splice(result.source.index, 1)
@@ -291,19 +313,39 @@ const MyAddImages = (props) => {
     }
   }
 
+ React.useEffect(() => {
+   const interval = setInterval(() => {
+     setErrors("");
+     setNewMsg("");
+     if (open1) {
+       setOpen1(false);
+     }
+     if (statusTrue) {
+       setStatusTrue(false);
+     }
+   }, 1500);
+   return () => clearInterval(interval)
+ });
+
   if (!didMount) return null
   return (
     <Size>
+      <Collapse in={open1}>
+        <Alert severity="error">{errors}</Alert>
+      </Collapse>
+      <Collapse in={statusTrue}>
+        <Alert severity="success">{msg}</Alert>
+      </Collapse>
       <Grid container>
-        <div style={{ overflowY: 'scroll', height: '600px' }}>
+        <div style={{ overflowY: "scroll", height: "600px" }}>
           <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId='items'>
+            <Droppable droppableId="items">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {Items.map(({ id }, index) => {
                     return (
                       <Draggable
-                        // isDragDisabled={isDD}
+                        isDragDisabled={true}
                         key={id}
                         draggableId={id}
                         index={index}
@@ -313,27 +355,29 @@ const MyAddImages = (props) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
-                            id={id + 'img'}
+                            id={id + "img"}
                             className={classes.big}
-                            onClick={() => {handleClickOpen(index)}}
+                            onClick={() => {
+                              handleClickOpen(index);
+                            }}
                           >
                             <input
-                              name='file'
+                              name="file"
                               // accept=".gif,.jpg,.jpeg,.png"
                               ref={addToRefs}
                               onChange={(e) => {
-                                handleChange(e, id, index)
+                                handleChange(e, id, index);
                               }}
                               hidden
                               id={id}
-                              type='file'
+                              type="file"
                             />
                             {provided.placeholder}
                             <IoMdAddCircle className={classes.addCircle} />
                           </div>
                         )}
                       </Draggable>
-                    )
+                    );
                   })}
                 </div>
               )}
@@ -346,14 +390,16 @@ const MyAddImages = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Choose your action:"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {"Choose your action:"}
+          </DialogTitle>
           <DialogActions>
             <Button onClick={handleInsUpd} color="primary">
               Insert/Update
-          </Button>
+            </Button>
             <Button onClick={handleDeleteDialog} color="secondary" autoFocus>
               Delete
-          </Button>
+            </Button>
           </DialogActions>
         </Dialog>
         {/* <div
@@ -363,8 +409,8 @@ const MyAddImages = (props) => {
         </div> */}
         <Card className={classes.root}>
           <CardMedia
-            image='https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg'
-            title='Contemplative Reptile'
+            image="https://raw.githubusercontent.com/hassanreus/img/master/profilImageManWomen.jpg"
+            title="Contemplative Reptile"
             // style={{ width: "400px", height: "600px" }}
             ref={ProfImgRef}
             className={classes.media}
@@ -372,7 +418,7 @@ const MyAddImages = (props) => {
         </Card>
       </Grid>
     </Size>
-  )
+  );
 }
 
 export default MyAddImages

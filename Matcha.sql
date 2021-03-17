@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.99.111
--- Generation Time: Mar 16, 2021 at 06:20 PM
--- Server version: 8.0.23
--- PHP Version: 7.4.15
+-- Host: db
+-- Generation Time: Mar 17, 2021 at 03:06 AM
+-- Server version: 8.0.22
+-- PHP Version: 7.4.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -69,20 +69,20 @@ CREATE TABLE `history` (
 
 INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (27, 1, 17, '2021-03-16 18:12:33'),
-(30, 3, 1, '2021-03-09 10:01:27'),
+(30, 3, 1, '2021-03-16 21:11:06'),
 (31, 3, 1123123, '2021-03-09 10:01:56'),
 (32, 3, 123123, '2021-03-09 10:04:08'),
 (33, 1, 8, '2021-03-10 15:41:15'),
 (34, 1, 24, '2021-03-16 14:48:40'),
 (35, 1, 16, '2021-03-11 16:14:24'),
-(36, 1, 7, '2021-03-15 17:09:25'),
-(37, 1, 3, '2021-03-16 10:48:23'),
+(36, 1, 7, '2021-03-16 21:12:29'),
+(37, 1, 3, '2021-03-16 21:20:12'),
 (38, 1, 14, '2021-03-11 16:54:40'),
 (39, 1, 22, '2021-03-11 16:54:44'),
 (40, 1, 15, '2021-03-15 17:10:37'),
-(41, 1, 19, '2021-03-11 16:58:49'),
+(41, 1, 19, '2021-03-16 20:47:49'),
 (42, 1, 10, '2021-03-16 18:12:35'),
-(43, 1, 4, '2021-03-16 18:12:30'),
+(43, 1, 4, '2021-03-16 21:12:05'),
 (44, 23, 20, '2021-03-12 10:39:52'),
 (45, 23, 6, '2021-03-12 10:39:56'),
 (46, 1, 5, '2021-03-13 14:05:34'),
@@ -98,7 +98,16 @@ INSERT INTO `history` (`id`, `visitor_id`, `visited_id`, `created_at`) VALUES
 (56, 42, 16, '2021-03-16 17:28:19'),
 (57, 42, 10, '2021-03-16 17:34:43'),
 (58, 42, 20, '2021-03-16 17:34:46'),
-(59, 42, 1, '2021-03-16 17:44:09');
+(59, 42, 1, '2021-03-16 17:44:09'),
+(60, 1, 18, '2021-03-16 20:47:53'),
+(61, 7, 1, '2021-03-16 21:05:50'),
+(62, 43, 14, '2021-03-16 23:05:52'),
+(63, 43, 12, '2021-03-16 23:05:58'),
+(64, 1, 43, '2021-03-16 23:10:37'),
+(65, 43, 20, '2021-03-17 03:02:27'),
+(66, 43, 6, '2021-03-17 03:05:46'),
+(67, 43, 4, '2021-03-17 03:05:09'),
+(68, 43, 2, '2021-03-17 03:05:18');
 
 -- --------------------------------------------------------
 
@@ -211,11 +220,16 @@ INSERT INTO `imgProfil` (`id`, `users_id`, `image`, `pointer`) VALUES
 (138, 24, 'EbP8LjOvMdHUYPxVnqW8Jfile-1614874914984.jpeg', 0),
 (139, 24, 'wcHWVZPU4S7DktzbhfKBZfile-1614874920497.jpeg', 1),
 (142, 28, 'lOcBZZEPlJOzgp5M-xcoLfile-1615384283364.jpeg', 0),
-(143, 28, 'gpjgdnZOhcX1JtxqZWqoZfile-1615384285602.png', 1),
+(143, 28, 'gpjgdnZOhcX1JtxqZWqoZfile-1615384285602.png', 4),
 (291, 1, 'AnRw_FQZk7Hs99y89dKW6file-1615829762296.jpeg', 2),
 (292, 1, 'Ui8Zw31P2FoEG-KFxsR3Dfile-1615829764958.jpeg', 1),
 (293, 1, 'hI8KfoNHgnhw9GdTw8rIyfile-1615829768593.jpeg', 0),
-(295, 42, '-pnbWRKS90WpwNiFpyYGJfile-1615906259480.jpeg', 0);
+(295, 42, '-pnbWRKS90WpwNiFpyYGJfile-1615906259480.jpeg', 0),
+(312, 43, 'T7v3r_3QwKYw2GnoYHgdzfile-1615948234331.jpg', 0),
+(313, 43, '4aQoGauUPNHHoyZeYTK35file-1615948243374.png', 1),
+(316, 43, 'pJ4PEpRDpO9iqy_QOBhWUfile-1615944011630.png', 3),
+(317, 43, 'AsH44l_rT3W0S6F1_4dYkfile-1615944048841.png', 4),
+(318, 43, 'flzMAPNWvdEg28RgQ6vL_file-1615944433008.jpg', 2);
 
 -- --------------------------------------------------------
 
@@ -235,10 +249,7 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `liker`, `liked`, `created_at`) VALUES
-(89, 1, 20, '2021-03-15 17:03:37'),
-(90, 1, 7, '2021-03-15 17:09:52'),
-(91, 1, 3, '2021-03-16 11:14:50'),
-(92, 42, 4, '2021-03-16 17:26:49');
+(93, 43, 6, '2021-03-17 03:05:37');
 
 -- --------------------------------------------------------
 
@@ -259,7 +270,7 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
-(1, 1, 'Khouribga', 32.878120, -6.888772),
+(1, 1, 'Oulad', 31.791702, -7.092620),
 (2, 2, 'Khouribga', 32.878101, -6.888731),
 (3, 3, 'Khouribga', 32.878101, -6.888731),
 (4, 4, 'Khouribga', 32.878101, -6.888731),
@@ -283,7 +294,8 @@ INSERT INTO `location` (`id`, `users_id`, `city`, `lat`, `long`) VALUES
 (37, 28, 'Khouribga', 32.878101, -6.888731),
 (47, 37, 'Khouribga', 32.878101, -6.888731),
 (48, 41, 'Khouribga', 32.878101, -6.888731),
-(49, 42, 'Khouribga', 32.878120, -6.888772);
+(49, 42, 'Khouribga', 32.878120, -6.888772),
+(55, 43, 'Bni', 33.656471, -7.316469);
 
 -- --------------------------------------------------------
 
@@ -362,7 +374,8 @@ INSERT INTO `tag` (`id`, `name`) VALUES
 (30, '#test'),
 (31, '#erewr'),
 (32, '#rqwe'),
-(33, '#tag');
+(33, '#tag'),
+(34, '#awaah');
 
 -- --------------------------------------------------------
 
@@ -506,7 +519,8 @@ INSERT INTO `tag_user` (`id`, `users_id`, `tag_id`) VALUES
 (157, 1, 33),
 (158, 1, 20),
 (159, 1, 11),
-(160, 42, 20);
+(160, 42, 20),
+(161, 43, 34);
 
 -- --------------------------------------------------------
 
@@ -565,7 +579,8 @@ INSERT INTO `users` (`id`, `oauth_id`, `email`, `userName`, `firstName`, `lastNa
 (30, NULL, 'reuss@gmail.com', '0hseffian', 'hsdh', 'dhsdh', '$2b$10$9IXWJS0eV6w76R7QgdCvteo5dEDfkjLQRAGL/BjMcHg7gt2HmZKhm', 'fb1a47dc46fe3d451c774281620a75561cb54cb74ec45d26765fc5d286e71693', 0, NULL, NULL, NULL, NULL, 1, 1),
 (37, NULL, 'wqweqwe@gmail.com', 'hseffian', 'asdasd', 'ewqekqw', '$2b$10$Klp.ncf7/X9Ycs1g61OItuvfNgedzU.zETTPEIO3rvtjDRnT1qA0G', 'fb1a47dc46fe3d451c774281620a75561cb54cb74ec45d26765fc5d286e71693', 1, NULL, NULL, NULL, NULL, 1, 1),
 (41, '51039', 'hseffian@student.1337.ma', 'hseffian0', 'Hassan', 'Seffiani', '*', '501bbc212edca424691ff0366b77663b2653a64722818ca7e145e74103fa9f58', 1, NULL, NULL, NULL, NULL, 1, 1),
-(42, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '$2b$10$pSRiagblm0WvnOIvU7.rTO2V36wYeFKcyuW5qG8G0.VtOMr9bC17.', 'ya29.a0AfH6SMD12YuhqFCS_6Fkos-4cWPUeDW0ZoMNmELi6rale7dcO5Q6hQiGS-FNtaHpHM7HRq7UozW8o2G1TLeEv9Yf2Ak0Dbb3CiPdy_jW1utjuD1t-iGaCffGx8IjpS8BOtuAO1r5uMUffBAffZ9IaZMw-9c5', 1, 18, 'Male', 'Women', 'qweqweqw', 102, 2);
+(42, '100162585403909249676', 'hassanseffiani@gmail.com', 'Oli Hsf', 'Oli', 'Hsf', '$2b$10$pSRiagblm0WvnOIvU7.rTO2V36wYeFKcyuW5qG8G0.VtOMr9bC17.', 'ya29.a0AfH6SMD12YuhqFCS_6Fkos-4cWPUeDW0ZoMNmELi6rale7dcO5Q6hQiGS-FNtaHpHM7HRq7UozW8o2G1TLeEv9Yf2Ak0Dbb3CiPdy_jW1utjuD1t-iGaCffGx8IjpS8BOtuAO1r5uMUffBAffZ9IaZMw-9c5', 1, 18, 'Male', 'Women', 'qweqweqw', 102, 2),
+(43, NULL, 'saad@gmail.com', 'test11', 'erq', 'fdsf', '$2b$10$.rIS6Om7jFCio8KY4LkF.OgRety4oSKeurXyG/jARs3bxVK4avCsy', 'c8a727a6c318cd5cd0c7c3afb6f2c90928b4b7efd990ab7040e9da652a9730a7', 1, 19, 'Male', 'Women', 'yes brooeqw;lekqw;lekwq;lek\'w;lek\'wq;lekqw\';lekqw\';elkwkqle;jqwel;kqwje;lwqke', 102, 2);
 
 --
 -- Indexes for dumped tables
@@ -649,25 +664,25 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `imgProfil`
 --
 ALTER TABLE `imgProfil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=296;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `matchs`
@@ -685,19 +700,19 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tag_user`
 --
 ALTER TABLE `tag_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
