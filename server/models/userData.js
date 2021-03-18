@@ -92,7 +92,7 @@ module.exports = class User {
       user,
     ])
   }
-
+  
   static UserEmailModel(email) {
     return db.execute('SELECT * FROM users WHERE users.email = ? limit 1', [
       email,

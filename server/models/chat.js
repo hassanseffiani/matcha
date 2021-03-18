@@ -2,10 +2,10 @@ const db = require("../util/database");
 
 module.exports = class Chat {
   static peopleIds(userId) {
-    return db.execute("SELECT * FROM matchs WHERE user1 = ? OR user2 = ?", [
-      userId,
-      userId,
-    ]);
+    return db.execute(
+      "SELECT * FROM matchs WHERE (user1 = ? OR user2 = ?) AND NOT EXISTS (SELECT * from blocked bl WHERE ? = bl.blocker AND user2 = bl.blocked)",
+      [userId, userId, userId]
+    );
   }
 
   static peopleBoard(userId) {

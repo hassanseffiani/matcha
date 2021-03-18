@@ -2,17 +2,17 @@ import React from 'react';
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, Chip, Avatar, Grid, Button, Typography, IconButton, CardMedia, Collapse } from '@material-ui/core'
-import {Alert} from '@material-ui/lab';
-import Rating from "react-rating"
+import { Alert } from "@material-ui/lab";
+import Rating from "react-rating";
 import Report from '../browsing/report'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 import {  FaFemale ,FaMale  } from "react-icons/fa"
-import UpdateIcon from "@material-ui/icons/Update"
 import {
   Block as BlockIcon,
-  FavoriteBorder
-} from '@material-ui/icons'
+  FavoriteBorder,
+  Update as UpdateIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   diva: {

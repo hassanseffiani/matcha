@@ -105,6 +105,7 @@ const ChatList = (props) => {
               id={props.id}
               myInfos={myInfos}
               hisInfos={hisInfos} id={props.id}
+              people={people} setPeople={setPeople}
             />
           </Grid>
         </Grid>
