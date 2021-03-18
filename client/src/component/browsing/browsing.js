@@ -145,34 +145,23 @@ const Browsing = (props) => {
 
         Axios.post('http://localhost:3001/notifications/doILikeHim', { myId: idLiker, hisId: idLiked })
           .then((res) => {
-            console.log('XxxX0110', res.data.answer);
             if (res.data.answer == "yes") {
               Axios.post('http://localhost:3001/notifications/saveNotifications',
                 { who: idLiker, target: idLiked, type: "likes back" })
                 .then((res) => {
-                  console.log('reSdasd210000', res.status);
                 }).catch((err) => {console.log(err)});
             }
             else if(res.data.answer == "no")
             {
-              console.log('XxxX77777', res.data.whoInfos);
               Axios.post('http://localhost:3001/notifications/saveNotifications',
                 { who: idLiker, target: idLiked, type: "like" })
                 .then((res) => {
-                  console.log('reSdasd21', res.status);
                 }).catch((err) => {console.log(err)});
             } 
 
           }).catch((Err) => { console.log('10_1.Err', Err) })
 
-        //
-        // Axios.post('http://localhost:3001/notifications/saveNotifications',
-        //   { who: idLiker, target: idLiked, type: "like" })
-        //   .then((res) => {
-        //     console.log('reSdasd21', res.status);
-        //   })
         socket.emit('new_like', { who: idLiker, target: idLiked });
-        // connection time 
       }
     })
   }

@@ -5,7 +5,6 @@ import { Input, Grid, List, Chip } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
   Block as BlockIcon,
-  FavoriteBorder,
   Update as UpdateIcon,
 } from "@material-ui/icons";
 import SocketContext from "../../start/SocketContext";
@@ -104,11 +103,17 @@ const ChatBox = (props) => {
     func();
   }, [func, props]);
 
+  const updateScroll = () => {
+    var element = document.getElementById("t")
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+  }
+
   const sendMessage = (e) => {
     e.preventDefault();
     if (props.hisInfos) {
       var input = document.getElementById("msg");
       if (e.keyCode === 13 && input.value) {
+
         saveMessage(input.value);
         Axios.post("http://localhost:3001/notifications/saveNotifications", {
           who: props.id,
@@ -159,6 +164,8 @@ const ChatBox = (props) => {
             content: content,
           },
         ]);
+      updateScroll();
+
       })
       .catch((err) => {
         console.log(err);
@@ -178,23 +185,11 @@ const ChatBox = (props) => {
     }
   };
 
-  const handelUnlike = (e, user1, user2) => {
-    e.preventDefault();
-    if (statusImg) setOpen(true);
-    else {
-      Axios.post(`/browsing/unlike/${user1}`, { user2: user2 }).then((res) => {
-        if (res.data.status) {
-          const newList = props.people.filter((item) => item.id !== user2);
-          props.setPeople(newList);
-        }
-      });
-    }
-  }
-
   React.useEffect(() => {
     const interval = setInterval(() => {
       if (open) setOpen(false);
     }, 1500);
+
     return () => clearInterval(interval);
   });
 
@@ -208,6 +203,7 @@ const ChatBox = (props) => {
           <Grid container item xs={12} direction="row">
             <IconButton
               aria-label="Block User"
+              color="secondary"
               onClick={(event) =>
                 handelBlock(event, props.id, props.hisInfos.id)
               }
@@ -220,17 +216,8 @@ const ChatBox = (props) => {
               statusImg={statusImg}
               setOpen={setOpen}
             />
-            <IconButton
-              aria-label="Unlike user"
-              onClick={(event) =>
-                handelUnlike(event, props.id, props.hisInfos.id)
-              }
-            >
-              <Typography>Unlike</Typography>
-              <FavoriteBorder />
-            </IconButton>
           </Grid>
-          <List style={{ maxHeight: 540, overflow: "auto" }}>
+          <List id="t" style={{ maxHeight: 300, overflow: "auto" }}>
             {conversation.length != 0 &&
               conversation.map((element) => {
                 if (element.id_from == props.myInfos.id) {
@@ -264,7 +251,15 @@ const ChatBox = (props) => {
                   );
                 }
               })}
-            {!conversation.length && <div>Say Hello</div>}
+            {!conversation.length && (
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                component="p"
+              >
+                &nbsp;&nbsp;&nbsp;&nbsp;Say hello ...
+              </Typography>
+            )}
           </List>
         </Grid>
         <Input
@@ -279,7 +274,9 @@ const ChatBox = (props) => {
   } else {
     return (
       <div className={classes.chatBox}>
-        <p>select the user you want to chat with</p>
+        <Typography variant="body2" color="textSecondary" component="p">
+          &nbsp;&nbsp;&nbsp;&nbsp;select the user you want to chat with
+        </Typography>
       </div>
     );
   }

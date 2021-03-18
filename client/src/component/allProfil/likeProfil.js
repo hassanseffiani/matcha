@@ -123,12 +123,10 @@ const LikeProfil = (props) => {
       // matched user disliked you notif
       Axios.post('http://localhost:3001/notifications/isMatched', { myId: user1, hisId: user2 })
       .then((res) => {
-        console.log('XxxX8888', res.data.answer);
         if (res.data.answer == "yes") {
           Axios.post('http://localhost:3001/notifications/saveNotifications',
           { who: user1, target: user2, type: "dislike" })
           .then((res) => {
-            console.log('reSdasd331100', res.status);
           }).catch((err) => {console.log(err)});
         }
         socket.emit('new_dislike', { who: user1, target: user2 });

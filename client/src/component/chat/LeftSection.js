@@ -104,7 +104,7 @@ export default function FullWidthTabs(props) {
           aria-label="full width tabs example"
         >
           <Tab label="Chats" {...a11yProps(0)} />
-          <Tab label="People(matched)" {...a11yProps(1)} />
+          {/* <Tab label="People(matched)" {...a11yProps(1)} /> */}
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -112,13 +112,13 @@ export default function FullWidthTabs(props) {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        {/* <TabPanel value={value} index={0} dir={theme.direction}>
           Conversations.....
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel
           id="99909090090"
           value={value}
-          index={1}
+          index={0}
           dir={theme.direction}
         >
           <div>

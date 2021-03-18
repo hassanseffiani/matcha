@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -79,15 +78,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-
-// anass part :
-// notification
-
-/////////////////////////// try to do /////////////////////////////////////////////////////////////////
-// check all route with post man //////////////////////////////////////////////////////////////////////
-//////////////////////////////////// 2 bigs steps /////////////////////////////////////////////////////
-// component my images create a lot of problem in the fucking websites need some improvment ///////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ResponsiveDrawer = (props) => {
   const { history, window } = props

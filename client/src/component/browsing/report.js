@@ -64,6 +64,7 @@ const FormDialog = (props) => {
   return (
     <div>
       <IconButton
+        color="primary"
         className={clsx(classes.expand)}
         aria-label='Report User'
         onClick={handleClickOpen}
