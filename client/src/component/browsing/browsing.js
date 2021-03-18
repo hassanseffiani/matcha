@@ -18,7 +18,7 @@ import {
   ThumbDown as ThumbDownIcon,
   SkipNext as SkipNextIcon,
 } from '@material-ui/icons'
-// import SocketContext from "../../start/SocketContext";
+import SocketContext from "../../start/SocketContext";
 import IdContext from "../../start/IdContext";
 
 const StyledBadge = withStyles((theme) => ({
@@ -96,7 +96,7 @@ const Browsing = (props) => {
   const [didMount, setDidMount] = React.useState(false)
   const globalId = React.useContext(IdContext)
   // const [active, setActive] = React.useState("")
-  // const socket = React.useContext(SocketContext);
+  const socket = React.useContext(SocketContext);
   // new Date().toLocaleString()
 
   const getLocalisation = React.useCallback(async () => {
@@ -136,16 +136,45 @@ const Browsing = (props) => {
 
   const handelLike = (event, idLiker, idLiked) => {
     event.preventDefault()
-    if (statusImg)
-      setOpen(true)
-    else{
-      Axios.post(`/browsing/likes/${idLiker}`, {idLiked: idLiked}).then(res => {
-        if (res.data.status) {
-          const newList = list1.filter((item) => item.id !== idLiked)
-          setList1(newList)
-        }
-      })
-    }
+    Axios.post(`/browsing/likes/${idLiker}`, { idLiked: idLiked }).then(res => {
+      if (res.data.status) {
+        const newList = list1.filter((item) => item.id !== idLiked)
+        setList1(newList)
+
+        // like && like back Notif
+
+        Axios.post('http://localhost:3001/notifications/doILikeHim', { myId: idLiker, hisId: idLiked })
+          .then((res) => {
+            console.log('XxxX0110', res.data.answer);
+            if (res.data.answer == "yes") {
+              Axios.post('http://localhost:3001/notifications/saveNotifications',
+                { who: idLiker, target: idLiked, type: "likes back" })
+                .then((res) => {
+                  console.log('reSdasd210000', res.status);
+                }).catch((err) => {console.log(err)});
+            }
+            else if(res.data.answer == "no")
+            {
+              console.log('XxxX77777', res.data.whoInfos);
+              Axios.post('http://localhost:3001/notifications/saveNotifications',
+                { who: idLiker, target: idLiked, type: "like" })
+                .then((res) => {
+                  console.log('reSdasd21', res.status);
+                }).catch((err) => {console.log(err)});
+            } 
+
+          }).catch((Err) => { console.log('10_1.Err', Err) })
+
+        //
+        // Axios.post('http://localhost:3001/notifications/saveNotifications',
+        //   { who: idLiker, target: idLiked, type: "like" })
+        //   .then((res) => {
+        //     console.log('reSdasd21', res.status);
+        //   })
+        socket.emit('new_like', { who: idLiker, target: idLiked });
+        // connection time 
+      }
+    })
   }
 
   const handelSkip = (event, idLiked) => {
@@ -171,33 +200,6 @@ const Browsing = (props) => {
     }
   }
 
-  // mochkiill to solve
-
-  // const handelClick = async (e) => {
-  //   console.log(e)
-  //   // if (status === 'true'){
-  //   //   setStatus('false')
-  //   //   setcurTime()
-  //   // }else{
-  //   //   setStatus('true')
-  //   //   setcurTime(new Date())
-  //   // }
-
-  //   await socket.on("getActive", (data) => {
-  //     console.log(data)
-  //     // if (data !== "")
-  //     //   setActive(data)
-  //   })
-  // }
-  
-  // React.useEffect(() => {
-  //   console.log(active)
-  //   if (active === props.id.toString()) {
-  //     console.log(active)
-  //     setStatus('false')
-  //     setcurTime()
-  //   }
-  // }, [active, props])
 
   React.useEffect(() => {
     
@@ -258,7 +260,6 @@ const Browsing = (props) => {
                             horizontal: 'right',
                           }}
                           variant='dot'
-                          // status={status}
                         >
                           <Avatar
                             aria-label='recipe'
@@ -278,24 +279,12 @@ const Browsing = (props) => {
                             StyledBadge={StyledBadge}
                             statusImg={statusImg}
                             setOpen={setOpen}
-                            // status={status}
-                            // curTime={curTime}
                           />
                         </IconButton>
                       }
                       title={el.userName}
                       subheader={el.firstName + ' ' + el.lastName}
                     />
-                    {/* {curTime && (
-                      <Typography
-                        variant='body2'
-                        display='initial'
-                        className={classes.date}
-                      >
-                        Last Seen {moment(curTime).fromNow()}
-                      </Typography>
-                    )} */}
-                    {/* <button onClick={handelClick}>Click</button> */}
                     <CardContent>
                       <Typography variant='h6'>Biography :</Typography>
                       <Typography

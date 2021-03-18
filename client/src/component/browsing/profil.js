@@ -17,6 +17,7 @@ import { Carousel } from 'react-responsive-carousel'
 import {  FaFemale ,FaMale  } from "react-icons/fa"
 import Rating from "react-rating"
 import Report from './report'
+import SocketContext from "../../start/SocketContext";
 
 const styles = (theme) => ({
     root: {
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DialogTitle = withStyles(styles)((props) => {
+  const socket = React.useContext(SocketContext);
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -83,13 +85,34 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const CustomizedDialogs = (props) => {
-    const [open, setOpen] = React.useState(false)
+  const socket = React.useContext(SocketContext);
+    const [open, setOpen] = React.useState(false);
+    const [connection, setConnection] = React.useState('');
     const classes = useStyles()
 
     const handleClickOpen = (e, visitor, visited) => {
-        setOpen(true);
-        Axios.post(`/browsing/history/${visited}`, {visitor: visitor})
+      setOpen(true);
+      Axios.post(`/browsing/history/${visited}`, {visitor: visitor})
+      // socket visit
+      Axios.post('http://localhost:3001/notifications/saveNotifications', { who: props.visitor, target: props.visited, type: "visit" })
+      .then((res) => {
+        console.log('reSdddd000003', res.status);
+      })
+      socket.emit('check_connection', {visitedId : props.visited, visitorId : props.visitor});
+      console.log('who , target', props.visitor, props.visited);
+      socket.emit('new_visit', {who : props.visitor, target : props.visited});
+      
     };
+    React.useEffect(() => {
+
+      socket.on('receive_connection', (data) => {
+        if(props.visitor == data.visitor)
+        {
+          console.log('//////////', data);
+          setConnection(data.timeAgo)
+        }
+      });
+    }, [connection])
     const handleClose = () => {
         setOpen(false);
     };
@@ -155,6 +178,7 @@ const CustomizedDialogs = (props) => {
                     : ''}
                 </Carousel>
               </Grid>
+              {connection}
               <Grid container item xs={8} sm={4}>
                 <props.StyledBadge
                   overlap='circle'

@@ -33,7 +33,9 @@ import EditProfil from "../../profil/editProfill"
 import Setting from "../../profil/setting"
 import History from "../../history/history"
 import AllProfil from "../../allProfil/likeProfil"
-import SocketContext from "../../../start/SocketContext"
+import SocketContext from "../../../start/SocketContext";
+import Notifications from "../../Notifications/Notifications";
+import MessageNotification from "../../Notifications/MessageNotification";
 import IdContext from "../../../start/IdContext"
 
 const instance = Axios.create({ withCredentials: true });
@@ -100,15 +102,41 @@ const ResponsiveDrawer = (props) => {
   const [err, setErr] = React.useState(false)
   const socket = React.useContext(SocketContext);
 
-// socket connected to set active users ////////////////////////////////////////////////////////
+  const [userInf, setUserInf] = React.useState({});
+
+
   React.useEffect(() => {
-    if (id){
-      socket.emit("active", id)
+    socket.emit('join', { key: userInf.id });
+  }, [userInf, id])
+
+  function isEmpty(obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        return false;
+      }
     }
-  }, [socket, id])
 
-  
+    return true
+  }
 
+  const saveMyInfos = (value) => {
+    if (isEmpty(userInf) === true)
+      setUserInf(value);
+  }
+  console.log('3333333', userInf)
+  React.useEffect(() => {
+    if (id) {
+
+      Axios.post('http://localhost:3001/chat/getConnectedUserInfos', { userId: id })
+        .then((res) => {
+          // if(!MyInfos)
+          if (res) {
+            saveMyInfos(res.data.myInfos);
+          }
+
+        }).catch((err) => { console.log(err) })
+    }
+  }, [id])
 ////////////////////////////////////////////////////////////////////////////////////////////////
   function success(pos) {
     setErr(false)
@@ -200,10 +228,11 @@ const ResponsiveDrawer = (props) => {
   }, [id, lat, long])
 
   const handelLogout = () => {
-    socket.disconnect()
     instance.post('http://localhost:3001/logout')
+    if(id)
+      socket.emit('Firedisconnect', {id : id})
+    // socket.close();
     props.logout()
-    // window.location.reload();
   }
 
   const handleDrawerToggle = () => {
@@ -322,6 +351,8 @@ const ResponsiveDrawer = (props) => {
           <Typography className={classes.ty} variant='h6' noWrap>
             Matcha
           </Typography>
+          <MessageNotification myInfos={userInf} />
+          <Notifications myInfos={userInf} />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label='mailbox folders'>
@@ -381,7 +412,7 @@ const ResponsiveDrawer = (props) => {
               component={(props) => <AllProfil id={id} />}
             />
             {requiredProfilInfo === true ? (
-              <Route exact path='/' render={(props) => <Browsing id={id} />} />
+              <Route exact path='/' render={(props) => <Browsing id={id}  myInfos={userInf} />} />
             ) : (
               <Route exact path='/*' render={(props) => <Home id={id} />} />
             )}

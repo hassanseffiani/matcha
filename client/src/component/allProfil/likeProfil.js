@@ -13,6 +13,7 @@ import {
   FavoriteBorder,
   Update as UpdateIcon,
 } from "@material-ui/icons";
+import SocketContext from "../../start/SocketContext";
 
 const useStyles = makeStyles((theme) => ({
   diva: {
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const LikeProfil = (props) => {
+    const socket = React.useContext(SocketContext);
     const [cord, setCord] = React.useState([])
     const [gender, setGender] = React.useState('')
     const classes = useStyles()
@@ -117,18 +119,29 @@ const LikeProfil = (props) => {
     }
 
     const handelUnlike = (e, user1, user2) => {
-        e.preventDefault()
-        if (statusImg)
-          setOpen(true)
-        else{
-          Axios.post(`/browsing/unlike/${user1}`, {user2 : user2}).then(res => {
-              if (res.data.status){
-                  const newList = list.filter((item) => item.id !== user2)
-                  setList(newList)
-              }
-          })
+      e.preventDefault()
+      // matched user disliked you notif
+      Axios.post('http://localhost:3001/notifications/isMatched', { myId: user1, hisId: user2 })
+      .then((res) => {
+        console.log('XxxX8888', res.data.answer);
+        if (res.data.answer == "yes") {
+          Axios.post('http://localhost:3001/notifications/saveNotifications',
+          { who: user1, target: user2, type: "dislike" })
+          .then((res) => {
+            console.log('reSdasd331100', res.status);
+          }).catch((err) => {console.log(err)});
         }
-    }
+        socket.emit('new_dislike', { who: user1, target: user2 });
+      }).catch((Err) => { console.log('10_5.Err', Err) })
+      ///   
+
+      Axios.post(`/browsing/unlike/${user1}`, {user2 : user2}).then(res => {
+          if (res.data.status){
+              const newList = list.filter((item) => item.id !== user2)
+              setList(newList)
+          }
+      })
+  }
 
     const historyLikeProfil = (e, visited, visitor) => {
       e.preventDefault()
