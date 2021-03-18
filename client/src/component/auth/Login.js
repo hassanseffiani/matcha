@@ -171,22 +171,20 @@ class Login extends Component {
           history.push("/");
         }
       });
+      // window.location.reload();
   };
 
   CancelToken = Axios.CancelToken;
   abortController = new AbortController();
   source = this.CancelToken.source();
   
-  t = () => {
-    window.location.reload(false)
-  }
-
   componentDidMount() {
     Axios.get("http://localhost:3001/users/checkLogin", {
       withCredentials: true
       , cancelToken: this.source.token
     })
       .then((response) => {
+        console.log(response.data)
         if (response.data.jwt) {
           this.props.login();
           history.push("/");

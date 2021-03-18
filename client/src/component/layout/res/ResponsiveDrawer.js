@@ -129,32 +129,40 @@ const ResponsiveDrawer = (props) => {
     if (!didMount){
       const CancelToken = Axios.CancelToken
       const source = CancelToken.source()
-      let { data } = await instance.get('http://localhost:3001/base', {
-        cancelToken: source.token,
-      })
-      setId(data.user.id)
+        let { data } = await instance.get('http://localhost:3001/base', {
+          cancelToken: source.token,
+        })
+        setId(data.user.id)
       return () => {
         if (source) source.cancel('test')
       }
     }
   }, [didMount])
 
-  React.useEffect(() => {
-    func()
+  const func1 = React.useCallback(async () => {
+    console.log(id)
     if (id !== 0) {
-      instance
-        .post('http://localhost:3001/user/userInfoVerification', { userId: id })
-        .then((res) => {
-          if (res.data.status === true) {
+      console.log("TEST")
+      await instance.post('http://localhost:3001/user/userInfoVerification', { userId: id }).then((res) => {
+        console.log(res.data)
+        if (res.data.status === true) {
             setRPI(true)
           } else setRPI(false)
+        }).catch(err => {
+          console.log(err)
         })
+        console.log("TEST222")
     }
+  },[id])
+
+  React.useEffect(() => {
+    func()
+    func1()
     setDidMount(true)
     return () => {
       setDidMount(false)
     }
-  }, [func, props, id])
+  }, [func, func1])
 
   const getLocIp = React.useCallback(() => {
     // get locallization with help of ip
@@ -195,6 +203,7 @@ const ResponsiveDrawer = (props) => {
     socket.disconnect()
     instance.post('http://localhost:3001/logout')
     props.logout()
+    // window.location.reload();
   }
 
   const handleDrawerToggle = () => {

@@ -86,6 +86,7 @@ const HorizontalLinearStepper = (props) => {
   // check if data is already filled
 
   const funProgress = React.useCallback(async () => {
+    console.log("ha ana");
     if (props.id){
       await Axios.post(`/base/check1/${props.id}`)
       setprogress(true)

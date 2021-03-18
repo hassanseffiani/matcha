@@ -22,7 +22,10 @@ exports.requireAuth = (req, res, next) => {
 
 exports.getUserInfos = (req, res, next) => {
     const token = req.cookies.jwt;
-    if (token !== undefined){
+
+    // if (token !== undefined){
+
+        console.log(token)
         if (token) {
             jwt.verify(token, 'secret', async (err, decodedToken) => {
                 if (err) {
@@ -47,14 +50,16 @@ exports.getUserInfos = (req, res, next) => {
                 }
             })
         }else{
+            // res.clearCookie("jwt")
             res.locals.user = null
             next()
         }
-    }else{
-        //// improve that in the futur
-        res.clearCookie("jwt")
-        // console.log(req.cookies)
-        // if (!req.cookies.lenght)
-        //     next()
-    }
+
+    // }else{
+    //     //// improve that in the futur
+    //     res.clearCookie("jwt")
+    //     // console.log(req.cookies)
+    //     // if (!req.cookies.lenght)
+    //     //     next()
+    // }
 }

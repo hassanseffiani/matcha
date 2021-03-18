@@ -59,6 +59,8 @@ exports.validationInput = (req, res, next) => {
   // else
   //   dataErr.validTag = ''
 
+  // console.log(dataErr)
+
   if (
     regExpName.test(req.body.firstName) &&
     regExpLast.test(req.body.lastName) &&

@@ -8,7 +8,8 @@ import SendForget from "../component/forget/sendForget";
 import Forget from "../component/forget/forget";
 import ResponsiveDrawer from "../component/layout/res/ResponsiveDrawer";
 import SocketContext from './SocketContext'
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
+import history from "../history/history";
 const URL = 'http://localhost:3001'
 
 const socket = io(URL)
@@ -23,6 +24,8 @@ const Init = (props) => {
   const logout = () => {
     setLoggedin(false)
     setLay3awn(false)
+    history.push("/Sign-up");
+    // history.push("/Login");
   };
 
   const CancelToken = Axios.CancelToken
@@ -57,7 +60,7 @@ const Init = (props) => {
       {loggedin === false ? (
         <Switch>
           <Route exact path='/Sign-up' component={Signup} />
-          <Route path='/Login' component={() => <Login login={login} />} />
+          <Route path='/Login' component={() => <Login login={login}/>} />
           <Route path='/confirm/:cnfId' component={Valid} />
           <Route path='/sendForget' component={SendForget} />
           <Route path='/forget/:frgId' component={Forget} />
