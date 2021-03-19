@@ -24,7 +24,6 @@ const Init = (props) => {
   const logout = () => {
     setLoggedin(false);
     setLay3awn(false);
-    // console.log(history.push("/Sign-up"))
     history.push("/Sign-up")
   }
 
@@ -42,7 +41,6 @@ const Init = (props) => {
         else setLoggedin(false);
       })
       .catch((error) => {
-        console.log(error);
       });
   }, [source]);
 

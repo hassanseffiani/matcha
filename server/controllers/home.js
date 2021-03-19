@@ -52,7 +52,6 @@ exports.editPassword = (req, res) => {
       } else dataErr.msg = "Enter your old password";
       res.json(dataErr);
     } catch (error) {
-      console.log(error);
     }
   });
 };
@@ -144,7 +143,6 @@ exports.fillProfil = async (req, res, next) => {
         }
       })
     } catch (error) {
-      console.log(error)
     }
     data.tag.map((el) => {
       Tag.tagExists(el.name).then(([tagRes]) => {
@@ -188,7 +186,7 @@ exports.changeStatus = async (req, res) => {
     }
     else res.json({ status: false })
   })
-  .catch((err) => console.log('checkReuired..Error', err))
+  .catch((err) => {})
 }
 
 exports.tags = async (req, res) => {
@@ -308,10 +306,6 @@ exports.updateLoc = async (req, res) => {
   }).catch(() => Geo.updateLatlng(data));
 
   res.json(data.city)
-  // console.log(data)
-  // await Geo.updateGeo(data).then(city => {
-  //   res.json({status: true})
-  // })
 }
 
 exports.multerUpload = (req, res, next) => {
@@ -360,7 +354,6 @@ exports.dnd1 = async (req, res, next) => {
   await Img.justThefirstRows(req.params.id)
   await Img.condtionBeforeUpdate(req.params.id).then(async ([res]) => {
     if (!res.length){
-      console.log("test");
       await Img.justThefirstRows1(req.params.id)
     }
   })

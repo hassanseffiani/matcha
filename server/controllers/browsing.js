@@ -30,7 +30,7 @@ exports.index = async (req, res, next) => {
             data.push(el)
           })
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {})
       res.json(data)
     } else res.json(false)
   }
@@ -152,7 +152,7 @@ exports.search = async (req, res, next) => {
           data.push(el)
         })
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {})
     res.json(data)
   }else
     res.json(false)
@@ -208,7 +208,7 @@ exports.allProfil = async (req, res, next) => {
           data.push(el)
         })
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {})
     res.json(data)
   } else res.json(false)
 }

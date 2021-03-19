@@ -191,7 +191,6 @@ class Login extends Component {
         else this.setState({ progress: true })
       })
       .catch((error) => {
-        console.log(error);
       });
   }
 

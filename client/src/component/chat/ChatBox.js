@@ -1,15 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, IconButton, Collapse } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { Input, Grid, List, Chip } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import {
-  Block as BlockIcon,
-} from "@material-ui/icons";
 import SocketContext from "../../start/SocketContext";
 import Axios from "axios";
 import "./ChatBox.js";
-import Report from "../browsing/report";
 
 const useStyles = makeStyles((theme) => ({
   chatBox: {
@@ -61,8 +56,6 @@ const isEmpty = (obj) => {
 const ChatBox = (props) => {
   const [conversation, setCoversation] = React.useState([]);
   const classes = useStyles();
-  const [statusImg, setStatusImg] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
   const [didMount, setDidMount] = React.useState(false)
 
   const socket = React.useContext(SocketContext);
@@ -82,26 +75,13 @@ const ChatBox = (props) => {
           }
         })
         .catch((err) => {
-          console.log("ErR" + err);
         });
     }
   }, [props]);
 
   React.useEffect(() => {
-    Axios.post(`/base/img/fetch/${props.id}`, {
-      userId: props.id,
-    }).then((res) => {
-      if (res.data.s === 0) {
-        /// update status in db with 3 if khass
-        setStatusImg(true);
-      } else {
-        /// update status in db with 2 if khass
-        setStatusImg(false);
-      }
-    });
-    func();
-    
-  }, [func, props]);
+    func()
+  }, [func])
 
   const updateScroll = () => {
     var element = document.getElementById("t")
@@ -170,30 +150,9 @@ const ChatBox = (props) => {
 
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
-  const handelBlock = (e, user1, user2) => {
-    console.log(user2);
-    if (statusImg) setOpen(true);
-    else {
-    Axios.post(`/block/${user1}`, { blocked: user2 }).then((res) => {
-      if (res.data.status) {
-          const newList = props.people.filter((item) => item.id !== user2);
-          props.setPeople(newList);
-      }
-    });
-    }
-  };
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (open) setOpen(false);
-    }, 1500);
-
-    return () => clearInterval(interval);
-  });
 
   if (!didMount)
     return null
@@ -201,27 +160,7 @@ const ChatBox = (props) => {
   if (!isEmpty(props.hisInfos)) {
     return (
       <div className={classes.chatBox}>
-        <Collapse in={open}>
-          <Alert severity="error">Add at least one image to your profil.</Alert>
-        </Collapse>
         <Grid container direction="column" spacing={2} className="messages">
-          <Grid container item xs={12} direction="row">
-            <IconButton
-              aria-label="Block User"
-              color="secondary"
-              onClick={(event) =>
-                handelBlock(event, props.id, props.hisInfos.id)
-              }
-            >
-              <BlockIcon />
-            </IconButton>
-            <Report
-              visitor={props.id}
-              visited={props.hisInfos.id}
-              statusImg={statusImg}
-              setOpen={setOpen}
-            />
-          </Grid>
           <List id="t" style={{ maxHeight: 300, overflow: "auto" }}>
             {conversation.length !== 0 &&
               conversation.map((element, iKey) => {

@@ -53,13 +53,6 @@ exports.validationInput = (req, res, next) => {
     if (req.body.tag.length === 0)
       dataErr.validTag = 'Enter a valid tag'
   }
-  // if this is some erro comment this line to improve later
-  // if (req.body.tag === undefined || req.body.tag.length === 0)
-  //   dataErr.validTag = 'Enter a valid tag'
-  // else
-  //   dataErr.validTag = ''
-
-  // console.log(dataErr)
 
   if (
     regExpName.test(req.body.firstName) &&

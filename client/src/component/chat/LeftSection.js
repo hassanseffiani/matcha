@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
+// import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { Tabs, Tab, AppBar, List ,ListItem ,ListItemText ,ListItemAvatar, Avatar, Badge } from '@material-ui/core';
@@ -76,22 +76,22 @@ const useStyles = makeStyles((theme) => ({
 const FullWidthTabs = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
+  // const handleChangeIndex = (index) => {
+  //   setValue(index);
+  // };
   
   return (
     <div className={classes.Left}>
       <AppBar position="static" color="default">
         <Tabs
-          value={value}
-          onChange={handleChange}
+          value={0}
+          // onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
           variant="fullWidth"
@@ -101,17 +101,17 @@ const FullWidthTabs = (props) => {
           {/* <Tab label="People(matched)" {...a11yProps(1)} /> */}
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+      {/* <SwipeableViews */}
+        {/* axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
-      >
+      > */}
         {/* <TabPanel value={value} index={0} dir={theme.direction}>
           Conversations.....
         </TabPanel> */}
         <TabPanel
           id="99909090090"
-          value={value}
+          value={0}
           index={0}
           dir={theme.direction}
         >
@@ -157,7 +157,7 @@ const FullWidthTabs = (props) => {
             </List>
           </div>
         </TabPanel>
-      </SwipeableViews>
+      {/* </SwipeableViews> */}
     </div>
   );
 }

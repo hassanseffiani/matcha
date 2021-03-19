@@ -69,7 +69,7 @@ exports.signUp = async (req, res, next) => {
           Helpers.sendmail(data);
           res.status(201).json({ status: "success" });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     } else {
       //     // send error object to react
       res.json(toSend)
@@ -135,7 +135,7 @@ exports.postLogin = async (req, res, next) => {
           });
         } else dataErr.errorGlobal = "Username or Password is incorrect";
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
     if (Object.keys(dataErr).length !== 0) {
       toSend = { ...dataErr, ...res.locals.input };
       res.json({ status1: verify, status: "fail", toSend });
@@ -180,7 +180,6 @@ exports.sendForget = async (req, res, next) => {
       Helpers.sendmail(data);
       res.json({ status: "success" });
     } else res.json(dataErr);
-    // console.log(dataErr);
   }else res.json(false)
 };
 
@@ -214,7 +213,7 @@ exports.forgetPassword = async (req, res, next) => {
         } else dataErr.msg = "Something wrong, please check your email.";
         res.json(dataErr);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
   }else res.json(false)
 };
 
@@ -228,8 +227,6 @@ exports.editPassword = async (req, res, next) => {
   toSend.input = { ...res.locals.input }
   data = { ...req.body }
   data.id = req.params.id
-  // console.log(data)
-  console.log(req.body.password)
   if (req.body.newPassword !== undefined && req.body.cnfrmPassword !== undefined) {
     await User.getDataMatch(data.id).then(([user]) => {
       user.map((el) => (psText = el.password));
@@ -276,7 +273,7 @@ exports.confirmUser = (req, res, next) => {
       }
       res.json(data);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {});
 };
 
 exports.logout = (req, res) => {
@@ -293,7 +290,6 @@ exports.checkLogin = (req, res) => {
 
 
 exports.google = (req, res, next) => {
-  console.log('GOOGLE')
   passport.authenticate('google', {  prompt: 'select_account', session : false, scope : ['profile', 'email']})
   (req, res, next)
 };
@@ -343,7 +339,7 @@ exports.userInfoVerification = async (req, res) => {
       else 
         res.json({status: false});
     })
-    .catch(err => console.log('checkReuired..Error', err));
+    .catch(err => {});
   }
 };
 

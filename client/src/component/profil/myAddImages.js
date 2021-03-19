@@ -201,7 +201,7 @@ const MyAddImages = (props) => {
     if (event.target.files[0]) {
       const fileExtension = event.target.files[0].name.split(".").pop();
       const fileSize = event.target.files[0].fileSize
-      console.log(fileExtension);
+      // console.log(fileExtension);
       if (allowedExtensions.includes(fileExtension) || fileSize < sizeLimit) {
         var value = URL.createObjectURL(event.target.files[0]);
         if (index === 0) {
@@ -231,7 +231,7 @@ const MyAddImages = (props) => {
       },
     };
     await Axios.post(`base/img/${globalId}`, formData, config).then((res) => {
-      console.log(res.data.data);
+      // console.log(res.data.data);
       if (res.data.data.s) {
         setStatusTrue(true);
         setNewMsg(res.data.data.msg);

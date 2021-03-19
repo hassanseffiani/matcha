@@ -25,7 +25,7 @@ exports.getUserInfos = (req, res, next) => {
 
     // if (token !== undefined){
 
-        console.log(token)
+        // console.log(token)
         if (token) {
             jwt.verify(token, 'secret', async (err, decodedToken) => {
                 if (err) {

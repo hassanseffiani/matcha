@@ -124,7 +124,7 @@ const ResponsiveDrawer = (props) => {
             saveMyInfos(res.data.myInfos);
           }
 
-        }).catch((err) => { console.log(err) })
+        }).catch((err) => {  })
     }
   }, [id, saveMyInfos])
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,24 +152,19 @@ const ResponsiveDrawer = (props) => {
         })
         setId(data.user.id)
       return () => {
-        if (source) source.cancel('test')
+        if (source) source.cancel()
       }
     }
   }, [didMount])
 
   const func1 = React.useCallback(async () => {
-    console.log(id)
     if (id !== 0) {
-      console.log("TEST")
       await instance.post('http://localhost:3001/user/userInfoVerification', { userId: id }).then((res) => {
-        console.log(res.data)
         if (res.data.status === true) {
             setRPI(true)
           } else setRPI(false)
         }).catch(err => {
-          console.log(err)
         })
-        console.log("TEST222")
     }
   },[id])
 

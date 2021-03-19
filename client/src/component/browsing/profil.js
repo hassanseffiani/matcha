@@ -87,6 +87,7 @@ const CustomizedDialogs = (props) => {
   const socket = React.useContext(SocketContext);
     const [open, setOpen] = React.useState(false);
     const [connection, setConnection] = React.useState('');
+    const [didMount, setDidMount] = React.useState(false)
     const classes = useStyles()
 
     const handleClickOpen = (e, visitor, visited) => {
@@ -95,10 +96,8 @@ const CustomizedDialogs = (props) => {
       // socket visit
       Axios.post('http://localhost:3001/notifications/saveNotifications', { who: props.visitor, target: props.visited, type: "visit" })
       .then((res) => {
-        console.log('reSdddd000003', res.status);
       })
       socket.emit('check_connection', {visitedId : props.visited, visitorId : props.visitor});
-      console.log('who , target', props.visitor, props.visited);
       socket.emit('new_visit', {who : props.visitor, target : props.visited});
       
     };
@@ -107,10 +106,11 @@ const CustomizedDialogs = (props) => {
       socket.on('receive_connection', (data) => {
         if(props.visitor === data.visitor)
         {
-          console.log('//////////', data);
           setConnection(data.timeAgo)
         }
-      });
+      })
+      setDidMount(true)
+      return () => setDidMount(false);
     }, [connection, socket, props])
     const handleClose = () => {
         setOpen(false);
@@ -128,6 +128,9 @@ const CustomizedDialogs = (props) => {
         })
       }
     }
+
+    if (!didMount)
+      return null
 
     return (
       <React.Fragment>

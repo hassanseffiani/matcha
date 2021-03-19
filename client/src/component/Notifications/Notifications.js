@@ -1,5 +1,4 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Axios from "axios"
@@ -28,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
     Troot: {
         '& > *': {
-          margin: theme.spacing(1),
+            margin: theme.spacing(1),
         },
-      },
+    },
     // bdg : {
     //     backgroundColor: 'pink'
     // }
@@ -63,15 +62,17 @@ const Notifications = (props) => {
     };
 
     const getUserNotifs = (props) => {
-        console.log(props);
-        Axios.post('http://localhost:3001/notifications/getUserNotifs', { userId: props.myInfos.id })
+        const CancelToken = Axios.CancelToken
+        const source = CancelToken.source()
+        Axios.post('http://localhost:3001/notifications/getUserNotifs', { userId: props.myInfos.id, cancelToken: source.token })
             .then((res) => {
-                console.log('111111');
-                if (isEmpty(res.data.whoInfos) == false) {
+                if (isEmpty(res.data.whoInfos) === false) {
                     setNotifications(res.data.whoInfos);
-                    console.log('saved notif', res.data.whoInfos);
                 }
-            }).catch((Err) => { console.log('10_1.Err', Err) })
+            }).catch((Err) => {  })
+        return () => {
+            if (source) source.cancel()
+        }
     }
 
     const handleClose = () => {
@@ -86,68 +87,65 @@ const Notifications = (props) => {
     const id = open ? 'simple-popover' : undefined;
 
     // React.useEffect(() => {
-        socket.on('receive_like', (data) => {
-            console.log('|-----=> ', data);
-            if(data.target === props.myInfos.id)
-                snn(notifNumber);
-        })
-        socket.on('receive_visit', (data) => {
-            console.log('|---visit=> ', data);
-            if(data.target === props.myInfos.id)
-                snn(notifNumber);
-        })
-        socket.on('receive_dislike', (data) => {
-            console.log('|---dislike=> ', data.target, props.myInfos.id);
-            if(data.idDisliked === props.myInfos.id)
-                snn(notifNumber);
-        })
+    socket.on('receive_like', (data) => {
+        if (data.target === props.myInfos.id)
+            snn(notifNumber);
+    })
+    socket.on('receive_visit', (data) => {
+        if (data.target === props.myInfos.id)
+            snn(notifNumber);
+    })
+    socket.on('receive_dislike', (data) => {
+
+        if (data.idDisliked === props.myInfos.id)
+            snn(notifNumber);
+
+    })
 
     // }, []);
-    console.log('notifications', notifications)
     return (
         <StylesProvider injectFirst>
 
-        <div className={classes.Troot}>
-            <Badge className={classes.bdg} badgeContent={notifNumber} aria-describedby={id} color="secondary" onClick={handleClick}>
-                <NotificationsIcon />
-            </Badge>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-            >
-                {
-                    (notifications.length === 0) ? <Typography>nulllllllllll</Typography>
-                     :       
-                        <List className={classes.root}>
-                        {
-                            notifications.map((el, iKey) => {
-                                if(el.type != "message")
-                                {
-                                    return(
-                                        // <List className={classes.root} key={iKey}>
-                                            <ListItem alignItems="flex-start" key={iKey}>
+            <div className={classes.Troot}>
+                <Badge className={classes.bdg} badgeContent={notifNumber} aria-describedby={id} color="secondary" onClick={handleClick}>
+                    <NotificationsIcon />
+                </Badge>
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                >
+                    {
+                        (notifications.length === 0) ? <Typography>nulllllllllll</Typography>
+                            :
+                            notifications.map((el, key) => {
+                                
+                                if (el.type !== "message") {
+                                    return (
+                                        <List className={classes.root} key={key}>
+
+                                            <ListItem alignItems="flex-start">
                                                 <ListItemAvatar>
                                                     <Avatar alt={`${el.userName}image`} src={`http://localhost:3001/${el.image}`} />
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={
-                                                        el.type == "like" ? "New like" 
-                                                        :
-                                                        el.type == "visit" ? "New visit"
-                                                        :
-                                                        el.type == "likes back" ? "Matched"
-                                                        :
-                                                        el.type == "dislike" ? "Unmatched" : ''
+                                                        el.type === "like" ? "New like"
+                                                            :
+                                                            el.type === "visit" ? "New visit"
+                                                                :
+                                                                el.type === "likes back" ? "Matched"
+                                                                    :
+                                                                    el.type === "dislike" ? "Unmatched" : ''
                                                     }
                                                     secondary={
                                                         <React.Fragment>
@@ -156,32 +154,31 @@ const Notifications = (props) => {
                                                                 variant="body2"
                                                                 className={classes.inline}
                                                                 color="textPrimary"
-                                                                >
+                                                            >
                                                                 {el.userName}
                                                             </Typography>
-                                                            {`${el.type }your profile`}
+                                                            {`${el.type}your profile`}
                                                         </React.Fragment>
                                                     }
-                                                    />
+                                                />
                                             </ListItem>
-                                        //     <Divider variant="inset" component="li" />
-                                        // </List>
+                                            <Divider variant="inset" component="li" />
+
+                                        </List>
                                     )
                                 }
+                                return '';
                             })
-                        }
-                            <Divider variant="inset" component="li" />
-                        </List>
                     }
-                        
-                        </Popover>
-                        {/* <Badge badgeContent={messageNumber} color="primary">
+
+                </Popover>
+                {/* <Badge badgeContent={messageNumber} color="primary">
                         <MailIcon />
             </Badge> */}
-            {/* <Badge badgeContent={notifNumber} color="primary">
+                {/* <Badge badgeContent={notifNumber} color="primary">
                 <NotificationsIcon />
             </Badge> */}
-        </div>
+            </div>
         </StylesProvider>
     )
 };

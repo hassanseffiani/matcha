@@ -63,15 +63,12 @@ const MessageNotification = (props) => {
     };
 
     const getUserNotifs = (props) => {
-        console.log(props);
         Axios.post('http://localhost:3001/notifications/getUserNotifs', { userId: props.myInfos.id })
             .then((res) => {
-                console.log('111111');
                 if (isEmpty(res.data.whoInfos) === false) {
                     setMsgNotifications(res.data.whoInfos);
-                    console.log('saved notif msg', res.data.whoInfos);
                 }
-            }).catch((Err) => { console.log('10_1.Err', Err) })
+            }).catch((Err) => {  })
     }
 
     const handleClose = () => {
@@ -87,12 +84,10 @@ const MessageNotification = (props) => {
 
     React.useEffect(() => {
     socket.on('new_msg', (data) => {
-        console.log('receive_msf|-----=> ', data);
         if (data.target === props.myInfos.id)
             snn(messageNumber);
     })
     }, [messageNumber, socket, props]);
-    console.log('msg Notifications', msgNotifications)
     return (
         <StylesProvider injectFirst>
 
@@ -117,10 +112,10 @@ const MessageNotification = (props) => {
                     {
                         (msgNotifications.length === 0) ? <Typography>nulllllllllll</Typography>
                             :
-                            msgNotifications.map((el) => {
+                            msgNotifications.map((el, key) => {
                                 if (el.type === "message") {
                                     return (
-                                        <List className={classes.root}>
+                                        <List className={classes.root} key={key}>
 
                                             <ListItem alignItems="flex-start">
                                                 <ListItemAvatar>

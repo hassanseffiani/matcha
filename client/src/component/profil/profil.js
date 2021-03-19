@@ -100,7 +100,6 @@ const Profil = (props) => {
           }
         })
         .catch((error) => {
-          console.log(error);
         });
     }
 
@@ -122,7 +121,6 @@ const Profil = (props) => {
             setData(res.data.user)
           })
           .catch((error) => {
-            console.log(error)
           })
       }
     }, [props.id, check])

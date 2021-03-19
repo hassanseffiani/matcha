@@ -174,7 +174,6 @@ class Signup extends Component {
         if (response.data.jwt) this.setState({ redirect: '/' })
       })
       .catch((error) => {
-        console.log(error)
       })
   }
 

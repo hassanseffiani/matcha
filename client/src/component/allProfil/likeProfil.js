@@ -127,10 +127,10 @@ const LikeProfil = (props) => {
           Axios.post('http://localhost:3001/notifications/saveNotifications',
           { who: user1, target: user2, type: "dislike" })
           .then((res) => {
-          }).catch((err) => {console.log(err)});
+          }).catch((err) => {});
         }
         socket.emit('new_dislike', { who: user1, target: user2 });
-      }).catch((Err) => { console.log('10_5.Err', Err) })
+      }).catch((Err) => {})
       ///   
 
       Axios.post(`/browsing/unlike/${user1}`, {user2 : user2}).then(res => {

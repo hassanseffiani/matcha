@@ -25,6 +25,11 @@ CREATE TABLE IF NOT EXISTS history(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREM
 
 CREATE TABLE IF NOT EXISTS report(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `reporter` int(11) NOT NULL, `reported` int(11) NOT NULL, `feedback` VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
+CREATE TABLE IF NOT EXISTS notifications(`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `type` VARCHAR(255) NOT NULL, `who_id` int(11) NOT NULL, `target_id` int(11) NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)
+
+
+CREATE TABLE IF NOT EXISTS conversations (`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `id_from` int(11) NOT NULL, `id_to` int(11) NOT NULL, `target_id` int(11) NOT NULL,  `content` VARCHAR(255) NOT NULL, `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)
+
 DELIMITER //
 create procedure delete_like()
     BEGIN
@@ -52,4 +57,3 @@ CREATE EVENT myevent
       CALL Update_duplicated_userName();
 
 
-    --   SELECT t2.users_id, t1.name from tag t1 INNER JOIN tag_user t2 on t1.id = t2.tag_id INNER JOIN users u1 on u1.id = t2.users_id WHERE t2.users_id = u1.id

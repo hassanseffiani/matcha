@@ -16,7 +16,6 @@ exports.people = async (req, res) => {
     peopleIds = tmp.map((el => {
         return (el.user1 == userId) ? el.user2 : el.user1;
     }))
-    console.log('pIds', peopleIds);
 
     ///////// we consider that borad is Username & Profile Picture && email
     
@@ -24,12 +23,10 @@ exports.people = async (req, res) => {
     for(i = 0; i < peopleIds.length; i++)
     {
         await chat.peopleBoard(peopleIds[i]).then((hadik) => { 
-            // console.log('hadik', hadik[0]);
             boards.push(hadik[0][0])
         })
     }
     res.json({boards: boards});
-    // console.log('boards', boards);
 }
 
 exports.getUserInfos = async (req, res) => {
@@ -66,13 +63,9 @@ exports.getConversation = async (req, res) => {
         await chat.getConversation(user1, user2).then((hadik) => {
             if(hadik[0].length != 0)
             {
-                // console.log('hadik.length', hadik[0].length);
-                // console.log('hna', hadik[0]);
                 res.json({response: hadik[0]});
                 
             } else{
-                // say hello ! if the conversation is empty.
-                console.log('EmptyHadik');
                 res.json({response: ''});
             }
         })
