@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DialogTitle = withStyles(styles)((props) => {
-  const socket = React.useContext(SocketContext);
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -106,13 +105,13 @@ const CustomizedDialogs = (props) => {
     React.useEffect(() => {
 
       socket.on('receive_connection', (data) => {
-        if(props.visitor == data.visitor)
+        if(props.visitor === data.visitor)
         {
           console.log('//////////', data);
           setConnection(data.timeAgo)
         }
       });
-    }, [connection])
+    }, [connection, socket, props])
     const handleClose = () => {
         setOpen(false);
     };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { createMuiTheme } from "@material-ui/core/styles";
 import Axios from "axios";
 import { Route, Switch } from "react-router-dom";
 import Login from "../component/auth/Login";
@@ -25,9 +24,9 @@ const Init = (props) => {
   const logout = () => {
     setLoggedin(false);
     setLay3awn(false);
-    history.push("/Sign-up");
-    // history.push("/Login");
-  };
+    // console.log(history.push("/Sign-up"))
+    history.push("/Sign-up")
+  }
 
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
@@ -53,7 +52,6 @@ const Init = (props) => {
       if (source) source.cancel("init");
     };
   }, [checkLogin, source]);
-  const theme = createMuiTheme({});
 
   return (
     <React.Fragment>

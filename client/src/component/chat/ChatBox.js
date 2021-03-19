@@ -5,7 +5,6 @@ import { Input, Grid, List, Chip } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
   Block as BlockIcon,
-  Update as UpdateIcon,
 } from "@material-ui/icons";
 import SocketContext from "../../start/SocketContext";
 import Axios from "axios";
@@ -62,9 +61,9 @@ const isEmpty = (obj) => {
 const ChatBox = (props) => {
   const [conversation, setCoversation] = React.useState([]);
   const classes = useStyles();
-  const [list, setList] = React.useState([]);
   const [statusImg, setStatusImg] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [didMount, setDidMount] = React.useState(false)
 
   const socket = React.useContext(SocketContext);
 
@@ -75,7 +74,7 @@ const ChatBox = (props) => {
         user2: props.hisInfos.id,
       })
         .then((res) => {
-          if (res.data.response.length != 0) {
+          if (res.data.response.length !== 0) {
             setCoversation(res.data.response);
           }
           if (res.data.response === "") {
@@ -101,6 +100,7 @@ const ChatBox = (props) => {
       }
     });
     func();
+    
   }, [func, props]);
 
   const updateScroll = () => {
@@ -144,7 +144,9 @@ const ChatBox = (props) => {
         },
       ]);
     });
-  }, []);
+    setDidMount(true)
+    return () => setDidMount(false);
+  }, [socket]);
 
   const saveMessage = (content) => {
     Axios.post("http://localhost:3001/chat/saveMessage", {
@@ -193,6 +195,9 @@ const ChatBox = (props) => {
     return () => clearInterval(interval);
   });
 
+  if (!didMount)
+    return null
+
   if (!isEmpty(props.hisInfos)) {
     return (
       <div className={classes.chatBox}>
@@ -218,12 +223,12 @@ const ChatBox = (props) => {
             />
           </Grid>
           <List id="t" style={{ maxHeight: 300, overflow: "auto" }}>
-            {conversation.length != 0 &&
-              conversation.map((element) => {
-                if (element.id_from == props.myInfos.id) {
+            {conversation.length !== 0 &&
+              conversation.map((element, iKey) => {
+                if (element.id_from === props.myInfos.id) {
                   return (
                     //hnaya1
-                    <Grid item container className={classes.me}>
+                    <Grid item container className={classes.me} key={iKey}>
                       <Grid item sm={4}></Grid>
                       <Grid item sm={8} className={classes.right}>
                         <Chip
@@ -237,7 +242,7 @@ const ChatBox = (props) => {
                   );
                 } else {
                   return (
-                    <Grid item container className={classes.him}>
+                    <Grid item container className={classes.him} key={iKey}>
                       <Grid item sm={8} className={classes.left}>
                         <Chip
                           className={classes.hisText}

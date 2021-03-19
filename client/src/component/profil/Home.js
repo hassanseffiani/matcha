@@ -6,6 +6,8 @@ import FillProfil from './fillProfil'
 import MyAddImages from './myAddImages'
 import history from '../../history/history'
 
+/// free leak of memory of useState
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%"
@@ -42,6 +44,7 @@ const HorizontalLinearStepper = (props) => {
   const steps = getSteps();
   const [stepOneFilled, setStepOneFilled] = React.useState('no')
   // const [activeSkip, setActiveSkip] = React.useState(false)
+  const [didMount, setDidMount] = React.useState(false)
   const [progress, setprogress] = React.useState(false)
 
   const handleNext = () => {
@@ -96,10 +99,14 @@ const HorizontalLinearStepper = (props) => {
 
   React.useEffect(() => {
     funProgress()
+    setDidMount(true)
+    return () => setDidMount(false);
   }, [funProgress, progress])
 
+  if (!didMount)
+  return null
+
   return (
-    
   <div className={classes.root}>
     {progress === false ? <CircularProgress disableShrink /> : 
       <React.Fragment>

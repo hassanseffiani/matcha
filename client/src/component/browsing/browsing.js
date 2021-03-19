@@ -145,13 +145,13 @@ const Browsing = (props) => {
 
         Axios.post('http://localhost:3001/notifications/doILikeHim', { myId: idLiker, hisId: idLiked })
           .then((res) => {
-            if (res.data.answer == "yes") {
+            if (res.data.answer === "yes") {
               Axios.post('http://localhost:3001/notifications/saveNotifications',
                 { who: idLiker, target: idLiked, type: "likes back" })
                 .then((res) => {
                 }).catch((err) => {console.log(err)});
             }
-            else if(res.data.answer == "no")
+            else if(res.data.answer === "no")
             {
               Axios.post('http://localhost:3001/notifications/saveNotifications',
                 { who: idLiker, target: idLiked, type: "like" })

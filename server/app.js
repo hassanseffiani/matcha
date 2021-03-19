@@ -133,6 +133,9 @@ io.sockets.on('connection', (socket) => {
         if (data.id && socket.id) {
             client.hmset(data.id, { connection: 'false,' + new Date() });
         }
+        console.log('IDLOGOUT', data.id);
+
+        io.emit('fire', {id : data.id});
 
         console.log('disconnect', data);
     })

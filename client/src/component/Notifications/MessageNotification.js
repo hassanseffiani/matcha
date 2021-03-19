@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import Axios from "axios"
 import Badge from '@material-ui/core/Badge';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -14,7 +13,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { StylesProvider } from "@material-ui/core/styles";
 import "./notifications.css";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import SocketContext from "../../start/SocketContext";
 
@@ -68,7 +67,7 @@ const MessageNotification = (props) => {
         Axios.post('http://localhost:3001/notifications/getUserNotifs', { userId: props.myInfos.id })
             .then((res) => {
                 console.log('111111');
-                if (isEmpty(res.data.whoInfos) == false) {
+                if (isEmpty(res.data.whoInfos) === false) {
                     setMsgNotifications(res.data.whoInfos);
                     console.log('saved notif msg', res.data.whoInfos);
                 }
@@ -92,7 +91,7 @@ const MessageNotification = (props) => {
         if (data.target === props.myInfos.id)
             snn(messageNumber);
     })
-    }, []);
+    }, [messageNumber, socket, props]);
     console.log('msg Notifications', msgNotifications)
     return (
         <StylesProvider injectFirst>
@@ -119,8 +118,7 @@ const MessageNotification = (props) => {
                         (msgNotifications.length === 0) ? <Typography>nulllllllllll</Typography>
                             :
                             msgNotifications.map((el) => {
-                                if (el.type == "message") {
-
+                                if (el.type === "message") {
                                     return (
                                         <List className={classes.root}>
 
@@ -150,6 +148,7 @@ const MessageNotification = (props) => {
                                         </List>
                                     )
                                 }
+                                return '';
                             })
                     }
 

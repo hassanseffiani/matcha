@@ -4,7 +4,6 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Axios from "axios"
 import Badge from '@material-ui/core/Badge';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,7 +13,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { StylesProvider } from "@material-ui/core/styles";
 import "./notifications.css";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import SocketContext from "../../start/SocketContext";
 
@@ -129,49 +128,51 @@ const Notifications = (props) => {
                 {
                     (notifications.length === 0) ? <Typography>nulllllllllll</Typography>
                      :       
-                    notifications.map((el) => {
-                        if(el.type != "message")
+                        <List className={classes.root}>
                         {
-
-                            return(
-                                <List className={classes.root}>
-
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar alt={`${el.userName}image`} src={`http://localhost:3001/${el.image}`} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={
-                                    el.type == "like" ? "New like" 
-                                    :
-                                    el.type == "visit" ? "New visit"
-                                    :
-                                    el.type == "likes back" ? "Matched"
-                                    :
-                                    el.type == "dislike" ? "Unmatched" : ''
+                            notifications.map((el, iKey) => {
+                                if(el.type != "message")
+                                {
+                                    return(
+                                        // <List className={classes.root} key={iKey}>
+                                            <ListItem alignItems="flex-start" key={iKey}>
+                                                <ListItemAvatar>
+                                                    <Avatar alt={`${el.userName}image`} src={`http://localhost:3001/${el.image}`} />
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={
+                                                        el.type == "like" ? "New like" 
+                                                        :
+                                                        el.type == "visit" ? "New visit"
+                                                        :
+                                                        el.type == "likes back" ? "Matched"
+                                                        :
+                                                        el.type == "dislike" ? "Unmatched" : ''
+                                                    }
+                                                    secondary={
+                                                        <React.Fragment>
+                                                            <Typography
+                                                                component="span"
+                                                                variant="body2"
+                                                                className={classes.inline}
+                                                                color="textPrimary"
+                                                                >
+                                                                {el.userName}
+                                                            </Typography>
+                                                            {`${el.type }your profile`}
+                                                        </React.Fragment>
+                                                    }
+                                                    />
+                                            </ListItem>
+                                        //     <Divider variant="inset" component="li" />
+                                        // </List>
+                                    )
                                 }
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography
-                                            component="span"
-                                            variant="body2"
-                                            className={classes.inline}
-                                            color="textPrimary"
-                                            >
-                                            {el.userName}
-                                        </Typography>
-                                        {`${el.type }your profile`}
-                                    </React.Fragment>
-                                }
-                                />
-                        </ListItem>
-                        <Divider variant="inset" component="li" />
-
-                    </List>
-                            )
-                        }
                             })
                         }
+                            <Divider variant="inset" component="li" />
+                        </List>
+                    }
                         
                         </Popover>
                         {/* <Badge badgeContent={messageNumber} color="primary">

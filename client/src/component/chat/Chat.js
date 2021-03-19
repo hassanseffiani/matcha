@@ -97,8 +97,7 @@ const ChatList = (props) => {
       <div>
         <Grid container spacing={1} style={{ background: '#EEEEEE', height: '70vh' }}>
           <Grid item md={3}>
-            <FullWidthTabs people={people} passHisInfos={passHisInfos} />
-
+            <FullWidthTabs people={people} passHisInfos={passHisInfos}/>
           </Grid>
           <Grid item md={9}>
             <ChatBox

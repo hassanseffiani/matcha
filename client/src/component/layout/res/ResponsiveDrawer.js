@@ -97,7 +97,7 @@ const ResponsiveDrawer = (props) => {
 
   React.useEffect(() => {
     socket.emit('join', { key: userInf.id });
-  }, [userInf, id])
+  }, [userInf, id, socket])
 
   function isEmpty(obj) {
     for (var prop in obj) {
@@ -109,14 +109,14 @@ const ResponsiveDrawer = (props) => {
     return true
   }
 
-  const saveMyInfos = (value) => {
+
+  const saveMyInfos = React.useCallback((value) => {
     if (isEmpty(userInf) === true)
       setUserInf(value);
-  }
-  console.log('3333333', userInf)
+  },[userInf])
+
   React.useEffect(() => {
     if (id) {
-
       Axios.post('http://localhost:3001/chat/getConnectedUserInfos', { userId: id })
         .then((res) => {
           // if(!MyInfos)
@@ -126,7 +126,7 @@ const ResponsiveDrawer = (props) => {
 
         }).catch((err) => { console.log(err) })
     }
-  }, [id])
+  }, [id, saveMyInfos])
 ////////////////////////////////////////////////////////////////////////////////////////////////
   function success(pos) {
     setErr(false)
@@ -217,13 +217,20 @@ const ResponsiveDrawer = (props) => {
     }
   }, [id, lat, long])
 
+ 
+
   const handelLogout = () => {
     instance.post('http://localhost:3001/logout')
-    if(id)
+    if(id){
       socket.emit('Firedisconnect', {id : id})
+    }
     // socket.close();
-    props.logout()
   }
+  
+  socket.on('fire', (data) => {
+    if(data.id === id)
+      props.logout()
+  })
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)

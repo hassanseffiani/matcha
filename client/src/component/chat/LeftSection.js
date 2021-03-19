@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
-import { StylesProvider , makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import { Grid, Tabs, Tab, AppBar, Paper, List ,ListItem ,ListItemSecondaryAction ,ListItemText ,ListItemAvatar ,Checkbox ,Avatar, Badge, Hidden } from '@material-ui/core';
-
+import { Tabs, Tab, AppBar, List ,ListItem ,ListItemText ,ListItemAvatar, Avatar, Badge } from '@material-ui/core';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -38,7 +36,6 @@ const StyledBadge = withStyles((theme) => ({
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  // console.log("props", props);
   return (
     <div
       role="tabpanel"
@@ -49,7 +46,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -72,17 +69,14 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   Left: {
     backgroundColor: theme.palette.background.paper,
-    // width: 500
     height: "70vh"
   }
 }));
 
-export default function FullWidthTabs(props) {
+const FullWidthTabs = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-
-  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,7 +85,7 @@ export default function FullWidthTabs(props) {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-
+  
   return (
     <div className={classes.Left}>
       <AppBar position="static" color="default">
@@ -125,39 +119,39 @@ export default function FullWidthTabs(props) {
             <List id="0101010">
               {props.people && props.people.map((item, index) => {
                 if (item){
-
                   const { userName, id, image } = item;
                   const labelId = `checkbox-list-secondary-label-${index}`;
-                return (
-                  <ListItem
-                    key={index}
-                    onClick={() => {
-                      props.passHisInfos({
-                        userName: userName,
-                        id: id,
-                        image: image,
-                      });
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <StyledBadge
-                        overlap="circle"
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "right",
-                        }}
-                        variant="dot"
-                      >
-                        <Avatar
-                          alt={`${userName} picture`}
-                          src={`http://localhost:3001/${image}`}
-                        />
-                      </StyledBadge>
-                    </ListItemAvatar>
-                    <ListItemText id={labelId} primary={userName} />
-                  </ListItem>
-                );
-              }
+                  return (
+                    <ListItem
+                      key={index}
+                      onClick={() => {
+                        props.passHisInfos({
+                          userName: userName,
+                          id: id,
+                          image: image,
+                        });
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <StyledBadge
+                          overlap="circle"
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                          }}
+                          variant="dot"
+                        >
+                          <Avatar
+                            alt={`${userName} picture`}
+                            src={`http://localhost:3001/${image}`}
+                          />
+                        </StyledBadge>
+                      </ListItemAvatar>
+                      <ListItemText id={labelId} primary={userName} />
+                    </ListItem>
+                  );
+                }
+                return '';
               })
             }
             </List>
@@ -167,3 +161,5 @@ export default function FullWidthTabs(props) {
     </div>
   );
 }
+
+export default FullWidthTabs
