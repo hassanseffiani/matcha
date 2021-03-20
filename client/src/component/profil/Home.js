@@ -70,9 +70,6 @@ const HorizontalLinearStepper = (props) => {
     setStepOneFilled('no')
   }
 
-  // const skipBtnSkip = () => {
-  //   setActiveSkip(true)
-  // }
 
   const reloadFunc = React.useCallback(() => {
     if (activeStep === 0 && props.id) {

@@ -144,38 +144,35 @@ const ResponsiveDrawer = (props) => {
   let id1 = navigator.geolocation.getCurrentPosition(success, () => {setErr(true)}, options)
 
   const func = React.useCallback(async () => {
-    if (!didMount){
+    if (!didMount) {
       const CancelToken = Axios.CancelToken
       const source = CancelToken.source()
-        let { data } = await instance.get('http://localhost:3001/base', {
-          cancelToken: source.token,
-        })
-        setId(data.user.id)
+      let { data } = await instance.get('http://localhost:3001/base', {
+        cancelToken: source.token,
+      })
+      setId(data.user.id)
       return () => {
-        if (source) source.cancel()
+        if (source) source.cancel('test')
       }
     }
   }, [didMount])
 
-  const func1 = React.useCallback(async () => {
-    if (id !== 0) {
-      await instance.post('http://localhost:3001/user/userInfoVerification', { userId: id }).then((res) => {
-        if (res.data.status === true) {
-            setRPI(true)
-          } else setRPI(false)
-        }).catch(err => {
-        })
-    }
-  },[id])
-
   React.useEffect(() => {
     func()
-    func1()
+    if (id !== 0) {
+      instance
+        .post('http://localhost:3001/user/userInfoVerification', { userId: id })
+        .then((res) => {
+          if (res.data.status === true) {
+            setRPI(true)
+          } else setRPI(false)
+        })
+    }
     setDidMount(true)
     return () => {
       setDidMount(false)
     }
-  }, [func, func1])
+  }, [func, props, id])
 
   const getLocIp = React.useCallback(() => {
     // get locallization with help of ip
@@ -403,7 +400,7 @@ const ResponsiveDrawer = (props) => {
               path='/allProfil'
               component={(props) => <AllProfil id={id} />}
             />
-            {requiredProfilInfo === true ? (
+            {requiredProfilInfo === true &&  requiredProfilInfo !== ""? (
               <Route exact path='/' render={(props) => <Browsing id={id}  myInfos={userInf} />} />
             ) : (
               <Route exact path='/*' render={(props) => <Home id={id} />} />
