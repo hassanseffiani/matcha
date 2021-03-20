@@ -268,7 +268,8 @@ const CustomizedDialogs = (props) => {
                       </Typography>}
               </Grid>
               <Grid item xs={8} sm={4}>
-                <Typography color='primary' variant='caption'>
+                Bio :
+                <Typography color="primary" variant="caption" display="inline">
                   {props.element.bio}
                 </Typography>
               </Grid>

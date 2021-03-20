@@ -8,6 +8,7 @@ import Report from '../browsing/report'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 import {  FaFemale ,FaMale  } from "react-icons/fa"
+import AvTimerIcon from '@material-ui/icons/AvTimer';
 import {
   Block as BlockIcon,
   FavoriteBorder,
@@ -57,6 +58,7 @@ const LikeProfil = (props) => {
     const [didMount, setDidMount] = React.useState(false)
     const [statusImg, setStatusImg] = React.useState(false)
     const [open, setOpen] = React.useState(false)
+    const [time, setTime] = React.useState('')
 
 
     const getLocalisation = React.useCallback(async () => {
@@ -95,8 +97,6 @@ const LikeProfil = (props) => {
 
     }, [cord, gender, getLocalisation, props.id])
 
-
-
     const handelBlock = (e, user1, user2) => {
         if (statusImg)
           setOpen(true)
@@ -112,6 +112,7 @@ const LikeProfil = (props) => {
 
     const nextUser = (event, id) => {
         event.preventDefault()
+        setTime("")
         const newList = list.filter((item) => item.id !== id)
         setList(newList)
         if (list.length === 1)
@@ -146,6 +147,13 @@ const LikeProfil = (props) => {
       Axios.post(`/browsing/history/${visitor}`, { visitor: visited })
     };
 
+    const getLastConnection = (who, target) => {
+      socket.emit('check_connection', ({visitorId : who, visitedId : target}));
+      socket.on('receive_connection', (data) => {
+        if(data.visitor === who)
+          setTime(data.timeAgo);
+      })
+    }
     React.useEffect(() => {
       const interval = setInterval(() => {
         if (open)
@@ -203,6 +211,8 @@ const LikeProfil = (props) => {
                                 : ""}
                             </Carousel>
                           </Grid>
+                          {time === "" ? <AvTimerIcon
+                          onClick={() => {getLastConnection(props.id, el.id)}} /> : time}
                           <Grid container item xs={12} sm={2}>
                             <Avatar
                               aria-label="recipe"
@@ -272,7 +282,8 @@ const LikeProfil = (props) => {
                             )}
                           </Grid>
                           <Grid container item xs={12} sm={2}>
-                            <Typography color="primary" variant="caption">
+                            Bio :
+                            <Typography color="primary" variant="caption" display="inline">
                               {el.bio}
                             </Typography>
                           </Grid>
